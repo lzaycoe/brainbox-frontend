@@ -1,0 +1,32 @@
+{
+	"name": "brainbox-frontend",
+	"version": "1.0.0",
+	"description": "Frontend for BrainBox",
+	"author": "lzaycoe (Lazy Code)",
+	"private": true,
+	"license": "GPL-3.0 license",
+	"type": "module",
+	"scripts": {
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"format": "prettier --write \"{components,pages,plugins,middleware,layouts,composables,assets}/**/*.vue\" \"*.vue\"",
+		"generate": "nuxt generate",
+		"lint": "eslint *.vue --fix",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare"
+	},
+	"dependencies": {
+		"nuxt": "3.15.1",
+		"vue": "3.5.13",
+		"vue-router": "4.5.0"
+	},
+	"devDependencies": {
+		"@nuxt/eslint": "0.7.4",
+		"@trivago/prettier-plugin-sort-imports": "5.2.1",
+		"@vue/compiler-sfc": "3.5.13",
+		"eslint": "9.17.0",
+		"eslint-config-prettier": "9.1.0",
+		"eslint-plugin-prettier": "5.2.1",
+		"prettier": "3.4.2"
+	}
+}
