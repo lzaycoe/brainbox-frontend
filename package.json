@@ -13,7 +13,8 @@
 		"generate": "nuxt generate",
 		"lint": "eslint *.vue --fix",
 		"preview": "nuxt preview",
-		"postinstall": "nuxt prepare"
+		"postinstall": "nuxt prepare",
+		"update-deps": "ncu -u"
 	},
 	"dependencies": {
 		"nuxt": "3.15.1",
@@ -29,6 +30,7 @@
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-prettier": "5.2.1",
 		"eslint-plugin-vue": "9.32.0",
+		"npm-check-updates": "^17.1.13",
 		"prettier": "3.4.2",
 		"vue-mess-detector-nuxt-devtools": "0.1.2"
 	}
