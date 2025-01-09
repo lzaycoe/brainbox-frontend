@@ -1,0 +1,10 @@
+{
+	"components/**/*.vue": ["pnpm prettier --write \"components/**/*.vue\""],
+	"pages/**/*.vue": ["pnpm prettier --write \"pages/**/*.vue\""],
+	"plugins/**/*.vue": ["pnpm prettier --write \"plugins/**/*.vue\""],
+	"middleware/**/*.vue": ["pnpm prettier --write \"middleware/**/*.vue\""],
+	"layouts/**/*.vue": ["pnpm prettier --write \"layouts/**/*.vue\""],
+	"composables/**/*.vue": ["pnpm prettier --write \"composables/**/*.vue\""],
+	"assets/**/*.vue": ["pnpm prettier --write \"assets/**/*.vue\""],
+	"*.vue": ["pnpm prettier --write \"*.vue\""]
+}

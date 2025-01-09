@@ -12,8 +12,9 @@
 		"format": "prettier --write \"{components,pages,plugins,middleware,layouts,composables,assets}/**/*.vue\" \"*.vue\"",
 		"generate": "nuxt generate",
 		"lint": "eslint *.vue --fix",
+		"lint-staged": "lint-staged",
 		"preview": "nuxt preview",
-		"postinstall": "nuxt prepare",
+		"prepare": "nuxt prepare && husky",
 		"update-deps": "ncu -u"
 	},
 	"dependencies": {
@@ -23,6 +24,8 @@
 		"vue-router": "4.5.0"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "19.6.1",
+		"@commitlint/config-conventional": "19.6.0",
 		"@nuxt/eslint": "0.7.4",
 		"@trivago/prettier-plugin-sort-imports": "5.2.1",
 		"@vue/compiler-sfc": "3.5.13",
@@ -30,6 +33,8 @@
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-prettier": "5.2.1",
 		"eslint-plugin-vue": "9.32.0",
+		"husky": "9.1.7",
+		"lint-staged": "15.3.0",
 		"npm-check-updates": "^17.1.13",
 		"prettier": "3.4.2",
 		"vue-mess-detector-nuxt-devtools": "0.1.2"
