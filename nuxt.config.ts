@@ -2,5 +2,10 @@
 export default defineNuxtConfig({
 	compatibilityDate: '2024-11-01',
 	devtools: { enabled: true },
-	modules: ['@nuxt/eslint', 'nuxt-security', 'vue-mess-detector-nuxt-devtools'],
+	modules: [
+		'@nuxt/eslint',
+		'@nuxt/ui',
+		'nuxt-security',
+		'vue-mess-detector-nuxt-devtools',
+	],
 });
