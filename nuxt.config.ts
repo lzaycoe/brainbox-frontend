@@ -7,5 +7,6 @@ export default defineNuxtConfig({
 		'@nuxt/ui',
 		'nuxt-security',
 		'vue-mess-detector-nuxt-devtools',
-	],
+		'@clerk/nuxt',
+	]
 });
