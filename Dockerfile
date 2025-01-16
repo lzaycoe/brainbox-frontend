@@ -30,8 +30,10 @@ RUN npm install -g --ignore-scripts pnpm
 
 FROM base-dev AS build
 WORKDIR /app
-COPY . .
+COPY next-env.d.ts next.config.ts package.json pnpm-lock.yaml postcss.config.mjs tailwind.config.ts tsconfig.json ./
 RUN pnpm install --frozen-lockfile --ignore-scripts
+COPY ./public ./public
+COPY ./src ./src
 RUN pnpm run build
 
 #--------------------------------------------------
