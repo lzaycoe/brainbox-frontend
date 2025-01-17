@@ -18,12 +18,9 @@
  *
  *  ======================================================================
  */
-import { Button } from '@/components/ui/button';
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
-export default function Home() {
-	return (
-		<div>
-			<Button>Click me</Button>
-		</div>
-	);
+export function cn(...inputs: ClassValue[]) {
+	return twMerge(clsx(inputs));
 }
