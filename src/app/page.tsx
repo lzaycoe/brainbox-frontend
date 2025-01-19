@@ -18,12 +18,14 @@
  *
  *  ======================================================================
  */
-import { Button } from '@/components/ui/button';
+import { Banner } from '@/components/home/Banner';
+import { BrowseCategories } from '@/components/home/BrowseCategories';
 
 export default function Home() {
 	return (
 		<div>
-			<Button>Click me</Button>
+			<Banner />
+			<BrowseCategories />
 		</div>
 	);
 }
