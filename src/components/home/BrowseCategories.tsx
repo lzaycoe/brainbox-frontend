@@ -19,9 +19,8 @@ import { Button } from '@/components/ui/button';
 
 export const BrowseCategories = () => {
 	return (
-		<div
+		<section
 			className="flex flex-col justify-center items-center px-72 py-20 max-md:px-5"
-			role="region"
 			aria-labelledby="browse-categories-title"
 		>
 			<h2
@@ -32,10 +31,7 @@ export const BrowseCategories = () => {
 			</h2>
 			<div className="flex flex-col mt-10 max-md:max-w-full">
 				<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1">
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-violet-100 min-w-[240px]"
-						role="article"
-					>
+					<article className="flex gap-5 justify-center items-center p-5 bg-violet-100 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<HiChip className="object-contain w-8 h-8" color="#564FFD" />
 						</div>
@@ -47,11 +43,8 @@ export const BrowseCategories = () => {
 								63,476 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-green-100 min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-green-100 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<PiHandshakeDuotone
 								className="object-contain w-8 h-8"
@@ -66,11 +59,8 @@ export const BrowseCategories = () => {
 								52,822 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-orange-50 min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-orange-50 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<PiCreditCardDuotone
 								className="object-contain w-8 h-8"
@@ -85,11 +75,8 @@ export const BrowseCategories = () => {
 								33,841 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-rose-50 min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-rose-50 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<PiChartBarHorizontal
 								className="object-contain w-8 h-8"
@@ -104,11 +91,8 @@ export const BrowseCategories = () => {
 								22,649 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-white shadow-2xl min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-white shadow-2xl min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-orange-500">
 							<PiBugDroidBold
 								className="object-contain w-8 h-8"
@@ -123,11 +107,8 @@ export const BrowseCategories = () => {
 								20,126 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-slate-100 min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-slate-100 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<PiReceiptDuotone className="object-contain w-8 h-8" />
 						</div>
@@ -139,11 +120,8 @@ export const BrowseCategories = () => {
 								13,932 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-violet-100 min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-violet-100 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<PiMegaphoneSimpleDuotone
 								className="object-contain w-8 h-8"
@@ -158,11 +136,8 @@ export const BrowseCategories = () => {
 								12,068 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-slate-100 min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-slate-100 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<PiCameraDuotone className="object-contain w-8 h-8" />
 						</div>
@@ -174,11 +149,8 @@ export const BrowseCategories = () => {
 								6,196 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-orange-50 min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-orange-50 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<PiPackageDuotone
 								className="object-contain w-8 h-8"
@@ -193,11 +165,8 @@ export const BrowseCategories = () => {
 								2,736 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-rose-100 min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-rose-100 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<FiPenTool className="object-contain w-8 h-8" color="#FF6636" />
 						</div>
@@ -209,11 +178,8 @@ export const BrowseCategories = () => {
 								2,600 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-green-100 min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-green-100 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<PiFirstAidKitDuotone
 								className="object-contain w-8 h-8"
@@ -228,11 +194,8 @@ export const BrowseCategories = () => {
 								1,678 Courses
 							</p>
 						</div>
-					</div>
-					<div
-						className="flex gap-5 justify-center items-center p-5 bg-orange-50 min-w-[240px]"
-						role="article"
-					>
+					</article>
+					<article className="flex gap-5 justify-center items-center p-5 bg-orange-50 min-w-[240px]">
 						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
 							<PiHeadphonesDuotone
 								className="object-contain w-8 h-8"
@@ -247,7 +210,7 @@ export const BrowseCategories = () => {
 								959 Courses
 							</p>
 						</div>
-					</div>
+					</article>
 				</div>
 			</div>
 			<div className="flex gap-3 items-center mt-10 text-sm tracking-normal text-center">
@@ -269,6 +232,6 @@ export const BrowseCategories = () => {
 					/>
 				</Button>
 			</div>
-		</div>
+		</section>
 	);
 };
