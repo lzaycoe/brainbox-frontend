@@ -18,14 +18,19 @@
  *
  *  ======================================================================
  */
-import { Banner } from '@/components/home/Banner';
-import { BrowseCategories } from '@/components/home/BrowseCategories';
+import React from 'react';
 
-export default function Home() {
+import { Footer } from '@/components/commons/Footer';
+import { Header } from '@/components/commons/Header';
+
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<div>
-			<Banner />
-			<BrowseCategories />
+		<div className="flex flex-col min-h-screen">
+			<Header />
+			<main className="flex-grow">{children}</main>
+			<Footer />
 		</div>
 	);
-}
+};
+
+export default MainLayout;
