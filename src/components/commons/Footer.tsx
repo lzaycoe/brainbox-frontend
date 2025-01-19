@@ -285,7 +285,11 @@ export const Footer = () => {
 			<div className="flex flex-wrap gap-10 justify-between items-center px-20 py-4 mt-2 w-full text-justify shadow-sm bg-neutral-800 max-md:px-5 max-md:mt-10 max-md:max-w-full">
 				<div className="self-stretch my-auto text-sm tracking-normal leading-loose text-gray-400">
 					© 2025 - BrainBox. Designed by
-					<span className="text-white"> LazyCode</span>. All rights reserved
+					<a href="https://github.com/lzaycoe" className="text-white">
+						{' '}
+						LazyCode
+					</a>
+					. All rights reserved
 				</div>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
