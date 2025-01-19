@@ -94,7 +94,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Development
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -105,7 +107,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Finance & Accounting
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -116,7 +120,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Design
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -127,7 +133,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Business
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -148,7 +156,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							About
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -159,7 +169,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Become Instructor
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -170,7 +182,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Contact
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -181,7 +195,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Career
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -202,7 +218,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Help Center
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -213,7 +231,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							FAQs
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -224,7 +244,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Terms & Condition
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
@@ -235,7 +257,9 @@ export const Footer = () => {
 							className="relative gap-3 self-stretch py-1.5 pr-8 bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Privacy Policy
-							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+							<span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100">
+								{' '}
+							</span>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 								color="#fff"
