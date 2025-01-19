@@ -36,7 +36,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'E-Learning Platform',
+	title: 'BrainBox | E-Learning Platform',
 	description: 'An e-learning platform built with Next.js and Shadcn UI',
 };
 
