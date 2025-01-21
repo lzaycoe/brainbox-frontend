@@ -30,7 +30,7 @@ const TeacherLayout = ({
 	children: React.ReactNode;
 }>) => {
 	return (
-		<div className="flex min-h-screen">
+		<div className="flex">
 			<SideBar />
 			<div className="flex flex-col flex-grow w-full">
 				<Header />

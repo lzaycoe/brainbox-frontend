@@ -31,7 +31,7 @@ import {
 
 export const SideBar = () => {
 	return (
-		<div className="flex h-full flex-col bg-neutral-800 text-white shadow-sm w-[380px]">
+		<div className="flex flex-col bg-neutral-800 text-white shadow-sm w-[380px]">
 			<div className="px-6 py-5 text-2xl font-semibold">
 				<div className="flex items-center gap-2">
 					<Image
