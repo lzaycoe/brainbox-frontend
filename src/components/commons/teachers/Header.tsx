@@ -53,7 +53,7 @@ export const Header = () => {
 					role="search"
 				>
 					<div className="flex gap-3 items-center">
-						<PiMagnifyingGlass />
+						<PiMagnifyingGlass className="w-8 h-8" />
 						<label htmlFor="searchInput" className="sr-only">
 							Search Dashboard
 						</label>
@@ -69,10 +69,10 @@ export const Header = () => {
 
 				{/* Notifications Button */}
 				<button
-					className="flex gap-2.5 items-center p-3 w-12 h-12 bg-slate-100"
+					className="flex gap-2.5 items-center p-3 w-12 h-full bg-slate-100"
 					aria-label="Notifications"
 				>
-					<PiBell />
+					<PiBell className="w-8 h-8" />
 				</button>
 
 				{/* User Profile Picture */}
