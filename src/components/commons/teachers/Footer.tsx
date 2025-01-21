@@ -24,7 +24,7 @@ import React from 'react';
 
 export const Footer = () => {
 	return (
-		<div className="flex flex-wrap gap-10 justify-between items-center px-40 py-5 text-sm tracking-normal leading-loose text-center max-md:px-5">
+		<footer className="flex flex-wrap mt-auto gap-10 justify-between items-center px-40 py-3 text-sm tracking-normal leading-loose text-center max-md:px-5 bg-[#f5f7fa]">
 			{/* Footer Text */}
 			<div className="self-stretch my-auto text-neutral-800">
 				<span className="text-gray-500">© 2025 - BrainBox. Designed by </span>
@@ -62,6 +62,6 @@ export const Footer = () => {
 				<div tabIndex={0}>Privacy Policy</div>
 				<div tabIndex={0}>Terms & Condition</div>
 			</div>
-		</div>
+		</footer>
 	);
 };
