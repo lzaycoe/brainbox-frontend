@@ -20,14 +20,19 @@
  */
 import React from 'react';
 
-import { Sidebar } from '@/components/commons/teachers/SideBar';
+import { Footer } from '@/components/commons/teachers/Footer';
+import { Header } from '@/components/commons/teachers/Header';
+import { SideBar } from '@/components/commons/teachers/SideBar';
 
 const TeacherLayout = ({ children }: { children: React.ReactNode }) => {
-	const a = 5;
 	return (
-		<div className="flex flex-col min-h-screen">
-			<Sidebar />
-			<main className="flex-grow">{children}</main>
+		<div className="flex min-h-screen">
+			<SideBar />
+			<div className="flex flex-col flex-grow w-full">
+				<Header />
+				<main className="flex-grow bg-[#f5f7fa]">{children}</main>
+				<Footer />
+			</div>
 		</div>
 	);
 };
