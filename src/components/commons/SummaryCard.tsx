@@ -34,10 +34,7 @@ export const SummaryCard: React.FC<CardProps> = ({
 	bgColor,
 }) => {
 	return (
-		<div
-			className="flex gap-6 items-center p-6 bg-white min-w-[240px] max-md:px-5"
-			tabIndex={0}
-		>
+		<div className="flex gap-6 items-center p-6 bg-white min-w-[240px] max-md:px-5">
 			<div
 				className={`flex gap-2.5 items-center self-stretch p-3.5 my-auto ${bgColor} h-[60px] w-[60px]`}
 			>

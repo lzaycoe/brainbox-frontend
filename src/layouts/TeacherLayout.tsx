@@ -24,7 +24,11 @@ import { Footer } from '@/components/commons/teachers/Footer';
 import { Header } from '@/components/commons/teachers/Header';
 import { SideBar } from '@/components/commons/teachers/SideBar';
 
-const TeacherLayout = ({ children }: { children: React.ReactNode }) => {
+const TeacherLayout = ({
+	children,
+}: Readonly<{
+	children: React.ReactNode;
+}>) => {
 	return (
 		<div className="flex min-h-screen">
 			<SideBar />

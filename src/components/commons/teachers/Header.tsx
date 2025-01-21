@@ -24,7 +24,7 @@ import { PiBell, PiMagnifyingGlass } from 'react-icons/pi';
 
 export const Header = () => {
 	return (
-		<div
+		<header
 			className="flex flex-wrap gap-10 justify-between items-center px-40 py-6 bg-white max-md:px-5"
 			role="banner"
 			aria-label="Dashboard Header"
@@ -85,6 +85,6 @@ export const Header = () => {
 					height={48}
 				/>
 			</div>
-		</div>
+		</header>
 	);
 };

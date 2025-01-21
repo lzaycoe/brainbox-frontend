@@ -27,8 +27,8 @@ export const Footer = () => {
 		<footer className="flex flex-wrap mt-auto gap-10 justify-between items-center px-40 py-3 text-sm tracking-normal leading-loose text-center max-md:px-5 bg-[#f5f7fa]">
 			{/* Footer Text */}
 			<div className="self-stretch my-auto text-neutral-800">
-				<span className="text-gray-500">© 2025 - BrainBox. Designed by </span>
-				LazyCode.
+				<span className="text-gray-500">© 2025 - BrainBox. Designed by</span>
+				&nbsp;LazyCode.&nbsp;
 				<span className="text-gray-500">All rights reserved</span>
 			</div>
 

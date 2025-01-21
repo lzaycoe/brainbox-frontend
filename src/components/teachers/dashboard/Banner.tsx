@@ -21,9 +21,11 @@
 import Image from 'next/image';
 import { PiArrowDown } from 'react-icons/pi';
 
+import { Progress } from '@/components/ui/progress';
+
 export const Banner = () => {
 	return (
-		<div
+		<section
 			className="flex flex-col justify-center items-center mx-20 p-10 bg-slate-900 max-md:px-5"
 			role="region"
 			aria-label="Profile Progress Section"
@@ -54,17 +56,11 @@ export const Banner = () => {
 					>
 						1/4 Steps
 					</div>
-					<div
-						className="flex flex-col self-stretch my-auto min-w-[240px] w-[312px]"
-						role="progressbar"
-						aria-valuenow={25}
-						aria-valuemin={0}
-						aria-valuemax={100}
-					>
-						<div className="flex flex-col items-start bg-white bg-opacity-20 max-md:pr-5">
-							<div className="flex shrink-0 h-4 bg-green-500 w-[78px]"></div>
-						</div>
-					</div>
+					<Progress
+						indicatorColor="bg-green-400"
+						value={25}
+						className="flex flex-col self-stretch my-auto min-w-[240px] w-[312px] h-[20px] bg-slate-50"
+					/>
 					<div
 						className="self-stretch my-auto text-base font-semibold leading-none text-white w-[204px]"
 						aria-label="Completion percentage"
@@ -87,6 +83,6 @@ export const Banner = () => {
 					</button>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 };
