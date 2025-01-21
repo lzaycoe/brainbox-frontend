@@ -27,7 +27,6 @@ export const Banner = () => {
 	return (
 		<section
 			className="flex flex-col justify-center items-center mx-20 p-10 bg-slate-900 max-md:px-5"
-			role="region"
 			aria-label="Profile Progress Section"
 		>
 			<div className="flex flex-wrap gap-8 justify-between items-center w-full max-w-[1240px] max-md:max-w-full">

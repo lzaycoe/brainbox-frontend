@@ -41,9 +41,9 @@ export const metadata: Metadata = {
 
 export default function TeacherPageLayout({
 	children,
-}: {
+}: Readonly<{
 	children: React.ReactNode;
-}) {
+}>) {
 	return (
 		<html lang="en">
 			<body

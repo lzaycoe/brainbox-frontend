@@ -26,17 +26,20 @@ export const Footer = () => {
 	return (
 		<footer className="flex flex-wrap mt-auto gap-10 justify-between items-center px-40 py-3 text-sm tracking-normal leading-loose text-center max-md:px-5 bg-[#f5f7fa]">
 			{/* Footer Text */}
-			<div className="self-stretch my-auto text-neutral-800">
-				<span className="text-gray-500">© 2025 - BrainBox. Designed by</span>
-				&nbsp;LazyCode.&nbsp;
-				<span className="text-gray-500">All rights reserved</span>
+			<div className="self-stretch my-auto text-sm tracking-normal leading-loose ">
+				<span>© 2025 - BrainBox. Designed by </span>
+				<Link
+					href="https://github.com/lzaycoe"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<strong>LazyCode</strong>
+				</Link>
+				<span>. All rights reserved</span>
 			</div>
 
 			{/* Avatar List */}
-			<div
-				className="flex gap-6 items-center self-stretch my-auto text-gray-500"
-				tabIndex={0}
-			>
+			<div className="flex gap-6 items-center self-stretch my-auto text-gray-500">
 				{/* Hiển thị Avatar GitHub */}
 				<Link
 					href="https://github.com/lzaycoe/brainbox-frontend/graphs/contributors"
@@ -54,13 +57,10 @@ export const Footer = () => {
 			</div>
 
 			{/* Footer Links */}
-			<div
-				className="flex gap-6 items-start self-stretch my-auto text-gray-500 min-w-[240px]"
-				tabIndex={0}
-			>
-				<div tabIndex={0}>FAQs</div>
-				<div tabIndex={0}>Privacy Policy</div>
-				<div tabIndex={0}>Terms & Condition</div>
+			<div className="flex gap-6 items-start self-stretch my-auto min-w-[240px]">
+				<div>FAQs</div>
+				<div>Privacy Policy</div>
+				<div>Terms & Condition</div>
 			</div>
 		</footer>
 	);
