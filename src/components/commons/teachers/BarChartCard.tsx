@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  *  ======================================================================
  *  Copyright (C) 2025 - lzaycoe (Lazy Code)
@@ -21,8 +22,16 @@
 
 'use client';
 
-import { TrendingUp } from 'lucide-react';
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import { BarChart as LucideBarChart, TrendingUp } from 'lucide-react';
+import {
+	Bar,
+	BarChart,
+	CartesianGrid,
+	LabelList,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+} from 'recharts';
 
 import {
 	Card,
@@ -32,12 +41,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-import {
-	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
-} from '@/components/ui/chart';
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  *  ======================================================================
  *  Copyright (C) 2025 - lzaycoe (Lazy Code)
@@ -59,74 +64,63 @@ import {
  *  ======================================================================
  */
 
-interface AreaChartCardProps {
+interface BarChartCardProps {
 	chartData: { month: string; desktop: number }[];
-	chartConfig: {
-		desktop: {
-			label: string;
-			color: string;
-		};
-	};
 }
 
-export const AreaChartCard: React.FC<AreaChartCardProps> = ({
-	chartData,
-	chartConfig,
-}) => {
+export const BarChartCard: React.FC<BarChartCardProps> = ({ chartData }) => {
 	return (
-		<div className="flex overflow-hidden flex-col min-w-[240px] w-[532px] max-md:max-w-full">
-			<Card>
-				<CardHeader>
-					<CardTitle>Area Chart</CardTitle>
-					<CardDescription>
-						Showing total visitors for the last 6 months
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<ChartContainer config={chartConfig}>
-						<AreaChart
-							data={chartData}
-							margin={{
-								left: 12,
-								right: 12,
-							}}
-						>
-							<CartesianGrid vertical={false} />
-							<XAxis
-								dataKey="month"
-								tickLine={false}
-								axisLine={false}
-								tickMargin={8}
-								tickFormatter={(value) => value.slice(0, 3)}
-							/>
-							<ChartTooltip
-								cursor={false}
-								content={<ChartTooltipContent indicator="line" />}
-							/>
-							<Area
-								dataKey="desktop"
-								type="natural"
-								fill="var(--color-desktop)"
-								fillOpacity={0.4}
-								stroke="var(--color-desktop)"
-							/>
-						</AreaChart>
-					</ChartContainer>
-				</CardContent>
-				<CardFooter>
-					<div className="flex w-full items-start gap-2 text-sm">
-						<div className="grid gap-2">
-							<div className="flex items-center gap-2 font-medium leading-none">
-								Trending up by 5.2% this month{' '}
-								<TrendingUp className="h-4 w-4" />
-							</div>
-							<div className="flex items-center gap-2 leading-none text-muted-foreground">
-								January - June 2024
-							</div>
+		<div className="flex overflow-hidden flex-col min-w-[240px] w-[320px] max-md:max-w-full">
+			<div className="flex flex-col w-full bg-white max-md:max-w-full">
+				<Card>
+					<CardHeader>
+						<CardTitle>Bar Chart - Label</CardTitle>
+						<CardDescription>January - June 2024</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<ResponsiveContainer width="100%" height={300}>
+							<BarChart
+								data={chartData}
+								margin={{
+									top: 20,
+								}}
+							>
+								<CartesianGrid vertical={false} />
+								<XAxis
+									dataKey="month"
+									tickLine={false}
+									tickMargin={5}
+									axisLine={false}
+									tickFormatter={(value) => value.slice(0, 3)}
+								/>
+								<Tooltip />
+								<Bar
+									dataKey="desktop"
+									fill="hsl(var(--chart-1))"
+									radius={8}
+									barSize={30}
+								>
+									<LabelList
+										position="top"
+										offset={12}
+										className="fill-foreground"
+										fontSize={12}
+									/>
+								</Bar>
+							</BarChart>
+						</ResponsiveContainer>
+					</CardContent>
+					<CardFooter className="flex-col items-start gap-2 text-sm">
+						<div className="flex gap-2 font-medium leading-none">
+							<strong>$7,443</strong>
+							<TrendingUp className="h-4 w-4" />
 						</div>
-					</div>
-				</CardFooter>
-			</Card>
+						<div className="leading-none text-muted-foreground">
+							USD Dollar you earned.
+						</div>
+					</CardFooter>
+				</Card>
+			</div>
 		</div>
 	);
 };
