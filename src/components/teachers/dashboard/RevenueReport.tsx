@@ -51,27 +51,6 @@ import { RecentActivity } from '@/components/commons/teachers/RecentActivity';
  *  ======================================================================
  */
 
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
-
 const activities = [
 	{
 		icon: <PiChatCircleDotsDuotone className="text-white" />,
@@ -122,13 +101,19 @@ const chartConfig = {
 export const RevenueReport = () => {
 	return (
 		<section className="flex flex-wrap gap-6 items-start mb-6">
-			<RecentActivity title="Recent Activity" activities={activities} />
-			<AreaChartCard
-				title="Revenue"
-				chartData={chartData}
-				chartConfig={chartConfig}
-			/>
-			<BarChartCard title="Profile View" chartData={chartData} />
+			<div className="flex overflow-hidden flex-col min-w-[240px] w-[420px] max-md:max-w-full h-full">
+				<RecentActivity title="Recent Activity" activities={activities} />
+			</div>
+			<div className="flex overflow-hidden flex-col min-w-[240px] w-[532px] max-md:max-w-full h-full">
+				<AreaChartCard
+					title="Revenue"
+					chartData={chartData}
+					chartConfig={chartConfig}
+				/>
+			</div>
+			<div className="flex overflow-hidden flex-col min-w-[240px] w-[320px] max-md:max-w-full h-full">
+				<BarChartCard title="Profile View" chartData={chartData} />
+			</div>
 		</section>
 	);
 };
