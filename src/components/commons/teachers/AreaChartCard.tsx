@@ -74,8 +74,8 @@ export const AreaChartCard: React.FC<AreaChartCardProps> = ({
 	chartConfig,
 }) => {
 	return (
-		<div className="flex overflow-hidden flex-col min-w-[240px] w-[532px] max-md:max-w-full">
-			<Card>
+		<div className="flex overflow-hidden flex-col min-w-[240px] w-[532px] max-md:max-w-full h-full">
+			<Card className="flex flex-col flex-1">
 				<CardHeader>
 					<CardTitle>Area Chart</CardTitle>
 					<CardDescription>

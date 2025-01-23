@@ -70,57 +70,55 @@ interface BarChartCardProps {
 
 export const BarChartCard: React.FC<BarChartCardProps> = ({ chartData }) => {
 	return (
-		<div className="flex overflow-hidden flex-col min-w-[240px] w-[320px] max-md:max-w-full">
-			<div className="flex flex-col w-full bg-white max-md:max-w-full">
-				<Card>
-					<CardHeader>
-						<CardTitle>Bar Chart - Label</CardTitle>
-						<CardDescription>January - June 2024</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<ResponsiveContainer width="100%" height={300}>
-							<BarChart
-								data={chartData}
-								margin={{
-									top: 20,
-								}}
+		<div className="flex overflow-hidden flex-col min-w-[240px] w-[320px] max-md:max-w-full h-full">
+			<Card className="flex flex-col flex-1">
+				<CardHeader>
+					<CardTitle>Bar Chart - Label</CardTitle>
+					<CardDescription>January - June 2024</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<ResponsiveContainer width="100%" height={300}>
+						<BarChart
+							data={chartData}
+							margin={{
+								top: 20,
+							}}
+						>
+							<CartesianGrid vertical={false} />
+							<XAxis
+								dataKey="month"
+								tickLine={false}
+								tickMargin={5}
+								axisLine={false}
+								tickFormatter={(value) => value.slice(0, 3)}
+							/>
+							<Tooltip />
+							<Bar
+								dataKey="desktop"
+								fill="hsl(var(--chart-1))"
+								radius={8}
+								barSize={30}
 							>
-								<CartesianGrid vertical={false} />
-								<XAxis
-									dataKey="month"
-									tickLine={false}
-									tickMargin={5}
-									axisLine={false}
-									tickFormatter={(value) => value.slice(0, 3)}
+								<LabelList
+									position="top"
+									offset={12}
+									className="fill-foreground"
+									fontSize={12}
 								/>
-								<Tooltip />
-								<Bar
-									dataKey="desktop"
-									fill="hsl(var(--chart-1))"
-									radius={8}
-									barSize={30}
-								>
-									<LabelList
-										position="top"
-										offset={12}
-										className="fill-foreground"
-										fontSize={12}
-									/>
-								</Bar>
-							</BarChart>
-						</ResponsiveContainer>
-					</CardContent>
-					<CardFooter className="flex-col items-start gap-2 text-sm">
-						<div className="flex gap-2 font-medium leading-none">
-							<strong>$7,443</strong>
-							<TrendingUp className="h-4 w-4" />
-						</div>
-						<div className="leading-none text-muted-foreground">
-							USD Dollar you earned.
-						</div>
-					</CardFooter>
-				</Card>
-			</div>
+							</Bar>
+						</BarChart>
+					</ResponsiveContainer>
+				</CardContent>
+				<CardFooter className="flex-col items-start gap-2 text-sm">
+					<div className="flex gap-2 font-medium leading-none">
+						<strong>$7,443</strong>
+						<TrendingUp className="h-4 w-4" />
+					</div>
+					<div className="leading-none text-muted-foreground">
+						USD Dollar you earned.
+					</div>
+				</CardFooter>
+			</Card>
 		</div>
 	);
 };

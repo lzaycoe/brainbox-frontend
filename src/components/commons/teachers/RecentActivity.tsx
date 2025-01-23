@@ -24,6 +24,8 @@
 import { JSX } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 
+import { Card } from '@/components/ui/card';
+
 /*
  *  ======================================================================
  *  Copyright (C) 2025 - lzaycoe (Lazy Code)
@@ -61,8 +63,8 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
 	activities,
 }) => {
 	return (
-		<div className="flex overflow-hidden flex-col min-w-[240px] w-[420px] max-md:max-w-full">
-			<div className="flex flex-col w-full bg-white max-md:max-w-full">
+		<div className="flex overflow-hidden flex-col min-w-[240px] w-[420px] max-md:max-w-full h-full">
+			<Card className="flex flex-col flex-1">
 				<div className="flex gap-10 justify-between items-center px-5 py-4 w-full bg-white shadow-sm max-md:max-w-full">
 					<div className="self-stretch my-auto text-base font-medium leading-none text-neutral-800">
 						Recent Activity
@@ -97,7 +99,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
 						</div>
 					))}
 				</div>
-			</div>
+			</Card>
 		</div>
 	);
 };
