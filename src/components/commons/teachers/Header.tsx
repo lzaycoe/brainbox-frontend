@@ -26,7 +26,20 @@ interface HeaderProps {
 	title: string;
 }
 
+const getTimeOfDayGreeting = () => {
+	const currentHour = new Date().getHours();
+	if (currentHour < 12) {
+		return 'Good Morning';
+	} else if (currentHour < 18) {
+		return 'Good Afternoon';
+	} else {
+		return 'Good Evening';
+	}
+};
+
 export const Header: React.FC<HeaderProps> = ({ title }) => {
+	const greeting = getTimeOfDayGreeting();
+
 	return (
 		<header
 			className="flex flex-wrap gap-10 justify-between items-center px-40 py-6 bg-white max-md:px-5"
@@ -39,7 +52,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 					className="text-sm font-medium tracking-normal leading-none text-gray-500"
 					aria-label="Time of Day Greeting"
 				>
-					Good Morning
+					{greeting}
 				</div>
 				<div
 					className="mt-1.5 text-xl font-semibold leading-tight text-neutral-800"
