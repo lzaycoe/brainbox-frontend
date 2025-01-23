@@ -24,14 +24,7 @@
 import { TrendingUp } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
 import {
 	ChartContainer,
 	ChartTooltip,
@@ -60,6 +53,7 @@ import {
  */
 
 interface AreaChartCardProps {
+	title: string;
 	chartData: { month: string; desktop: number }[];
 	chartConfig: {
 		desktop: {
@@ -70,19 +64,17 @@ interface AreaChartCardProps {
 }
 
 export const AreaChartCard: React.FC<AreaChartCardProps> = ({
+	title,
 	chartData,
 	chartConfig,
 }) => {
 	return (
 		<div className="flex overflow-hidden flex-col min-w-[240px] w-[532px] max-md:max-w-full h-full">
 			<Card className="flex flex-col flex-1">
-				<CardHeader>
-					<CardTitle>Area Chart</CardTitle>
-					<CardDescription>
-						Showing total visitors for the last 6 months
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
+				<div className="flex gap-10 justify-between items-center px-5 py-4 w-full bg-white shadow-sm max-md:max-w-full">
+					<CardTitle>{title}</CardTitle>
+				</div>
+				<CardContent className="mt-4 py-3">
 					<ChartContainer config={chartConfig}>
 						<AreaChart
 							data={chartData}
@@ -106,9 +98,10 @@ export const AreaChartCard: React.FC<AreaChartCardProps> = ({
 							<Area
 								dataKey="desktop"
 								type="natural"
-								fill="var(--color-desktop)"
-								fillOpacity={0.4}
-								stroke="var(--color-desktop)"
+								fill="#efeefe"
+								fillOpacity={0.5}
+								stroke="#564ffd"
+								strokeWidth={3}
 							/>
 						</AreaChart>
 					</ChartContainer>

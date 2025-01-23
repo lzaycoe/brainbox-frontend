@@ -18,13 +18,11 @@
  *
  *  ======================================================================
  */
-
 'use client';
 
 import { JSX } from 'react';
-import { IoIosArrowDown } from 'react-icons/io';
 
-import { Card } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/ui/card';
 
 /*
  *  ======================================================================
@@ -56,23 +54,19 @@ interface ActivityItem {
 }
 
 interface RecentActivityProps {
+	title: string;
 	activities: ActivityItem[];
 }
 
 export const RecentActivity: React.FC<RecentActivityProps> = ({
+	title,
 	activities,
 }) => {
 	return (
 		<div className="flex overflow-hidden flex-col min-w-[240px] w-[420px] max-md:max-w-full h-full">
 			<Card className="flex flex-col flex-1">
 				<div className="flex gap-10 justify-between items-center px-5 py-4 w-full bg-white shadow-sm max-md:max-w-full">
-					<div className="self-stretch my-auto text-base font-medium leading-none text-neutral-800">
-						Recent Activity
-					</div>
-					<div className="flex gap-2 items-center self-stretch my-auto text-sm tracking-normal leading-loose text-right text-gray-500 whitespace-nowrap">
-						<div className="self-stretch my-auto">Today</div>
-						<IoIosArrowDown />
-					</div>
+					<CardTitle>{title}</CardTitle>
 				</div>
 				<div className="flex flex-col max-md:max-w-full">
 					{/* Activity Items */}

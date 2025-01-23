@@ -36,7 +36,6 @@ import {
 import {
 	Card,
 	CardContent,
-	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
@@ -65,18 +64,21 @@ import {
  */
 
 interface BarChartCardProps {
+	title: string;
 	chartData: { month: string; desktop: number }[];
 }
 
-export const BarChartCard: React.FC<BarChartCardProps> = ({ chartData }) => {
+export const BarChartCard: React.FC<BarChartCardProps> = ({
+	title,
+	chartData,
+}) => {
 	return (
 		<div className="flex overflow-hidden flex-col min-w-[240px] w-[320px] max-md:max-w-full h-full">
 			<Card className="flex flex-col flex-1">
-				<CardHeader>
-					<CardTitle>Bar Chart - Label</CardTitle>
-					<CardDescription>January - June 2024</CardDescription>
-				</CardHeader>
-				<CardContent>
+				<div className="flex gap-10 justify-between items-center px-5 py-4 w-full bg-white shadow-sm max-md:max-w-full">
+					<CardTitle>{title}</CardTitle>
+				</div>
+				<CardContent className="mt-4 py-3">
 					<ResponsiveContainer width="100%" height={300}>
 						<BarChart
 							data={chartData}
@@ -93,12 +95,7 @@ export const BarChartCard: React.FC<BarChartCardProps> = ({ chartData }) => {
 								tickFormatter={(value) => value.slice(0, 3)}
 							/>
 							<Tooltip />
-							<Bar
-								dataKey="desktop"
-								fill="hsl(var(--chart-1))"
-								radius={8}
-								barSize={30}
-							>
+							<Bar dataKey="desktop" fill="#23bd33" radius={8} barSize={30}>
 								<LabelList
 									position="top"
 									offset={12}
