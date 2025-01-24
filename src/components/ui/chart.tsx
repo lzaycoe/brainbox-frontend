@@ -350,9 +350,7 @@ function getPayloadConfigFromPayload(
 		configLabelKey = payloadPayload[key as keyof typeof payloadPayload];
 	}
 
-	return configLabelKey in config
-		? config[configLabelKey]
-		: config[key as keyof typeof config];
+	return configLabelKey in config ? config[configLabelKey] : config[key];
 }
 
 export {

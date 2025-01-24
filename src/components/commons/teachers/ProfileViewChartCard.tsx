@@ -22,14 +22,17 @@
 'use client';
 
 import { TrendingUp } from 'lucide-react';
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import {
+	Bar,
+	BarChart,
+	CartesianGrid,
+	LabelList,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+} from 'recharts';
 
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
-import {
-	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
-} from '@/components/ui/chart';
 
 /*
  *  ======================================================================
@@ -73,21 +76,14 @@ import {
  *  ======================================================================
  */
 
-interface AreaChartCardProps {
+interface ProfileViewChartCardProps {
 	title: string;
 	chartData: { month: string; desktop: number }[];
-	chartConfig: {
-		desktop: {
-			label: string;
-			color: string;
-		};
-	};
 }
 
-export const AreaChartCard: React.FC<AreaChartCardProps> = ({
+export const ProfileViewChartCard: React.FC<ProfileViewChartCardProps> = ({
 	title,
 	chartData,
-	chartConfig,
 }) => {
 	return (
 		<Card className="flex flex-col flex-1">
@@ -95,47 +91,40 @@ export const AreaChartCard: React.FC<AreaChartCardProps> = ({
 				<CardTitle>{title}</CardTitle>
 			</div>
 			<CardContent className="mt-4 py-3">
-				<ChartContainer config={chartConfig}>
-					<AreaChart
+				<ResponsiveContainer width="100%" height={300}>
+					<BarChart
 						data={chartData}
 						margin={{
-							left: 12,
-							right: 12,
+							top: 20,
 						}}
 					>
 						<CartesianGrid vertical={false} />
 						<XAxis
 							dataKey="month"
 							tickLine={false}
+							tickMargin={5}
 							axisLine={false}
-							tickMargin={8}
 							tickFormatter={(value) => value.slice(0, 3)}
 						/>
-						<ChartTooltip
-							cursor={false}
-							content={<ChartTooltipContent indicator="line" />}
-						/>
-						<Area
-							dataKey="desktop"
-							type="natural"
-							fill="#efeefe"
-							fillOpacity={0.5}
-							stroke="#564ffd"
-							strokeWidth={3}
-						/>
-					</AreaChart>
-				</ChartContainer>
+						<Tooltip />
+						<Bar dataKey="desktop" fill="#23bd33" radius={8} barSize={30}>
+							<LabelList
+								position="top"
+								offset={12}
+								className="fill-foreground"
+								fontSize={12}
+							/>
+						</Bar>
+					</BarChart>
+				</ResponsiveContainer>
 			</CardContent>
-			<CardFooter>
-				<div className="flex w-full items-start gap-2 text-sm">
-					<div className="grid gap-2">
-						<div className="flex items-center gap-2 font-medium leading-none">
-							Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-						</div>
-						<div className="flex items-center gap-2 leading-none text-muted-foreground">
-							January - June 2024
-						</div>
-					</div>
+			<CardFooter className="flex-col items-start gap-2 text-sm">
+				<div className="flex gap-2 font-medium leading-none">
+					<strong>$7,443</strong>
+					<TrendingUp className="h-4 w-4" />
+				</div>
+				<div className="leading-none text-muted-foreground">
+					USD Dollar you earned.
 				</div>
 			</CardFooter>
 		</Card>

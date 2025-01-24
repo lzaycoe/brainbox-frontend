@@ -1,13 +1,8 @@
 import React from 'react';
 import { PiStarDuotone } from 'react-icons/pi';
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
+import { ChartComponent } from '@/components/commons/teachers/AreaChart';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import {
-	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
-} from '@/components/ui/chart';
 
 interface CourseRatingProps {
 	title: string;
@@ -59,36 +54,12 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 						</div>
 					</div>
 					<div aria-label="Rating trend graph" className="w-full flex-1">
-						<ChartContainer config={chartConfig}>
-							<AreaChart
-								data={chartData}
-								margin={{
-									left: 12,
-									right: 12,
-								}}
-							>
-								<CartesianGrid vertical={false} />
-								<XAxis
-									dataKey="month"
-									tickLine={false}
-									axisLine={false}
-									tickMargin={8}
-									tickFormatter={(value) => value.slice(0, 3)}
-								/>
-								<ChartTooltip
-									cursor={false}
-									content={<ChartTooltipContent indicator="line" />}
-								/>
-								<Area
-									dataKey="desktop"
-									type="natural"
-									fill="#fff8f2"
-									fillOpacity={0.5}
-									stroke="#fd8e1f"
-									strokeWidth={3}
-								/>
-							</AreaChart>
-						</ChartContainer>
+						<ChartComponent
+							chartData={chartData}
+							chartConfig={chartConfig}
+							fill="#fff8f2"
+							stroke="#fd8e1f"
+						/>
 					</div>
 				</div>
 				<hr className="mt-6 w-full h-px bg-gray-200 border-[none]"></hr>
