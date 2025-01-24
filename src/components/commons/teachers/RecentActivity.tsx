@@ -45,6 +45,48 @@ import { Card, CardTitle } from '@/components/ui/card';
  *  ======================================================================
  */
 
+/*
+ *  ======================================================================
+ *  Copyright (C) 2025 - lzaycoe (Lazy Code)
+ *  ======================================================================
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  ======================================================================
+ */
+
+/*
+ *  ======================================================================
+ *  Copyright (C) 2025 - lzaycoe (Lazy Code)
+ *  ======================================================================
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  ======================================================================
+ */
+
 interface ActivityItem {
 	icon: JSX.Element;
 	user: string;
@@ -69,9 +111,9 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
 			</div>
 			<div className="flex flex-col max-md:max-w-full">
 				{/* Activity Items */}
-				{activities.map((item, idx) => (
+				{activities.map((item) => (
 					<div
-						key={idx}
+						key={item.time}
 						className="flex gap-3 justify-center items-start px-5 py-3 mt-4 max-md:max-w-full"
 					>
 						<div className="flex gap-2.5 items-center p-2 w-8 h-8 bg-orange-500 rounded-[100px]">

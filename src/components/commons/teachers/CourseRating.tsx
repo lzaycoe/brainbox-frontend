@@ -45,7 +45,6 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 						<div className="flex flex-col items-center mt-4 w-full">
 							<div
 								className="flex gap-0.5 items-center"
-								role="img"
 								aria-label="4.6 out of 5 stars"
 							>
 								<PiStarDuotone className="w-6 h-6 text-amber-500" />
@@ -92,25 +91,14 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 						</ChartContainer>
 					</div>
 				</div>
-				<div
-					className="mt-6 w-full h-px bg-gray-200 border-[none]"
-					role="separator"
-				></div>
-				<div
+				<hr className="mt-6 w-full h-px bg-gray-200 border-[none]"></hr>
+				<ul
 					className="flex flex-col gap-3 mt-6 w-[496px] max-sm:w-full"
-					role="list"
 					aria-label="Rating distribution"
 				>
-					<div
-						className="flex gap-3 justify-between items-center w-full"
-						role="listitem"
-					>
+					<li className="flex gap-3 justify-between items-center w-full">
 						<div className="flex gap-1.5 items-center">
-							<div
-								role="img"
-								aria-label="5 stars"
-								className="flex gap-1.5 items-center"
-							>
+							<div aria-label="5 stars" className="flex gap-1.5 items-center">
 								<PiStarDuotone className="text-amber-500" />
 								<PiStarDuotone className="text-amber-500" />
 								<PiStarDuotone className="text-amber-500" />
@@ -125,7 +113,6 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 							<div className="w-full">
 								<div
 									className="overflow-hidden w-full h-2 bg-gray-200 rounded"
-									role="progressbar"
 									aria-valuenow={56}
 									aria-valuemin={0}
 									aria-valuemax={100}
@@ -137,17 +124,10 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 								56%
 							</div>
 						</div>
-					</div>
-					<div
-						className="flex gap-3 justify-between items-center w-full"
-						role="listitem"
-					>
+					</li>
+					<li className="flex gap-3 justify-between items-center w-full">
 						<div className="flex gap-1.5 items-center">
-							<div
-								role="img"
-								aria-label="4 stars"
-								className="flex gap-1.5 items-center"
-							>
+							<div aria-label="4 stars" className="flex gap-1.5 items-center">
 								<PiStarDuotone className="text-amber-500" />
 								<PiStarDuotone className="text-amber-500" />
 								<PiStarDuotone className="text-amber-500" />
@@ -162,7 +142,6 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 							<div className="w-full">
 								<div
 									className="overflow-hidden w-full h-2 bg-gray-200 rounded"
-									role="progressbar"
 									aria-valuenow={37}
 									aria-valuemin={0}
 									aria-valuemax={100}
@@ -174,17 +153,10 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 								37%
 							</div>
 						</div>
-					</div>
-					<div
-						className="flex gap-3 justify-between items-center w-full"
-						role="listitem"
-					>
+					</li>
+					<li className="flex gap-3 justify-between items-center w-full">
 						<div className="flex gap-1.5 items-center">
-							<div
-								role="img"
-								aria-label="3 stars"
-								className="flex gap-1.5 items-center"
-							>
+							<div aria-label="3 stars" className="flex gap-1.5 items-center">
 								<PiStarDuotone className="text-amber-500" />
 								<PiStarDuotone className=" text-amber-500" />
 								<PiStarDuotone className="text-amber-500" />
@@ -199,7 +171,6 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 							<div className="w-full">
 								<div
 									className="overflow-hidden w-full h-2 bg-gray-200 rounded"
-									role="progressbar"
 									aria-valuenow={8}
 									aria-valuemin={0}
 									aria-valuemax={100}
@@ -211,17 +182,10 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 								8%
 							</div>
 						</div>
-					</div>
-					<div
-						className="flex gap-3 justify-between items-center w-full"
-						role="listitem"
-					>
+					</li>
+					<li className="flex gap-3 justify-between items-center w-full">
 						<div className="flex gap-1.5 items-center">
-							<div
-								role="img"
-								aria-label="2 stars"
-								className="flex gap-1.5 items-center"
-							>
+							<div aria-label="2 stars" className="flex gap-1.5 items-center">
 								<PiStarDuotone className="text-amber-500" />
 								<PiStarDuotone className="text-amber-500" />
 								<PiStarDuotone />
@@ -236,7 +200,6 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 							<div className="w-full">
 								<div
 									className="overflow-hidden w-full h-2 bg-gray-200 rounded"
-									role="progressbar"
 									aria-valuenow={1}
 									aria-valuemin={0}
 									aria-valuemax={100}
@@ -248,17 +211,10 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 								1%
 							</div>
 						</div>
-					</div>
-					<div
-						className="flex gap-3 justify-between items-center w-full"
-						role="listitem"
-					>
+					</li>
+					<li className="flex gap-3 justify-between items-center w-full">
 						<div className="flex gap-1.5 items-center">
-							<div
-								role="img"
-								aria-label="1 star"
-								className="flex gap-1.5 items-center"
-							>
+							<div aria-label="1 star" className="flex gap-1.5 items-center">
 								<PiStarDuotone className="text-amber-500" />
 								<PiStarDuotone />
 								<PiStarDuotone />
@@ -273,7 +229,6 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 							<div className="w-full">
 								<div
 									className="overflow-hidden w-full h-2 bg-gray-200 rounded"
-									role="progressbar"
 									aria-valuenow={0.5}
 									aria-valuemin={0}
 									aria-valuemax={100}
@@ -285,8 +240,8 @@ export const CourseRating: React.FC<CourseRatingProps> = ({
 								&lt;1%
 							</div>
 						</div>
-					</div>
-				</div>
+					</li>
+				</ul>
 			</CardContent>
 		</Card>
 	);
