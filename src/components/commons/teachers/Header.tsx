@@ -21,7 +21,7 @@ export const Header = () => {
 			aria-label="Dashboard Header"
 		>
 			{/* Greeting Section */}
-			<div className="flex flex-col self-stretch my-auto min-w-[240px] w-[312px]">
+			<div className="flex flex-col self-stretch my-auto min-w-[240px] w-[312px] max-md:w-full">
 				<div
 					className="text-sm font-medium tracking-normal leading-none text-gray-500"
 					aria-label="Time of Day Greeting"
@@ -37,10 +37,10 @@ export const Header = () => {
 			</div>
 
 			{/* Search and Actions Section */}
-			<div className="flex gap-4 items-start self-stretch my-auto min-w-[240px] max-md:max-w-full">
+			<div className="flex gap-4 items-start self-stretch my-auto min-w-[240px] max-md:w-full">
 				{/* Search Bar */}
 				<form
-					className="flex overflow-hidden flex-col justify-center items-start px-5 py-3 text-base text-gray-400 whitespace-nowrap bg-slate-100 min-w-[240px] w-[312px] max-md:pr-5"
+					className="flex overflow-hidden flex-col justify-center items-start px-5 py-3 text-base text-gray-400 whitespace-nowrap bg-slate-100 min-w-[240px] w-[312px] max-md:w-full"
 					role="search"
 				>
 					<div className="flex gap-3 items-center">
@@ -60,7 +60,7 @@ export const Header = () => {
 
 				{/* Notifications Button */}
 				<button
-					className="flex gap-2.5 items-center p-3 w-12 h-full bg-slate-100"
+					className="flex gap-2.5 items-center p-3 w-12 h-full bg-slate-100 max-md:w-auto"
 					aria-label="Notifications"
 				>
 					<PiBell className="w-8 h-8" />
