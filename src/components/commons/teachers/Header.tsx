@@ -1,26 +1,17 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
+import { LogOut, User } from 'lucide-react';
 import Image from 'next/image';
-import React from 'react';
+import Link from 'next/link';
 import { PiBell, PiMagnifyingGlass } from 'react-icons/pi';
+
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export const Header = () => {
 	return (
@@ -75,15 +66,34 @@ export const Header = () => {
 					<PiBell className="w-8 h-8" />
 				</button>
 
-				{/* User Profile Picture */}
-				<Image
-					loading="lazy"
-					src="/app/lazyavt.png"
-					className="object-contain shrink-0 w-12 rounded-full aspect-square"
-					alt="User Profile Picture"
-					width={48}
-					height={48}
-				/>
+				{/* User Profile Dropdown */}
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Image
+							loading="lazy"
+							src="/app/lazyavt.png"
+							className="object-contain shrink-0 w-12 rounded-full aspect-square cursor-pointer"
+							alt="User Profile Picture"
+							width={48}
+							height={48}
+						/>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent className="w-36">
+						<DropdownMenuLabel>My Account</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuGroup>
+							<DropdownMenuItem>
+								<User />
+								<Link href="/teachers/profile">Profile</Link>
+							</DropdownMenuItem>
+						</DropdownMenuGroup>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>
+							<LogOut />
+							<Link href="/">Log out</Link>
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 			</div>
 		</header>
 	);
