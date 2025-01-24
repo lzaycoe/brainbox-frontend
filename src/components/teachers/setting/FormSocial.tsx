@@ -74,7 +74,6 @@ const FormSocial = () => {
 			<form
 				className="flex flex-col p-10 bg-white max-md:px-5 max-w-[1240px] mx-auto"
 				onSubmit={form.handleSubmit((data) => console.log(data))}
-				role="region"
 				aria-label="Social Profile Section"
 			>
 				<h2 className="text-2xl font-semibold tracking-tight leading-none text-neutral-800 max-md:max-w-full">

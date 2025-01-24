@@ -1,23 +1,3 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -59,9 +39,8 @@ const FormNoti = () => {
 
 	return (
 		<Form {...form}>
-			<div
+			<section
 				className="flex flex-col justify-center px-8 py-10 font-semibold bg-white max-w-[648px] text-neutral-800 max-md:px-5"
-				role="region"
 				aria-label="Notification Preferences"
 			>
 				<h2 className="text-2xl tracking-tight leading-none max-md:max-w-full">
@@ -74,7 +53,7 @@ const FormNoti = () => {
 					<FormField
 						control={form.control}
 						name="coursePurchase"
-						render={({}) => (
+						render={() => (
 							<FormItem className="flex flex-wrap gap-2 items-center text-gray-500 hover:text-black max-md:max-w-full">
 								<FormControl>
 									<Controller
@@ -104,7 +83,7 @@ const FormNoti = () => {
 					<FormField
 						control={form.control}
 						name="courseReview"
-						render={({}) => (
+						render={() => (
 							<FormItem className="flex flex-wrap gap-2 items-center mt-5 text-gray-500 hover:text-black max-md:max-w-full">
 								<FormControl>
 									<Controller
@@ -134,7 +113,7 @@ const FormNoti = () => {
 					<FormField
 						control={form.control}
 						name="lectureComment"
-						render={({}) => (
+						render={() => (
 							<FormItem className="flex flex-wrap gap-2 items-center mt-5 text-gray-500 hover:text-black max-md:max-w-full">
 								<FormControl>
 									<Controller
@@ -164,7 +143,7 @@ const FormNoti = () => {
 					<FormField
 						control={form.control}
 						name="notesDownload"
-						render={({}) => (
+						render={() => (
 							<FormItem className="flex flex-wrap gap-2 items-center mt-5 text-gray-500 hover:text-black max-md:max-w-full">
 								<FormControl>
 									<Controller
@@ -194,7 +173,7 @@ const FormNoti = () => {
 					<FormField
 						control={form.control}
 						name="commentReply"
-						render={({}) => (
+						render={() => (
 							<FormItem className="flex flex-wrap gap-2 items-center mt-5 text-gray-500 hover:text-black max-md:max-w-full">
 								<FormControl>
 									<Controller
@@ -224,7 +203,7 @@ const FormNoti = () => {
 					<FormField
 						control={form.control}
 						name="profileVisits"
-						render={({}) => (
+						render={() => (
 							<FormItem className="flex flex-wrap gap-2 items-center mt-5 text-gray-500 hover:text-black max-md:max-w-full">
 								<FormControl>
 									<Controller
@@ -254,7 +233,7 @@ const FormNoti = () => {
 					<FormField
 						control={form.control}
 						name="fileDownload"
-						render={({}) => (
+						render={() => (
 							<FormItem className="flex flex-wrap gap-2 items-center mt-5 text-gray-500 hover:text-black max-md:max-w-full">
 								<FormControl>
 									<Controller
@@ -289,7 +268,7 @@ const FormNoti = () => {
 						Save changes
 					</Button>
 				</form>
-			</div>
+			</section>
 		</Form>
 	);
 };
