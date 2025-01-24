@@ -33,8 +33,9 @@ import { SummaryCard } from '@/components/commons/SummaryCard';
 
 export const ListSummaryCard = () => {
 	return (
-		<div className="flex flex-col gap-6 justify-center items-center my-6">
-			<div className="flex flex-wrap gap-6 justify-center items-center">
+		<div className="flex flex-col gap-6 justify-center items-center mb-6">
+			{/* Hàng đầu tiên */}
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 				<SummaryCard
 					icon={<PiPlayCircleDuotone className="w-8 h-8 text-rose-500" />}
 					value={957}
@@ -62,7 +63,9 @@ export const ListSummaryCard = () => {
 					bgColor="bg-green-100"
 				/>
 			</div>
-			<div className="flex flex-wrap gap-6 justify-center items-center">
+
+			{/* Hàng thứ hai */}
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 				<SummaryCard
 					icon={<PiUserCircleDuotone className="w-8 h-8 text-red-500" />}
 					value="1,674,767"

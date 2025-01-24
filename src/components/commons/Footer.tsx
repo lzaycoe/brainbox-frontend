@@ -302,13 +302,28 @@ export const Footer = () => {
 				</div>
 			</div>
 			<div className="w-full h-px mt-16 bg-gray-600"></div>
-			<div className="flex flex-wrap gap-10 justify-between items-center px-20 py-4 mt-2 w-full text-justify shadow-sm bg-neutral-800 max-md:px-5 max-md:mt-10 max-md:max-w-full">
+			<div className="flex flex-wrap gap-10 justify-between items-center px-20 py-4 w-full text-justify shadow-sm bg-neutral-800 max-md:px-5 max-md:mt-10 max-md:max-w-full">
 				<div className="self-stretch my-auto text-sm tracking-normal leading-loose text-gray-400">
 					<span>© 2025 - BrainBox. Designed by </span>
 					<a href="https://github.com/lzaycoe" className="text-white">
 						LazyCode
 					</a>
 					<span>. All rights reserved</span>
+				</div>
+				<div className="flex gap-6 items-center self-stretch my-auto text-gray-500">
+					<Link
+						href="https://github.com/lzaycoe/brainbox-frontend/graphs/contributors"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<Image
+							src="https://contrib.rocks/image?repo=lzaycoe/brainbox-frontend"
+							alt="Contributors to BrainBox"
+							width={100}
+							height={20}
+							className="w-20 h-15"
+						/>
+					</Link>
 				</div>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
