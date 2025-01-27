@@ -18,12 +18,18 @@
  *
  *  ======================================================================
  */
-import { Dashboard } from '@/components/learners/Dashboard';
+import NavigationBar from '@/components/commons/learners/NavigationBar';
+import Profile from '@/components/commons/learners/Profile';
+import CoursesSection from '@/components/learners/dashboard/CoursesSection';
+import StatsSection from '@/components/learners/dashboard/StatsSection';
 
 export default function Home() {
 	return (
 		<div>
-			<Dashboard />
+			<Profile />
+			<NavigationBar />
+			<StatsSection />
+			<CoursesSection />
 		</div>
 	);
 }
