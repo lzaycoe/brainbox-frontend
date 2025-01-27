@@ -90,108 +90,115 @@ const courses = [
 	},
 ];
 
-export const Dashboard = () => {
-	return (
-		<div className="flex flex-col px-20 py-10 space-y-10">
-			<div className="bg-white p-6 rounded-lg shadow-md">
-				<div className="flex justify-between items-center bg-rose-100 p-10 rounded-lg">
-					<div className="flex items-center space-x-6">
-						<img
-							src="https://cdn.builder.io/api/v1/image/assets/TEMP/ab1faf3c475c67dc299d76494d7bafc2e2cad9516ff598f284a321bcbc1afaf5?placeholderIfAbsent=true&apiKey=eb47009d56d84332945ecb583277e964"
-							alt="Profile"
-							className="rounded-full w-24 h-24 object-cover"
-						/>
-						<div>
-							<h1 className="text-2xl font-semibold">Lazy Code</h1>
-							<p className="text-gray-500">
-								Web Designer & Best-Selling Instructor
-							</p>
-						</div>
-					</div>
-					<button className="bg-orange-500 text-white py-3 px-6 rounded-lg font-semibold">
-						Become Instructor
-					</button>
+const ProfileSection = () => (
+	<div className="bg-white p-6 rounded-lg shadow-md">
+		<div className="flex justify-between items-center bg-rose-100 p-10 rounded-lg">
+			<div className="flex items-center space-x-6">
+				<img
+					src="https://cdn.builder.io/api/v1/image/assets/TEMP/ab1faf3c475c67dc299d76494d7bafc2e2cad9516ff598f284a321bcbc1afaf5?placeholderIfAbsent=true&apiKey=eb47009d56d84332945ecb583277e964"
+					alt="Profile"
+					className="rounded-full w-24 h-24 object-cover"
+				/>
+				<div>
+					<h1 className="text-2xl font-semibold">Lazy Code</h1>
+					<p className="text-gray-500">
+						Web Designer & Best-Selling Instructor
+					</p>
 				</div>
 			</div>
-
-			<div className="bg-white p-6 rounded-lg shadow-md">
-				<nav className="flex justify-center space-x-6 border-t border-b py-4">
-					{[
-						'Dashboard',
-						'Courses',
-						'Teachers',
-						'Message',
-						'Wishlist',
-						'Purchase History',
-						'Settings',
-					].map((item, index) => (
-						<button
-							key={index}
-							className="px-4 py-2 text-gray-700 hover:text-orange-500"
-						>
-							{item}
-						</button>
-					))}
-				</nav>
-			</div>
-
-			<div className="bg-white p-6 rounded-lg shadow-md">
-				<div className="grid grid-cols-4 gap-6">
-					{stats.map((stat) => (
-						<div
-							key={stat.id}
-							className={`p-6 rounded-lg ${stat.bgColor} flex items-center space-x-4`}
-						>
-							<div className="bg-white p-4 rounded-full text-orange-500 text-2xl">
-								{stat.icon}
-							</div>
-							<div>
-								<h2 className="text-xl font-semibold">{stat.value}</h2>
-								<p className="text-gray-500">{stat.label}</p>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-
-			<div className="bg-white p-6 rounded-lg shadow-md">
-				<h2 className="text-2xl font-semibold">Let's start learning</h2>
-				<div className="grid grid-cols-4 gap-6 mt-4">
-					{courses.map((course) => (
-						<div key={course.id} className="p-6 bg-white border rounded-lg">
-							<img
-								src={course.thumbnail}
-								alt={course.title}
-								className="w-full rounded-lg mb-4"
-							/>
-							<h3 className="text-lg font-semibold">{course.title}</h3>
-							<p className="text-gray-500 mt-2">{course.currentLesson}</p>
-							{course.completed ? (
-								<div className="mt-4 flex items-center space-x-4">
-									<div className="w-1/2">
-										<p className="text-green-600 font-semibold mb-1">
-											{course.completed} Completed
-										</p>
-										<div className="w-full h-1 bg-gray-300 rounded-full mb-5">
-											<div
-												className="h-1 bg-orange-500 rounded-full"
-												style={{ width: course.completed }}
-											></div>
-										</div>
-									</div>
-									<button className="bg-orange-500 text-white w-1/2 py-2 rounded-lg mb-5">
-										Watch Lecture
-									</button>
-								</div>
-							) : (
-								<button className="mt-4 bg-orange-500 text-white w-full py-2 rounded-lg mb-5">
-									Watch Lecture
-								</button>
-							)}
-						</div>
-					))}
-				</div>
-			</div>
+			<button className="bg-orange-500 text-white py-3 px-6 rounded-lg font-semibold">
+				Become Instructor
+			</button>
 		</div>
-	);
-};
+	</div>
+);
+
+const StatsSection = () => (
+	<div className="bg-white p-6 rounded-lg shadow-md">
+		<div className="grid grid-cols-4 gap-6">
+			{stats.map(({ id, value, label, bgColor, icon }) => (
+				<div
+					key={id}
+					className={`p-6 rounded-lg ${bgColor} flex items-center space-x-4`}
+				>
+					<div className="bg-white p-4 rounded-full text-orange-500 text-2xl">
+						{icon}
+					</div>
+					<div>
+						<h2 className="text-xl font-semibold">{value}</h2>
+						<p className="text-gray-500">{label}</p>
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+);
+
+const CoursesSection = () => (
+	<div className="bg-white p-6 rounded-lg shadow-md">
+		<h2 className="text-2xl font-semibold">Let's start learning</h2>
+		<div className="grid grid-cols-4 gap-6 mt-4">
+			{courses.map(({ id, title, currentLesson, thumbnail, completed }) => (
+				<div key={id} className="p-6 bg-white border rounded-lg">
+					<img src={thumbnail} alt={title} className="w-full rounded-lg mb-4" />
+					<h3 className="text-lg font-semibold">{title}</h3>
+					<p className="text-gray-500 mt-2">{currentLesson}</p>
+					{completed ? (
+						<div className="mt-4 flex items-center space-x-4">
+							<div className="w-1/2">
+								<p className="text-green-600 font-semibold mb-1">
+									{completed} Completed
+								</p>
+								<div className="w-full h-1 bg-gray-300 rounded-full mb-5">
+									<div
+										className="h-1 bg-orange-500 rounded-full"
+										style={{ width: completed }}
+									></div>
+								</div>
+							</div>
+							<button className="bg-orange-500 text-white w-1/2 py-2 rounded-lg mb-5">
+								Watch Lecture
+							</button>
+						</div>
+					) : (
+						<button className="mt-4 bg-orange-500 text-white w-full py-2 rounded-lg mb-5">
+							Watch Lecture
+						</button>
+					)}
+				</div>
+			))}
+		</div>
+	</div>
+);
+
+const NavigationMenu = () => (
+	<div className="bg-white p-6 rounded-lg shadow-md">
+		<nav className="flex justify-center space-x-6 border-t border-b py-4">
+			{[
+				'Dashboard',
+				'Courses',
+				'Teachers',
+				'Message',
+				'Wishlist',
+				'Purchase History',
+				'Settings',
+			].map((item, index) => (
+				<button
+					key={index}
+					className="px-4 py-2 text-gray-700 hover:text-orange-500"
+				>
+					{item}
+				</button>
+			))}
+		</nav>
+	</div>
+);
+
+export const Dashboard = () => (
+	<div className="flex flex-col px-20 py-10 space-y-10">
+		<ProfileSection />
+		<NavigationMenu />
+		<StatsSection />
+		<CoursesSection />
+	</div>
+);
