@@ -39,7 +39,7 @@ export default function NavigationBar() {
 			<div className="max-w-7xl mx-auto px-4">
 				<nav className="bg-white w-full border border-[#FFDCD4]">
 					<div className="flex justify-between items-center">
-						{navItems.map((item, index) => (
+						{navItems.map((item) => (
 							<Link
 								key={item.label}
 								href={item.path}
