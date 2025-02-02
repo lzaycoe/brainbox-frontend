@@ -20,8 +20,9 @@
  */
 'use client';
 
-import NavigationBar from '../commons/learners/NavigationBar';
-import Profile from '../commons/learners/Profile';
+import NavigationBar from '../../commons/learners/NavigationBar';
+import Profile from '../../commons/learners/Profile';
+import React from 'react';
 
 import PasswordChangeForm from './PasswordChangeForm';
 import ProfileForm from './ProfileForm';
@@ -48,25 +49,35 @@ import ProfilePhotoUploader from './ProfilePhotoUploader';
  *  ======================================================================
  */
 
-export default function StudentSettings() {
+export default function ProfileSettings() {
 	return (
 		<div className="bg-white min-h-screen">
-			<div className="w-full mx-auto px-4">
-				<Profile />
-				<NavigationBar />
-				<main className="max-w-4xl mx-auto pb-16">
-					<h2 className="text-2xl font-semibold mb-8">Account settings</h2>
-					<div className="grid grid-cols-[300px,1fr] gap-8">
-						<ProfilePhotoUploader />
-						<div>
-							<ProfileForm />
-							<div className="my-12 border-t border-gray-200"></div>
-							<h2 className="text-2xl font-semibold mb-8">Change password</h2>
+			{/* Profile Header */}
+			<Profile />
+
+			{/* Navigation */}
+			<NavigationBar />
+
+			{/* Main Content */}
+			<main className="max-w-7xl mx-auto px-4 py-8">
+				<h2 className="text-xl font-medium mb-8">Account settings</h2>
+
+				<div className="grid grid-cols-[280px,1fr] gap-8">
+					{/* Left Column - Photo Uploader */}
+					<ProfilePhotoUploader />
+
+					{/* Right Column - Forms */}
+					<div className="space-y-8">
+						<ProfileForm />
+
+						{/* Password Change Section */}
+						<div className="mt-12">
+							<h2 className="text-xl font-medium mb-8">Change password</h2>
 							<PasswordChangeForm />
 						</div>
 					</div>
-				</main>
-			</div>
+				</div>
+			</main>
 		</div>
 	);
 }

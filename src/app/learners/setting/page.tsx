@@ -1,4 +1,4 @@
-import ProfileSettings from '@/components/learners/ProfileSettings';
+import ProfileSettings from '@/components/learners/settings/ProfileSettings';
 
 /*
  *  ======================================================================
