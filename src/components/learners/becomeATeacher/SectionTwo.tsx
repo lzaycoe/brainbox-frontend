@@ -27,7 +27,7 @@ import {
 
 export default function SectionTwo() {
 	return (
-		<div
+		<section
 			className="flex flex-col justify-center items-center px-72 py-20 bg-slate-100 max-md:px-5"
 			role="region"
 			aria-labelledby="instructor-steps-title"
@@ -38,7 +38,7 @@ export default function SectionTwo() {
 			>
 				How You Will Become a Successful Instructor
 			</h2>
-			<div
+			<ul
 				className="flex justify-center gap-6 items-start mt-10 max-md:flex-wrap max-md:max-w-full"
 				role="list"
 			>
@@ -110,7 +110,7 @@ export default function SectionTwo() {
 						</p>
 					</div>
 				</li>
-			</div>
-		</div>
+			</ul>
+		</section>
 	);
 }

@@ -39,17 +39,14 @@ export default function SectionFive() {
 								beginning.
 							</p>
 						</div>
-						<div
-							className="flex flex-col p-8 mt-8 max-w-full text-lg tracking-tight leading-7 bg-rose-100 text-neutral-800 w-[536px] max-md:px-5"
-							role="blockquote"
-						>
+						<blockquote className="flex flex-col p-8 mt-8 max-w-full text-lg tracking-tight leading-7 bg-rose-100 text-neutral-800 w-[536px] max-md:px-5">
 							<p className="mt-5 max-md:max-w-full">
 								Join the community of successful instructors. With BrainBox, you
 								will find everything you need to grow and succeed in your
 								teaching career. Our support and tools are designed for your
 								continued success and satisfaction.
 							</p>
-						</div>
+						</blockquote>
 
 						<div className="flex gap-3 items-start self-start mt-8">
 							<button

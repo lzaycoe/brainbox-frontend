@@ -51,10 +51,7 @@ export default function SectionFour() {
 								facing challenges or looking for guidance, we are here to help.
 							</p>
 						</div>
-						<ul
-							className="flex flex-col mt-8 text-sm tracking-normal leading-loose text-neutral-800 max-md:max-w-full"
-							role="list"
-						>
+						<ul className="flex flex-col mt-8 text-sm tracking-normal leading-loose text-neutral-800 max-md:max-w-full">
 							<li className="flex flex-wrap gap-2 items-center max-md:max-w-full">
 								<span className="self-stretch my-auto w-[504px] max-md:max-w-full">
 									We offer expert advice and solutions to help you overcome any
@@ -81,9 +78,8 @@ export default function SectionFour() {
 							</li>
 						</ul>
 
-						<div
+						<footer
 							className="flex gap-4 justify-center items-center self-start mt-8"
-							role="contentinfo"
 							aria-label="Contact Information"
 						>
 							<div className="flex flex-col self-stretch my-auto w-14">
@@ -105,7 +101,7 @@ export default function SectionFour() {
 									help.brainbox@gamil.com
 								</a>
 							</div>
-						</div>
+						</footer>
 					</div>
 				</div>
 				<div className="col-span-1"></div>
