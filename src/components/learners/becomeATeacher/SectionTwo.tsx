@@ -29,7 +29,6 @@ export default function SectionTwo() {
 	return (
 		<section
 			className="flex flex-col justify-center items-center px-72 py-20 bg-slate-100 max-md:px-5"
-			role="region"
 			aria-labelledby="instructor-steps-title"
 		>
 			<h2
@@ -38,10 +37,7 @@ export default function SectionTwo() {
 			>
 				How You Will Become a Successful Instructor
 			</h2>
-			<ul
-				className="flex justify-center gap-6 items-start mt-10 max-md:flex-wrap max-md:max-w-full"
-				role="list"
-			>
+			<ul className="flex justify-center gap-6 items-start mt-10 max-md:flex-wrap max-md:max-w-full">
 				<li className="flex flex-col justify-center items-center p-6 bg-white w-[312px] max-md:px-5">
 					<div className="flex gap-2.5 items-center p-5 w-20 h-20 bg-indigo-600 bg-opacity-10">
 						<PiNewspaperClipping
