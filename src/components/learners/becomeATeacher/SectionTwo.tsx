@@ -42,10 +42,7 @@ export default function SectionTwo() {
 				className="flex justify-center gap-6 items-start mt-10 max-md:flex-wrap max-md:max-w-full"
 				role="list"
 			>
-				<div
-					className="flex flex-col justify-center items-center p-6 bg-white w-[312px] max-md:px-5"
-					role="listitem"
-				>
+				<li className="flex flex-col justify-center items-center p-6 bg-white w-[312px] max-md:px-5">
 					<div className="flex gap-2.5 items-center p-5 w-20 h-20 bg-indigo-600 bg-opacity-10">
 						<PiNewspaperClipping
 							className="object-contain w-10 h-10 aspect-square"
@@ -61,11 +58,8 @@ export default function SectionTwo() {
 							approved, you can get started with teaching.
 						</p>
 					</div>
-				</div>
-				<div
-					className="flex flex-col justify-center items-center p-6 bg-white w-[312px] max-md:px-5"
-					role="listitem"
-				>
+				</li>
+				<li className="flex flex-col justify-center items-center p-6 bg-white w-[312px] max-md:px-5">
 					<div className="flex gap-2.5 items-center p-5 w-20 h-20 bg-rose-50">
 						<PiIdentificationCard
 							className="object-contain w-10 h-10 aspect-square"
@@ -81,11 +75,8 @@ export default function SectionTwo() {
 							expertise. Add personal details and set your availability.
 						</p>
 					</div>
-				</div>
-				<div
-					className="flex flex-col justify-center items-center p-6 bg-white w-[312px] max-md:px-5"
-					role="listitem"
-				>
+				</li>
+				<li className="flex flex-col justify-center items-center p-6 bg-white w-[312px] max-md:px-5">
 					<div className="flex gap-2.5 items-center p-5 w-20 h-20 bg-rose-100">
 						<PiPlayCircle
 							className="object-contain w-10 h-10 aspect-square"
@@ -101,11 +92,8 @@ export default function SectionTwo() {
 							price. Make sure your course is engaging and informative.
 						</p>
 					</div>
-				</div>
-				<div
-					className="flex flex-col justify-center items-center p-6 bg-white w-[312px] max-md:px-5"
-					role="listitem"
-				>
+				</li>
+				<li className="flex flex-col justify-center items-center p-6 bg-white w-[312px] max-md:px-5">
 					<div className="flex gap-2.5 items-center p-5 w-20 h-20 bg-green-100">
 						<PiHandshake
 							className="object-contain w-10 h-10 aspect-square"
@@ -121,7 +109,7 @@ export default function SectionTwo() {
 							Engage with learners and grow your teaching reputation.
 						</p>
 					</div>
-				</div>
+				</li>
 			</div>
 		</div>
 	);
