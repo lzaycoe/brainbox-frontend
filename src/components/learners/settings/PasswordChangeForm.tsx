@@ -18,30 +18,7 @@
  *
  *  ======================================================================
  */
-'use client';
-
 import { ZodError, z } from 'zod';
-
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
 
 const passwordSchema = z
 	.object({
@@ -83,11 +60,15 @@ export default function PasswordChangeForm() {
 		<form onSubmit={handleSubmit} className="space-y-6 max-w-xl">
 			{/* Current Password */}
 			<div>
-				<label className="block text-sm mb-2 font-semibold">
+				<label
+					htmlFor="currentPassword"
+					className="block text-sm mb-2 font-semibold"
+				>
 					Current Password
 				</label>
 				<div className="relative">
 					<input
+						id="currentPassword"
 						name="currentPassword"
 						type="password"
 						placeholder="Enter your current password"
@@ -99,9 +80,15 @@ export default function PasswordChangeForm() {
 
 			{/* New Password */}
 			<div>
-				<label className="block text-sm mb-2 font-semibold">New Password</label>
+				<label
+					htmlFor="newPassword"
+					className="block text-sm mb-2 font-semibold"
+				>
+					New Password
+				</label>
 				<div className="relative">
 					<input
+						id="newPassword"
 						name="newPassword"
 						type="password"
 						placeholder="Enter your new password"
@@ -113,11 +100,15 @@ export default function PasswordChangeForm() {
 
 			{/* Confirm Password */}
 			<div>
-				<label className="block text-sm mb-2 font-semibold">
+				<label
+					htmlFor="confirmPassword"
+					className="block text-sm mb-2 font-semibold"
+				>
 					Confirm Password
 				</label>
 				<div className="relative">
 					<input
+						id="confirmPassword"
 						name="confirmPassword"
 						type="password"
 						placeholder="Confirm your new password"

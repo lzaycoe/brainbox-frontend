@@ -60,8 +60,14 @@ export default function ProfileForm() {
 		<form onSubmit={handleSubmit} className="space-y-6">
 			<div className="grid grid-cols-2 gap-4">
 				<div>
-					<label className="block text-sm mb-2 font-semibold">First name</label>
+					<label
+						htmlFor="firstName"
+						className="block text-sm mb-2 font-semibold"
+					>
+						First name
+					</label>
 					<input
+						id="firstName"
 						name="firstName"
 						type="text"
 						placeholder="First name"
@@ -70,8 +76,14 @@ export default function ProfileForm() {
 					/>
 				</div>
 				<div>
-					<label className="block text-sm mb-2 font-semibold">Last name</label>
+					<label
+						htmlFor="lastName"
+						className="block text-sm mb-2 font-semibold"
+					>
+						Last name
+					</label>
 					<input
+						id="lastName"
 						name="lastName"
 						type="text"
 						placeholder="Last name"
@@ -82,8 +94,11 @@ export default function ProfileForm() {
 			</div>
 
 			<div>
-				<label className="block text-sm mb-2 font-semibold">Username</label>
+				<label htmlFor="username" className="block text-sm mb-2 font-semibold">
+					Username
+				</label>
 				<input
+					id="username"
 					name="username"
 					type="text"
 					placeholder="Enter your username"
@@ -93,8 +108,11 @@ export default function ProfileForm() {
 			</div>
 
 			<div>
-				<label className="block text-sm mb-2 font-semibold">Email</label>
+				<label htmlFor="email" className="block text-sm mb-2 font-semibold">
+					Email
+				</label>
 				<input
+					id="email"
 					name="email"
 					type="email"
 					placeholder="Email address"
@@ -104,9 +122,12 @@ export default function ProfileForm() {
 			</div>
 
 			<div>
-				<label className="block text-sm mb-2 font-semibold">Title</label>
+				<label htmlFor="title" className="block text-sm mb-2 font-semibold">
+					Title
+				</label>
 				<div className="relative">
 					<input
+						id="title"
 						name="title"
 						type="text"
 						placeholder="Your title, profession or small biography"
