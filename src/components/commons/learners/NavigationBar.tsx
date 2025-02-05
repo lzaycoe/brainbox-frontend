@@ -26,12 +26,12 @@ export default function NavigationBar() {
 	const pathname = usePathname();
 	const navItems = [
 		{ label: 'Dashboard', path: '/dashboard' },
-		{ label: 'Courses', path: '/learners/courses' },
-		{ label: 'Teachers', path: '/learners/teachers' },
-		{ label: 'Message', path: '/learners/message' },
-		{ label: 'Wishlist', path: '/learners/wishlist' },
-		{ label: 'Purchase History', path: '/learners/purchase-history' },
-		{ label: 'Settings', path: '/learners/setting' },
+		{ label: 'Courses', path: '/courses' },
+		{ label: 'Teachers', path: '/teachers' },
+		{ label: 'Message', path: '/message' },
+		{ label: 'Wishlist', path: '/wishlist' },
+		{ label: 'Purchase History', path: '/purchase-history' },
+		{ label: 'Settings', path: '/setting' },
 	];
 
 	return (
