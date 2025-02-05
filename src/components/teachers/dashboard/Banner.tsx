@@ -26,7 +26,7 @@ import { Progress } from '@/components/ui/progress';
 export const Banner = () => {
 	return (
 		<section
-			className="flex flex-col justify-center items-center mx-20 p-10 bg-slate-900 max-md:px-5"
+			className="flex flex-col justify-center items-center p-10 bg-slate-900 max-md:px-5 mb-6"
 			aria-label="Profile Progress Section"
 		>
 			<div className="flex flex-wrap gap-8 justify-between items-center w-full max-w-[1240px] max-md:max-w-full">
