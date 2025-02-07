@@ -1,3 +1,6 @@
+'use client';
+
+import { Star } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 
@@ -16,16 +19,14 @@ const Comment: React.FC<CommentProps> = ({
 	content,
 	rating,
 }) => {
-	const stars = Array.from({ length: 5 }, (_, index) => index < rating);
-
 	return (
-		<div className="flex flex-wrap gap-4 justify-center items-start mt-6 max-md:max-w-full">
+		<div className="flex gap-4 items-start mt-6 max-md:max-w-full">
 			<Image
 				loading="lazy"
 				src={profileImage}
 				alt={`Profile picture of ${name}`}
-				width={40} // Adjust the width as needed
-				height={40} // Adjust the height as needed
+				width={40}
+				height={40}
 				className="object-contain shrink-0 w-10 rounded-full aspect-square"
 			/>
 			<div className="flex flex-col min-w-[240px] w-[808px] max-md:max-w-full">
@@ -43,16 +44,20 @@ const Comment: React.FC<CommentProps> = ({
 						<time className="self-stretch my-auto">{timeAgo}</time>
 					</div>
 					<div
-						className="flex items-start self-start mt-2"
+						className="flex items-center mt-2"
 						role="img"
 						aria-label={`${rating} out of 5 stars rating`}
 					>
-						{stars.map((filled, index) => (
-							<span
+						{Array.from({ length: 5 }, (_, index) => (
+							<Star
 								key={index}
-								className={`flex shrink-0 w-4 h-4 ${filled ? 'bg-yellow-500' : 'bg-gray-300'}`}
-								aria-hidden="true"
-							></span>
+								size={16}
+								className={
+									index < rating
+										? 'text-yellow-500 fill-yellow-500'
+										: 'text-gray-300'
+								}
+							/>
 						))}
 					</div>
 				</div>

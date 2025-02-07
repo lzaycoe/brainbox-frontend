@@ -18,16 +18,12 @@
  *
  *  ======================================================================
  */
-import { Footer } from '@/components/commons/Footer';
-import { Header } from '@/components/commons/Header';
-import ProfileCard from '@/components/teachers/profile/ProfileCard';
+import ProfileCard from '@/components/learners/teacher-profile/ProfileCard';
 
 export default function Home() {
 	return (
 		<div>
-			<Header />
 			<ProfileCard />
-			<Footer />
 		</div>
 	);
 }

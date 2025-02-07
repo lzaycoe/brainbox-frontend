@@ -132,7 +132,7 @@ const ProfileCard: React.FC = () => {
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							<TfiWorld size={20} className="mr-2" /> {/* Thêm icon ở đây */}
+							<TfiWorld size={20} className="mr-2" />
 							https://github.com/hardingadonis
 						</a>
 
@@ -144,8 +144,16 @@ const ProfileCard: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<AboutMe />
-			<CoursesSection />
+
+			{/* Thêm div chứa AboutMe và CourseSection */}
+			<div className="flex justify-between items-start w-full px-16 mt-10 max-w-[1320px]">
+				<AboutMe />
+				<div className="w-[60%]">
+					{' '}
+					{/* Đặt chiều rộng cho CourseSection để nó căn với AboutMe */}
+					<CoursesSection />
+				</div>
+			</div>
 		</div>
 	);
 };

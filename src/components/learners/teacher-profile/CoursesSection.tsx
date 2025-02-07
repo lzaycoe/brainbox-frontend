@@ -76,7 +76,7 @@ const comments = [
 		timeAgo: '1 week ago',
 		content:
 			'I appreciate the precise short videos (10 mins or less each) because overly long videos tend to make me lose focus. The instructor is very knowledgeable in Web Design and it shows as he shares his knowledge. These were my best 6 months of training. Thanks, Vako.',
-		rating: 5,
+		rating: 5.0,
 	},
 	{
 		name: 'Dianne Russell',
@@ -84,7 +84,7 @@ const comments = [
 		timeAgo: '51 mins ago',
 		content:
 			'This course is just amazing! Great course content, best practices, and a lot of real-world knowledge. Highly recommend this course!',
-		rating: 5,
+		rating: 5.0,
 	},
 	// Other comments here...
 ];
@@ -100,20 +100,13 @@ const CourseSection: React.FC = () => {
 				<h2 className="self-stretch my-auto text-2xl font-semibold tracking-tight leading-none text-neutral-800">
 					Courses
 				</h2>
-				<div
-					className="overflow-hidden self-stretch px-5 py-3 my-auto text-base text-gray-600 bg-white border border-gray-200 border-solid w-[200px] max-md:pr-5"
-					role="status"
-					aria-label="Overall Rating"
-				>
-					5 Star Rating
-				</div>
 			</div>
 
-			<div className="flex flex-wrap gap-6 items-start">
+			<div className="grid grid-cols-2 gap-6 w-full max-md:grid-cols-1">
 				{courses.map((course) => (
 					<div
 						key={course.id}
-						className="flex flex-col justify-center pb-5 bg-white border border-gray-200 border-solid min-w-[240px] w-[424px] max-md:max-w-full"
+						className="flex flex-col justify-center pb-5 bg-white border border-gray-200 border-solid min-w-[240px] w-full max-md:w-full"
 						role="article"
 					>
 						<Image
@@ -124,12 +117,9 @@ const CourseSection: React.FC = () => {
 							height={312}
 							className="object-contain max-w-full shadow-sm"
 						/>
-						<div className="flex flex-col justify-center items-center mt-4 w-full max-w-[424px] max-md:max-w-full">
-							<div className="flex gap-10 justify-between items-center px-5 w-full whitespace-nowrap max-md:max-w-full">
-								<div
-									className="gap-2.5 self-stretch px-2 py-1.5 my-auto text-xs font-medium leading-none text-indigo-800 uppercase bg-violet-100"
-									role="badge"
-								>
+						<div className="flex flex-col justify-center items-center mt-4 w-full">
+							<div className="flex gap-10 justify-between items-center px-5 w-full whitespace-nowrap">
+								<div className="gap-2.5 self-stretch px-2 py-1.5 my-auto text-xs font-medium leading-none text-indigo-800 uppercase bg-violet-100">
 									{course.category}
 								</div>
 								<div className="self-stretch my-auto text-2xl font-semibold tracking-tight leading-none text-orange-500">
@@ -187,9 +177,18 @@ const CourseSection: React.FC = () => {
 				role="region"
 				aria-label="Student Feedback Section"
 			>
-				<h2 className="self-stretch my-auto text-2xl font-semibold tracking-tight leading-none text-neutral-800">
-					Students Feedback
-				</h2>
+				<div className="flex items-center space-x-4">
+					<h2 className="self-stretch my-auto text-2xl font-semibold tracking-tight leading-none text-neutral-800">
+						Students Feedback
+					</h2>
+					<div
+						className="overflow-hidden self-stretch px-5 py-3 my-auto text-base text-gray-600 bg-white border border-gray-200 border-solid w-[200px] max-md:pr-5"
+						role="status"
+						aria-label="Overall Rating"
+					>
+						5 Star Rating
+					</div>
+				</div>
 				{comments.map((comment, index) => (
 					<React.Fragment key={index}>
 						<Comment
