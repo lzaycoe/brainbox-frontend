@@ -1,5 +1,6 @@
 'use client';
 
+import classNames from 'clsx';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
@@ -12,6 +13,25 @@ interface CommentProps {
 	rating: number;
 }
 
+// Tách phần đánh giá sao ra thành một component riêng biệt
+const Rating: React.FC<{ rating: number }> = ({ rating }) => (
+	<div
+		className="flex items-center"
+		role="img"
+		aria-label={`${rating} out of 5 stars rating`}
+	>
+		{Array.from({ length: 5 }, (_, index) => (
+			<Star
+				key={index}
+				size={16}
+				className={classNames(
+					index < rating ? 'text-yellow-500' : 'text-gray-300',
+				)}
+			/>
+		))}
+	</div>
+);
+
 const Comment: React.FC<CommentProps> = ({
 	name,
 	profileImage,
@@ -20,50 +40,32 @@ const Comment: React.FC<CommentProps> = ({
 	rating,
 }) => {
 	return (
-		<div className="flex gap-4 items-start mt-6 max-md:max-w-full">
-			<Image
-				loading="lazy"
-				src={profileImage}
-				alt={`Profile picture of ${name}`}
-				width={40}
-				height={40}
-				className="object-contain shrink-0 w-10 rounded-full aspect-square"
-			/>
-			<div className="flex flex-col min-w-[240px] w-[808px] max-md:max-w-full">
-				<div className="flex flex-col self-start">
-					<div className="flex gap-2 items-center text-xs leading-none text-gray-500">
-						<span className="self-stretch my-auto text-sm font-medium tracking-normal leading-none text-right text-neutral-800">
-							{name}
-						</span>
-						<span
-							className="self-stretch my-auto text-right"
-							aria-hidden="true"
-						>
-							•
-						</span>
-						<time className="self-stretch my-auto">{timeAgo}</time>
+		<div className="mt-6">
+			<div className="flex gap-4 items-start max-md:max-w-full">
+				{/* Avatar */}
+				<Image
+					loading="lazy"
+					src={profileImage}
+					alt={`Profile picture of ${name}`}
+					width={40}
+					height={40}
+					className="object-cover rounded-full w-10 h-10"
+				/>
+				<div className="flex flex-col min-w-[240px] w-full max-md:max-w-full">
+					{/* Header: Name, Time, Rating */}
+					<div className="flex flex-col self-start">
+						<div className="flex gap-2 items-center text-xs text-gray-500">
+							<span className="text-sm font-medium text-neutral-800">
+								{name}
+							</span>
+							<span aria-hidden="true">•</span>
+							<time>{timeAgo}</time>
+						</div>
+						<Rating rating={rating} />
 					</div>
-					<div
-						className="flex items-center mt-2"
-						role="img"
-						aria-label={`${rating} out of 5 stars rating`}
-					>
-						{Array.from({ length: 5 }, (_, index) => (
-							<Star
-								key={index}
-								size={16}
-								className={
-									index < rating
-										? 'text-yellow-500 fill-yellow-500'
-										: 'text-gray-300'
-								}
-							/>
-						))}
-					</div>
+					{/* Content */}
+					<p className="mt-3 text-sm text-gray-600">{content}</p>
 				</div>
-				<p className="mt-3 text-sm tracking-normal leading-6 text-gray-600 max-md:max-w-full">
-					{content}
-				</p>
 			</div>
 		</div>
 	);

@@ -1,9 +1,11 @@
 import Image from 'next/image';
-import { FaFacebookF } from 'react-icons/fa';
-import { FaTwitter } from 'react-icons/fa';
-import { FaInstagram } from 'react-icons/fa';
-import { FaYoutube } from 'react-icons/fa';
-import { FaLinkedinIn } from 'react-icons/fa';
+import {
+	FaFacebookF,
+	FaInstagram,
+	FaLinkedinIn,
+	FaTwitter,
+	FaYoutube,
+} from 'react-icons/fa';
 import { IoStarOutline } from 'react-icons/io5';
 import { MdVideoLibrary } from 'react-icons/md';
 import { PiStudentDuotone } from 'react-icons/pi';
@@ -11,6 +13,7 @@ import { TfiWorld } from 'react-icons/tfi';
 
 import CoursesSection from './CoursesSection';
 
+// Reusable stat item component
 interface StatItemProps {
 	icon: React.ReactNode;
 	value: string | number;
@@ -22,7 +25,7 @@ const StatItem: React.FC<StatItemProps> = ({ icon, value, label }) => (
 		{icon === 'star' ? (
 			<IoStarOutline size={24} className="text-yellow-500" />
 		) : (
-			<>{icon}</>
+			icon
 		)}
 		<div className="flex items-center">
 			<span className="text-base font-medium text-neutral-800">{value}</span>
@@ -31,15 +34,14 @@ const StatItem: React.FC<StatItemProps> = ({ icon, value, label }) => (
 	</div>
 );
 
+// Reusable social link component
 interface SocialLinkProps {
 	link: string;
 	icon: React.ReactNode;
-	index: number;
 }
 
-const SocialLink: React.FC<SocialLinkProps> = ({ link, icon, index }) => (
+const SocialLink: React.FC<SocialLinkProps> = ({ link, icon }) => (
 	<a
-		key={index}
 		href={link}
 		target="_blank"
 		rel="noopener noreferrer"
@@ -49,33 +51,27 @@ const SocialLink: React.FC<SocialLinkProps> = ({ link, icon, index }) => (
 	</a>
 );
 
+// AboutMe Component
 const AboutMe: React.FC = () => (
 	<div className="flex flex-col justify-center items-center p-6 bg-white border border-gray-200 border-solid max-w-[424px]">
-		<div className="flex flex-col w-full">
-			<h2 className="text-lg font-medium leading-none uppercase text-neutral-800">
-				About Me
-			</h2>
-			<div className="mt-4 text-sm tracking-normal leading-6 text-gray-500">
-				<p>
-					One day Vako had enough with the 9-to-5 grind, or more like 9-to-9 in
-					his case, and quit his job, or more like got himself fired from his
-					own startup.
-				</p>
-				<p className="mt-4">
-					He decided to work on his dream: be his own boss, travel the world,
-					only do the work he enjoyed, and make a lot more money in the process.
-					No more begging for vacation days and living from paycheck to
-					paycheck. After trying everything from e-commerce stores to
-					professional poker, his lucky break came when he started freelance
-					design. Vako fell in love with the field that gives him the lifestyle
-					of his dreams.
-				</p>
-				<p className="mt-4">
-					Vako realizes that people who take courses on Udemy want to transform
-					their lives. Today with his courses and mentoring, Vako is helping
-					thousands of people transform their lives, just like he did once.
-				</p>
-			</div>
+		<h2 className="text-lg font-medium leading-none uppercase text-neutral-800">
+			About Me
+		</h2>
+		<div className="mt-4 text-sm tracking-normal leading-6 text-gray-500">
+			<p>
+				One day Vako had enough with the 9-to-5 grind, or more like 9-to-9 in
+				his case, and quit his job, or more like got himself fired from his own
+				startup.
+			</p>
+			<p className="mt-4">
+				He decided to work on his dream: be his own boss, travel the world, only
+				do the work he enjoyed, and make a lot more money in the process.
+			</p>
+			<p className="mt-4">
+				Vako realizes that people who take courses on Udemy want to transform
+				their lives. Today with his courses and mentoring, Vako is helping
+				thousands of people transform their lives, just like he did once.
+			</p>
 		</div>
 	</div>
 );
@@ -101,7 +97,7 @@ const ProfileCard: React.FC = () => {
 
 	return (
 		<div className="flex flex-col pb-20">
-			<div className="flex flex-col items-center px-16 pt-20 w-full bg-rose-100">
+			<div className="flex flex-col items-center px-6 pt-10 w-full bg-rose-100">
 				<div className="flex flex-wrap gap-10 justify-between items-center p-10 w-full bg-white border border-rose-200 max-w-[1320px]">
 					<div className="flex flex-wrap gap-6 justify-between items-center">
 						<Image
@@ -138,19 +134,17 @@ const ProfileCard: React.FC = () => {
 
 						<div className="flex gap-2 mt-4">
 							{socialLinks.map((social, index) => (
-								<SocialLink key={index} {...social} index={index} />
+								<SocialLink key={index} {...social} />
 							))}
 						</div>
 					</div>
 				</div>
 			</div>
 
-			{/* Thêm div chứa AboutMe và CourseSection */}
+			{/* AboutMe and CourseSection */}
 			<div className="flex justify-between items-start w-full px-16 mt-10 max-w-[1320px]">
 				<AboutMe />
 				<div className="w-[60%]">
-					{' '}
-					{/* Đặt chiều rộng cho CourseSection để nó căn với AboutMe */}
 					<CoursesSection />
 				</div>
 			</div>
