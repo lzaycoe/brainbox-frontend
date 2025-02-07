@@ -18,6 +18,13 @@
  *
  *  ======================================================================
  */
+import {
+	SignInButton,
+	SignUpButton,
+	SignedIn,
+	SignedOut,
+	UserButton,
+} from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -167,18 +174,24 @@ export const Header = () => {
 						</Button>
 					</div>
 					<div className="flex gap-2 items-start self-stretch my-auto min-w-[240px]">
-						<Link
-							href="/signup"
-							className="gap-3 self-stretch px-6 py-2 text-orange-500 bg-rose-100 rounded hover:bg-rose-200 focus:ring-2 focus:ring-orange-500 focus:outline-none max-md:px-5"
-						>
-							Create Account
-						</Link>
-						<Link
-							href="/signin"
-							className="gap-3 self-stretch px-6 py-2 text-white bg-orange-500 rounded hover:bg-orange-600 focus:ring-2 focus:ring-orange-500 focus:outline-none max-md:px-5"
-						>
-							Sign In
-						</Link>
+						<SignedOut>
+							<div className="gap-3 self-stretch px-6 py-2 text-orange-500 bg-rose-100 rounded hover:bg-rose-200 focus:ring-2 focus:ring-orange-500 focus:outline-none max-md:px-5">
+								<SignUpButton />
+							</div>
+							<div className="gap-3 self-stretch px-6 py-2 text-white bg-orange-500 rounded hover:bg-orange-600 focus:ring-2 focus:ring-orange-500 focus:outline-none max-md:px-5">
+								<SignInButton />
+							</div>
+						</SignedOut>
+						<SignedIn>
+							<UserButton
+								appearance={{
+									elements: {
+										avatarBox: 'w-12 h-12 border border-orange-400 shadow-lg',
+										userButtonPopoverCard: 'bg-white shadow-xl rounded-lg p-4',
+									},
+								}}
+							/>
+						</SignedIn>
 					</div>
 				</div>
 			</div>
