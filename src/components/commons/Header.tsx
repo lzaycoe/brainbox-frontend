@@ -1,29 +1,12 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
+'use client';
+
 import {
 	SignInButton,
 	SignUpButton,
 	SignedIn,
 	SignedOut,
 	UserButton,
+	useClerk,
 } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -31,7 +14,14 @@ import React from 'react';
 import { FaRegHeart } from 'react-icons/fa';
 import { FiSearch, FiShoppingCart } from 'react-icons/fi';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { PiBell } from 'react-icons/pi';
+import {
+	PiArrowCircleRightDuotone,
+	PiBell,
+	PiCreditCardDuotone,
+	PiGearDuotone,
+	PiStackDuotone,
+	PiUserCircleDuotone,
+} from 'react-icons/pi';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -42,6 +32,53 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export const Header = () => {
+	const { signOut } = useClerk();
+
+	const menuItems = [
+		{
+			label: 'My Profile',
+			icon: PiUserCircleDuotone,
+			action: () => console.log('Go to Profile'),
+		},
+		{
+			label: 'My Courses',
+			icon: PiStackDuotone,
+			action: () => console.log('Đơn hàng của tôi'),
+		},
+		{
+			label: 'Payments History',
+			icon: PiCreditCardDuotone,
+			action: () => console.log('Lịch sử thanh toán'),
+		},
+		{
+			label: 'Setting',
+			icon: PiGearDuotone,
+			action: () => console.log('Settings'),
+		},
+		{ label: 'Sign Out', icon: PiArrowCircleRightDuotone, action: signOut },
+	];
+
+	const MenuItem = ({
+		label,
+		icon: Icon,
+		action,
+	}: {
+		label: string;
+		icon: React.ComponentType<{
+			className?: string;
+			style?: React.CSSProperties;
+		}>;
+		action: () => void;
+	}) => (
+		<DropdownMenuItem onClick={action} className="text-base">
+			<Icon
+				className="text-orange-500"
+				style={{ width: '2rem', height: '2rem' }}
+			/>
+			{label}
+		</DropdownMenuItem>
+	);
+
 	return (
 		<div className="flex flex-col justify-center items-center sticky top-0 z-50 bg-neutral-800">
 			<nav
@@ -183,14 +220,30 @@ export const Header = () => {
 							</div>
 						</SignedOut>
 						<SignedIn>
-							<UserButton
-								appearance={{
-									elements: {
-										avatarBox: 'w-12 h-12 border border-orange-400 shadow-lg',
-										userButtonPopoverCard: 'bg-white shadow-xl rounded-lg p-4',
-									},
-								}}
-							/>
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<Button variant="ghost" className="p-0">
+										<UserButton
+											appearance={{
+												elements: {
+													avatarBox:
+														'w-12 h-12 border border-orange-400 shadow-lg',
+													userButtonPopoverCard:
+														'bg-white shadow-xl rounded-lg p-4',
+												},
+											}}
+										/>
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent
+									align="end"
+									className="bg-white shadow-lg rounded-lg p-2"
+								>
+									{menuItems.map((item) => (
+										<MenuItem key={item.label} {...item} />
+									))}
+								</DropdownMenuContent>
+							</DropdownMenu>
 						</SignedIn>
 					</div>
 				</div>
