@@ -23,6 +23,7 @@ import {
 	PiUserCircleDuotone,
 } from 'react-icons/pi';
 
+import MenuItem from '@/components/commons/MenuItem';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -57,27 +58,6 @@ export const Header = () => {
 		},
 		{ label: 'Sign Out', icon: PiArrowCircleRightDuotone, action: signOut },
 	];
-
-	const MenuItem = ({
-		label,
-		icon: Icon,
-		action,
-	}: {
-		label: string;
-		icon: React.ComponentType<{
-			className?: string;
-			style?: React.CSSProperties;
-		}>;
-		action: () => void;
-	}) => (
-		<DropdownMenuItem onClick={action} className="text-base">
-			<Icon
-				className="text-orange-500"
-				style={{ width: '2rem', height: '2rem' }}
-			/>
-			{label}
-		</DropdownMenuItem>
-	);
 
 	return (
 		<div className="flex flex-col justify-center items-center sticky top-0 z-50 bg-neutral-800">
