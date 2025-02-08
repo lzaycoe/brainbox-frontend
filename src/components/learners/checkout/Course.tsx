@@ -27,12 +27,14 @@ export default function CourseList() {
 			author: 'John Doe',
 			title: 'Introduction to React',
 			price: '$99',
+			id: 1,
 		},
 		{
 			image: '/app/checkout/course.png',
 			author: 'Jane Smith',
 			title: 'Advanced JavaScript',
 			price: '$120',
+			id: 2,
 		},
 	];
 
@@ -47,11 +49,11 @@ export default function CourseList() {
 			<h2 className="text-xl mb-4">Courses</h2>
 			{/* Course Items */}
 			<div className="space-y-4">
-				{courses.map((course, index) => (
-					<div key={index} className="flex items-center gap-4">
+				{courses.map((course) => (
+					<div key={course.id} className="flex items-center gap-4">
 						<Image
 							src={course.image}
-							alt={`Course ${index + 1}`}
+							alt={`Course: ${course.title}`}
 							width={96}
 							height={80}
 							className="object-cover"
