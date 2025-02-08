@@ -1,26 +1,17 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
+import { LogOut, User } from 'lucide-react';
 import Image from 'next/image';
-import React from 'react';
+import Link from 'next/link';
 import { PiBell, PiMagnifyingGlass } from 'react-icons/pi';
+
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export const Header = () => {
 	return (
@@ -30,7 +21,7 @@ export const Header = () => {
 			aria-label="Dashboard Header"
 		>
 			{/* Greeting Section */}
-			<div className="flex flex-col self-stretch my-auto min-w-[240px] w-[312px]">
+			<div className="flex flex-col self-stretch my-auto min-w-[240px] w-[312px] max-md:w-full">
 				<div
 					className="text-sm font-medium tracking-normal leading-none text-gray-500"
 					aria-label="Time of Day Greeting"
@@ -46,10 +37,10 @@ export const Header = () => {
 			</div>
 
 			{/* Search and Actions Section */}
-			<div className="flex gap-4 items-start self-stretch my-auto min-w-[240px] max-md:max-w-full">
+			<div className="flex gap-4 items-start self-stretch my-auto min-w-[240px] max-md:w-full">
 				{/* Search Bar */}
 				<form
-					className="flex overflow-hidden flex-col justify-center items-start px-5 py-3 text-base text-gray-400 whitespace-nowrap bg-slate-100 min-w-[240px] w-[312px] max-md:pr-5"
+					className="flex overflow-hidden flex-col justify-center items-start px-5 py-3 text-base text-gray-400 whitespace-nowrap bg-slate-100 min-w-[240px] w-[312px] max-md:w-full"
 					role="search"
 				>
 					<div className="flex gap-3 items-center">
@@ -69,21 +60,40 @@ export const Header = () => {
 
 				{/* Notifications Button */}
 				<button
-					className="flex gap-2.5 items-center p-3 w-12 h-full bg-slate-100"
+					className="flex gap-2.5 items-center p-3 w-12 h-full bg-slate-100 max-md:w-auto"
 					aria-label="Notifications"
 				>
 					<PiBell className="w-8 h-8" />
 				</button>
 
-				{/* User Profile Picture */}
-				<Image
-					loading="lazy"
-					src="/app/lazyavt.png"
-					className="object-contain shrink-0 w-12 rounded-full aspect-square"
-					alt="User Profile Picture"
-					width={48}
-					height={48}
-				/>
+				{/* User Profile Dropdown */}
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Image
+							loading="lazy"
+							src="/app/lazyavt.png"
+							className="object-contain shrink-0 w-12 rounded-full aspect-square cursor-pointer"
+							alt="User Profile Picture"
+							width={48}
+							height={48}
+						/>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent className="w-36">
+						<DropdownMenuLabel>My Account</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuGroup>
+							<DropdownMenuItem>
+								<User />
+								<Link href="/teachers/profile">Profile</Link>
+							</DropdownMenuItem>
+						</DropdownMenuGroup>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>
+							<LogOut />
+							<Link href="/">Log out</Link>
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 			</div>
 		</header>
 	);
