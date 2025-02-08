@@ -36,16 +36,18 @@ export default function PaymentForm() {
 							number: '4855 **** **** ****',
 							expiry: '04/24',
 							name: 'Vako Shvili',
+							id: 1,
 						},
 						{
 							logo: '/app/checkout/image_2.png',
 							number: '5795 **** **** ****',
 							expiry: '04/24',
 							name: 'Vako Shvili',
+							id: 2,
 						},
-					].map((card, index) => (
+					].map((card) => (
 						<div
-							key={index}
+							key={card.id}
 							className="flex flex-nowrap items-center justify-between px-6 py-2.5 mt-4 tracking-normal bg-white border border-gray-200 border-solid max-md:px-5 max-md:max-w-full"
 						>
 							<Image
@@ -93,9 +95,8 @@ export default function PaymentForm() {
 						</div>
 					</div>
 
-					<div
+					<section
 						className="flex flex-nowrap items-center justify-between px-6 py-3.5 mt-4 w-full text-xs leading-none text-gray-400 bg-white border border-gray-200 border-solid max-md:px-5 max-md:max-w-full"
-						role="region"
 						aria-label="New Payment Cards"
 					>
 						<div className="flex items-center">
@@ -105,7 +106,7 @@ export default function PaymentForm() {
 							</span>
 						</div>
 						<PiCheckCircleFill className="ml-auto w-6 h-6 text-[#23BD33]" />
-					</div>
+					</section>
 				</div>
 
 				<div className="flex flex-col mt-6 w-full max-md:max-w-full">
