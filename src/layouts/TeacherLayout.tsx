@@ -32,7 +32,10 @@ const TeacherLayout = ({
 	return (
 		<div className="flex">
 			<SideBar />
-			<div className="flex flex-col flex-grow w-full">
+			<div
+				className="flex flex-col flex-grow w-full"
+				style={{ marginLeft: '300px' }}
+			>
 				<Header />
 				<main className="flex-grow bg-[#f5f7fa]">{children}</main>
 				<Footer />

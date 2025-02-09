@@ -18,42 +18,38 @@
  *
  *  ======================================================================
  */
-import { ClerkProvider } from '@clerk/nextjs';
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import React from 'react';
+import { IconType } from 'react-icons';
 
-import '@/app/globals.css';
-import MainLayout from '@/layouts/MainLayout';
+interface StatisticItemProps {
+	icon: IconType;
+	iconColor?: string;
+	alt: string;
+	text1: string;
+	text2: string;
+}
 
-const geistSans = Geist({
-	variable: '--font-geist-sans',
-	subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
-	subsets: ['latin'],
-});
-
-export const metadata: Metadata = {
-	title: 'BrainBox | E-Learning Platform',
-	description: 'An e-learning platform built with Next.js and Shadcn UI',
+const StatisticItem: React.FC<StatisticItemProps> = ({
+	icon: Icon,
+	iconColor = '#000',
+	alt,
+	text1,
+	text2,
+}) => {
+	return (
+		<div className="flex gap-4">
+			<div
+				aria-label={alt}
+				className="object-contain w-10 h-10 flex items-center justify-center"
+			>
+				<Icon className="w-full h-full" style={{ color: iconColor }} />
+			</div>
+			<div>
+				<div className="text-3xl font-semibold text-neutral-800">{text1}</div>
+				<div className="mt-1 text-sm text-gray-600">{text2}</div>
+			</div>
+		</div>
+	);
 };
 
-export default function RootLayout({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
-	return (
-		<ClerkProvider>
-			<html lang="en">
-				<body
-					className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
-				>
-					<MainLayout>{children}</MainLayout>
-				</body>
-			</html>
-		</ClerkProvider>
-	);
-}
+export default StatisticItem;

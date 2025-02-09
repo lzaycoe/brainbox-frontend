@@ -18,42 +18,22 @@
  *
  *  ======================================================================
  */
-import { ClerkProvider } from '@clerk/nextjs';
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import CourseList from '@/components/learners/checkout/Course';
+import Header from '@/components/learners/checkout/Header';
+import PaymentForm from '@/components/learners/checkout/PaymentForm';
 
-import '@/app/globals.css';
-import MainLayout from '@/layouts/MainLayout';
-
-const geistSans = Geist({
-	variable: '--font-geist-sans',
-	subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
-	subsets: ['latin'],
-});
-
-export const metadata: Metadata = {
-	title: 'BrainBox | E-Learning Platform',
-	description: 'An e-learning platform built with Next.js and Shadcn UI',
-};
-
-export default function RootLayout({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
+export default function Checkout() {
 	return (
-		<ClerkProvider>
-			<html lang="en">
-				<body
-					className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
-				>
-					<MainLayout>{children}</MainLayout>
-				</body>
-			</html>
-		</ClerkProvider>
+		<div>
+			<Header />
+			<div className="flex flex-wrap gap-6 justify-center items-start p-6 bg-white min-h-screen">
+				<div className="flex-1 max-w-[600px] flex flex-col justify-end">
+					<PaymentForm />
+				</div>
+				<div className="flex-1 max-w-[600px] flex flex-col justify-center items-center">
+					<CourseList />
+				</div>
+			</div>
+		</div>
 	);
 }

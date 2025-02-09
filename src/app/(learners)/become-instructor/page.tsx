@@ -18,42 +18,26 @@
  *
  *  ======================================================================
  */
-import { ClerkProvider } from '@clerk/nextjs';
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import InstructorSection from '@/components/learners/becomeATeacher/InstructorSection';
+import SectionFive from '@/components/learners/becomeATeacher/SectionFive';
+import SectionFour from '@/components/learners/becomeATeacher/SectionFour';
+import SectionOne from '@/components/learners/becomeATeacher/SectionOne';
+import SectionSix from '@/components/learners/becomeATeacher/SectionSix';
+import SectionThree from '@/components/learners/becomeATeacher/SectionThree';
+import SectionTwo from '@/components/learners/becomeATeacher/SectionTwo';
+import Statistic from '@/components/learners/becomeATeacher/Statistic';
 
-import '@/app/globals.css';
-import MainLayout from '@/layouts/MainLayout';
-
-const geistSans = Geist({
-	variable: '--font-geist-sans',
-	subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
-	subsets: ['latin'],
-});
-
-export const metadata: Metadata = {
-	title: 'BrainBox | E-Learning Platform',
-	description: 'An e-learning platform built with Next.js and Shadcn UI',
-};
-
-export default function RootLayout({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
+export default function Home() {
 	return (
-		<ClerkProvider>
-			<html lang="en">
-				<body
-					className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
-				>
-					<MainLayout>{children}</MainLayout>
-				</body>
-			</html>
-		</ClerkProvider>
+		<>
+			<InstructorSection />
+			<Statistic />
+			<SectionOne />
+			<SectionTwo />
+			<SectionThree />
+			<SectionFour />
+			<SectionFive />
+			<SectionSix />
+		</>
 	);
 }
