@@ -23,6 +23,7 @@ import BecomeTeacherSteps from '@/components/home/BecomeTeacherSteps';
 import { BrowseCategories } from '@/components/home/BrowseCategories';
 import ListCourseCard from '@/components/home/ListCourseCard';
 import ListCourseCardLandscape from '@/components/home/ListCourseCardLandscape';
+import ListTeacherCard from '@/components/home/ListTeacherCard';
 
 export default function Home() {
 	return (
@@ -32,6 +33,7 @@ export default function Home() {
 			<ListCourseCard />
 			<ListCourseCardLandscape />
 			<BecomeTeacherSteps />
+			<ListTeacherCard />
 		</div>
 	);
 }
