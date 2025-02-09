@@ -1,4 +1,7 @@
-import React from 'react';
+'use client';
+
+import { usePathname } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 import { Footer } from '@/components/commons/teachers/Footer';
 import { Header } from '@/components/commons/teachers/Header';
@@ -9,14 +12,24 @@ const TeacherLayout = ({
 }: Readonly<{
 	children: React.ReactNode;
 }>) => {
+	const pathname = usePathname();
+	const [title, setTitle] = useState('Dashboard');
+
+	useEffect(() => {
+		if (pathname.includes('/teachers/dashboard')) {
+			setTitle('Dashboard');
+		} else if (pathname.includes('/teachers/setting')) {
+			setTitle('Settings');
+		} else {
+			setTitle('Teacher Portal');
+		}
+	}, [pathname]);
+
 	return (
-		<div className="flex">
+		<div className="flex min-h-screen">
 			<SideBar />
-			<div
-				className="flex flex-col flex-grow w-full"
-				style={{ marginLeft: '300px' }}
-			>
-				<Header />
+			<div className="flex flex-col flex-grow w-full">
+				<Header title={title} />
 				<main className="flex-grow bg-[#f5f7fa]">{children}</main>
 				<Footer />
 			</div>
