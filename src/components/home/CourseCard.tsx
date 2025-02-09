@@ -35,11 +35,11 @@ const CourseCard: React.FC<CourseCardProps> = ({
 	students,
 }) => {
 	return (
-		<Card className="flex flex-col justify-center bg-white max-w-[244px] transition-transform transform hover:scale-105 cursor-pointer">
+		<Card className="flex flex-col justify-center bg-white max-w-[244px] transition-transform transform hover:scale-105 cursor-pointer group hover:shadow-2xl">
 			<Image
 				loading="lazy"
 				src={imageUrl}
-				className="object-contain w-full shadow-sm aspect-[1.33] rounded-t-lg"
+				className="object-cover w-full shadow-sm aspect-[1.33] rounded-t-lg"
 				alt="Course thumbnail image"
 				width={244}
 				height={183}
@@ -72,7 +72,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 						</Button>
 					</div>
 				</div>
-				<CardTitle className="mt-2.5 text-sm font-bold tracking-normal leading-5 text-neutral-800 hover:underline line-clamp-2 min-h-[2.5rem]">
+				<CardTitle className="mt-2.5 text-sm font-bold tracking-normal leading-5 text-neutral-800 group-hover:text-orange-500 line-clamp-2 min-h-[2.5rem]">
 					{title}
 				</CardTitle>
 			</CardContent>
