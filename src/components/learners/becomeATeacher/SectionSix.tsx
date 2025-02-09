@@ -50,7 +50,7 @@ export default function SectionSix() {
 					<div className="col-span-1"></div>
 					<div className="md:w-1/2 flex justify-end">
 						<Image
-							src="/app/become_a_teacher_6.png"
+							src="/app/become_a_teacher/become_a_teacher_6.png"
 							alt="Instructor teaching students"
 							className="object-contain w-full h-auto"
 							width={500}

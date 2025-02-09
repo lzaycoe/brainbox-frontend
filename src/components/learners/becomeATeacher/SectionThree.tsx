@@ -65,7 +65,7 @@ export default function SectionThree() {
 					<div className="md:w-1/2 flex justify-end">
 						<Image
 							loading="lazy"
-							src="/app/become_a_teacher_3.png"
+							src="/app/become_a_teacher/become_a_teacher_3.png"
 							alt="Instructor rules and regulations illustration"
 							className="object-contain w-full h-auto"
 							width={500}

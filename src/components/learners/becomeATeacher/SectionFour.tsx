@@ -30,7 +30,7 @@ export default function SectionFour() {
 				<div className="col-span-10 flex flex-col md:flex-row items-center gap-8">
 					<div className="md:w-1/2 flex justify-center">
 						<Image
-							src="/app/become_a_teacher_4.png"
+							src="/app/become_a_teacher/become_a_teacher_4.png"
 							alt="Support team illustration"
 							className="object-contain w-full h-auto"
 							width={500}

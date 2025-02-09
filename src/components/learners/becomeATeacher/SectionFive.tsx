@@ -77,7 +77,7 @@ export default function SectionFive() {
 											<div className="flex flex-col w-[39%] max-md:ml-0 max-md:w-full">
 												<Image
 													loading="lazy"
-													src="/app/become_a_teacher_5.1.png"
+													src="/app/become_a_teacher/become_a_teacher_5.1.png"
 													alt="Instructor success story 1"
 													width={129}
 													height={129}
@@ -87,7 +87,7 @@ export default function SectionFive() {
 											<div className="flex flex-col ml-5 w-[61%] max-md:ml-0 max-md:w-full">
 												<Image
 													loading="lazy"
-													src="/app/become_a_teacher_5.2.png"
+													src="/app/become_a_teacher/become_a_teacher_5.2.png"
 													alt="Instructor success story 2"
 													width={200}
 													height={200}
@@ -98,7 +98,7 @@ export default function SectionFive() {
 									</div>
 									<Image
 										loading="lazy"
-										src="/app/become_a_teacher_5.7.png"
+										src="/app/become_a_teacher/become_a_teacher_5.7.png"
 										alt="Instructor success story 3"
 										width={536}
 										height={536}
@@ -109,7 +109,7 @@ export default function SectionFive() {
 											<div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
 												<Image
 													loading="lazy"
-													src="/app/become_a_teacher_5.4.png"
+													src="/app/become_a_teacher/become_a_teacher_5.4.png"
 													alt="Instructor success story 4"
 													width={200}
 													height={200}
@@ -119,7 +119,7 @@ export default function SectionFive() {
 											<div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
 												<Image
 													loading="lazy"
-													src="/app/become_a_teacher_5.3.png"
+													src="/app/become_a_teacher/become_a_teacher_5.3.png"
 													alt="Instructor success story 5"
 													width={200}
 													height={128}
@@ -134,7 +134,7 @@ export default function SectionFive() {
 								<div className="flex flex-col items-start self-stretch my-auto max-md:mt-10">
 									<Image
 										loading="lazy"
-										src="/app/become_a_teacher_5.8.png"
+										src="/app/become_a_teacher/become_a_teacher_5.8.png"
 										alt="Instructor success story 6"
 										width={200}
 										height={128}
@@ -142,7 +142,7 @@ export default function SectionFive() {
 									/>
 									<Image
 										loading="lazy"
-										src="/app/become_a_teacher_5.6.png"
+										src="/app/become_a_teacher/become_a_teacher_5.6.png"
 										alt="Instructor success story 7"
 										width={536}
 										height={536}
@@ -150,7 +150,7 @@ export default function SectionFive() {
 									/>
 									<Image
 										loading="lazy"
-										src="/app/become_a_teacher_5.5.png"
+										src="/app/become_a_teacher/become_a_teacher_5.5.png"
 										alt="Instructor success story 8"
 										width={200}
 										height={200}
