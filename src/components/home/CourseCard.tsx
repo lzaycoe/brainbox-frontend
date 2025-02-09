@@ -58,7 +58,6 @@ const CourseCard: React.FC<CourseCardProps> = ({
 							<TooltipContent>{category}</TooltipContent>
 						</Tooltip>
 					</TooltipProvider>
-
 					<div className="flex items-center gap-2">
 						<div className="self-stretch my-auto text-base font-semibold leading-none text-orange-500">
 							{price}
