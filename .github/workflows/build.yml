@@ -1,4 +1,4 @@
-name: Build
+name: Lint
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
       - hotfix/*
 
 jobs:
-  build-and-test:
-    name: Build
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +28,6 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
 
-      - name: Build project
+      - name: Lint project
         run: |
-          pnpm run build
+          pnpm run lint
