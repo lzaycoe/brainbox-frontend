@@ -1,28 +1,8 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
-import Image from 'next/image';
 import React from 'react';
 import { FiPenTool } from 'react-icons/fi';
 import { HiChip } from 'react-icons/hi';
 import {
+	PiArrowRight,
 	PiBugDroidBold,
 	PiCameraDuotone,
 	PiChartBarHorizontal,
@@ -37,7 +17,96 @@ import {
 
 import { Button } from '@/components/ui/button';
 
+import CategoryCard from './CatergoryCard';
+
 export const BrowseCategories = () => {
+	const categories = [
+		{
+			icon: <HiChip />,
+			title: 'Label',
+			courseCount: '63,476',
+			bgColor: 'bg-violet-100',
+			iconColor: '#564FFD',
+		},
+		{
+			icon: <PiHandshakeDuotone />,
+			title: 'Business',
+			courseCount: '52,822',
+			bgColor: 'bg-green-100',
+			iconColor: '#22C55E',
+		},
+		{
+			icon: <PiCreditCardDuotone />,
+			title: 'Finance & Accounting',
+			courseCount: '33,841',
+			bgColor: 'bg-orange-50',
+			iconColor: '#F59E0B',
+		},
+		{
+			icon: <PiChartBarHorizontal />,
+			title: 'IT & Software',
+			courseCount: '22,649',
+			bgColor: 'bg-rose-50',
+			iconColor: '#E34444',
+		},
+		{
+			icon: <PiBugDroidBold />,
+			title: 'Personal Development',
+			courseCount: '20,126',
+			bgColor: 'bg-rose-100',
+			iconColor: '#E34444',
+		},
+		{
+			icon: <PiReceiptDuotone />,
+			title: 'Office Productivity',
+			courseCount: '13,932',
+			bgColor: 'bg-slate-100',
+			iconColor: undefined,
+		},
+		{
+			icon: <PiMegaphoneSimpleDuotone />,
+			title: 'Marketing',
+			courseCount: '12,068',
+			bgColor: 'bg-violet-100',
+			iconColor: '#564FFD',
+		},
+		{
+			icon: <PiCameraDuotone />,
+			title: 'Photography & Video',
+			courseCount: '6,196',
+			bgColor: 'bg-slate-100',
+			iconColor: undefined,
+		},
+		{
+			icon: <PiPackageDuotone />,
+			title: 'Lifestyle',
+			courseCount: '2,736',
+			bgColor: 'bg-orange-50',
+			iconColor: '#FD8E1F',
+		},
+		{
+			icon: <FiPenTool />,
+			title: 'Design',
+			courseCount: '2,600',
+			bgColor: 'bg-rose-100',
+			iconColor: '#FF6636',
+		},
+		{
+			icon: <PiFirstAidKitDuotone />,
+			title: 'Health & Fitness',
+			courseCount: '1,678',
+			bgColor: 'bg-green-100',
+			iconColor: '#23BD33',
+		},
+		{
+			icon: <PiHeadphonesDuotone />,
+			title: 'Music',
+			courseCount: '959',
+			bgColor: 'bg-orange-50',
+			iconColor: '#FD8E1F',
+		},
+	];
+
 	return (
 		<section
 			className="flex flex-col justify-center items-center px-72 py-20 max-md:px-5"
@@ -51,186 +120,9 @@ export const BrowseCategories = () => {
 			</h2>
 			<div className="flex flex-col mt-10 max-md:max-w-full">
 				<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1">
-					<article className="flex gap-5 justify-center items-center p-5 bg-violet-100 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<HiChip className="object-contain w-8 h-8" color="#564FFD" />
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Label
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								63,476 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-green-100 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<PiHandshakeDuotone
-								className="object-contain w-8 h-8"
-								color="#22C55E"
-							/>
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Business
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								52,822 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-orange-50 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<PiCreditCardDuotone
-								className="object-contain w-8 h-8"
-								color="#F59E0B"
-							/>
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Finance & Accounting
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								33,841 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-rose-50 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<PiChartBarHorizontal
-								className="object-contain w-8 h-8"
-								color="#E34444"
-							/>
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								IT & Software
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								22,649 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-white shadow-2xl min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-orange-500">
-							<PiBugDroidBold
-								className="object-contain w-8 h-8"
-								color="#FFFFFF"
-							/>
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Personal Development
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								20,126 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-slate-100 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<PiReceiptDuotone className="object-contain w-8 h-8" />
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Office Productivity
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								13,932 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-violet-100 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<PiMegaphoneSimpleDuotone
-								className="object-contain w-8 h-8"
-								color="#564FFD"
-							/>
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Marketing
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								12,068 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-slate-100 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<PiCameraDuotone className="object-contain w-8 h-8" />
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Photography & Video
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								6,196 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-orange-50 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<PiPackageDuotone
-								className="object-contain w-8 h-8"
-								color="#FD8E1F"
-							/>
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Lifestyle
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								2,736 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-rose-100 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<FiPenTool className="object-contain w-8 h-8" color="#FF6636" />
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Design
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								2,600 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-green-100 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<PiFirstAidKitDuotone
-								className="object-contain w-8 h-8"
-								color="#23BD33"
-							/>
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Health & Fitness
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								1,678 Courses
-							</p>
-						</div>
-					</article>
-					<article className="flex gap-5 justify-center items-center p-5 bg-orange-50 min-w-[240px]">
-						<div className="flex gap-2.5 items-center self-stretch p-4 my-auto w-16 h-16 bg-white">
-							<PiHeadphonesDuotone
-								className="object-contain w-8 h-8"
-								color="#FD8E1F"
-							/>
-						</div>
-						<div className="flex flex-col self-stretch my-auto w-[188px]">
-							<h3 className="text-base font-medium leading-none text-neutral-800">
-								Music
-							</h3>
-							<p className="mt-2 text-sm tracking-normal leading-loose text-gray-500">
-								959 Courses
-							</p>
-						</div>
-					</article>
+					{categories.map((category, index) => (
+						<CategoryCard key={index} {...category} />
+					))}
 				</div>
 			</div>
 			<div className="flex gap-3 items-center mt-10 text-sm tracking-normal text-center">
@@ -242,10 +134,7 @@ export const BrowseCategories = () => {
 					aria-label="Browse all categories"
 				>
 					<span className="self-stretch my-auto">Browse All</span>
-					<Image
-						loading="lazy"
-						src="/app/logo.png"
-						alt=""
+					<PiArrowRight
 						className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
 						width={24}
 						height={24}
