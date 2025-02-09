@@ -20,12 +20,14 @@
  */
 import { Banner } from '@/components/home/Banner';
 import { BrowseCategories } from '@/components/home/BrowseCategories';
+import ListCourseCard from '@/components/home/ListCourseCard';
 
 export default function Home() {
 	return (
 		<div>
 			<Banner />
 			<BrowseCategories />
+			<ListCourseCard />
 		</div>
 	);
 }
