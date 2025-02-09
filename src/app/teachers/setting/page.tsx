@@ -21,12 +21,10 @@
 
 'use client';
 
-import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-
-import { Footer } from '@/components/commons/teachers/Footer';
-import { Header } from '@/components/commons/teachers/Header';
-import { SideBar } from '@/components/commons/teachers/SideBar';
+import FormChangePass from '@/components/teachers/setting/FormChangePass';
+import FormInfo from '@/components/teachers/setting/FormInfo';
+import FormNoti from '@/components/teachers/setting/FormNoti';
+import FormSocial from '@/components/teachers/setting/FormSocial';
 
 /*
  *  ======================================================================
@@ -70,34 +68,17 @@ import { SideBar } from '@/components/commons/teachers/SideBar';
  *  ======================================================================
  */
 
-const TeacherLayout = ({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) => {
-	const pathname = usePathname();
-	const [title, setTitle] = useState('Dashboard');
-
-	useEffect(() => {
-		if (pathname.includes('/teachers/dashboard')) {
-			setTitle('Dashboard');
-		} else if (pathname.includes('/teachers/setting')) {
-			setTitle('Settings');
-		} else {
-			setTitle('Teacher Portal');
-		}
-	}, [pathname]);
-
+export default function Setting() {
 	return (
-		<div className="flex min-h-screen">
-			<SideBar />
-			<div className="flex flex-col flex-grow w-full">
-				<Header title={title} />
-				<main className="flex-grow bg-[#f5f7fa]">{children}</main>
-				<Footer />
+		<div className="bg-slate-100 my-6">
+			<FormInfo />
+			<div className="h-6"></div>
+			<FormSocial />
+			<div className="h-6"></div>
+			<div className="flex max-md:px-5 max-w-[1240px] mx-auto space-x-4">
+				<FormNoti />
+				<FormChangePass />
 			</div>
 		</div>
 	);
-};
-
-export default TeacherLayout;
+}
