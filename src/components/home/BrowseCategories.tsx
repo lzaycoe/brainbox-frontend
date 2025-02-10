@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import React from 'react';
 import { FiPenTool } from 'react-icons/fi';
 import { HiChip } from 'react-icons/hi';
