@@ -1,11 +1,11 @@
-import { Button } from '../ui/button';
-import { Separator } from '../ui/separator';
+import { Button } from '../../ui/button';
+import { Separator } from '../../ui/separator';
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from '../ui/tooltip';
+} from '../../ui/tooltip';
 import Image from 'next/image';
 import React from 'react';
 import { FaStar } from 'react-icons/fa';
@@ -22,6 +22,7 @@ interface CourseCardProps {
 	title: string;
 	rating: string;
 	students: string;
+	maxWidth?: string;
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({
@@ -33,9 +34,12 @@ const CourseCard: React.FC<CourseCardProps> = ({
 	title,
 	rating,
 	students,
+	maxWidth = 'max-w-[244px]',
 }) => {
 	return (
-		<Card className="flex flex-col justify-center bg-white max-w-[244px] transition-transform transform hover:scale-105 cursor-pointer group hover:shadow-2xl">
+		<Card
+			className={`flex flex-col justify-center bg-white ${maxWidth} transition-transform transform hover:scale-105 cursor-pointer group hover:shadow-2xl`}
+		>
 			<Image
 				loading="lazy"
 				src={imageUrl}
@@ -50,7 +54,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<div
-									className={`gap-2.5 self-stretch px-1.5 py-1 my-auto text-xs font-medium leading-tight uppercase ${categoryBgColor} ${categoryTextColor} truncate min-w-[50px] max-w-[100px]`}
+									className={`gap-2.5 self-stretch px-1.5 py-1 my-auto text-xs font-medium leading-tight uppercase ${categoryBgColor} ${categoryTextColor} truncate min-w-[50px] max-w-[300px]`}
 								>
 									{category}
 								</div>

@@ -22,6 +22,7 @@ import CategoryCard from './CatergoryCard';
 export const BrowseCategories = () => {
 	const categories = [
 		{
+			id: 1,
 			icon: <HiChip />,
 			title: 'Label',
 			courseCount: '63,476',
@@ -29,6 +30,7 @@ export const BrowseCategories = () => {
 			iconColor: '#564FFD',
 		},
 		{
+			id: 2,
 			icon: <PiHandshakeDuotone />,
 			title: 'Business',
 			courseCount: '52,822',
@@ -36,6 +38,7 @@ export const BrowseCategories = () => {
 			iconColor: '#22C55E',
 		},
 		{
+			id: 3,
 			icon: <PiCreditCardDuotone />,
 			title: 'Finance & Accounting',
 			courseCount: '33,841',
@@ -43,6 +46,7 @@ export const BrowseCategories = () => {
 			iconColor: '#F59E0B',
 		},
 		{
+			id: 4,
 			icon: <PiChartBarHorizontal />,
 			title: 'IT & Software',
 			courseCount: '22,649',
@@ -50,6 +54,7 @@ export const BrowseCategories = () => {
 			iconColor: '#E34444',
 		},
 		{
+			id: 5,
 			icon: <PiBugDroidBold />,
 			title: 'Personal Development',
 			courseCount: '20,126',
@@ -57,6 +62,7 @@ export const BrowseCategories = () => {
 			iconColor: '#E34444',
 		},
 		{
+			id: 6,
 			icon: <PiReceiptDuotone />,
 			title: 'Office Productivity',
 			courseCount: '13,932',
@@ -64,6 +70,7 @@ export const BrowseCategories = () => {
 			iconColor: undefined,
 		},
 		{
+			id: 7,
 			icon: <PiMegaphoneSimpleDuotone />,
 			title: 'Marketing',
 			courseCount: '12,068',
@@ -71,6 +78,7 @@ export const BrowseCategories = () => {
 			iconColor: '#564FFD',
 		},
 		{
+			id: 8,
 			icon: <PiCameraDuotone />,
 			title: 'Photography & Video',
 			courseCount: '6,196',
@@ -78,6 +86,7 @@ export const BrowseCategories = () => {
 			iconColor: undefined,
 		},
 		{
+			id: 9,
 			icon: <PiPackageDuotone />,
 			title: 'Lifestyle',
 			courseCount: '2,736',
@@ -85,6 +94,7 @@ export const BrowseCategories = () => {
 			iconColor: '#FD8E1F',
 		},
 		{
+			id: 10,
 			icon: <FiPenTool />,
 			title: 'Design',
 			courseCount: '2,600',
@@ -92,6 +102,7 @@ export const BrowseCategories = () => {
 			iconColor: '#FF6636',
 		},
 		{
+			id: 11,
 			icon: <PiFirstAidKitDuotone />,
 			title: 'Health & Fitness',
 			courseCount: '1,678',
@@ -99,6 +110,7 @@ export const BrowseCategories = () => {
 			iconColor: '#23BD33',
 		},
 		{
+			id: 12,
 			icon: <PiHeadphonesDuotone />,
 			title: 'Music',
 			courseCount: '959',
@@ -120,8 +132,8 @@ export const BrowseCategories = () => {
 			</h2>
 			<div className="flex flex-col mt-10 max-md:max-w-full">
 				<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1">
-					{categories.map((category, index) => (
-						<CategoryCard key={index} {...category} />
+					{categories.map((category) => (
+						<CategoryCard key={category.id} {...category} />
 					))}
 				</div>
 			</div>

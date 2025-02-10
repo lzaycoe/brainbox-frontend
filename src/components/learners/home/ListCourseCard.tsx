@@ -5,6 +5,7 @@ import CourseCard from './CourseCard';
 const ListCourseCard: React.FC = () => {
 	const courses = [
 		{
+			id: 1,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Design',
 			price: '$57',
@@ -15,6 +16,7 @@ const ListCourseCard: React.FC = () => {
 			categoryTextColor: 'text-orange-800',
 		},
 		{
+			id: 2,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Business',
 			price: '$45',
@@ -25,6 +27,7 @@ const ListCourseCard: React.FC = () => {
 			categoryTextColor: 'text-green-800',
 		},
 		{
+			id: 3,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Finance',
 			price: '$65',
@@ -35,6 +38,7 @@ const ListCourseCard: React.FC = () => {
 			categoryTextColor: 'text-blue-800',
 		},
 		{
+			id: 4,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Marketing',
 			price: '$50',
@@ -45,6 +49,7 @@ const ListCourseCard: React.FC = () => {
 			categoryTextColor: 'text-yellow-800',
 		},
 		{
+			id: 5,
 			imageUrl: '/app/card-img-template.png',
 			category: 'IT & Software',
 			price: '$70',
@@ -55,6 +60,7 @@ const ListCourseCard: React.FC = () => {
 			categoryTextColor: 'text-purple-800',
 		},
 		{
+			id: 6,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Personal Development',
 			price: '$40',
@@ -65,6 +71,7 @@ const ListCourseCard: React.FC = () => {
 			categoryTextColor: 'text-pink-800',
 		},
 		{
+			id: 7,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Health & Fitness',
 			price: '$55',
@@ -75,6 +82,7 @@ const ListCourseCard: React.FC = () => {
 			categoryTextColor: 'text-red-800',
 		},
 		{
+			id: 8,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Music',
 			price: '$60',
@@ -85,6 +93,7 @@ const ListCourseCard: React.FC = () => {
 			categoryTextColor: 'text-orange-800',
 		},
 		{
+			id: 9,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Photography',
 			price: '$75',
@@ -95,6 +104,7 @@ const ListCourseCard: React.FC = () => {
 			categoryTextColor: 'text-teal-800',
 		},
 		{
+			id: 10,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Lifestyle',
 			price: '$35',
@@ -112,8 +122,8 @@ const ListCourseCard: React.FC = () => {
 				Best selling courses
 			</h2>
 			<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
-				{courses.map((course, index) => (
-					<CourseCard key={index} {...course} />
+				{courses.map((course) => (
+					<CourseCard key={course.id} {...course} />
 				))}
 			</div>
 		</section>

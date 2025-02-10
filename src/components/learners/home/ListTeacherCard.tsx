@@ -1,4 +1,4 @@
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import React from 'react';
 import { PiArrowRight } from 'react-icons/pi';
 
@@ -7,6 +7,7 @@ import TeacherCard from './TeacherCard';
 const ListTeacherCard: React.FC = () => {
 	const teachers = [
 		{
+			id: 1,
 			avatarUrl: '/app/teacher-img-placeholder.png',
 			name: 'Alice Johnson',
 			major: 'Senior Developer',
@@ -14,6 +15,7 @@ const ListTeacherCard: React.FC = () => {
 			students: '1,200',
 		},
 		{
+			id: 2,
 			avatarUrl: '/app/teacher-img-placeholder.png',
 			name: 'Bob Smith',
 			major: 'Data Scientist',
@@ -21,6 +23,7 @@ const ListTeacherCard: React.FC = () => {
 			students: '950',
 		},
 		{
+			id: 3,
 			avatarUrl: '/app/teacher-img-placeholder.png',
 			name: 'Charlie Brown',
 			major: 'UX Designer',
@@ -28,6 +31,7 @@ const ListTeacherCard: React.FC = () => {
 			students: '1,500',
 		},
 		{
+			id: 4,
 			avatarUrl: '/app/teacher-img-placeholder.png',
 			name: 'Diana Prince',
 			major: 'Marketing Expert',
@@ -35,6 +39,7 @@ const ListTeacherCard: React.FC = () => {
 			students: '800',
 		},
 		{
+			id: 5,
 			avatarUrl: '/app/teacher-img-placeholder.png',
 			name: 'Evan Wright',
 			major: 'Project Manager',
@@ -49,8 +54,8 @@ const ListTeacherCard: React.FC = () => {
 				Top instructor of the month
 			</h2>
 			<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
-				{teachers.map((teacher, index) => (
-					<TeacherCard key={index} {...teacher} />
+				{teachers.map((teacher) => (
+					<TeacherCard key={teacher.id} {...teacher} />
 				))}
 			</div>
 			<div className="flex gap-3 items-center mt-10 text-sm tracking-normal text-center">
