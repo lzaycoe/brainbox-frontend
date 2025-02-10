@@ -1,29 +1,14 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
+'use client';
+
 import Image from 'next/image';
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
 
 export const Banner = () => {
+	const handleOnclick = () => {
+		window.location.href = '/about';
+	};
 	return (
 		<div className="max-md:pl-5">
 			<div className="flex gap-5 max-md:flex-col bg-gray-50">
@@ -40,8 +25,9 @@ export const Banner = () => {
 							className="gap-3 self-start px-10 py-7 mt-10 text-xl tracking-normal text-white capitalize bg-orange-500 leading-[56px] max-md:px-5 max-md:py-3 max-md:text-lg"
 							tabIndex={0}
 							aria-label="Create Account"
+							onClick={handleOnclick}
 						>
-							Create Account
+							Learn More
 						</Button>
 					</div>
 				</div>
