@@ -90,6 +90,48 @@ import CourseCard from '@/components/learners/home/CourseCard';
  *  ======================================================================
  */
 
+/*
+ *  ======================================================================
+ *  Copyright (C) 2025 - lzaycoe (Lazy Code)
+ *  ======================================================================
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  ======================================================================
+ */
+
+/*
+ *  ======================================================================
+ *  Copyright (C) 2025 - lzaycoe (Lazy Code)
+ *  ======================================================================
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  ======================================================================
+ */
+
 interface CommentProps {
 	name: string;
 	profileImage: string;
@@ -180,6 +222,16 @@ const CourseSection: React.FC = () => {
 			students: '160.8K',
 			categoryBgColor: 'bg-teal-100',
 			categoryTextColor: 'text-teal-800',
+		},
+		{
+			imageUrl: '/app/card-img-template.png',
+			category: 'Lifestyle',
+			price: '$35',
+			title: 'Complete Lifestyle Guide',
+			rating: '4.6',
+			students: '120.7K',
+			categoryBgColor: 'bg-indigo-100',
+			categoryTextColor: 'text-indigo-800',
 		},
 		{
 			imageUrl: '/app/card-img-template.png',
@@ -285,7 +337,7 @@ const CourseSection: React.FC = () => {
 			)}
 
 			{activeTab === 'courses' && (
-				<div className="grid grid-cols-3 gap-6 w-full max-md:grid-cols-1">
+				<div className="grid grid-cols-4 gap-4 w-full max-md:grid-cols-1">
 					{courses.map((course, index) => (
 						<CourseCard key={index} {...course} />
 					))}
