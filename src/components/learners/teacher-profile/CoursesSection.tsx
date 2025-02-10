@@ -132,6 +132,48 @@ import CourseCard from '@/components/learners/home/CourseCard';
  *  ======================================================================
  */
 
+/*
+ *  ======================================================================
+ *  Copyright (C) 2025 - lzaycoe (Lazy Code)
+ *  ======================================================================
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  ======================================================================
+ */
+
+/*
+ *  ======================================================================
+ *  Copyright (C) 2025 - lzaycoe (Lazy Code)
+ *  ======================================================================
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  ======================================================================
+ */
+
 interface CommentProps {
 	name: string;
 	profileImage: string;
@@ -314,14 +356,13 @@ const CourseSection: React.FC = () => {
 			role="region"
 			aria-label="Course and Student Feedback Section"
 		>
-			<nav className="flex pr-20 text-base font-medium leading-none text-center whitespace-nowrap max-w-[872px] max-md:pr-5">
+			<nav className="flex text-base font-medium leading-none text-center whitespace-nowrap max-w-[872px] max-md:pr-5">
 				<button
 					className={`gap-2.5 self-stretch py-5 bg-white shadow-sm text-neutral-800 w-[200px] ${activeTab === 'courses' ? 'border-b-2 border-orange-500' : ''}`}
 					onClick={() => setActiveTab('courses')}
 				>
 					Courses
 				</button>
-				<hr className="self-start mt-16 mr-0 w-full bg-gray-200 border border-gray-200 border-solid min-h-px max-md:mt-10 max-md:max-w-full" />
 				<button
 					className={`gap-2.5 self-stretch py-5 text-gray-600 w-[200px] ${activeTab === 'reviews' ? 'border-b-2 border-orange-500' : ''}`}
 					onClick={() => setActiveTab('reviews')}
@@ -329,6 +370,7 @@ const CourseSection: React.FC = () => {
 					Review
 				</button>
 			</nav>
+			<hr className="self-start mr-0 w-full bg-gray-200 border border-gray-200 border-solid min-h-px max-md:mt-10 max-md:max-w-full" />
 
 			{activeTab === 'courses' && (
 				<h1 className="text-2xl font-bold text-neutral-800 mt-6 mb-6">
@@ -337,9 +379,9 @@ const CourseSection: React.FC = () => {
 			)}
 
 			{activeTab === 'courses' && (
-				<div className="grid grid-cols-4 gap-4 w-full max-md:grid-cols-1">
+				<div className="grid grid-cols-2 gap-4 w-full max-md:grid-cols-1">
 					{courses.map((course, index) => (
-						<CourseCard key={index} {...course} />
+						<CourseCard key={index} {...course} maxWidth="max-w-[544px]" />
 					))}
 				</div>
 			)}
