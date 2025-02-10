@@ -19,7 +19,7 @@ export default function Header() {
 				<div className="flex gap-2 justify-center items-center mt-4 text-sm tracking-normal leading-loose text-gray-500 max-sm:flex-wrap max-sm:justify-center">
 					<Link
 						href="/"
-						className="cursor-pointer duration-[0.2s] ease-[ease] transition-[color]"
+						className="cursor-pointer duration-200 ease-linear transition-[color]"
 						tabIndex={0}
 					>
 						Home
@@ -27,7 +27,7 @@ export default function Header() {
 					<span className="text-gray-500">/</span>
 					<Link
 						href="/shopping-cart"
-						className="cursor-pointer duration-[0.2s] ease-[ease] transition-[color]"
+						className="cursor-pointer duration-200 ease-linear transition-[color]"
 						tabIndex={0}
 					>
 						Shopping Cart
