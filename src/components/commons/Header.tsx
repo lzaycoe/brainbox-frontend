@@ -1,31 +1,29 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
+'use client';
+
+import {
+	SignInButton,
+	SignUpButton,
+	SignedIn,
+	SignedOut,
+	UserButton,
+	useClerk,
+} from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { FaRegHeart } from 'react-icons/fa';
 import { FiSearch, FiShoppingCart } from 'react-icons/fi';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { PiBell } from 'react-icons/pi';
+import {
+	PiArrowCircleRightDuotone,
+	PiBell,
+	PiCreditCardDuotone,
+	PiGearDuotone,
+	PiStackDuotone,
+	PiUserCircleDuotone,
+} from 'react-icons/pi';
 
+import MenuItem from '@/components/commons/MenuItem';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -35,6 +33,32 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export const Header = () => {
+	const { signOut } = useClerk();
+
+	const menuItems = [
+		{
+			label: 'My Profile',
+			icon: PiUserCircleDuotone,
+			action: () => console.log('Go to Profile'),
+		},
+		{
+			label: 'My Courses',
+			icon: PiStackDuotone,
+			action: () => console.log('Đơn hàng của tôi'),
+		},
+		{
+			label: 'Payments History',
+			icon: PiCreditCardDuotone,
+			action: () => console.log('Lịch sử thanh toán'),
+		},
+		{
+			label: 'Setting',
+			icon: PiGearDuotone,
+			action: () => console.log('Settings'),
+		},
+		{ label: 'Sign Out', icon: PiArrowCircleRightDuotone, action: signOut },
+	];
+
 	return (
 		<div className="flex flex-col justify-center items-center sticky top-0 z-50 bg-neutral-800">
 			<nav
@@ -167,18 +191,40 @@ export const Header = () => {
 						</Button>
 					</div>
 					<div className="flex gap-2 items-start self-stretch my-auto min-w-[240px]">
-						<Link
-							href="/signup"
-							className="gap-3 self-stretch px-6 py-2 text-orange-500 bg-rose-100 rounded hover:bg-rose-200 focus:ring-2 focus:ring-orange-500 focus:outline-none max-md:px-5"
-						>
-							Create Account
-						</Link>
-						<Link
-							href="/signin"
-							className="gap-3 self-stretch px-6 py-2 text-white bg-orange-500 rounded hover:bg-orange-600 focus:ring-2 focus:ring-orange-500 focus:outline-none max-md:px-5"
-						>
-							Sign In
-						</Link>
+						<SignedOut>
+							<div className="gap-3 self-stretch px-6 py-2 text-orange-500 bg-rose-100 rounded hover:bg-rose-200 focus:ring-2 focus:ring-orange-500 focus:outline-none max-md:px-5">
+								<SignUpButton />
+							</div>
+							<div className="gap-3 self-stretch px-6 py-2 text-white bg-orange-500 rounded hover:bg-orange-600 focus:ring-2 focus:ring-orange-500 focus:outline-none max-md:px-5">
+								<SignInButton />
+							</div>
+						</SignedOut>
+						<SignedIn>
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<Button variant="ghost" className="p-0">
+										<UserButton
+											appearance={{
+												elements: {
+													avatarBox:
+														'w-12 h-12 border border-orange-400 shadow-lg',
+													userButtonPopoverCard:
+														'bg-white shadow-xl rounded-lg p-4',
+												},
+											}}
+										/>
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent
+									align="end"
+									className="bg-white shadow-lg rounded-lg p-2"
+								>
+									{menuItems.map((item) => (
+										<MenuItem key={item.label} {...item} />
+									))}
+								</DropdownMenuContent>
+							</DropdownMenu>
+						</SignedIn>
 					</div>
 				</div>
 			</div>

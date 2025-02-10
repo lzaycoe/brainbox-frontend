@@ -19,15 +19,17 @@
  *  ======================================================================
  */
 import { Banner } from '@/components/teachers/dashboard/Banner';
+import { CourseOverview } from '@/components/teachers/dashboard/CourseOverview';
 import { ListSummaryCard } from '@/components/teachers/dashboard/ListSummaryCard';
-import { RevenueChart } from '@/components/teachers/dashboard/RevenueChart';
+import { RevenueReport } from '@/components/teachers/dashboard/RevenueReport';
 
 export default function Home() {
 	return (
 		<div className="flex flex-wrap justify-center p-4">
 			<ListSummaryCard />
 			<Banner />
-			<RevenueChart />
+			<RevenueReport />
+			<CourseOverview />
 		</div>
 	);
 }
