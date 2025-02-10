@@ -25,6 +25,29 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { TbLoader } from 'react-icons/tb';
 
+import CourseCard from '@/components/learners/home/CourseCard';
+
+/*
+ *  ======================================================================
+ *  Copyright (C) 2025 - lzaycoe (Lazy Code)
+ *  ======================================================================
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  ======================================================================
+ */
+
 /*
  *  ======================================================================
  *  Copyright (C) 2025 - lzaycoe (Lazy Code)
@@ -139,31 +162,34 @@ const Comment: React.FC<CommentProps> = ({
 const CourseSection: React.FC = () => {
 	const courses = [
 		{
-			id: 1,
-			title: 'Machine Learning A-Z™: Hands-On Python & R In Data Science',
-			price: 57,
-			category: 'Developments',
-			rating: '5.0',
-			students: '265.7K',
-			imageSrc: '/app/teacher/course01.png',
+			imageUrl: '/app/card-img-template.png',
+			category: 'Music',
+			price: '$60',
+			title: 'Music Production Masterclass',
+			rating: '4.9',
+			students: '140.9K',
+			categoryBgColor: 'bg-orange-100',
+			categoryTextColor: 'text-orange-800',
 		},
 		{
-			id: 2,
-			title: 'Selenium WebDriver with Java -Basics to Advanced+Frameworks',
-			price: 57,
-			category: 'Business',
-			rating: '5.0',
-			students: '265.7K',
-			imageSrc: '/app/teacher/course02.png',
+			imageUrl: '/app/card-img-template.png',
+			category: 'Photography',
+			price: '$75',
+			title: 'Photography & Video Mastery',
+			rating: '4.7',
+			students: '160.8K',
+			categoryBgColor: 'bg-teal-100',
+			categoryTextColor: 'text-teal-800',
 		},
 		{
-			id: 3,
-			title: 'Machine Learning A-Z™: Hands-On Python & R In Data Science',
-			price: 57,
-			category: 'Developments',
-			rating: '5.0',
-			students: '265.7K',
-			imageSrc: '/app/teacher/course01.png',
+			imageUrl: '/app/card-img-template.png',
+			category: 'Lifestyle',
+			price: '$35',
+			title: 'Complete Lifestyle Guide',
+			rating: '4.6',
+			students: '120.7K',
+			categoryBgColor: 'bg-indigo-100',
+			categoryTextColor: 'text-indigo-800',
 		},
 	];
 
@@ -259,35 +285,9 @@ const CourseSection: React.FC = () => {
 			)}
 
 			{activeTab === 'courses' && (
-				<div className="grid grid-cols-2 gap-6 w-full max-md:grid-cols-1">
-					{courses.map((course) => (
-						<div
-							key={course.id}
-							className="flex flex-col justify-center pb-5 bg-white border border-gray-200 border-solid min-w-[240px] w-full max-md:w-full"
-							role="article"
-						>
-							<Image
-								loading="lazy"
-								src={course.imageSrc}
-								alt={`${course.title} Cover Image`}
-								width={424}
-								height={312}
-								className="object-contain max-w-full shadow-sm"
-							/>
-							<div className="flex flex-col justify-center items-center mt-4 w-full">
-								<div className="flex gap-10 justify-between items-center px-5 w-full whitespace-nowrap">
-									<div className="gap-2.5 self-stretch px-2 py-1.5 my-auto text-xs font-medium leading-none text-indigo-800 uppercase bg-violet-100">
-										{course.category}
-									</div>
-									<div className="self-stretch my-auto text-2xl font-semibold tracking-tight leading-none text-orange-500">
-										${course.price}
-									</div>
-								</div>
-								<h2 className="mt-2 text-lg font-medium leading-6 text-neutral-800">
-									{course.title}
-								</h2>
-							</div>
-						</div>
+				<div className="grid grid-cols-3 gap-6 w-full max-md:grid-cols-1">
+					{courses.map((course, index) => (
+						<CourseCard key={index} {...course} />
 					))}
 				</div>
 			)}

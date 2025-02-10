@@ -164,7 +164,7 @@ const ProfileCard: React.FC = () => {
 			{/* AboutMe and CourseSection */}
 			<div className="flex justify-between items-start w-full px-16 mt-10 max-w-[1320px]">
 				<AboutMe />
-				<div className="w-[60%]">
+				<div className="flex-1">
 					<CoursesSection />
 				</div>
 			</div>
