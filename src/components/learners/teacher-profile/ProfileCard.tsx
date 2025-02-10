@@ -98,21 +98,22 @@ const AboutMe: React.FC = () => (
 
 const ProfileCard: React.FC = () => {
 	const stats = [
-		{ icon: 'star', value: '4.8', label: '(134,633 review)' },
+		{ id: 1, icon: 'star', value: '4.8', label: '(134,633 review)' },
 		{
+			id: 2,
 			icon: <PiStudentDuotone size={24} />,
 			value: '430,117',
 			label: 'students',
 		},
-		{ icon: <MdVideoLibrary size={24} />, value: '7', label: 'courses' },
+		{ id: 3, icon: <MdVideoLibrary size={24} />, value: '7', label: 'courses' },
 	];
 
 	const socialLinks = [
-		{ link: 'https://facebook.com', icon: <FaFacebookF size={20} /> },
-		{ link: 'https://twitter.com', icon: <FaTwitter size={20} /> },
-		{ link: 'https://instagram.com', icon: <FaInstagram size={20} /> },
-		{ link: 'https://youtube.com', icon: <FaYoutube size={20} /> },
-		{ link: 'https://linkedin.com', icon: <FaLinkedinIn size={20} /> },
+		{ id: 1, link: 'https://facebook.com', icon: <FaFacebookF size={20} /> },
+		{ id: 2, link: 'https://twitter.com', icon: <FaTwitter size={20} /> },
+		{ id: 3, link: 'https://instagram.com', icon: <FaInstagram size={20} /> },
+		{ id: 4, link: 'https://youtube.com', icon: <FaYoutube size={20} /> },
+		{ id: 5, link: 'https://linkedin.com', icon: <FaLinkedinIn size={20} /> },
 	];
 
 	return (
@@ -135,8 +136,8 @@ const ProfileCard: React.FC = () => {
 								Web Designer & Best-Selling Instructor
 							</p>
 							<div className="flex gap-5 mt-6">
-								{stats.map((stat, index) => (
-									<StatItem key={index} {...stat} />
+								{stats.map((stat) => (
+									<StatItem key={stat.id} {...stat} />
 								))}
 							</div>
 						</div>
@@ -153,8 +154,8 @@ const ProfileCard: React.FC = () => {
 						</a>
 
 						<div className="flex gap-2 mt-4">
-							{socialLinks.map((social, index) => (
-								<SocialLink key={index} {...social} />
+							{socialLinks.map((social) => (
+								<SocialLink key={social.id} {...social} />
 							))}
 						</div>
 					</div>

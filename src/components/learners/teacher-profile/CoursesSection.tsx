@@ -174,6 +174,69 @@ import CourseCard from '@/components/learners/home/CourseCard';
  *  ======================================================================
  */
 
+/*
+ *  ======================================================================
+ *  Copyright (C) 2025 - lzaycoe (Lazy Code)
+ *  ======================================================================
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  ======================================================================
+ */
+
+/*
+ *  ======================================================================
+ *  Copyright (C) 2025 - lzaycoe (Lazy Code)
+ *  ======================================================================
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  ======================================================================
+ */
+
+/*
+ *  ======================================================================
+ *  Copyright (C) 2025 - lzaycoe (Lazy Code)
+ *  ======================================================================
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  ======================================================================
+ */
+
 interface CommentProps {
 	name: string;
 	profileImage: string;
@@ -217,7 +280,6 @@ const Comment: React.FC<CommentProps> = ({
 							</div>
 							<div
 								className="flex items-center mt-2"
-								role="img"
 								aria-label={`${rating} out of 5 stars rating`}
 							>
 								{Array.from({ length: 5 }, (_, index) => (
@@ -246,6 +308,7 @@ const Comment: React.FC<CommentProps> = ({
 const CourseSection: React.FC = () => {
 	const courses = [
 		{
+			id: 1,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Music',
 			price: '$60',
@@ -256,6 +319,7 @@ const CourseSection: React.FC = () => {
 			categoryTextColor: 'text-orange-800',
 		},
 		{
+			id: 2,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Photography',
 			price: '$75',
@@ -266,6 +330,7 @@ const CourseSection: React.FC = () => {
 			categoryTextColor: 'text-teal-800',
 		},
 		{
+			id: 3,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Lifestyle',
 			price: '$35',
@@ -276,6 +341,7 @@ const CourseSection: React.FC = () => {
 			categoryTextColor: 'text-indigo-800',
 		},
 		{
+			id: 4,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Lifestyle',
 			price: '$35',
@@ -289,6 +355,7 @@ const CourseSection: React.FC = () => {
 
 	const comments = [
 		{
+			id: 1,
 			name: 'Guy Hawkins',
 			profileImage: '/app/teacher/avt1.png',
 			timeAgo: '1 week ago',
@@ -297,6 +364,7 @@ const CourseSection: React.FC = () => {
 			rating: 5.0,
 		},
 		{
+			id: 2,
 			name: 'Dianne Russell',
 			profileImage: '/app/teacher/avt2.png',
 			timeAgo: '51 mins ago',
@@ -305,6 +373,7 @@ const CourseSection: React.FC = () => {
 			rating: 4.0,
 		},
 		{
+			id: 3,
 			name: 'Guy Hawkins',
 			profileImage: '/app/teacher/avt1.png',
 			timeAgo: '1 week ago',
@@ -353,7 +422,6 @@ const CourseSection: React.FC = () => {
 	return (
 		<div
 			className="flex flex-col max-w-[872px]"
-			role="region"
 			aria-label="Course and Student Feedback Section"
 		>
 			<nav className="flex text-base font-medium leading-none text-center whitespace-nowrap max-w-[872px] max-md:pr-5">
@@ -380,8 +448,8 @@ const CourseSection: React.FC = () => {
 
 			{activeTab === 'courses' && (
 				<div className="grid grid-cols-2 gap-4 w-full max-md:grid-cols-1">
-					{courses.map((course, index) => (
-						<CourseCard key={index} {...course} maxWidth="max-w-[544px]" />
+					{courses.map((course) => (
+						<CourseCard key={course.id} {...course} maxWidth="max-w-[544px]" />
 					))}
 				</div>
 			)}
@@ -389,7 +457,6 @@ const CourseSection: React.FC = () => {
 			{activeTab === 'reviews' && (
 				<div
 					className="flex flex-col max-w-[872px] mt-6"
-					role="region"
 					aria-label="Student Feedback Section"
 				>
 					<div className="flex items-center space-x-4">
@@ -412,8 +479,8 @@ const CourseSection: React.FC = () => {
 						</header>
 					</div>
 
-					{visibleComments.map((comment, index) => (
-						<React.Fragment key={index}>
+					{visibleComments.map((comment) => (
+						<React.Fragment key={comment.id}>
 							<Comment
 								name={comment.name}
 								profileImage={comment.profileImage}
