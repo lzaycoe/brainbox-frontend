@@ -1,23 +1,3 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
 import Head from 'next/head';
 import Image from 'next/image';
 import { PiCheckCircle } from 'react-icons/pi';
@@ -40,7 +20,7 @@ export default function SectionOne() {
 					<div className="col-span-10 flex flex-col md:flex-row items-center gap-8">
 						<Image
 							loading="lazy"
-							src="/app/become_a_teacher_2.png"
+							src="/app/become_a_teacher/become_a_teacher_2.png"
 							alt="Teacher interacting with students on BrainBox platform"
 							className="object-contain aspect-[1.19] min-w-[240px] w-[698px] max-md:max-w-full"
 							width={698}

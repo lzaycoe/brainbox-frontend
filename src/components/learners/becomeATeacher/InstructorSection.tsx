@@ -1,38 +1,9 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function InstructorSection() {
 	return (
 		<>
-			<Head>
-				<title>Become an Instructor</title>
-				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-				<link
-					href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
-					rel="stylesheet"
-				/>
-			</Head>
 			<div className="box-border flex flex-col justify-center items-center px-72 py-10 w-full bg-slate-100 max-md:px-24 max-md:py-8 max-sm:p-5 max-sm:text-center">
 				<h1 className="m-0 text-2xl font-semibold tracking-tight leading-none text-center text-neutral-800 max-sm:text-xl">
 					Become an Instructor
@@ -40,7 +11,7 @@ export default function InstructorSection() {
 				<div className="flex gap-2 justify-center items-center mt-4 text-sm tracking-normal leading-loose text-gray-500 max-sm:flex-wrap max-sm:justify-center">
 					<Link
 						href="/"
-						className="cursor-pointer duration-[0.2s] ease-[ease] transition-[color]"
+						className="cursor-pointer duration-200 ease-linear transition-[color]"
 						tabIndex={0}
 					>
 						Home
@@ -76,7 +47,7 @@ export default function InstructorSection() {
 						<div className="md:w-1/2 flex justify-center">
 							<Image
 								loading="lazy"
-								src="/app/become_a_teacher_1.png"
+								src="/app/become_a_teacher/become_a_teacher_1.png"
 								alt="Instructor Illustration"
 								className="object-cover max-w-full h-auto rounded-md shadow-lg"
 								width={600}

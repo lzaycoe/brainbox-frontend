@@ -1,23 +1,3 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -39,7 +19,7 @@ export default function Header() {
 				<div className="flex gap-2 justify-center items-center mt-4 text-sm tracking-normal leading-loose text-gray-500 max-sm:flex-wrap max-sm:justify-center">
 					<Link
 						href="/"
-						className="cursor-pointer duration-[0.2s] ease-[ease] transition-[color]"
+						className="cursor-pointer duration-200 ease-linear transition-[color]"
 						tabIndex={0}
 					>
 						Home
@@ -47,7 +27,7 @@ export default function Header() {
 					<span className="text-gray-500">/</span>
 					<Link
 						href="/shopping-cart"
-						className="cursor-pointer duration-[0.2s] ease-[ease] transition-[color]"
+						className="cursor-pointer duration-200 ease-linear transition-[color]"
 						tabIndex={0}
 					>
 						Shopping Cart

@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
 			{
 				protocol: 'https',
 				hostname: 'contrib.rocks',
+				pathname: '/**',
 			},
 		],
 		dangerouslyAllowSVG: true,

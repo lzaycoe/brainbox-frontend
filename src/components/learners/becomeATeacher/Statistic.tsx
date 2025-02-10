@@ -1,24 +1,3 @@
-/*
- *  ======================================================================
- *  Copyright (C) 2025 - lzaycoe (Lazy Code)
- *  ======================================================================
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- *  ======================================================================
- */
-import Head from 'next/head';
 import {
 	PiCheckCircle,
 	PiGlobeHemisphereWest,
@@ -27,20 +6,11 @@ import {
 	PiUsers,
 } from 'react-icons/pi';
 
-import StatisticItem from './StatisticItem';
+import StatisticItem from '@/components/learners/becomeATeacher/StatisticItem';
 
 export default function Statistic() {
 	return (
 		<>
-			<Head>
-				<title>Section</title>
-				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-				<link
-					href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
-					rel="stylesheet"
-				/>
-			</Head>
-
 			<div className="flex justify-center items-center px-10 py-10 bg-rose-100">
 				<div className="flex flex-wrap justify-between gap-8 max-w-5xl w-full">
 					<StatisticItem
