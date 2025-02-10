@@ -5,14 +5,12 @@ import React from 'react';
 
 interface CourseCardProps {
 	title: string;
-	currentLesson: string;
 	thumbnail: string;
 	completed: string;
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({
 	title,
-	currentLesson,
 	thumbnail,
 	completed,
 }) => {
@@ -20,7 +18,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 	const isCompletedZero = completed === '0%';
 
 	return (
-		<div className="p-6 bg-white border rounded-lg shadow-md mb-0 flex flex-col justify-between h-full">
+		<div className="p-6 bg-white border rounded-lg shadow-md mb-0 flex flex-col justify-between h-full hover:shadow-2xl hover:scale-105 transition-transform transform group">
 			{/* Phần 1: Hình ảnh và nội dung */}
 			<div>
 				{/* Sử dụng Image thay cho img */}
@@ -34,8 +32,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
 					/>
 				</div>
 
-				<h3 className="text-xl font-semibold text-gray-900">{title}</h3>
-				<p className="text-gray-500 mt-1">{currentLesson}</p>
+				<h3 className="text-xl font-semibold text-gray-900 line-clamp-2 group-hover:text-orange-500">
+					{title}
+				</h3>
 			</div>
 
 			{/* Phần 2: Nút và tiến độ (được đẩy xuống dưới cùng) */}
@@ -59,7 +58,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 							</div>
 						</div>
 						<button className="bg-orange-500 text-white w-full py-2 rounded-lg mt-0">
-							Watch Lecture
+							Go to Course
 						</button>
 					</div>
 				</div>
