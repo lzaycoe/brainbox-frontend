@@ -162,10 +162,12 @@ const ProfileCard: React.FC = () => {
 			</div>
 
 			{/* AboutMe and CourseSection */}
-			<div className="flex justify-between items-start w-full px-16 mt-10 max-w-[1320px]">
-				<AboutMe />
-				<div className="flex-1">
-					<CoursesSection />
+			<div className="flex justify-center items-start w-full px-6 mt-6">
+				<div className="flex justify-between items-start w-full max-w-[1320px]">
+					<AboutMe />
+					<div className="flex-1 ml-5">
+						<CoursesSection />
+					</div>
 				</div>
 			</div>
 		</div>
