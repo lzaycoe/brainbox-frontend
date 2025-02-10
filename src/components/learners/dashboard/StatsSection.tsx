@@ -38,7 +38,7 @@ const stats = [
 ];
 
 const StatsSection = () => (
-	<div className="bg-white p-6 rounded-lg shadow-md">
+	<div className="bg-white p-6 rounded-lg shadow-md max-w-7xl mt-10">
 		<div className="grid grid-cols-4 gap-6">
 			{stats.map((stat) => (
 				<Stat
