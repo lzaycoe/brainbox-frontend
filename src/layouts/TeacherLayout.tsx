@@ -18,7 +18,7 @@ const TeacherLayout = ({
 	useEffect(() => {
 		if (pathname.includes('/teachers/dashboard')) {
 			setTitle('Dashboard');
-		} else if (pathname.includes('/teachers/setting')) {
+		} else if (pathname.includes('/teachers/settings')) {
 			setTitle('Settings');
 		} else {
 			setTitle('Teacher Portal');

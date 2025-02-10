@@ -13,7 +13,7 @@ export default function NavigationBar() {
 		{ label: 'Message', path: '/message' },
 		{ label: 'Wishlist', path: '/wishlist' },
 		{ label: 'Purchase History', path: '/purchase-history' },
-		{ label: 'Settings', path: '/setting' },
+		{ label: 'Settings', path: '/settings' },
 	];
 
 	return (
