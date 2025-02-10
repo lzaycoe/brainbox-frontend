@@ -20,7 +20,7 @@ export default function SectionOne() {
 					<div className="col-span-10 flex flex-col md:flex-row items-center gap-8">
 						<Image
 							loading="lazy"
-							src="/app/become_a_teacher_2.png"
+							src="/app/become_a_teacher/become_a_teacher_2.png"
 							alt="Teacher interacting with students on BrainBox platform"
 							className="object-contain aspect-[1.19] min-w-[240px] w-[698px] max-md:max-w-full"
 							width={698}

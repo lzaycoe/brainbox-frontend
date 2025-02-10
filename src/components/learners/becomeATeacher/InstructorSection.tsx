@@ -5,14 +5,6 @@ import Link from 'next/link';
 export default function InstructorSection() {
 	return (
 		<>
-			<Head>
-				<title>Become an Instructor</title>
-				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-				<link
-					href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
-					rel="stylesheet"
-				/>
-			</Head>
 			<div className="box-border flex flex-col justify-center items-center px-72 py-10 w-full bg-slate-100 max-md:px-24 max-md:py-8 max-sm:p-5 max-sm:text-center">
 				<h1 className="m-0 text-2xl font-semibold tracking-tight leading-none text-center text-neutral-800 max-sm:text-xl">
 					Become an Instructor
@@ -56,7 +48,7 @@ export default function InstructorSection() {
 						<div className="md:w-1/2 flex justify-center">
 							<Image
 								loading="lazy"
-								src="/app/become_a_teacher_1.png"
+								src="/app/become_a_teacher/become_a_teacher_1.png"
 								alt="Instructor Illustration"
 								className="object-cover max-w-full h-auto rounded-md shadow-lg"
 								width={600}

@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import {
 	PiCheckCircle,
 	PiGlobeHemisphereWest,
@@ -7,20 +6,11 @@ import {
 	PiUsers,
 } from 'react-icons/pi';
 
-import StatisticItem from './StatisticItem';
+import StatisticItem from '@/components/learners/becomeATeacher/StatisticItem';
 
 export default function Statistic() {
 	return (
 		<>
-			<Head>
-				<title>Section</title>
-				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-				<link
-					href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
-					rel="stylesheet"
-				/>
-			</Head>
-
 			<div className="flex justify-center items-center px-10 py-10 bg-rose-100">
 				<div className="flex flex-wrap justify-between gap-8 max-w-5xl w-full">
 					<StatisticItem
