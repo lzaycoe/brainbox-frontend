@@ -30,13 +30,12 @@ export default function Header() {
 	return (
 		<div className="flex justify-between items-center px-8 py-5 bg-slate-100 max-md:px-5">
 			<div className="flex items-center gap-4">
-				<div
+				<button
 					className="flex items-center justify-center w-10 h-10 rounded-full bg-white cursor-pointer"
-					role="button"
 					aria-label="Go back"
 				>
 					<PiArrowLeftBold className="object-contain w-6 h-8" />
-				</div>
+				</button>
 
 				{/* Course Details */}
 				<div>
@@ -49,7 +48,6 @@ export default function Header() {
 						<div className="flex items-center gap-1">
 							<div
 								className="rounded-full flex items-center justify-center"
-								role="img"
 								aria-label="Sections icon"
 							>
 								<PiFolderOpen
@@ -64,7 +62,6 @@ export default function Header() {
 						<div className="flex items-center gap-1">
 							<div
 								className="rounded-full flex items-center justify-center"
-								role="img"
 								aria-label="Sections icon"
 							>
 								<PiPlayCircle
@@ -79,7 +76,6 @@ export default function Header() {
 						<div className="flex items-center gap-1">
 							<div
 								className="rounded-full flex items-center justify-center"
-								role="img"
 								aria-label="Sections icon"
 							>
 								<PiTimer className="object-contain w-4 h-4" color="#FD8E1F" />
