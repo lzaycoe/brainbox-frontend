@@ -32,13 +32,7 @@ export default function CourseVideo() {
 					poster="https://via.placeholder.com/800x450?text=Video+Thumbnail"
 				>
 					<source src="/path-to-your-video.mp4" type="video/mp4" />
-					<track
-						src="/path-to-your-captions.vtt"
-						kind="subtitles"
-						srcLang="en"
-						label="English"
-						default
-					/>
+					<track default kind="captions" srcLang="en" src="SUBTITLE_PATH" />
 					Your browser does not support the video tag.
 				</video>
 			</div>
