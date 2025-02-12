@@ -24,6 +24,7 @@ import { PiChatsCircle } from 'react-icons/pi';
 export default function CommentSection() {
 	const comments = [
 		{
+			id: 1,
 			name: 'Ronald Richards',
 			profilePicture: '/app/watch-course/avatar.png',
 			timeAgo: '1 week ago',
@@ -31,6 +32,7 @@ export default function CommentSection() {
 				'Maecenas risus tortor, tincidunt nec purus eu, gravida suscipit tortor.',
 		},
 		{
+			id: 2,
 			name: 'Kristin Watson',
 			profilePicture: '/app/watch-course/avatar.png',
 			timeAgo: '1 week ago',
@@ -47,9 +49,9 @@ export default function CommentSection() {
 					Comments <span className="sr-only">Total number of comments:</span>
 					<span aria-label="154 comments">(154)</span>
 				</h2>
-				{comments.map((comment, index) => (
+				{comments.map((comment) => (
 					<div
-						key={index}
+						key={comment.id}
 						className="grid grid-cols-[auto,1fr] gap-3 mt-5 w-full text-sm"
 					>
 						<Image
