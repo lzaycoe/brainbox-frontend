@@ -33,24 +33,27 @@ export default function CourseMenu() {
 	const progress = 15; // Progress in percentage
 	const sections = [
 		{
+			id: 1,
 			title: 'Getting Started',
 			lectures: '4 lectures',
 			duration: '51m',
 			progress: '25% finish (1/4)',
 			isExpanded: true,
 			lecturesDetails: [
-				{ title: '1. What is Webflow?', time: '07:31', isDone: false },
+				{ id: 1, title: '1. What is Webflow?', time: '07:31', isDone: false },
 				{
+					id: 2,
 					title: '2. Sign up in Webflow',
 					time: '07:31',
 					isActive: true,
 					isDone: true,
 				},
-				{ title: '3. Teaser of Webflow', time: '07:31', isDone: false },
-				{ title: '4. Figma Introduction', time: '07:31', isDone: false },
+				{ id: 3, title: '3. Teaser of Webflow', time: '07:31', isDone: false },
+				{ id: 4, title: '4. Figma Introduction', time: '07:31', isDone: false },
 			],
 		},
 		{
+			id: 2,
 			title: 'Secret of Good Design',
 			lectures: '52 lectures',
 			duration: '5h 49m',
@@ -58,23 +61,10 @@ export default function CourseMenu() {
 			lecturesDetails: [],
 		},
 		{
+			id: 3,
 			title: 'Practice Design Like an Artist',
 			lectures: '43 lectures',
 			duration: '51m',
-			isExpanded: false,
-			lecturesDetails: [],
-		},
-		{
-			title: 'Web Development (webflow) Freelancingggggggggggggg',
-			lectures: '137 lectures',
-			duration: '10h 6m',
-			isExpanded: false,
-			lecturesDetails: [],
-		},
-		{
-			title: 'Secrets of Making Money Freelancingggggggggggggg',
-			lectures: '21 lectures',
-			duration: '38m',
 			isExpanded: false,
 			lecturesDetails: [],
 		},
@@ -97,15 +87,16 @@ export default function CourseMenu() {
 
 			{/* Progress Bar Section */}
 			<div className="flex flex-col mt-4 w-full max-md:max-w-full">
-				<div
-					className="flex flex-col items-start w-full bg-gray-200 max-md:pr-5 max-md:max-w-full"
-					role="progressbar"
-					aria-valuenow={progress}
-					aria-valuemin={0}
-					aria-valuemax={100}
-				>
+				<div className="relative w-full h-2 bg-gray-200 rounded-md overflow-hidden">
+					<progress
+						className="absolute top-0 left-0 w-full h-4 appearance-none"
+						value={progress}
+						max={100}
+					>
+						{progress}%
+					</progress>
 					<div
-						className="flex shrink-0 h-1 bg-green-600"
+						className="absolute top-0 left-0 h-4 bg-green-600"
 						style={{ width: `${progress}%` }}
 					></div>
 				</div>
@@ -113,9 +104,9 @@ export default function CourseMenu() {
 
 			{/* Course Sections */}
 			<div className="flex flex-col bg-white border border-gray-200 max-w-[603px] mt-4">
-				{sections.map((section, index) => (
+				{sections.map((section) => (
 					<div
-						key={index}
+						key={section.id}
 						className={`${section.isExpanded ? 'bg-slate-100' : 'bg-white'}`}
 					>
 						{/* Section Header */}
@@ -167,9 +158,9 @@ export default function CourseMenu() {
 
 						{/* Divider */}
 						<div className="w-full bg-white border border-gray-200 min-h-[1px] max-md:max-w-full"></div>
-						{section.lecturesDetails.map((lecture, index) => (
+						{section.lecturesDetails.map((lecture) => (
 							<div
-								key={index}
+								key={lecture.id}
 								className={`flex flex-wrap gap-10 justify-between items-center px-5 py-3 w-full ${
 									lecture.isActive ? 'bg-rose-100 text-neutral-800' : ''
 								} max-md:max-w-full`}
