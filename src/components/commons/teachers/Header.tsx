@@ -1,15 +1,15 @@
-import { LogOut, User } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { PiBell, PiMagnifyingGlass } from 'react-icons/pi';
+import { SignedIn, UserButton, useClerk } from '@clerk/nextjs';
+import {
+	PiArrowCircleRightDuotone,
+	PiBell,
+	PiMagnifyingGlass,
+} from 'react-icons/pi';
 
+import MenuItem from '@/components/commons/MenuItem';
+import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
@@ -30,7 +30,11 @@ const getTimeOfDayGreeting = () => {
 
 export const Header: React.FC<HeaderProps> = ({ title }) => {
 	const greeting = getTimeOfDayGreeting();
+	const { signOut } = useClerk();
 
+	const menuItems = [
+		{ label: 'Sign Out', icon: PiArrowCircleRightDuotone, action: signOut },
+	];
 	return (
 		<header
 			className="flex flex-wrap gap-10 justify-between items-center px-40 py-6 bg-white max-md:px-5"
@@ -84,33 +88,32 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 				</button>
 
 				{/* User Profile Dropdown */}
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Image
-							loading="lazy"
-							src="/app/lazyavt.png"
-							className="object-contain shrink-0 w-12 rounded-full aspect-square cursor-pointer"
-							alt="User Profile Picture"
-							width={48}
-							height={48}
-						/>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent className="w-36">
-						<DropdownMenuLabel>My Account</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuGroup>
-							<DropdownMenuItem>
-								<User />
-								<Link href="/teachers/profile">Profile</Link>
-							</DropdownMenuItem>
-						</DropdownMenuGroup>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>
-							<LogOut />
-							<Link href="/">Log out</Link>
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<SignedIn>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" className="m-2 p-0">
+								<UserButton
+									appearance={{
+										elements: {
+											avatarBox:
+												'w-14 h-14 border border-orange-400 shadow-lg cursor-pointer',
+											userButtonPopoverCard:
+												'bg-white shadow-xl rounded-lg p-4',
+										},
+									}}
+								/>
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent
+							align="end"
+							className="bg-white shadow-lg rounded-lg p-2 mt-2"
+						>
+							{menuItems.map((item) => (
+								<MenuItem key={item.label} {...item} />
+							))}
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</SignedIn>
 			</div>
 		</header>
 	);
