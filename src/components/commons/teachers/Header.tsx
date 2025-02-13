@@ -37,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 	];
 	return (
 		<header
-			className="flex flex-wrap gap-10 justify-between items-center px-40 py-6 bg-white max-md:px-5"
+			className="flex flex-wrap gap-10 justify-between items-center px-40 py-6 bg-white max-md:px-5 ml-64"
 			role="banner"
 			aria-label="Dashboard Header"
 		>
