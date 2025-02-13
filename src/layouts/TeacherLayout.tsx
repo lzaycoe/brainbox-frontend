@@ -30,7 +30,7 @@ const TeacherLayout = ({
 			<SideBar />
 			<div className="flex flex-col flex-grow w-full">
 				<Header title={title} />
-				<main className="flex-grow bg-[#f5f7fa]">{children}</main>
+				<main className="flex-grow bg-[#f5f7fa] ml-64">{children}</main>
 				<Footer />
 			</div>
 		</div>
