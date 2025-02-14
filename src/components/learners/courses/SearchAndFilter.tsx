@@ -1,4 +1,5 @@
 import React from 'react';
+import { FiSearch } from 'react-icons/fi';
 
 import { Input } from '@/components/ui/input';
 import {
@@ -35,12 +36,15 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
 					<div className="text-[#6e7484] text-xs font-normal leading-none">
 						Search:
 					</div>
-					<Input
-						type="text"
-						placeholder="Search in your courses..."
-						className="h-12 pl-[18px] pr-72 py-3 bg-white border border-[#e8eaef] justify-start items-center inline-flex overflow-hidden"
-						onChange={(e) => onSearch(e.target.value)}
-					/>
+					<div className="relative w-full">
+						<FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+						<Input
+							type="text"
+							placeholder="Search in your courses..."
+							className="h-12 pl-12 pr-72 py-3 bg-white border border-[#e8eaef] justify-start items-center inline-flex overflow-hidden"
+							onChange={(e) => onSearch(e.target.value)}
+						/>
+					</div>
 				</div>
 				<div className="w-60 flex flex-col justify-start items-start gap-2">
 					<div className="text-[#6e7484] text-xs font-normal leading-none">
