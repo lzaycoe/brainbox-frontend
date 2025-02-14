@@ -3,7 +3,18 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
 	output: 'standalone',
 	images: {
-		domains: ['img.clerk.com', 'contrib.rocks'],
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'contrib.rocks',
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'img.clerk.com',
+				pathname: '/**',
+			},
+		],
 		dangerouslyAllowSVG: true,
 	},
 	async redirects() {
