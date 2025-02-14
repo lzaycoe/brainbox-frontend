@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+      - src/**
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get version from script
+        id: get_version
+        run: |
+          wget https://raw.githubusercontent.com/lzaycoe/brainbox-deployment/refs/heads/main/scripts/get-version.sh
+          sudo apt-get install jq
+          chmod +x ./get-version.sh
+          echo "version=$(./get-version.sh ./package.json)" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: brainbox-frontend - v${{ steps.get_version.outputs.version }}
+          tag_name: ${{ steps.get_version.outputs.version }}
+          generate_release_notes: true
