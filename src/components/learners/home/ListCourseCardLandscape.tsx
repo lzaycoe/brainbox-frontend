@@ -1,4 +1,4 @@
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import React from 'react';
 import { PiArrowRight } from 'react-icons/pi';
 
@@ -7,6 +7,7 @@ import CourseCardLandscape from './CourseCardLandscape';
 const ListCourseCardLandscape: React.FC = () => {
 	const courses = [
 		{
+			id: 1,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Productivity',
 			categoryBgColor: 'bg-slate-100',
@@ -21,6 +22,7 @@ const ListCourseCardLandscape: React.FC = () => {
 			duration: '6 hours',
 		},
 		{
+			id: 2,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Design',
 			categoryBgColor: 'bg-blue-100',
@@ -35,6 +37,7 @@ const ListCourseCardLandscape: React.FC = () => {
 			duration: '8 hours',
 		},
 		{
+			id: 3,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Marketing',
 			categoryBgColor: 'bg-green-100',
@@ -49,6 +52,7 @@ const ListCourseCardLandscape: React.FC = () => {
 			duration: '10 hours',
 		},
 		{
+			id: 4,
 			imageUrl: '/app/card-img-template.png',
 			category: 'Development',
 			categoryBgColor: 'bg-red-100',
@@ -70,8 +74,8 @@ const ListCourseCardLandscape: React.FC = () => {
 				Our feature courses
 			</h2>
 			<div className="grid grid-cols-2 gap-6 max-md:grid-cols-1">
-				{courses.map((course, index) => (
-					<CourseCardLandscape key={index} {...course} />
+				{courses.map((course) => (
+					<CourseCardLandscape key={course.id} {...course} />
 				))}
 			</div>
 			<Button className="flex gap-3 justify-center items-center px-6 text-base font-semibold tracking-normal leading-none text-orange-500 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 mt-8 capitalize">
