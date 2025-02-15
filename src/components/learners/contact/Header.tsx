@@ -5,7 +5,7 @@ import React from 'react';
 import { GoMail } from 'react-icons/go';
 
 import Content from './Content';
-import Map from './Map';
+import Footer from './Footer';
 
 const HeaderSection = () => (
 	<div className="w-full max-w-[1920px] px-[300px] py-[30px] bg-[#F5F7FA] flex flex-col justify-center items-center gap-2 mx-auto">
@@ -149,7 +149,7 @@ const Header = () => {
 			<div className="w-full border-t border-gray-300 opacity-50"></div>
 			<BranchesSection />
 			<Content />
-			<Map />
+			<Footer />
 		</div>
 	);
 };

@@ -11,7 +11,7 @@ const MapImage: React.FC = () => (
 	/>
 );
 
-const Map: React.FC = () => {
+const Footer: React.FC = () => {
 	return (
 		<section className="flex flex-col items-stretch p-0 m-0 w-full h-full">
 			<MapImage />
@@ -19,4 +19,4 @@ const Map: React.FC = () => {
 	);
 };
 
-export default Map;
+export default Footer;

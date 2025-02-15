@@ -22,13 +22,18 @@ const InfoBlock = ({
 const InputField = ({
 	label,
 	placeholder,
+	id,
 }: {
 	label: string;
 	placeholder: string;
+	id: string;
 }) => (
 	<div className="flex flex-col gap-1">
-		<label className="text-sm text-gray-900">{label}</label>
+		<label htmlFor={id} className="text-sm text-gray-900">
+			{label}
+		</label>
 		<input
+			id={id}
 			type="text"
 			placeholder={placeholder}
 			className="border border-gray-300 p-2 rounded text-gray-700"
@@ -43,14 +48,21 @@ const ContactForm = () => (
 			Feel free to contact us, we love to make new partners & friends.
 		</p>
 		<div className="grid grid-cols-2 gap-4">
-			<InputField label="First Name" placeholder="First name..." />
-			<InputField label="Last Name" placeholder="Last name..." />
+			<InputField
+				label="First Name"
+				placeholder="First name..."
+				id="first-name"
+			/>
+			<InputField label="Last Name" placeholder="Last name..." id="last-name" />
 		</div>
-		<InputField label="Email" placeholder="Email Address" />
-		<InputField label="Subject" placeholder="Message Subject" />
+		<InputField label="Email" placeholder="Email Address" id="email" />
+		<InputField label="Subject" placeholder="Message Subject" id="subject" />
 		<div className="flex flex-col gap-1">
-			<label className="text-sm text-gray-900">Message</label>
+			<label htmlFor="message" className="text-sm text-gray-900">
+				Message
+			</label>
 			<textarea
+				id="message"
 				placeholder="Your message..."
 				className="border border-gray-300 p-2 rounded text-gray-700 h-24"
 			></textarea>
