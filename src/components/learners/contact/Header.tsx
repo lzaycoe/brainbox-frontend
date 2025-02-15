@@ -5,13 +5,14 @@ import React from 'react';
 import { GoMail } from 'react-icons/go';
 
 import Content from './Content';
+import Map from './Map';
 
 const HeaderSection = () => (
-	<div className="w-full max-w-[1920px] h-[150px] px-[300px] py-[40px] bg-[#F5F7FA] flex flex-col justify-center items-center gap-4 mx-auto">
+	<div className="w-full max-w-[1920px] px-[300px] py-[30px] bg-[#F5F7FA] flex flex-col justify-center items-center gap-2 mx-auto">
 		<div className="w-[1320px] text-center text-[#1D2026] text-2xl font-semibold">
 			Contact
 		</div>
-		<div className="flex gap-2 text-sm text-[#6E7485]">
+		<div className="flex gap-1 text-sm text-[#6E7485]">
 			<span>Home</span>
 			<span>/</span>
 			<span className="text-[#1D2026]">Contact</span>
@@ -57,7 +58,7 @@ const BranchesSection = () => (
 		<div className="flex flex-nowrap gap-6 items-start mt-10 text-sm tracking-normal max-md:max-w-full">
 			<div className="flex relative flex-col px-6 pt-60 pb-6 aspect-[0.857] min-w-60 w-[312px] max-md:px-5 max-md:pt-24">
 				<Image
-					src="/app/contact/01.png"
+					src="/app/contact/branch01.png"
 					alt="Mumbai branch background"
 					layout="fill"
 					className="object-cover absolute inset-0 size-full"
@@ -77,7 +78,7 @@ const BranchesSection = () => (
 			<div className="flex relative flex-col px-6 pt-60 pb-6 aspect-[0.857] min-w-60 w-[312px] max-md:px-5 max-md:pt-24">
 				<Image
 					loading="lazy"
-					src="/app/contact/02.png"
+					src="/app/contact/branch02.png"
 					className="object-cover absolute inset-0 size-full"
 					alt="Mumbai branch background"
 					layout="fill"
@@ -97,7 +98,7 @@ const BranchesSection = () => (
 			<div className="flex relative flex-col px-6 pt-60 pb-6 aspect-[0.857] min-w-60 w-[312px] max-md:px-5 max-md:pt-24">
 				<Image
 					loading="lazy"
-					src="/app/contact/03.png"
+					src="/app/contact/branch03.png"
 					className="object-cover absolute inset-0 size-full"
 					alt="Mumbai branch background"
 					layout="fill"
@@ -117,7 +118,7 @@ const BranchesSection = () => (
 			<div className="flex relative flex-col px-6 pt-60 pb-6 aspect-[0.857] min-w-60 w-[312px] max-md:px-5 max-md:pt-24">
 				<Image
 					loading="lazy"
-					src="/app/contact/04.png"
+					src="/app/contact/branch04.png"
 					className="object-cover absolute inset-0 size-full"
 					alt="Mumbai branch background"
 					layout="fill"
@@ -148,6 +149,7 @@ const Header = () => {
 			<div className="w-full border-t border-gray-300 opacity-50"></div>
 			<BranchesSection />
 			<Content />
+			<Map />
 		</div>
 	);
 };
