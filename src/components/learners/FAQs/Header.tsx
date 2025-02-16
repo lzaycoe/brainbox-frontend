@@ -16,8 +16,8 @@ const HeaderSection = ({ title, breadcrumbs }: HeaderSectionProps) => (
 			{title}
 		</div>
 		<div className="flex gap-1 text-sm text-[#6E7485]">
-			{breadcrumbs.map((item, index) => (
-				<span key={index} className={item.active ? 'text-[#1D2026]' : ''}>
+			{breadcrumbs.map((item) => (
+				<span key={item.label} className={item.active ? 'text-[#1D2026]' : ''}>
 					{item.label}
 				</span>
 			))}
