@@ -5,7 +5,7 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { TbLoader } from 'react-icons/tb';
 
-import CourseCard from '@/components/learners/home/CourseCard';
+import CourseCard from '@/components/commons/CourseCard';
 
 interface CommentProps {
 	name: string;
