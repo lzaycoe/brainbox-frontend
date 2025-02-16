@@ -89,7 +89,6 @@ export default function CourseCard() {
 							<div className="flex gap-1.5 items-center self-stretch my-auto font-medium leading-none text-black whitespace-nowrap">
 								<div
 									className="flex shrink-0 self-stretch my-auto"
-									role="img"
 									aria-label="Rating star icon"
 								>
 									<PiStarFill
@@ -102,7 +101,6 @@ export default function CourseCard() {
 							<div className="flex gap-1.5 items-center self-stretch my-auto">
 								<div
 									className="flex shrink-0 self-stretch my-auto"
-									role="img"
 									aria-label="Students icon"
 								>
 									<PiUser className="object-contain w-6 h-6 " color="#564FFD" />
@@ -131,7 +129,6 @@ export default function CourseCard() {
 							</div>
 							<div
 								className="flex shrink-0 self-stretch my-auto w-6 h-6"
-								role="img"
 								aria-label="Add to cart icon"
 							></div>
 						</div>
