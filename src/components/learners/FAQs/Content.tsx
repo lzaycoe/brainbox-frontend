@@ -1,7 +1,6 @@
 'use client';
 
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const Header = () => (
@@ -19,19 +18,35 @@ const Header = () => (
 	</header>
 );
 
-const NavItem = ({ text, active }: { text: string; active: boolean }) => (
+const NavItem = ({
+	text,
+	active,
+	onClick,
+}: {
+	text: string;
+	active: boolean;
+	onClick: () => void;
+}) => (
 	<>
-		<a
-			href="#"
-			className={`gap-6 self-stretch px-4 py-3 w-64 max-w-full ${active ? 'bg-orange-500 text-black' : ''}`}
+		<button
+			onClick={onClick}
+			className={`gap-6 self-stretch px-4 py-3 w-64 max-w-full text-left ${
+				active ? 'bg-orange-500 text-black' : ''
+			}`}
 		>
 			{text}
-		</a>
+		</button>
 		<hr className="w-64 max-w-full bg-gray-200 border border-gray-200 border-solid min-h-px" />
 	</>
 );
 
-const Nav = () => {
+const Nav = ({
+	selectedIndex,
+	setSelectedIndex,
+}: {
+	selectedIndex: number;
+	setSelectedIndex: (index: number) => void;
+}) => {
 	const items = [
 		'Nulla tempor odio ut fringilla',
 		'Donec malesuada',
@@ -42,10 +57,16 @@ const Nav = () => {
 		'Phasellus',
 		'Etiam eu libero elementum',
 	];
+
 	return (
 		<nav className="flex flex-col justify-center py-2 w-64 text-sm font-medium leading-none text-black bg-white border border-solid border-gray-100 min-w-60">
 			{items.map((item, index) => (
-				<NavItem key={index} text={item} active={index === 0} />
+				<NavItem
+					key={index}
+					text={item}
+					active={index === selectedIndex}
+					onClick={() => setSelectedIndex(index)}
+				/>
 			))}
 		</nav>
 	);
@@ -86,46 +107,63 @@ const FAQItem = ({
 	);
 };
 
-const FAQList = () => {
-	const faqs = [
-		{
-			question: 'Fusce placerat interdum magna.',
-			answer:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius tincidunt urna, non egestas nunc.',
-		},
-		{
-			question:
-				'Proin lacinia lobortis metus, ut faucibus eros ullamcorper et.',
-			answer:
-				'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.',
-		},
-		{
-			question: 'Etiam a nisl dui.',
-			answer: 'Curabitur at sem et sapien interdum bibendum in et risus.',
-		},
-		{
-			question: 'Nulla id ligula ligula.',
-			answer:
-				'Suspendisse potenti. Nulla facilisi. Donec feugiat, elit ut cursus posuere.',
-		},
-		{
-			question: 'Etiam non tellus non dolor suscipit vehicula.',
-			answer: 'Donec dignissim metus felis, non posuere arcu finibus a.',
-		},
-		{
-			question: 'Vestibulum pellentesque ex magna.',
-			answer: 'Nunc vitae iaculis lacus, id fringilla leo.',
-		},
-		{
-			question: 'Ut ullamcorper est sit amet quam aliquet mattis.',
-			answer:
-				'Curabitur porttitor sem nec felis mollis, nec laoreet leo iaculis.',
-		},
+const FAQList = ({ selectedIndex }: { selectedIndex: number }) => {
+	const faqsList = [
+		[
+			{
+				question: 'Fusce placerat interdum magna.',
+				answer: 'Lorem ipsum dolor sit amet.',
+			},
+			{
+				question: 'Etiam a nisl dui.',
+				answer: 'Curabitur at sem et sapien interdum.',
+			},
+		],
+		[
+			{
+				question: 'Proin lacinia lobortis metus.',
+				answer: 'Vestibulum ante ipsum primis.',
+			},
+			{ question: 'Nulla id ligula ligula.', answer: 'Suspendisse potenti.' },
+		],
+		[
+			{
+				question: 'Ut ullamcorper est sit amet.',
+				answer: 'Curabitur porttitor sem nec felis.',
+			},
+		],
+		[
+			{
+				question: 'Vestibulum pellentesque ex magna.',
+				answer: 'Nunc vitae iaculis lacus.',
+			},
+		],
+		[
+			{
+				question: 'Etiam non tellus non dolor suscipit.',
+				answer: 'Donec dignissim metus felis.',
+			},
+		],
+		[{ question: 'Nullam non ante.', answer: 'Lorem ipsum dolor sit amet.' }],
+		[
+			{
+				question: 'Phasellus bibendum.',
+				answer: 'Duis sollicitudin urna ac nulla.',
+			},
+		],
+		[
+			{
+				question: 'Etiam eu libero elementum.',
+				answer: 'Mauris auctor et urna in scelerisque.',
+			},
+		],
 	];
+
+	const selectedFAQs = faqsList[selectedIndex] || [];
 
 	return (
 		<section className="min-w-60 max-md:max-w-full">
-			{faqs.map((faq, index) => (
+			{selectedFAQs.map((faq, index) => (
 				<FAQItem key={index} question={faq.question} answer={faq.answer} />
 			))}
 		</section>
@@ -139,8 +177,7 @@ const ContactForm = () => (
 				Don’t find your answer!
 			</h2>
 			<p className="text-xs leading-4 text-black">
-				Don’t worry, write your question here and our support team will help
-				you.
+				Write your question here, and our support team will help you.
 			</p>
 			<form className="flex flex-col gap-3 text-sm tracking-normal leading-loose text-black w-full">
 				<input
@@ -164,12 +201,17 @@ const ContactForm = () => (
 );
 
 const Content = () => {
+	const [selectedIndex, setSelectedIndex] = useState(0);
+
 	return (
 		<div className="flex flex-col justify-center items-center py-20">
 			<Header />
 			<main className="flex flex-wrap gap-10 items-start mt-10 max-md:max-w-full min-h-[500px]">
-				<Nav />
-				<FAQList />
+				<Nav
+					selectedIndex={selectedIndex}
+					setSelectedIndex={setSelectedIndex}
+				/>
+				<FAQList selectedIndex={selectedIndex} />
 				<ContactForm />
 			</main>
 		</div>
