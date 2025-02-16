@@ -1,5 +1,5 @@
-import CourseCard from '@/components/teachers/myCourse/CourseCard';
-import SearchCategory from '@/components/teachers/myCourse/SearchCategory';
+import CourseCard from '@/components/teachers/my-course/CourseCard';
+import SearchCategory from '@/components/teachers/my-course/SearchCategory';
 
 export default function MyCourse() {
 	return (
