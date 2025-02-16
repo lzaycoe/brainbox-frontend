@@ -20,6 +20,8 @@ const TeacherLayout = ({
 			setTitle('Dashboard');
 		} else if (pathname.includes('/teachers/settings')) {
 			setTitle('Settings');
+		} else if (pathname.includes('/teachers/courses')) {
+			setTitle('My courses');
 		} else {
 			setTitle('Teacher Portal');
 		}
