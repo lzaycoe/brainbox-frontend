@@ -3,8 +3,15 @@
 import React, { useState } from 'react';
 
 import PaginationCustom from '@/components/commons/PaginationCustom';
-import SearchAndFilter from '@/components/learners/courses/SearchAndFilter';
+import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import CourseCard from '@/components/learners/dashboard/CourseCard';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
 
 const coursesData = [
 	{
@@ -163,8 +170,23 @@ const CourseList: React.FC = () => {
 			<SearchAndFilter
 				totalCourses={filteredCourses.length}
 				onSearch={setSearchQuery}
-				onStatusChange={setStatusFilter}
-			/>
+			>
+				<div className="w-60 flex flex-col justify-start items-start gap-2">
+					<div className="text-[#6e7484] text-xs font-normal leading-none">
+						Status:
+					</div>
+					<Select onValueChange={setStatusFilter}>
+						<SelectTrigger className="h-12 pl-[18px] pr-4 py-3 bg-white border border-[#e8eaef] justify-center items-center gap-[104px] inline-flex overflow-hidden">
+							<SelectValue placeholder="All Courses" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="all">All Courses</SelectItem>
+							<SelectItem value="completed">Completed</SelectItem>
+							<SelectItem value="in-progress">In Progress</SelectItem>
+						</SelectContent>
+					</Select>
+				</div>
+			</SearchAndFilter>
 			{filteredCourses.length === 0 ? (
 				<div className="mt-10 text-xl text-gray-500">
 					No courses found for your search.
