@@ -1,28 +1,31 @@
-import { Button } from '../../ui/button';
-import { Separator } from '../../ui/separator';
+import Image from 'next/image';
+import React from 'react';
+import { FaStar } from 'react-icons/fa';
+import { FiShoppingCart } from 'react-icons/fi';
+import { PiUser } from 'react-icons/pi';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from '../../ui/tooltip';
-import Image from 'next/image';
-import React from 'react';
-import { FaStar } from 'react-icons/fa';
-import { FiShoppingCart } from 'react-icons/fi';
-
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
+} from '@/components/ui/tooltip';
 
 interface CourseCardProps {
 	imageUrl: string;
 	category: string;
 	categoryBgColor: string;
 	categoryTextColor: string;
-	price: string;
+	price?: string;
 	title: string;
 	rating: string;
 	students: string;
 	maxWidth?: string;
+	hideAddToCartButton?: boolean;
+	children?: React.ReactNode;
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({
@@ -35,6 +38,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
 	rating,
 	students,
 	maxWidth = 'max-w-[244px]',
+	hideAddToCartButton = false,
+	children,
 }) => {
 	return (
 		<Card
@@ -63,16 +68,20 @@ const CourseCard: React.FC<CourseCardProps> = ({
 						</Tooltip>
 					</TooltipProvider>
 					<div className="flex items-center gap-2">
-						<div className="self-stretch my-auto text-base font-semibold leading-none text-orange-500">
-							{price}
-						</div>
-						<Button
-							aria-label="Shopping cart"
-							className="focus:outline-none"
-							variant={'ghost'}
-						>
-							<FiShoppingCart />
-						</Button>
+						{price && (
+							<div className="self-stretch my-auto text-base font-semibold leading-none text-orange-500">
+								{price}
+							</div>
+						)}
+						{!hideAddToCartButton && (
+							<Button
+								aria-label="Shopping cart"
+								className="focus:outline-none"
+								variant={'ghost'}
+							>
+								<FiShoppingCart />
+							</Button>
+						)}
 					</div>
 				</div>
 				<CardTitle className="mt-2.5 text-sm font-bold tracking-normal leading-5 text-neutral-800 group-hover:text-orange-500 line-clamp-2 min-h-[2.5rem]">
@@ -89,6 +98,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 					<div className="self-stretch my-auto">{rating}</div>
 				</div>
 				<div className="flex justify-center self-stretch my-auto">
+					<PiUser className="self-stretch my-auto leading-none text-[#564FFD]" />
 					<div className="self-stretch my-auto leading-none text-gray-600 font-medium">
 						{students}
 					</div>
@@ -97,6 +107,12 @@ const CourseCard: React.FC<CourseCardProps> = ({
 					</div>
 				</div>
 			</CardContent>
+			{children && (
+				<>
+					<Separator />
+					<CardContent className="w-full p-3">{children}</CardContent>
+				</>
+			)}
 		</Card>
 	);
 };

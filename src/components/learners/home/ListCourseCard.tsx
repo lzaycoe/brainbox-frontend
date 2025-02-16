@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CourseCard from './CourseCard';
+import CourseCard from '@/components/commons/CourseCard';
 
 const ListCourseCard: React.FC = () => {
 	const courses = [
