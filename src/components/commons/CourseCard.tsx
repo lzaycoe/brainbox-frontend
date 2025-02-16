@@ -1,18 +1,18 @@
-import { Button } from '../ui/button';
-import { Separator } from '../ui/separator';
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from '../ui/tooltip';
 import Image from 'next/image';
 import React from 'react';
 import { FaStar } from 'react-icons/fa';
 import { FiShoppingCart } from 'react-icons/fi';
 import { PiUser } from 'react-icons/pi';
 
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface CourseCardProps {
 	imageUrl: string;
