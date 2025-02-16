@@ -1,5 +1,3 @@
-'use client';
-
 import TeacherCourseList from '@/components/teachers/courses/TeacherCourseList';
 
 export default function TeacherCourses() {
