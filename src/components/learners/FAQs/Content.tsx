@@ -62,7 +62,7 @@ const Nav = ({
 		<nav className="flex flex-col justify-center py-2 w-64 text-sm font-medium leading-none text-black bg-white border border-solid border-gray-100 min-w-60">
 			{items.map((item, index) => (
 				<NavItem
-					key={index}
+					key={item}
 					text={item}
 					active={index === selectedIndex}
 					onClick={() => setSelectedIndex(index)}
@@ -163,8 +163,12 @@ const FAQList = ({ selectedIndex }: { selectedIndex: number }) => {
 
 	return (
 		<section className="min-w-60 max-md:max-w-full">
-			{selectedFAQs.map((faq, index) => (
-				<FAQItem key={index} question={faq.question} answer={faq.answer} />
+			{selectedFAQs.map((faq) => (
+				<FAQItem
+					key={faq.question}
+					question={faq.question}
+					answer={faq.answer}
+				/>
 			))}
 		</section>
 	);
