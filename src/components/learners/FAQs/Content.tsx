@@ -60,18 +60,23 @@ const FAQItem = ({
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
+	const toggleFAQ = () => setIsOpen(!isOpen);
+
 	return (
 		<div className="flex flex-col w-[556px] mb-4">
-			{' '}
-			<div
-				className={`cursor-pointer px-6 py-4 border border-gray-200 flex justify-between items-center ${
+			<button
+				className={`cursor-pointer px-6 py-4 border border-gray-200 flex justify-between items-center w-full text-left ${
 					isOpen ? 'bg-black text-white' : 'bg-white text-black'
 				}`}
-				onClick={() => setIsOpen(!isOpen)}
+				onClick={toggleFAQ}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') toggleFAQ();
+				}}
+				aria-expanded={isOpen}
 			>
 				<span>{question}</span>
-				{isOpen ? <FaChevronUp /> : <FaChevronDown />}{' '}
-			</div>
+				{isOpen ? <FaChevronUp /> : <FaChevronDown />}
+			</button>
 			{isOpen && (
 				<div className="px-6 py-4 border border-gray-200 bg-gray-100 text-black">
 					{answer}
