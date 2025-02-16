@@ -1,9 +1,14 @@
+'use client';
+
+import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import { PiArrowDown } from 'react-icons/pi';
 
 import { Progress } from '@/components/ui/progress';
 
 export const Banner = () => {
+	const { user } = useUser();
+	console.log('user data', user);
 	return (
 		<section
 			className="flex flex-col justify-center items-center p-10 bg-slate-900 max-md:px-5 mb-6"
@@ -13,7 +18,7 @@ export const Banner = () => {
 				<div className="flex gap-6 justify-center items-center self-stretch my-auto min-w-[240px]">
 					<Image
 						loading="lazy"
-						src="/app/lazyavt.png"
+						src={user?.imageUrl || '/app/lazyavt.png'}
 						alt="Profile avatar"
 						className="object-contain shrink-0 self-stretch my-auto w-20 aspect-square rounded-[40px]"
 						width={80}
@@ -21,10 +26,10 @@ export const Banner = () => {
 					/>
 					<div className="flex flex-col self-stretch my-auto w-56">
 						<div className="text-xl font-semibold leading-tight text-white">
-							Lazy Code
+							{user?.fullName}
 						</div>
 						<div className="mt-1.5 text-sm tracking-normal leading-loose text-white opacity-50">
-							lazycode.dev@gmail.com
+							{user?.primaryEmailAddress?.emailAddress}
 						</div>
 					</div>
 				</div>

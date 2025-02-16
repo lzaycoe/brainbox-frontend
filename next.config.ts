@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
 				hostname: 'contrib.rocks',
 				pathname: '/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'img.clerk.com',
+				pathname: '/**',
+			},
 		],
 		dangerouslyAllowSVG: true,
 	},

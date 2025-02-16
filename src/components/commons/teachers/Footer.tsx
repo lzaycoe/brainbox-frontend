@@ -4,7 +4,7 @@ import React from 'react';
 
 export const Footer = () => {
 	return (
-		<footer className="flex flex-wrap mt-auto gap-10 justify-between items-center px-40 py-3 text-sm tracking-normal leading-loose text-center max-md:px-5 bg-[#f5f7fa] max-md:flex-col max-md:gap-5">
+		<footer className="flex flex-wrap mt-auto gap-10 justify-between items-center px-40 py-3 text-sm tracking-normal leading-loose text-center max-md:px-5 bg-[#f5f7fa] max-md:flex-col max-md:gap-5 ml-64">
 			{/* Footer Text */}
 			<div className="self-stretch my-auto text-sm tracking-normal leading-loose max-md:text-center">
 				<span>© 2025 - BrainBox. Designed by </span>
