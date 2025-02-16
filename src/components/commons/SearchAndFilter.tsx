@@ -37,7 +37,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
 							type="text"
 							placeholder="Search in your courses..."
 							className="h-12 pl-12 pr-72 py-3 bg-white border border-[#e8eaef] justify-start items-center inline-flex overflow-hidden"
-							onChange={(e) => onSearch && onSearch(e.target.value)}
+							onChange={(e) => onSearch?.(e.target.value)}
 						/>
 					</div>
 				</div>
