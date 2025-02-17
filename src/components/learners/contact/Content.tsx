@@ -89,7 +89,7 @@ const ContactForm = () => (
 );
 
 const Content = () => (
-	<div className="flex flex-col items-center p-5 bg-gray-100">
+	<div className="flex flex-col items-center p-5 bg-gray-100 pb-12">
 		<SectionTitle title="Contact Us" />
 		<div className="flex gap-32 mt-10">
 			<div className="flex flex-col gap-10 max-w-md">

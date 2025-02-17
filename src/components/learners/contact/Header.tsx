@@ -21,8 +21,8 @@ const HeaderSection = ({ title, breadcrumbs }: HeaderSectionProps) => (
 			{title}
 		</div>
 		<div className="flex gap-1 text-sm text-[#6E7485]">
-			{breadcrumbs.map((item, index) => (
-				<span key={index} className={item.active ? 'text-[#1D2026]' : ''}>
+			{breadcrumbs.map((item) => (
+				<span key={item.label} className={item.active ? 'text-[#1D2026]' : ''}>
 					{item.label}
 				</span>
 			))}
@@ -38,11 +38,11 @@ interface ContactInfoProps {
 }
 
 const ContactInfo = ({ title, description, buttonText }: ContactInfoProps) => (
-	<div className="flex flex-col gap-6">
+	<div className="flex flex-col items-start gap-6">
 		<h2 className="text-5xl font-semibold text-[#1D2026]">{title}</h2>
 		<p className="text-lg text-[#4E5566] w-[424px]">{description}</p>
-		<button className="flex items-center bg-[#FF6636] text-white px-6 py-3 rounded-lg text-lg font-semibold">
-			<GoMail className="mr-2" /> {buttonText}
+		<button className="inline-flex items-center bg-[#FF6636] text-white px-2.5 py-2 rounded-lg text-lg font-semibold min-w-fit whitespace-nowrap gap-1">
+			<GoMail /> {buttonText}
 		</button>
 	</div>
 );
@@ -73,7 +73,7 @@ const BranchCard = ({ image, location, address }: BranchCardProps) => (
 
 // Component chứa danh sách các chi nhánh
 const BranchesSection = () => (
-	<section className="flex flex-col justify-center items-center px-72 py-10 text-center max-md:px-5">
+	<section className="flex flex-col justify-center items-center px-72 py-14 text-center max-md:px-5 mb-4">
 		<header className="flex flex-col justify-center items-center max-md:max-w-full">
 			<h2 className="text-4xl font-semibold tracking-tight leading-tight text-neutral-800 max-md:max-w-full">
 				Our branches all over the world.
@@ -120,7 +120,7 @@ const Header = () => {
 					{ label: 'Contact', active: true },
 				]}
 			/>
-			<div className="w-full max-w-[1920px] h-auto px-[300px] py-8 bg-white border-t border-[#FFDDD1] flex justify-center items-center gap-[136px] mx-auto">
+			<div className="w-full max-w-[1920px] h-auto px-[300px] py-12 bg-white border-t border-[#FFDDD1] flex justify-center items-center gap-[136px] mx-auto">
 				<ContactInfo
 					title="Connect with us"
 					description="Want to chat? We’d love to hear from you! Get in touch with our Customer Success Team..."
