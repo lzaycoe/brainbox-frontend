@@ -1,4 +1,5 @@
 import React from 'react';
+import { IoStarOutline } from 'react-icons/io5';
 
 const courses = [
 	{
@@ -10,7 +11,7 @@ const courses = [
 		price: 37.0,
 		originalPrice: 49.0,
 		image:
-			'https://cdn.builder.io/api/v1/image/assets/TEMP/046cc80c8e7991ba4ae2b731134c79369a2ab20114e30b7009b18a4d0cda7314?placeholderIfAbsent=true&apiKey=eb47009d56d84332945ecb583277e964',
+			'https://cdn.builder.io/api/v1/image/assets/TEMP/046cc80c8e7991ba4ae2b731134c79369a2ab20114e30b7009b18a4d0cda7314',
 	},
 	{
 		id: 2,
@@ -20,7 +21,7 @@ const courses = [
 		instructors: ['Nobody'],
 		price: 24.0,
 		image:
-			'https://cdn.builder.io/api/v1/image/assets/TEMP/2ed990c9886deb957f74cb2819b2a7f84bce92b13c557fe0c7a5e488767a1f6d?placeholderIfAbsent=true&apiKey=eb47009d56d84332945ecb583277e964',
+			'https://cdn.builder.io/api/v1/image/assets/TEMP/2ed990c9886deb957f74cb2819b2a7f84bce92b13c557fe0c7a5e488767a1f6d',
 	},
 	{
 		id: 3,
@@ -30,7 +31,7 @@ const courses = [
 		instructors: ['Kevin Gilbert'],
 		price: 13.0,
 		image:
-			'https://cdn.builder.io/api/v1/image/assets/TEMP/b9c5e3dd05dce3da0083d62f3c71cb63f657eea9bac3ac013d23acc3d8dba420?placeholderIfAbsent=true&apiKey=eb47009d56d84332945ecb583277e964',
+			'https://cdn.builder.io/api/v1/image/assets/TEMP/b9c5e3dd05dce3da0083d62f3c71cb63f657eea9bac3ac013d23acc3d8dba420',
 	},
 ];
 
@@ -64,10 +65,10 @@ const WishlistItem = ({ course }: { course: Course }) => (
 			<div className="flex flex-col justify-between min-h-[119px] min-w-60 w-[356px]">
 				<div>
 					<div className="flex gap-1.5 justify-center items-center text-sm">
-						<div className="w-5 h-5">★</div>
+						<IoStarOutline size={20} className="text-yellow-500" />
 						<div>
 							<span className="font-medium">{course.rating}</span>
-							<span> ({course.reviews} Review)</span>
+							<span> ({course.reviews} Reviews)</span>
 						</div>
 					</div>
 					<h3 className="mt-2 text-base font-medium">{course.title}</h3>
