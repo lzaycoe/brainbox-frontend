@@ -11,9 +11,6 @@ export default function Home() {
 				<div className="w-full max-w-[1245px] mb-6">
 					<CoursesList />
 				</div>
-				{/* <div className="w-full max-w-[1245px]">
-					<CoursesSection />
-				</div> */}
 			</div>
 		</div>
 	);
