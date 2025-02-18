@@ -40,11 +40,9 @@ const CourseItem = ({ course }: { course: Course }) => {
 								</span>
 							</div>
 						</div>
-						<h3 className="mt-2 text-lg font-bold text-black">
-							{course.title}
-						</h3>
+						<h3 className="mt-2 text-lg text-black">{course.title}</h3>
 					</div>
-					<p className="flex gap-1.5 mt-6 text-sm text-black">
+					<p className="flex gap-1.5 mt-6 text-sm text-gray-800">
 						<span className="text-gray-500">Course by:</span>{' '}
 						{course.instructors.join(' • ')}
 					</p>
