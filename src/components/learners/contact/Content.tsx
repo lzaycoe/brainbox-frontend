@@ -42,7 +42,7 @@ const InputField = ({
 );
 
 const ContactForm = () => (
-	<div className="bg-white p-10 rounded-lg shadow-md w-full max-w-lg">
+	<div className="bg-white p-10 rounded-lg shadow-md w-full max-w-lg space-y-4">
 		<div className="text-xl font-semibold text-gray-900 mb-4">Get In Touch</div>
 		<p className="text-gray-600 text-sm mb-6">
 			Feel free to contact us, we love to make new partners & friends.
@@ -92,7 +92,7 @@ const Content = () => (
 	<div className="flex flex-col items-center p-5 bg-gray-100 pb-12">
 		<SectionTitle title="Contact Us" />
 		<div className="flex gap-32 mt-10">
-			<div className="flex flex-col gap-10 max-w-md">
+			<div className="flex flex-col gap-6 max-w-md">
 				<p className="text-lg text-gray-900">
 					Will you be in Vietnam or any other branches anytime soon? Stop by the
 					office! Wed love to meet.
@@ -101,9 +101,11 @@ const Content = () => (
 					FPT University Campus, An Phu Thinh New Urban Area, Quy Nhon City,
 					Vietnam
 				</InfoBlock>
+				<hr className="border-gray-300 w-full" />
 				<InfoBlock label="Phone Number">
 					(480) 555-0103 <br /> (219) 555-0114
 				</InfoBlock>
+				<hr className="border-gray-300 w-full" />
 				<InfoBlock label="Email address">
 					help.lazycode@gmail.com <br /> career.lazycode@gmail.com
 				</InfoBlock>

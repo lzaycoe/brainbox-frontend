@@ -41,7 +41,7 @@ const ContactInfo = ({ title, description, buttonText }: ContactInfoProps) => (
 	<div className="flex flex-col items-start gap-6">
 		<h2 className="text-5xl font-semibold text-[#1D2026]">{title}</h2>
 		<p className="text-lg text-[#4E5566] w-[424px]">{description}</p>
-		<button className="inline-flex items-center bg-[#FF6636] text-white px-2.5 py-2 rounded-lg text-lg font-semibold min-w-fit whitespace-nowrap gap-1">
+		<button className="inline-flex items-center bg-[#FF6636] text-white px-7 py-2 rounded-lg text-lg font-semibold min-w-fit whitespace-nowrap gap-1">
 			<GoMail /> {buttonText}
 		</button>
 	</div>
