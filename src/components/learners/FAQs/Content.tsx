@@ -9,10 +9,11 @@ const Header = () => (
 			<h1 className="text-[#1D2026] text-4xl font-semibold leading-[48px]">
 				Frequently asked questions
 			</h1>
-			<div className="w-[336px] flex justify-end">
-				<select className="px-5 py-3 pr-10 text-base bg-white border border-solid border-gray-100 w-[200px]">
+			<div className="w-[336px] flex justify-end relative">
+				<select className="px-5 py-3 pr-12 text-base bg-white border border-solid border-gray-100 w-[200px] appearance-none">
 					<option>Students</option>
 				</select>
+				<FaChevronDown className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
 			</div>
 		</div>
 	</header>
@@ -22,21 +23,29 @@ const NavItem = ({
 	text,
 	active,
 	onClick,
+	isFirst,
+	isLast,
 }: {
 	text: string;
 	active: boolean;
 	onClick: () => void;
+	isFirst: boolean;
+	isLast: boolean;
 }) => (
 	<>
 		<button
 			onClick={onClick}
-			className={`gap-6 self-stretch px-4 py-3 w-64 max-w-full text-left ${
-				active ? 'bg-orange-500 text-black' : ''
-			}`}
+			className={`px-4 py-3 w-64 max-w-full text-left transition-all ${
+				active ? 'bg-orange-500 text-black' : 'bg-white text-black'
+			} ${isFirst ? 'rounded-t-lg' : ''} ${isLast ? 'rounded-b-lg' : ''}`}
 		>
 			{text}
 		</button>
-		<hr className="w-64 max-w-full bg-gray-200 border border-gray-200 border-solid min-h-px" />
+		{!isLast && (
+			<hr
+				className={`w-64 max-w-full bg-gray-200 border border-gray-200 min-h-px`}
+			/>
+		)}
 	</>
 );
 
@@ -59,13 +68,15 @@ const Nav = ({
 	];
 
 	return (
-		<nav className="flex flex-col justify-center py-2 w-64 text-sm font-medium leading-none text-black bg-white border border-solid border-gray-100 min-w-60">
+		<nav className="flex flex-col w-64 text-sm font-medium leading-none text-black bg-white border border-solid border-gray-100 min-w-60">
 			{items.map((item, index) => (
 				<NavItem
 					key={item}
 					text={item}
 					active={index === selectedIndex}
 					onClick={() => setSelectedIndex(index)}
+					isFirst={index === 0}
+					isLast={index === items.length - 1}
 				/>
 			))}
 		</nav>
@@ -84,7 +95,7 @@ const FAQItem = ({
 	const toggleFAQ = () => setIsOpen(!isOpen);
 
 	return (
-		<div className="flex flex-col w-[556px] mb-4">
+		<div className="flex flex-col w-[556px]">
 			<button
 				className={`cursor-pointer px-6 py-4 border border-gray-200 flex justify-between items-center w-full text-left ${
 					isOpen ? 'bg-black text-white' : 'bg-white text-black'
@@ -162,7 +173,7 @@ const FAQList = ({ selectedIndex }: { selectedIndex: number }) => {
 	const selectedFAQs = faqsList[selectedIndex] || [];
 
 	return (
-		<section className="min-w-60 max-md:max-w-full">
+		<section className="min-w-60 max-md:max-w-full flex flex-col gap-2">
 			{selectedFAQs.map((faq) => (
 				<FAQItem
 					key={faq.question}
