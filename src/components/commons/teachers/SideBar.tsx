@@ -43,8 +43,8 @@ export const SideBar = () => {
 					Dashboard
 				</Link>
 				<Link
-					href="/create-course"
-					className={getLinkClasses('/create-course')}
+					href="/teachers/create-course"
+					className={getLinkClasses('/teachers/create-course')}
 				>
 					<PiPlusCircleBold className="w-8 h-8" />
 					Create New Course
