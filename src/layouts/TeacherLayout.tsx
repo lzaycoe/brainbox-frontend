@@ -22,6 +22,8 @@ const TeacherLayout = ({
 			setTitle('Settings');
 		} else if (pathname.includes('/teachers/courses')) {
 			setTitle('My courses');
+		} else if (pathname.includes('/teachers/create-course')) {
+			setTitle('Create a new course');
 		} else {
 			setTitle('Teacher Portal');
 		}
