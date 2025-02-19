@@ -4,7 +4,6 @@ import { GoMail } from 'react-icons/go';
 import Content from './Content';
 import Footer from './Footer';
 
-// Component tiêu đề section
 interface Breadcrumb {
 	label: string;
 	active?: boolean;
@@ -16,7 +15,7 @@ interface HeaderSectionProps {
 }
 
 const HeaderSection = ({ title, breadcrumbs }: HeaderSectionProps) => (
-	<div className="w-full max-w-[1920px] px-[300px] py-[30px] bg-[#F5F7FA] flex flex-col justify-center items-center gap-2 mx-auto">
+	<div className="w-full px-[300px] py-[30px] bg-[#F5F7FA] flex flex-col justify-center items-center gap-2 mx-auto">
 		<div className="w-[1320px] text-center text-[#1D2026] text-2xl font-semibold">
 			{title}
 		</div>
@@ -30,7 +29,6 @@ const HeaderSection = ({ title, breadcrumbs }: HeaderSectionProps) => (
 	</div>
 );
 
-// Component hiển thị thông tin liên hệ
 interface ContactInfoProps {
 	title: string;
 	description: string;
@@ -47,7 +45,6 @@ const ContactInfo = ({ title, description, buttonText }: ContactInfoProps) => (
 	</div>
 );
 
-// Component card hiển thị chi nhánh
 interface BranchCardProps {
 	image: string;
 	location: string;
@@ -55,7 +52,7 @@ interface BranchCardProps {
 }
 
 const BranchCard = ({ image, location, address }: BranchCardProps) => (
-	<div className="flex relative flex-col px-6 pt-60 pb-6 aspect-[0.857] min-w-60 w-[312px] max-md:px-5 max-md:pt-24">
+	<div className="flex relative flex-col px-6 pt-60 pb-6 aspect-[0.857] min-w-60 w-[312px] px-6 max-md:px-5 max-md:pt-24">
 		<Image
 			src={image}
 			alt={`${location} branch`}
@@ -71,7 +68,6 @@ const BranchCard = ({ image, location, address }: BranchCardProps) => (
 	</div>
 );
 
-// Component chứa danh sách các chi nhánh
 const BranchesSection = () => (
 	<section className="flex flex-col justify-center items-center px-72 py-14 text-center max-md:px-5 mb-4">
 		<header className="flex flex-col justify-center items-center max-md:max-w-full">
@@ -108,7 +104,6 @@ const BranchesSection = () => (
 	</section>
 );
 
-// Component chính chứa tất cả
 const Header = () => {
 	return (
 		<div className="overflow-hidden">
