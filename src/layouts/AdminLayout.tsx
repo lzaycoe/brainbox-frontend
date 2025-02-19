@@ -1,5 +1,4 @@
 import { Footer } from '@/components/commons/teachers/Footer';
-import { SideBar } from '@/components/commons/teachers/SideBar';
 
 const TeacherLayout = ({
 	children,
