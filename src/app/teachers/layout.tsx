@@ -25,12 +25,12 @@ export default function TeacherPageLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body
+		<div>
+			<div
 				className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
 			>
 				<TeacherLayout>{children}</TeacherLayout>
-			</body>
-		</html>
+			</div>
+		</div>
 	);
 }
