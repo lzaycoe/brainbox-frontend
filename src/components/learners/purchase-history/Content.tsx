@@ -35,7 +35,13 @@ const orderData = {
 	],
 };
 
-const Summary = ({ user, cardNumber, expiryDate }) => (
+interface SummaryProps {
+	user: string;
+	cardNumber: string;
+	expiryDate: string;
+}
+
+const Summary: React.FC<SummaryProps> = ({ user, cardNumber, expiryDate }) => (
 	<aside className="bg-white shadow-sm w-full max-w-[450px] p-6 text-black flex-shrink-0 flex flex-col justify-center h-full">
 		{/* Đảm bảo ContentCard cũng được căn trái */}
 		<div className="text-left">
