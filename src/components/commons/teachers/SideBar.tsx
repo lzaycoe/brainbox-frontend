@@ -56,11 +56,17 @@ export const SideBar = () => {
 					<PiStack className="w-8 h-8" />
 					My Courses
 				</Link>
-				<Link href="/earnings" className={getLinkClasses('/earnings')}>
+				<Link
+					href="/teachers/earnings"
+					className={getLinkClasses('/teachers/earnings')}
+				>
 					<PiCreditCard className="w-8 h-8" />
 					Earnings
 				</Link>
-				<Link href="/messages" className={getLinkClasses('/messages')}>
+				<Link
+					href="/teachers/messages"
+					className={getLinkClasses('/teachers/messages')}
+				>
 					<div className="flex items-center gap-3">
 						<PiChatCircleDots className="w-8 h-8" />
 						Messages
