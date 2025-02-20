@@ -90,7 +90,8 @@ const Content = () => (
 				</InfoBlock>
 				<hr className="border-gray-300 w-full" />
 				<InfoBlock label="Phone Number">
-					(480) 555-0103 <br /> (219) 555-0114
+					(+84) 333 382 420
+					<br /> (+84) 763 707 144
 				</InfoBlock>
 				<hr className="border-gray-300 w-full" />
 				<InfoBlock label="Email address">
