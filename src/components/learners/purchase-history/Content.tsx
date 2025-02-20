@@ -1,6 +1,7 @@
-import React from 'react';
-// import { FaArrowDownLong } from 'react-icons/fa6';
-import { IoMdArrowDown } from 'react-icons/io';
+'use client';
+
+import React, { useState } from 'react';
+import { IoMdArrowDown, IoMdArrowUp } from 'react-icons/io';
 
 import ContentCard from './ContentCard';
 import CourseItem from './CourseItem';
@@ -64,6 +65,12 @@ const Summary: React.FC<SummaryProps> = ({ user, cardNumber, expiryDate }) => (
 
 // Main Component
 const Content = () => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const toggleContent = () => {
+		setIsOpen(!isOpen);
+	};
+
 	return (
 		<section className="w-full mt-10">
 			<h2 className="text-[#1D2026] text-2xl font-semibold leading-8 break-words mb-6 text-left">
@@ -71,7 +78,10 @@ const Content = () => {
 			</h2>
 
 			<article className="flex flex-col items-center py-6 bg-white border border-solid shadow-lg border-[#E9EAF0] relative">
-				<div className="flex items-center justify-between w-full relative">
+				<div
+					className="flex items-center justify-between w-full relative cursor-pointer"
+					onClick={toggleContent}
+				>
 					<ContentCard
 						date={orderData.date}
 						courses={orderData.courses}
@@ -79,26 +89,39 @@ const Content = () => {
 						paymentMethod={orderData.paymentMethod}
 					/>
 
-					<div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-md shadow-md mr-5">
-						<IoMdArrowDown className="text-[#1D2026] text-2xl" />
+					<div
+						className={`flex items-center justify-center w-12 h-12 rounded-md shadow-md mr-5 ${
+							isOpen ? 'bg-orange-500' : 'bg-gray-100'
+						}`}
+					>
+						{isOpen ? (
+							<IoMdArrowUp className="text-white text-2xl" />
+						) : (
+							<IoMdArrowDown className="text-[#1D2026] text-2xl" />
+						)}
 					</div>
 				</div>
 
-				<hr className="self-stretch mt-6 w-full bg-gray-200 border-0 h-px" />
+				{/* Nội dung này sẽ được ẩn/hiện dựa trên state isOpen */}
+				{isOpen && (
+					<>
+						<hr className="self-stretch mt-6 w-full bg-gray-200 border-0 h-px" />
 
-				<section className="flex gap-10 justify-between items-center w-full max-w-[1272px]">
-					<div className="w-full max-w-[calc(100%-350px-40px)]">
-						{orderData.items.map((course) => (
-							<CourseItem key={course.id} course={course} />
-						))}
-					</div>
+						<section className="flex gap-10 justify-between items-center w-full max-w-[1272px]">
+							<div className="w-full max-w-[calc(100%-350px-40px)]">
+								{orderData.items.map((course) => (
+									<CourseItem key={course.id} course={course} />
+								))}
+							</div>
 
-					<Summary
-						user={orderData.user}
-						cardNumber={orderData.cardNumber}
-						expiryDate={orderData.expiryDate}
-					/>
-				</section>
+							<Summary
+								user={orderData.user}
+								cardNumber={orderData.cardNumber}
+								expiryDate={orderData.expiryDate}
+							/>
+						</section>
+					</>
+				)}
 			</article>
 		</section>
 	);
