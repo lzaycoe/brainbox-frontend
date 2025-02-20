@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import '@/app/globals.css';
-import AdminLayout from '@/layouts/AdminLayout';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -29,7 +28,8 @@ export default function AdminPageLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
 			>
-				<AdminLayout>{children}</AdminLayout>
+				{/* <AdminLayout>{children}</AdminLayout> */}
+				{children}
 			</body>
 		</html>
 	);
