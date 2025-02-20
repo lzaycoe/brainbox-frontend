@@ -8,6 +8,7 @@ interface ContentCardProps {
 	courses: number;
 	totalPrice: string;
 	paymentMethod: string;
+	isOpen?: boolean;
 }
 
 const ContentCard = ({
@@ -15,9 +16,16 @@ const ContentCard = ({
 	courses,
 	totalPrice,
 	paymentMethod,
+	isOpen,
 }: ContentCardProps) => (
 	<header className="pl-6">
-		<h2 className="text-lg tracking-tight leading-none text-black">{date}</h2>
+		<h2
+			className={`text-lg tracking-tight leading-none ${
+				isOpen ? 'text-orange-500' : 'text-black'
+			}`}
+		>
+			{date}
+		</h2>
 		<div className="flex gap-4 items-start mt-3 text-sm tracking-normal leading-loose text-black">
 			<span className="flex items-center gap-1">
 				<MdOutlineVideoLibrary className="text-xl text-blue-900" />
