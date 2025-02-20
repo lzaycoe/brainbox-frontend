@@ -30,7 +30,7 @@ const orderData = {
 			instructors: ['Esther Howard'],
 			price: 49.0,
 			originalPrice: 99.0,
-			image: '/app/course/course01.png',
+			image: '/app/course/course02.png',
 		},
 	],
 };
@@ -65,7 +65,6 @@ const Summary: React.FC<SummaryProps> = ({ user, cardNumber, expiryDate }) => (
 const Content = () => {
 	return (
 		<article className="flex flex-col items-center py-6 bg-white border border-solid shadow-lg border-[#E9EAF0] relative">
-			{/* Icon mũi tên */}
 			<div className="flex items-center justify-between w-full relative">
 				<ContentCard
 					date={orderData.date}
@@ -74,8 +73,7 @@ const Content = () => {
 					paymentMethod={orderData.paymentMethod}
 				/>
 
-				{/* Icon mũi tên */}
-				<div className="flex items-center justify-center w-12 h-12 bg-[#F5F7FA] rounded-md shadow-md mr-5">
+				<div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-md shadow-md mr-5">
 					<FaArrowDownLong className="text-[#1D2026] text-2xl" />
 				</div>
 			</div>
