@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -24,6 +25,14 @@ const LoginForm = () => {
 
 	return (
 		<div className="flex p-10 min-h-screen bg-slate-50 max-md:flex-col max-md:p-5 max-sm:p-4">
+			<Image
+				loading="lazy"
+				src={'/app/admin/admin-login-banner.png'}
+				className="object-contain self-stretch my-auto aspect-[0.84] min-w-60 w-[836px] max-md:max-w-full max-h-[850]"
+				width={1264}
+				height={1500}
+				alt="Banner"
+			/>
 			<div className="flex flex-1 justify-center items-center max-md:p-5">
 				<div className="w-full max-w-md max-md:max-w-full">
 					<h1 className="mb-10 text-4xl font-semibold text-black max-sm:text-3xl text-center">
