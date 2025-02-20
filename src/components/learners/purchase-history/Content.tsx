@@ -75,7 +75,7 @@ const Content = () => {
 				/>
 
 				{/* Icon mũi tên */}
-				<div className="flex items-center justify-center w-12 h-12 bg-[#F5F7FA] rounded-md shadow-md border border-gray-300 mr-5">
+				<div className="flex items-center justify-center w-12 h-12 bg-[#F5F7FA] rounded-md shadow-md mr-5">
 					<FaArrowDownLong className="text-[#1D2026] text-2xl" />
 				</div>
 			</div>
