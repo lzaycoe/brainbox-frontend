@@ -68,12 +68,29 @@ const LoginForm = () => {
 								<FormLabel className="flex gap-2.5 items-center cursor-pointer">
 									<Input
 										type="checkbox"
-										className="sr-only peer"
+										className="peer hidden"
 										id="remember"
 									/>
-									<span className="bg-white rounded border border-gray-300 border-solid h-[22px] w-[22px] flex items-center justify-center peer-checked:bg-orange-500 peer-checked:border-orange-500">
-										<i className="ti ti-check text-white hidden peer-checked:block"></i>
-									</span>
+									<label
+										htmlFor="remember"
+										className="rounded border border-gray-300 border-solid h-[22px] w-[22px] flex items-center justify-center cursor-pointer peer-checked:bg-orange-500"
+									>
+										<svg
+											className="w-4 h-4 text-white peer-checked:block hidden"
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M5 13l4 4L19 7"
+											/>
+										</svg>
+									</label>
+
 									<span className="text-sm text-black">Remember me</span>
 								</FormLabel>
 
