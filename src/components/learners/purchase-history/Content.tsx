@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaArrowDownLong } from 'react-icons/fa6';
+// import { FaArrowDownLong } from 'react-icons/fa6';
+import { IoMdArrowDown } from 'react-icons/io';
 
 import ContentCard from './ContentCard';
 import CourseItem from './CourseItem';
@@ -64,36 +65,42 @@ const Summary: React.FC<SummaryProps> = ({ user, cardNumber, expiryDate }) => (
 // Main Component
 const Content = () => {
 	return (
-		<article className="flex flex-col items-center py-6 bg-white border border-solid shadow-lg border-[#E9EAF0] relative">
-			<div className="flex items-center justify-between w-full relative">
-				<ContentCard
-					date={orderData.date}
-					courses={orderData.courses}
-					totalPrice={orderData.totalPrice}
-					paymentMethod={orderData.paymentMethod}
-				/>
+		<section className="w-full mt-10">
+			<h2 className="text-[#1D2026] text-2xl font-semibold leading-8 break-words mb-6 text-left">
+				Purchase History
+			</h2>
 
-				<div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-md shadow-md mr-5">
-					<FaArrowDownLong className="text-[#1D2026] text-2xl" />
-				</div>
-			</div>
+			<article className="flex flex-col items-center py-6 bg-white border border-solid shadow-lg border-[#E9EAF0] relative">
+				<div className="flex items-center justify-between w-full relative">
+					<ContentCard
+						date={orderData.date}
+						courses={orderData.courses}
+						totalPrice={orderData.totalPrice}
+						paymentMethod={orderData.paymentMethod}
+					/>
 
-			<hr className="self-stretch mt-6 w-full bg-gray-200 border-0 h-px" />
-
-			<section className="flex gap-10 justify-between items-center w-full max-w-[1272px]">
-				<div className="w-full max-w-[calc(100%-350px-40px)]">
-					{orderData.items.map((course) => (
-						<CourseItem key={course.id} course={course} />
-					))}
+					<div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-md shadow-md mr-5">
+						<IoMdArrowDown className="text-[#1D2026] text-2xl" />
+					</div>
 				</div>
 
-				<Summary
-					user={orderData.user}
-					cardNumber={orderData.cardNumber}
-					expiryDate={orderData.expiryDate}
-				/>
-			</section>
-		</article>
+				<hr className="self-stretch mt-6 w-full bg-gray-200 border-0 h-px" />
+
+				<section className="flex gap-10 justify-between items-center w-full max-w-[1272px]">
+					<div className="w-full max-w-[calc(100%-350px-40px)]">
+						{orderData.items.map((course) => (
+							<CourseItem key={course.id} course={course} />
+						))}
+					</div>
+
+					<Summary
+						user={orderData.user}
+						cardNumber={orderData.cardNumber}
+						expiryDate={orderData.expiryDate}
+					/>
+				</section>
+			</article>
+		</section>
 	);
 };
 
