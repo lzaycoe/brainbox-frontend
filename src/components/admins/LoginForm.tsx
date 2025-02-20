@@ -8,6 +8,7 @@ import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const formSchema = z.object({
 	username: z.string().nonempty('Username is required'),
@@ -75,15 +76,15 @@ const LoginForm = () => {
 
 							<div className="flex justify-between items-center mb-6">
 								<FormLabel className="flex gap-2.5 items-center cursor-pointer">
-									<Input
-										type="checkbox"
-										className="peer hidden"
-										id="remember"
-									/>
-									<label
+									<Label
 										htmlFor="remember"
 										className="rounded border border-gray-300 border-solid h-[22px] w-[22px] flex items-center justify-center cursor-pointer peer-checked:bg-orange-500"
 									>
+										<Input
+											type="checkbox"
+											className="peer hidden"
+											id="remember"
+										/>
 										<svg
 											className="w-4 h-4 text-white peer-checked:block hidden"
 											xmlns="http://www.w3.org/2000/svg"
@@ -92,13 +93,13 @@ const LoginForm = () => {
 											stroke="currentColor"
 										>
 											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												stroke-width="2"
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth="2"
 												d="M5 13l4 4L19 7"
 											/>
 										</svg>
-									</label>
+									</Label>
 
 									<span className="text-sm text-black">Remember me</span>
 								</FormLabel>
