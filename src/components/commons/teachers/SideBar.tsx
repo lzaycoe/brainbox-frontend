@@ -14,7 +14,8 @@ export const SideBar = () => {
 	const pathname = usePathname();
 
 	const getLinkClasses = (path: string) => {
-		return pathname === path
+		const isActive = pathname.startsWith(path);
+		return isActive
 			? 'flex items-center gap-3 px-6 py-3 bg-orange-500 text-white'
 			: 'flex items-center gap-3 px-6 py-3 text-gray-400 hover:text-white';
 	};
