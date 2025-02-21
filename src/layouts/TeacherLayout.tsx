@@ -16,15 +16,32 @@ const TeacherLayout = ({
 	const [title, setTitle] = useState('Dashboard');
 
 	useEffect(() => {
-		if (pathname.includes('/teachers/dashboard')) {
-			setTitle('Dashboard');
-		} else if (pathname.includes('/teachers/settings')) {
-			setTitle('Settings');
-		} else if (pathname.includes('/teachers/courses')) {
-			setTitle('My courses');
-		} else {
-			setTitle('Teacher Portal');
+		let title = 'Teacher Portal';
+
+		switch (true) {
+			case pathname.includes('/teachers/dashboard'):
+				title = 'Dashboard';
+				break;
+			case pathname.includes('/teachers/create-course'):
+				title = 'Create course';
+				break;
+			case pathname.includes('/teachers/courses'):
+				title = 'My courses';
+				break;
+			case pathname.includes('/teachers/earnings'):
+				title = 'My earnings';
+				break;
+			case pathname.includes('/teachers/messages'):
+				title = 'My messages';
+				break;
+			case pathname.includes('/teachers/settings'):
+				title = 'Settings';
+				break;
+			default:
+				title = 'Teacher Portal';
 		}
+
+		setTitle(title);
 	}, [pathname]);
 
 	return (
