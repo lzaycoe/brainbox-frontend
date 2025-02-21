@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
 				hostname: 'img.clerk.com',
 				pathname: '/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'cdn.builder.io',
+				pathname: '/**',
+			},
 		],
 		dangerouslyAllowSVG: true,
 	},
