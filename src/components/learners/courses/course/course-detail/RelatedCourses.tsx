@@ -1,7 +1,6 @@
+import { Course, courses } from '../../../../../data/CourseData';
 import { ArrowRightIcon, StarIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
-
-import { Course, courses } from './CourseData';
 
 const CourseCard = ({ course }: { course: Course }) => (
 	<div className="flex flex-col">
