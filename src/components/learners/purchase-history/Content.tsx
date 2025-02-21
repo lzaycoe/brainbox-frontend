@@ -155,8 +155,16 @@ const Content = () => {
 					className="flex flex-col items-center py-6 bg-white border border-solid shadow-lg border-[#E9EAF0] relative mb-6"
 				>
 					<div
+						role="button" // Thêm role="button"
+						tabIndex={0} // Cho phép tab bằng bàn phím
 						className="flex items-center justify-between w-full relative cursor-pointer"
 						onClick={() => toggleContent(index)}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								toggleContent(index);
+							}
+						}}
 					>
 						<ContentCard
 							date={order.date}
