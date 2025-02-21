@@ -20,6 +20,8 @@ const TeacherLayout = ({
 			setTitle('Dashboard');
 		} else if (pathname.includes('/teachers/settings')) {
 			setTitle('Settings');
+		} else if (/\/teachers\/courses\/[^\/]+\/sections/.test(pathname)) {
+			setTitle('Course Sections');
 		} else if (pathname.includes('/teachers/courses')) {
 			setTitle('My courses');
 		} else if (pathname.includes('/teachers/create-course')) {
