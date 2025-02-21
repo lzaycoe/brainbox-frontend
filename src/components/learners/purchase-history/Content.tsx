@@ -28,7 +28,7 @@ const orderDataList = [
 			},
 			{
 				id: 2,
-				title: 'Mega Digital Marketing Course A-Z: 12 Courses in 1 + Updates',
+				title: 'Mega Digital Marketing Course A-Z',
 				rating: 4.7,
 				reviews: 451444,
 				instructors: ['Esther Howard'],
