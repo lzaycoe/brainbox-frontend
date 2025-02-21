@@ -20,4 +20,4 @@ export const courseSchema = z.object({
 	public: z.boolean().optional().default(false),
 });
 
-export type FormData = z.infer<typeof courseSchema>;
+export type CourseData = z.infer<typeof courseSchema>;
