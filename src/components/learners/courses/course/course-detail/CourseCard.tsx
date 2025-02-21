@@ -1,17 +1,17 @@
 import {
-	ArchiveIcon,
-	CheckCircledIcon,
-	ClockIcon,
-	EnvelopeClosedIcon,
-	FileTextIcon,
-	HeartIcon,
-	Link1Icon,
-	LinkedInLogoIcon,
-	LockClosedIcon,
-	MobileIcon,
-	TwitterLogoIcon,
-	VideoIcon,
-} from '@radix-ui/react-icons';
+	FaArchive,
+	FaCheckCircle,
+	FaClock,
+	FaEnvelope,
+	FaFileAlt,
+	FaHeart,
+	FaLink,
+	FaLinkedin,
+	FaLock,
+	FaMobile,
+	FaTwitter,
+	FaVideo,
+} from 'react-icons/fa';
 
 type SocialButtonProps = {
 	icon: React.ElementType;
@@ -37,7 +37,7 @@ export default function CourseCard() {
 			</div>
 
 			<div className="flex items-center gap-2 mt-3 text-red-500 text-sm">
-				<ClockIcon className="w-4 h-4" />
+				<FaClock className="w-4 h-4" />
 				<span>2 days left at this price!</span>
 			</div>
 
@@ -74,13 +74,13 @@ export default function CourseCard() {
 			<div className="flex gap-3 mt-3">
 				<button className="flex-1 py-2 border border-gray-200 rounded-md text-gray-600 hover:bg-gray-50 transition-colors">
 					<div className="flex items-center justify-center gap-2">
-						<HeartIcon className="w-4 h-4" />
+						<FaHeart className="w-4 h-4" />
 						Add To Wishlist
 					</div>
 				</button>
 				<button className="flex-1 py-2 border border-gray-200 rounded-md text-gray-600 hover:bg-gray-50 transition-colors">
 					<div className="flex items-center justify-center gap-2">
-						<ArchiveIcon className="w-4 h-4" />
+						<FaArchive className="w-4 h-4" />
 						Gift Course
 					</div>
 				</button>
@@ -95,27 +95,27 @@ export default function CourseCard() {
 				<h3 className="font-medium mb-4">This course includes:</h3>
 				<ul className="space-y-3 text-sm text-gray-600">
 					<li className="flex items-center gap-2">
-						<CheckCircledIcon className="w-4 h-4" />
+						<FaCheckCircle className="w-4 h-4" />
 						Lifetime access
 					</li>
 					<li className="flex items-center gap-2">
-						<LockClosedIcon className="w-4 h-4" />
+						<FaLock className="w-4 h-4" />
 						30-days money-back guarantee
 					</li>
 					<li className="flex items-center gap-2">
-						<FileTextIcon className="w-4 h-4" />
+						<FaFileAlt className="w-4 h-4" />
 						Free exercises file & downloadable resources
 					</li>
 					<li className="flex items-center gap-2">
-						<CheckCircledIcon className="w-4 h-4" />
+						<FaCheckCircle className="w-4 h-4" />
 						Shareable certificate of completion
 					</li>
 					<li className="flex items-center gap-2">
-						<MobileIcon className="w-4 h-4" />
+						<FaMobile className="w-4 h-4" />
 						Access on mobile, tablet and TV
 					</li>
 					<li className="flex items-center gap-2">
-						<VideoIcon className="w-4 h-4" />
+						<FaVideo className="w-4 h-4" />
 						100% online course
 					</li>
 				</ul>
@@ -125,12 +125,12 @@ export default function CourseCard() {
 				<h3 className="font-medium mb-4">Share this course:</h3>
 				<div className="flex gap-2">
 					<button className="px-4 py-2 bg-gray-50 rounded-md text-gray-600 hover:bg-gray-100 transition-colors flex items-center gap-2">
-						<Link1Icon className="w-4 h-4" />
+						<FaLink className="w-4 h-4" />
 						Copy link
 					</button>
-					<SocialButton icon={LinkedInLogoIcon} />
-					<SocialButton icon={TwitterLogoIcon} />
-					<SocialButton icon={EnvelopeClosedIcon} />
+					<SocialButton icon={FaLinkedin} />
+					<SocialButton icon={FaTwitter} />
+					<SocialButton icon={FaEnvelope} />
 				</div>
 			</div>
 		</div>
