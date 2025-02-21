@@ -10,19 +10,19 @@ import FormBasicInfo from '@/components/teachers/create-course/FormBasicInfo';
 import TabGroup from '@/components/teachers/create-course/TabGroup';
 import { useToast } from '@/hooks/use-toast';
 import { courseSchema } from '@/schemas/course.schema';
-import type { FormData } from '@/schemas/course.schema';
+import type { CourseData } from '@/schemas/course.schema';
 import { createCourse } from '@/services/api/course';
 import { uploadImage } from '@/services/supabase/uploadImage';
 
 const CreateCourse = () => {
-	const methods = useForm<FormData>({
+	const methods = useForm<CourseData>({
 		resolver: zodResolver(courseSchema),
 	});
 
 	const [activeTab, setActiveTab] = useState(0);
 	const { toast } = useToast();
 
-	const onSubmit = async (data: FormData, file: File | null) => {
+	const onSubmit = async (data: CourseData, file: File | null) => {
 		try {
 			if (data.salePrice > data.originPrice) {
 				methods.setError('salePrice', {
