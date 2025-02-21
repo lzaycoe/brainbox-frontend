@@ -42,7 +42,6 @@ const CourseItem = ({ course }: { course: Course }) => {
 				</div>
 			</section>
 
-			{/* Điều chỉnh cột giá tiền để chiếm ít không gian hơn */}
 			<div className="text-left ml-5">
 				<span className="text-orange-500 text-lg font-medium">
 					${course.price.toFixed(2)}

@@ -154,17 +154,10 @@ const Content = () => {
 					key={order.date} // Sửa key ở đây
 					className="flex flex-col items-center py-6 bg-white border border-solid shadow-lg border-[#E9EAF0] relative mb-6"
 				>
-					<div
-						role="button" // Thêm role="button"
-						tabIndex={0} // Cho phép tab bằng bàn phím
-						className="flex items-center justify-between w-full relative cursor-pointer"
+					<button
+						className="flex items-center justify-between w-full relative text-left focus:outline-none p-0 m-0 bg-transparent border-0"
 						onClick={() => toggleContent(index)}
-						onKeyDown={(e) => {
-							if (e.key === 'Enter' || e.key === ' ') {
-								e.preventDefault();
-								toggleContent(index);
-							}
-						}}
+						aria-expanded={openIndex === index}
 					>
 						<ContentCard
 							date={order.date}
@@ -185,7 +178,7 @@ const Content = () => {
 								<IoMdArrowDown className="text-[#1D2026] text-2xl" />
 							)}
 						</div>
-					</div>
+					</button>
 
 					{openIndex === index && (
 						<>
