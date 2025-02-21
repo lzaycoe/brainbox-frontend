@@ -151,7 +151,7 @@ const Content = () => {
 
 			{orderDataList.map((order, index) => (
 				<article
-					key={index}
+					key={order.date} // Sửa key ở đây
 					className="flex flex-col items-center py-6 bg-white border border-solid shadow-lg border-[#E9EAF0] relative mb-6"
 				>
 					<div
@@ -179,7 +179,6 @@ const Content = () => {
 						</div>
 					</div>
 
-					{/* Nội dung này sẽ được ẩn/hiện dựa trên state openIndex */}
 					{openIndex === index && (
 						<>
 							<hr className="self-stretch mt-6 w-full bg-gray-200 border-0 h-px" />

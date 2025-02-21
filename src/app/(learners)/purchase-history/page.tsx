@@ -1,7 +1,5 @@
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
-// import CoursesList from '@/components/learners/wishlist/CoursesList';
-
 import Content from '@/components/learners/purchase-history/Content';
 
 export default function Home() {
