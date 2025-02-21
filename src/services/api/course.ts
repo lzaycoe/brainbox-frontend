@@ -1,15 +1,33 @@
-export const createCourse = async (courseData: Record<string, unknown>) => {
-	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/courses`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({ ...courseData, status: 'pending', teacherId: 1 }),
-	});
+import axios from 'axios';
 
-	if (!response.ok) {
+import { CourseData } from '@/schemas/course.schema';
+
+export const createCourse = async (courseData: Record<string, unknown>) => {
+	try {
+		const response = await axios.post(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses`,
+			{ ...courseData, status: 'pending', teacherId: 1 },
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to create course:', error);
 		throw new Error('Failed to create course');
 	}
+};
 
-	return response.json();
+export const getCourse = async (id: string): Promise<CourseData> => {
+	try {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses/${id}`,
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch course:', error);
+		throw error;
+	}
 };
