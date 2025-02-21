@@ -15,18 +15,18 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { FormData } from '@/schemas/course.schema';
+import { CourseData } from '@/schemas/course.schema';
 
 interface FormAdvanceInfoProps {
 	onPreviousTab: () => void;
-	onSubmit: (data: FormData, file: File | null) => Promise<void>;
+	onSubmit: (data: CourseData, file: File | null) => Promise<void>;
 }
 
 const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 	onPreviousTab,
 	onSubmit,
 }) => {
-	const { handleSubmit, control, setValue } = useFormContext<FormData>();
+	const { handleSubmit, control, setValue } = useFormContext<CourseData>();
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [thumbnail, setThumbnail] = useState<string | null>(null);
@@ -47,14 +47,14 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 		}
 	};
 
-	const handleNumberChange = (field: keyof FormData, value: string) => {
+	const handleNumberChange = (field: keyof CourseData, value: string) => {
 		const parsedValue = value === '' ? undefined : parseFloat(value);
 		setValue(field, parsedValue ?? 0, {
 			shouldValidate: true,
 		});
 	};
 
-	const handleFormSubmit = (data: FormData) => {
+	const handleFormSubmit = (data: CourseData) => {
 		onSubmit(data, selectedFile);
 	};
 

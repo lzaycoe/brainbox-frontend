@@ -20,7 +20,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { FormData } from '@/schemas/course.schema';
+import { CourseData } from '@/schemas/course.schema';
 
 const categories = [
 	{ value: 'business', label: 'Business' },
@@ -41,7 +41,7 @@ interface FormBasicInfoProps {
 }
 
 const FormBasicInfo: React.FC<FormBasicInfoProps> = ({ onNextTab }) => {
-	const { control } = useFormContext<FormData>();
+	const { control } = useFormContext<CourseData>();
 
 	return (
 		<div className="flex flex-col gap-8">
