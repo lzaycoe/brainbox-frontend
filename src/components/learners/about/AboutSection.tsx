@@ -97,44 +97,59 @@ const TestimonialsSection = () => {
 	return (
 		<section className="mt-10 mb-10 w-full px-5 h-auto bg-white flex justify-center items-center">
 			<div className="w-full max-w-[1000px] flex justify-center items-start gap-8">
-				{testimonials.map((testimonial, index) => (
-					<div
-						key={index}
-						className="flex-col justify-start items-center gap-4 inline-flex"
-					>
-						{/* Đặt icon và văn bản chung trong một container */}
-						<div className="relative p-6 bg-[#f4f7f9] shadow-sm w-[320px] flex flex-col justify-between items-center gap-2">
-							{/* Icon trên: dấu ngoặc kép đóng */}
-							<Quote
-								className="absolute top-2 left-2 text-[#FF6636] opacity-70 rotate-180"
-								size={24}
-							/>
-							{/* Nội dung văn bản */}
-							<div className="text-center text-[#1d1f26] text-sm font-normal leading-relaxed">
-								{testimonial.text}
+				{testimonials.map((testimonial, index) => {
+					// Tách phần công ty để thêm link
+					const [position, company] = testimonial.title.split(' of ');
+
+					// Định nghĩa link theo tên công ty
+					const companyLinks = {
+						Google: 'https://www.google.com',
+						Microsoft: 'https://www.microsoft.com',
+						Netflix: 'https://www.netflix.com',
+					};
+					const companyLink =
+						companyLinks[company as keyof typeof companyLinks] || '#';
+
+					return (
+						<div
+							key={index}
+							className="flex-col justify-start items-center gap-4 inline-flex"
+						>
+							<div className="relative p-6 bg-[#f4f7f9] shadow-sm w-[320px] flex flex-col justify-between items-center gap-2">
+								<Quote
+									className="absolute top-2 left-2 text-[#FF6636] opacity-70 rotate-180"
+									size={22}
+								/>
+								<div className="text-center text-[#1d1f26] text-base font-normal leading-relaxed">
+									{testimonial.text}
+								</div>
+								<Quote
+									className="absolute bottom-2 right-2 text-[#FF6636] opacity-70"
+									size={22}
+								/>
 							</div>
-							{/* Icon dưới: dấu ngoặc kép mở */}
-							<Quote
-								className="absolute bottom-2 right-2 text-[#FF6636] opacity-70"
-								size={24}
-							/>
+							<div className="flex-col justify-start items-center gap-1 flex">
+								<div className="w-[320px] text-center text-[#1d1f26] text-sm font-medium leading-snug">
+									{testimonial.name}
+								</div>
+								<div className="w-[320px] text-center">
+									<span className="text-[#6e7484] text-xs font-normal leading-snug">
+										{position} of{' '}
+									</span>
+									{/* Gắn link cho tên công ty */}
+									<a
+										href={companyLink}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-[#554ffc] text-xs font-medium leading-tight hover:underline"
+									>
+										{company}
+									</a>
+								</div>
+							</div>
 						</div>
-						{/* Thông tin người dùng */}
-						<div className="flex-col justify-start items-center gap-1 flex">
-							<div className="w-[320px] text-center text-[#1d1f26] text-sm font-medium leading-snug">
-								{testimonial.name}
-							</div>
-							<div className="w-[320px] text-center">
-								<span className="text-[#6e7484] text-xs font-normal leading-snug">
-									{testimonial.title.split(' of ')[0]} of{' '}
-								</span>
-								<span className="text-[#554ffc] text-xs font-medium leading-tight">
-									{testimonial.title.split(' of ')[1]}
-								</span>
-							</div>
-						</div>
-					</div>
-				))}
+					);
+				})}
 			</div>
 		</section>
 	);
