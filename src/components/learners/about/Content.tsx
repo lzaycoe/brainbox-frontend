@@ -170,7 +170,7 @@ const Content = () => {
 				</article>
 
 				{/* Phần thống kê */}
-				<section className="flex flex-row justify-center items-start gap-x-6 mt-20 max-md:mt-10 max-md:max-w-full">
+				<section className="flex flex-row justify-center items-start gap-x-6 mt-10 max-md:mt-10 max-md:max-w-full">
 					{statistics.map((stat, index) => (
 						<StatisticCard
 							key={index}

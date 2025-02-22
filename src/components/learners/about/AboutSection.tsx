@@ -1,103 +1,150 @@
+import { Quote } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
+import { IoArrowForwardSharp } from 'react-icons/io5';
 
-/* OUR ONE BILLION MISSION */
 const MissionSection = () => {
 	return (
-		<section className="w-full max-w-[1200px] mx-auto px-5 mt-10 mb-10 h-[436px] bg-[#ffeee8] flex justify-center items-center gap-[136px]">
-			<Image
-				src="/app/about/AboutSection_01.png"
-				alt="Mission Image"
-				width={648}
-				height={436}
-				// className="shadow-[-40px_40px_50px_0px_rgba(0,0,0,0.30)] object-cover"
-			/>
-
-			<div className="flex-col justify-start items-start gap-6 flex">
-				<div className="flex-col justify-start items-start gap-2 flex">
-					<div className="w-[536px] text-[#ff6636] text-base font-medium leading-snug">
-						OUR ONE BILLION MISSION
+		<section className="w-full px-5 h-auto bg-[#ffeee8] flex justify-center items-center gap-10">
+			<div className="w-full max-w-[1200px] flex justify-center items-center gap-10">
+				<Image
+					src="/app/about/AboutSection_01.png"
+					alt="Mission Image"
+					width={600}
+					height={400}
+					// className="object-cover "
+				/>
+				<div className="flex-col justify-start items-start gap-6 flex max-w-[536px]">
+					<div className="flex-col justify-start items-start gap-2 flex">
+						<div className="text-[#ff6636] text-base font-medium leading-snug">
+							OUR ONE BILLION MISSION
+						</div>
+						<div className="text-[#1d1f26] text-[40px] font-semibold leading-[48px]">
+							Our one billion mission sounds bold, We agree.
+						</div>
 					</div>
-					<div className="w-[536px] text-[#1d1f26] text-[40px] font-semibold leading-[48px]">
-						Our one billion mission sounds bold, We agree.
+					<div className="text-[#4d5565] text-[18px] leading-normal">
+						We cannot solve our problems with the same thinking we used when we
+						created them. —Albert Einstein. Institutions are slow to change.
+						Committees are where good ideas and innovative thinking go to die.
+						Choose agility over dogma. Embrace and drive change. We need to wipe
+						the slate clean and begin with bold, radical thinking.
 					</div>
-				</div>
-				<div className="w-[536px] text-[#4d5565] text-base leading-normal">
-					We cannot solve our problems with the same thinking we used when we
-					created them.—Albert Einstein. Institutions are slow to change.
-					Committees are where good ideas and innovative thinking go to die.
-					Choose agility over dogma. Embrace and drive change. We need to wipe
-					the slate clean and begin with bold, radical thinking.
 				</div>
 			</div>
 		</section>
 	);
 };
 
-const images = [
-	'/app/about/01.png',
-	'/app/about/01.png',
-	'/app/about/01.png',
-	'/app/about/01.png',
-	'/app/about/01.png',
-	'/app/about/01.png',
-	'/app/about/01.png',
-];
-
 const GallerySection = () => {
 	return (
-		<section className="h-[724px] pl-[300px] pr-[150px] py-20 bg-[#f4f7f9] justify-center items-center gap-28 inline-flex">
-			<div className="flex-col justify-start items-start gap-6 inline-flex">
-				<div className="flex-col justify-start items-start gap-2 flex">
-					<div className="w-[424px] text-[#ff6636] text-base font-medium leading-snug">
-						OUR GALLERY
+		<section className="w-full px-5 h-auto bg-[#f4f7f9] flex justify-center items-center gap-10">
+			<div className="pt-12 w-full max-w-[1200px] flex justify-center items-center gap-10">
+				<div className="flex-col justify-start items-start gap-4 flex max-w-[400px]">
+					<div className="flex-col justify-start items-start gap-1 flex">
+						<div className="text-[#ff6636] text-sm font-medium leading-tight ">
+							OUR GALLERY
+						</div>
+						<div className="text-[#1d1f26] text-[36px] font-semibold leading-[40px]">
+							We’ve been here almost 4 years
+						</div>
 					</div>
-					<div className="w-[424px] text-[#1d1f26] text-[40px] font-semibold leading-[48px]">
-						We’ve been here almost 4 years
+					<div className="text-[#4d5565] text-base leading-relaxed">
+						Fusce lobortis leo augue, sit amet tristique nisi commodo in.
+						Aliquam ac libero quis tellus venenatis imperdiet. Sed sed nunc
+						libero. Curabitur in urna ligula. torquent per conubia nostra.
 					</div>
+
+					<button className="bg-[#ff6636] px-6 py-2 hover:bg-[#e55b31] transition duration-300 flex items-center gap-2">
+						<span className="text-white text-sm font-semibold capitalize">
+							Join our team
+						</span>
+						<IoArrowForwardSharp className="text-white text-sm" />
+					</button>
 				</div>
-				<div className="w-[424px] text-[#4d5565] text-base leading-normal">
-					Fusce lobortis leo augue, sit amet tristique nisi commodo in. Aliquam
-					ac libero quis tellus venenatis imperdiet. Sed sed nunc libero.
-					Curabitur in urna ligula. torquent per conubia nostra.
+				<div className="w-[600px] h-[400px] relative">
+					<Image
+						src="/app/about/AboutSection_02.png"
+						alt="Gallery Image"
+						width={600}
+						height={400}
+						// className="object-cover"
+					/>
 				</div>
 			</div>
-			<div className="w-[934px] h-[564px] relative">
-				{images.map((src, index) => (
-					<Image
+		</section>
+	);
+};
+
+const TestimonialsSection = () => {
+	const testimonials = [
+		{
+			name: 'Sundar Pichai',
+			title: 'Chief Chairman of Google',
+			text: 'Eduguard fit us like a glove. Their team curates fresh, up-to-date courses from their marketplace and makes them available to customers.',
+		},
+		{
+			name: 'Satya Nadella',
+			title: 'CEO of Microsoft',
+			text: 'Eduguard responds to the needs of the business in an agile and global manner. It’s truly the best solution for our employees and their careers.',
+		},
+		{
+			name: 'Ted Sarandos',
+			title: 'Chief Executive Officer of Netflix',
+			text: 'In total, it was a big success, I would get emails about what a fantastic resource it was.',
+		},
+	];
+	return (
+		<section className="mt-10 mb-10 w-full px-5 h-auto bg-white flex justify-center items-center">
+			<div className="w-full max-w-[1000px] flex justify-center items-start gap-8">
+				{testimonials.map((testimonial, index) => (
+					<div
 						key={index}
-						src={src}
-						alt={`Gallery Image ${index + 1}`}
-						width={238}
-						height={160}
-						className={`absolute ${getImagePosition(index)}`}
-					/>
+						className="flex-col justify-start items-center gap-4 inline-flex"
+					>
+						{/* Đặt icon và văn bản chung trong một container */}
+						<div className="relative p-6 bg-[#f4f7f9] shadow-sm w-[320px] flex flex-col justify-between items-center gap-2">
+							{/* Icon trên: dấu ngoặc kép đóng */}
+							<Quote
+								className="absolute top-2 left-2 text-[#FF6636] opacity-70 rotate-180"
+								size={24}
+							/>
+							{/* Nội dung văn bản */}
+							<div className="text-center text-[#1d1f26] text-sm font-normal leading-relaxed">
+								{testimonial.text}
+							</div>
+							{/* Icon dưới: dấu ngoặc kép mở */}
+							<Quote
+								className="absolute bottom-2 right-2 text-[#FF6636] opacity-70"
+								size={24}
+							/>
+						</div>
+						{/* Thông tin người dùng */}
+						<div className="flex-col justify-start items-center gap-1 flex">
+							<div className="w-[320px] text-center text-[#1d1f26] text-sm font-medium leading-snug">
+								{testimonial.name}
+							</div>
+							<div className="w-[320px] text-center">
+								<span className="text-[#6e7484] text-xs font-normal leading-snug">
+									{testimonial.title.split(' of ')[0]} of{' '}
+								</span>
+								<span className="text-[#554ffc] text-xs font-medium leading-tight">
+									{testimonial.title.split(' of ')[1]}
+								</span>
+							</div>
+						</div>
+					</div>
 				))}
 			</div>
 		</section>
 	);
 };
-
-// Hàm xác định vị trí từng ảnh theo thứ tự ban đầu
-const getImagePosition = (index: number) => {
-	const positions = [
-		'left-[696px] top-[252px]',
-		'left-[696px] top-[436px]',
-		'left-[406px] top-0',
-		'left-[248px] top-[252px]',
-		'left-[102px] top-[32px]',
-		'left-[742px] top-[69px]',
-		'left-0 top-[252px]',
-	];
-	return positions[index] || '';
-};
-
-/* MAIN COMPONENT */
 const AboutSection = () => {
 	return (
 		<>
 			<MissionSection />
 			<GallerySection />
+			<TestimonialsSection />
 		</>
 	);
 };
