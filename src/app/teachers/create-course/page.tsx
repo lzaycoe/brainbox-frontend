@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { PiClipboardTextDuotone, PiStackDuotone } from 'react-icons/pi';
@@ -18,6 +19,8 @@ const CreateCourse = () => {
 	const methods = useForm<CourseData>({
 		resolver: zodResolver(courseSchema),
 	});
+
+	const router = useRouter();
 
 	const [activeTab, setActiveTab] = useState(0);
 	const { toast } = useToast();
@@ -38,12 +41,13 @@ const CreateCourse = () => {
 					data.thumbnail = publicUrl;
 				}
 			}
-			const response = await createCourse(data);
-			console.log('Course created successfully:', response);
+			await createCourse(data);
 			toast({
 				title: 'Course created successfully!',
 				description: 'Your course has been created.',
 			});
+			router.push('/teachers/courses');
+			router.refresh();
 		} catch (error) {
 			console.error('Failed to create course:', error);
 			toast({
