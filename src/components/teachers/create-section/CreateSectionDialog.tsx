@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -14,16 +15,19 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { SectionData, sectionSchema } from '@/schemas/section.schema';
+import { Section, SectionData, sectionSchema } from '@/schemas/section.schema';
 import { createSection } from '@/services/api/section';
 
 export default function CreateSectionDialog({
 	courseId,
+	onSectionCreated,
 }: {
 	courseId: string;
+	onSectionCreated: (newSection: Section) => void;
 }) {
 	const router = useRouter();
 	const { toast } = useToast();
+	const [isOpen, setIsOpen] = useState(false);
 	const {
 		register,
 		handleSubmit,
@@ -34,11 +38,14 @@ export default function CreateSectionDialog({
 
 	const onSubmit = async (data: SectionData) => {
 		try {
-			await createSection(courseId, data);
+			const newSection = await createSection(courseId, data);
 			toast({
 				title: 'Success',
 				description: 'Section created successfully!',
+				variant: 'success',
 			});
+			onSectionCreated(newSection);
+			setIsOpen(false);
 			router.refresh();
 		} catch (error) {
 			toast({
@@ -51,7 +58,7 @@ export default function CreateSectionDialog({
 	};
 
 	return (
-		<Dialog>
+		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogTrigger asChild>
 				<Button className="bg-[#ffeee8] text-[#ff6636] text-base font-semibold capitalize leading-[48px] hover:bg-[#ff6636] hover:text-white">
 					Add Sections

@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { PiPencilSimpleLineBold } from 'react-icons/pi';
 
@@ -15,22 +16,25 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { SectionData, sectionSchema } from '@/schemas/section.schema';
+import { Section, SectionData, sectionSchema } from '@/schemas/section.schema';
 import { updateSection } from '@/services/api/section';
 
 interface UpdateSectionDialogProps {
 	courseId: string;
 	sectionId: string;
 	initialTitle: string;
+	onSectionUpdated: (updatedSection: Section) => void;
 }
 
 const UpdateSectionDialog: React.FC<UpdateSectionDialogProps> = ({
 	courseId,
 	sectionId,
 	initialTitle,
+	onSectionUpdated,
 }) => {
 	const router = useRouter();
 	const { toast } = useToast();
+	const [isOpen, setIsOpen] = useState(false);
 	const {
 		register,
 		handleSubmit,
@@ -42,11 +46,14 @@ const UpdateSectionDialog: React.FC<UpdateSectionDialogProps> = ({
 
 	const onSubmit = async (data: SectionData) => {
 		try {
-			await updateSection(courseId, sectionId, data);
+			const updatedSection = await updateSection(courseId, sectionId, data);
 			toast({
 				title: 'Success',
 				description: 'Section updated successfully!',
+				variant: 'success',
 			});
+			onSectionUpdated(updatedSection);
+			setIsOpen(false); // Close the dialog
 			router.refresh();
 		} catch (error) {
 			toast({
@@ -59,7 +66,7 @@ const UpdateSectionDialog: React.FC<UpdateSectionDialogProps> = ({
 	};
 
 	return (
-		<Dialog>
+		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogTrigger asChild>
 				<Button variant="ghost">
 					<PiPencilSimpleLineBold className="w-6 h-6 text-[#8C94A3]" />

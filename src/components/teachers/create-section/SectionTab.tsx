@@ -1,3 +1,5 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 import { PiList, PiPlusBold, PiTrashBold } from 'react-icons/pi';
@@ -5,6 +7,7 @@ import { PiList, PiPlusBold, PiTrashBold } from 'react-icons/pi';
 import DeleteConfirmationDialog from '@/components/commons/teachers/DeleteConfirmationDialog';
 import UpdateSectionDialog from '@/components/teachers/create-section/UpdateSectionDialog';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import { Section } from '@/schemas/section.schema';
 import { deleteSection } from '@/services/api/section';
 
@@ -12,17 +15,37 @@ interface SectionTabProps {
 	section: Section;
 	index: number;
 	courseId: string;
+	onSectionDeleted: (deletedSectionId: string) => void;
+	onSectionUpdated: (updatedSection: Section) => void;
 }
 
-const SectionTab: FC<SectionTabProps> = ({ section, index, courseId }) => {
+const SectionTab: FC<SectionTabProps> = ({
+	section,
+	index,
+	courseId,
+	onSectionDeleted,
+	onSectionUpdated,
+}) => {
 	const router = useRouter();
+	const { toast } = useToast();
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 	const handleDelete = async () => {
 		try {
 			await deleteSection(courseId, section.id.toString());
+			onSectionDeleted(section.id.toString());
+			toast({
+				title: 'Success',
+				description: 'Section deleted successfully!',
+				variant: 'success',
+			});
 			router.refresh();
 		} catch (error) {
+			toast({
+				title: 'Error',
+				description: 'Failed to delete section.',
+				variant: 'destructive',
+			});
 			console.error('Failed to delete section:', error);
 		} finally {
 			setIsDialogOpen(false);
@@ -50,6 +73,7 @@ const SectionTab: FC<SectionTabProps> = ({ section, index, courseId }) => {
 					courseId={courseId}
 					sectionId={section.id.toString()}
 					initialTitle={section.title}
+					onSectionUpdated={onSectionUpdated}
 				/>
 				<DeleteConfirmationDialog
 					isOpen={isDialogOpen}
