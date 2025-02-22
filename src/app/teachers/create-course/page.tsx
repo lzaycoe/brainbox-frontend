@@ -45,9 +45,9 @@ const CreateCourse = () => {
 			toast({
 				title: 'Course created successfully!',
 				description: 'Your course has been created.',
+				variant: 'success',
 			});
 			router.push('/teachers/courses');
-			router.refresh();
 		} catch (error) {
 			console.error('Failed to create course:', error);
 			toast({
