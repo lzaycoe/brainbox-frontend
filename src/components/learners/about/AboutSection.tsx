@@ -4,26 +4,27 @@ import React from 'react';
 /* OUR ONE BILLION MISSION */
 const MissionSection = () => {
 	return (
-		<section className="w-full max-w-[1200px] mx-auto px-5 mb-10 h-auto bg-[#ffeee8] flex flex-col md:flex-row justify-center items-center gap-10 md:gap-14 overflow-hidden">
+		<section className="w-full max-w-[1200px] mx-auto px-5 mt-10 mb-10 h-[436px] bg-[#ffeee8] flex justify-center items-center gap-[136px]">
 			<Image
-				src="/app/about/01.png"
+				src="/app/about/AboutSection_01.png"
 				alt="Mission Image"
 				width={648}
 				height={436}
-				className="w-full max-w-[50%] md:max-w-[45%] origin-top-left rotate-180 shadow-[-20px_20px_30px_0px_rgba(0,0,0,0.30)]"
+				// className="shadow-[-40px_40px_50px_0px_rgba(0,0,0,0.30)] object-cover"
 			/>
-			<div className="w-full max-w-[600px] flex flex-col justify-start items-start gap-6">
+
+			<div className="flex-col justify-start items-start gap-6 flex">
 				<div className="flex-col justify-start items-start gap-2 flex">
-					<div className="text-[#ff6636] text-base font-medium leading-snug">
+					<div className="w-[536px] text-[#ff6636] text-base font-medium leading-snug">
 						OUR ONE BILLION MISSION
 					</div>
-					<div className="text-[#1d1f26] text-[32px] md:text-[40px] font-semibold leading-[40px] md:leading-[48px]">
+					<div className="w-[536px] text-[#1d1f26] text-[40px] font-semibold leading-[48px]">
 						Our one billion mission sounds bold, We agree.
 					</div>
 				</div>
-				<div className="text-[#4d5565] text-base leading-normal">
-					"We cannot solve our problems with the same thinking we used when we
-					created them."—Albert Einstein. Institutions are slow to change.
+				<div className="w-[536px] text-[#4d5565] text-base leading-normal">
+					We cannot solve our problems with the same thinking we used when we
+					created them.—Albert Einstein. Institutions are slow to change.
 					Committees are where good ideas and innovative thinking go to die.
 					Choose agility over dogma. Embrace and drive change. We need to wipe
 					the slate clean and begin with bold, radical thinking.
