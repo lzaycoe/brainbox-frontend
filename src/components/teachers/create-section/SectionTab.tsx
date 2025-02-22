@@ -30,7 +30,7 @@ const SectionTab: FC<SectionTabProps> = ({ section, index, courseId }) => {
 	};
 
 	return (
-		<div className="w-[1240px] h-[72px] p-6 flex justify-between items-center bg-slate-100">
+		<div className="w-[1240px] h-[72px] p-6 flex justify-between items-center bg-slate-100 border border-gray-300 cursor-pointer">
 			<div className="flex items-center gap-3">
 				<div className="flex items-center gap-2">
 					<PiList className="w-5 h-5 text-[#1D2026]" />
