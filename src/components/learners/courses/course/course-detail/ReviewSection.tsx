@@ -1,6 +1,6 @@
-import { Star } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
+import { FaStar } from 'react-icons/fa';
 
 type Review = {
 	user: {
@@ -20,10 +20,10 @@ interface ReviewSectionProps {
 const ReviewSection: React.FC<ReviewSectionProps> = ({ reviews }) => {
 	const renderStars = (rating: number, reviewId: string) => {
 		return Array.from({ length: 5 }).map((_, index) => (
-			<Star
+			<FaStar
 				key={`star-${reviewId}-${index}`}
 				className={`w-4 h-4 ${
-					index < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+					index < rating ? 'text-yellow-400' : 'text-gray-300'
 				}`}
 			/>
 		));
