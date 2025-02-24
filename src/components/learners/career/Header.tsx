@@ -44,38 +44,26 @@ const ContactInfo = ({ title, description, buttonText }: ContactInfoProps) => (
 );
 
 const WhyJoinUs = () => {
-	const styles = {
-		wrapper:
-			'w-full max-w-[1320px] h-auto px-5 py-10 bg-[#f4f7f9] flex justify-center items-start gap-10 mx-auto',
-		leftColumn:
-			'w-[450px] h-[250px] flex-shrink-0 rounded overflow-hidden shadow-lg', // Ảnh cố định 450x250
-		rightColumn: 'w-[400px] flex flex-col gap-3', // Thu nhỏ chiều rộng cột văn bản
-		heading: 'text-[#1d1f26] text-[24px] font-semibold leading-[32px]', // Giảm kích thước tiêu đề
-		subheading: 'text-[#4d5565] text-sm leading-normal', // Giữ nguyên kích thước phụ đề
-		card: 'p-4 bg-white shadow-md rounded-lg flex gap-3 items-start', // Card gọn hơn
-		title: 'text-[#1d1f26] text-sm font-medium leading-snug',
-		description: 'text-[#6e7484] text-xs leading-snug',
-		icon: 'text-[#4d5565] text-[32px] flex-shrink-0', // Style cho icon
-	};
 	return (
-		<div className={styles.wrapper}>
+		<div className="w-full max-w-[1320px] h-auto px-5 py-10 bg-[#f4f7f9] flex justify-center items-start gap-20 mx-auto">
 			{/* Hình ảnh bên trái */}
-			<div className={styles.leftColumn}>
+			<div className="w-[500px] h-[320px] flex-shrink-0 overflow-hidden">
 				<Image
 					src="/app/career/Career_02.png"
 					alt="Vietnam"
-					width={450}
-					height={250}
+					width={500}
+					height={320}
 					className="object-cover w-full h-full"
 				/>
 			</div>
 
 			{/* Phần văn bản và card bên phải */}
-			<div className={styles.rightColumn}>
-				{/* Phần văn bản */}
+			<div className="w-[400px] flex flex-col gap-3">
 				<div className="flex flex-col justify-start items-start gap-2">
-					<h2 className={styles.heading}>Why you will join our team</h2>
-					<p className={styles.subheading}>
+					<h2 className="text-[#1d1f26] text-[24px] font-semibold leading-[32px]">
+						Why you will join our team
+					</h2>
+					<p className="text-[#4d5565] text-sm leading-normal">
 						Quisque leo leo, suscipit sed arcu sit amet, iaculis feugiat felis.
 						Vestibulum non consectetur tortor. Morbi at orci vehicula, vehicula
 						mi ut, vestibulum odio.
@@ -84,28 +72,26 @@ const WhyJoinUs = () => {
 
 				{/* Các card */}
 				<div className="flex flex-col justify-start items-start gap-3">
-					<div className={styles.card}>
-						{/* Thay bằng icon TbAward */}
-						<TbSquareRoundedCheckFilled className={styles.icon} />
+					<div className="p-4 bg-white shadow-md flex gap-3 items-start">
+						<TbSquareRoundedCheckFilled className="text-[green] text-[32px] flex-shrink-0" />
 						<div className="flex flex-col justify-start items-start gap-1">
-							<div className={styles.title}>
+							<div className="text-[#1d1f26] text-sm font-medium leading-snug">
 								Ut justo ligula, vehicula sed egestas vel.
 							</div>
-							<div className={styles.description}>
+							<div className="text-[#6e7484] text-xs leading-snug">
 								Quisque leo leo, suscipit sed arcu sit amet, iaculis feugiat
 								felis. Vestibulum non consectetur tortor. Morbi at orci
 								vehicula, vehicula mi ut, vestibulum odio.
 							</div>
 						</div>
 					</div>
-					<div className={styles.card}>
-						{/* Thay bằng icon TbRocket */}
-						<TbSquareRoundedCheckFilled className={styles.icon} />
+					<div className="p-4 bg-white shadow-md flex gap-3 items-start">
+						<TbSquareRoundedCheckFilled className="text-[green] text-[32px] flex-shrink-0" />
 						<div className="flex flex-col justify-start items-start gap-1">
-							<div className={styles.title}>
+							<div className="text-[#1d1f26] text-sm font-medium leading-snug">
 								Aenean vitae leo leo praesent ullamcorper ac.
 							</div>
-							<div className={styles.description}>
+							<div className="text-[#6e7484] text-xs leading-snug">
 								Aenean vitae leo leo. Praesent ullamcorper ac libero et mattis.
 								Aenean vel erat at neque viverra feugiat.
 							</div>
