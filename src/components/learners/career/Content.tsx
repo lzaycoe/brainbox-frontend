@@ -1,4 +1,4 @@
-// Import các thành phần cần thiết
+import Image from 'next/image';
 import React from 'react';
 import { FaMoneyCheck, FaRegChartBar } from 'react-icons/fa';
 import { FaHandshakeSimple } from 'react-icons/fa6';
@@ -31,8 +31,7 @@ const PerkCard = ({
 	);
 };
 
-// Main Content Component
-const Content = () => {
+const Card_Perk = () => {
 	return (
 		<div className="w-full max-w-[1320px] h-auto px-5 bg-white flex flex-col justify-center items-center gap-10 mx-auto">
 			<h3 className="text-[#1d1f26] text-[36px] font-semibold leading-[44px]">
@@ -81,6 +80,48 @@ const Content = () => {
 				/>
 			</div>
 		</div>
+	);
+};
+
+const GallerySection = () => {
+	return (
+		<section className="w-full px-5 h-auto bg-[#f4f7f9] flex justify-center items-center gap-10">
+			<div className="pt-12 w-full max-w-[1200px] flex justify-center items-center gap-10">
+				<div className="flex-col justify-start items-start gap-4 flex max-w-[400px]">
+					<div className="flex-col justify-start items-start gap-1 flex">
+						<div className="text-[#ff6636] text-sm font-medium leading-tight ">
+							OUR GALLERY
+						</div>
+						<div className="text-[#1d1f26] text-[36px] font-semibold leading-[40px]">
+							We’ve been here almost 4 years
+						</div>
+					</div>
+					<div className="text-[#4d5565] text-base leading-relaxed">
+						Fusce lobortis leo augue, sit amet tristique nisi commodo in.
+						Aliquam ac libero quis tellus venenatis imperdiet. Sed sed nunc
+						libero. Curabitur in urna ligula. torquent per conubia nostra.
+					</div>
+				</div>
+				<div className="w-[600px] h-[400px] relative">
+					<Image
+						src="/app/about/AboutSection_02.png"
+						alt="Gallery Image"
+						width={600}
+						height={400}
+						className="object-cover"
+					/>
+				</div>
+			</div>
+		</section>
+	);
+};
+
+const Content = () => {
+	return (
+		<>
+			<Card_Perk />
+			<GallerySection />
+		</>
 	);
 };
 
