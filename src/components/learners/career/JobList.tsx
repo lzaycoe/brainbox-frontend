@@ -1,4 +1,5 @@
 import React from 'react';
+import { IoMdArrowForward } from 'react-icons/io';
 import { MdLibraryBooks, MdOutlineLocationOn } from 'react-icons/md';
 import { PiHandbag } from 'react-icons/pi';
 
@@ -74,35 +75,15 @@ const JobList = () => {
 				<div className="border-t border-[#e8eaef]"></div>
 				<div className="flex justify-between items-center">
 					<div>
-						<span className="text-[#e34444] text-sm font-medium">
+						<span className="text-[#cf2d2d] text-sm font-medium">
 							Deadline:{' '}
 						</span>
 						<span className="text-[#6e7484] text-sm">{deadline}</span>
 					</div>
 					<div>
-						<svg
-							width="48"
-							height="48"
-							viewBox="0 0 48 48"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<rect width="48" height="48" fill="#FFEEE8" />
-							<path
-								d="M15.75 24H32.25"
-								stroke="#FF6636"
-								strokeWidth="1.5"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-							<path
-								d="M25.5 17.25L32.25 24L25.5 30.75"
-								stroke="#FF6636"
-								strokeWidth="1.5"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-						</svg>
+						<div className="w-12 h-12 bg-[#FFEEE8] flex items-center justify-center">
+							<IoMdArrowForward className="text-[#FF6636] text-2xl" />
+						</div>
 					</div>
 				</div>
 			</div>
@@ -114,7 +95,7 @@ const JobList = () => {
 			<h2 className="text-3xl font-bold text-gray-800 mt-4">
 				Our all open positions ({jobs.length})
 			</h2>
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 				{jobs.map((job, index) => (
 					<JobCard
 						key={index}
