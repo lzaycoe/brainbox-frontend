@@ -17,7 +17,7 @@ interface LogoCardProps {
 }
 
 const LogoCard: React.FC<LogoCardProps> = ({ src }) => (
-	<article className="relative w-[200px] h-[120px] flex justify-center items-center overflow-hidden">
+	<article className="relative w-[160px] h-[100px] flex justify-center items-center overflow-hidden">
 		{src ? (
 			<Image
 				src={src}
@@ -34,37 +34,38 @@ const LogoCard: React.FC<LogoCardProps> = ({ src }) => (
 
 const Logo = () => {
 	return (
-		<>
-			<hr className="border-gray-200 w-full" />
-			<div className="w-full max-w-[1200px] mx-auto px-5 mt-10 mb-10">
-				<article className="flex flex-wrap gap-10 justify-between items-center">
-					<header className="w-[368px]">
-						<h2 className="text-3xl font-semibold tracking-tight leading-10 text-neutral-800">
-							We Just keep growing with 6.3k Companies
-						</h2>
-						<p className="mt-5 text-base leading-6 text-gray-500">
-							Nullam egestas tellus at enim ornare tristique. Class aptent
-							taciti sociosqu ad litora torquent
-						</p>
-					</header>
+		<div className="w-full flex justify-center bg-[#f4f7f9] py-10">
+			<div className="w-full max-w-[1140px] bg-white shadow-lg p-6 rounded-lg">
+				<div className="w-full max-w-[1200px] mx-auto px-5 mt-10 mb-10">
+					<article className="flex justify-between items-center gap-10">
+						{/* Văn bản giới thiệu */}
+						<header className="w-[350px] flex-shrink-0">
+							<h2 className="text-3xl font-semibold tracking-tight leading-10 text-neutral-800">
+								We Just keep growing with 6.3k Companies
+							</h2>
+							<p className="mt-5 text-base leading-6 text-gray-500">
+								Nullam egestas tellus at enim ornare tristique. Class aptent
+								taciti sociosqu ad litora torquent.
+							</p>
+						</header>
 
-					<div className="flex flex-row items-center">
-						<div className="flex flex-col">
-							<div className="flex -space-x-4">
+						{/* Khu vực hiển thị logo */}
+						<div className="flex flex-col gap-2">
+							<div className="flex gap-4">
 								{companies.slice(0, 4).map((src, index) => (
 									<LogoCard key={index} src={src} />
 								))}
 							</div>
-							<div className="flex -space-x-4 mt-[-10px]">
+							<div className="flex gap-4">
 								{companies.slice(4).map((src, index) => (
 									<LogoCard key={index} src={src} />
 								))}
 							</div>
 						</div>
-					</div>
-				</article>
+					</article>
+				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 
