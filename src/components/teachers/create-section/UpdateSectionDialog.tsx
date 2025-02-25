@@ -53,7 +53,7 @@ const UpdateSectionDialog: React.FC<UpdateSectionDialogProps> = ({
 				variant: 'success',
 			});
 			onSectionUpdated(updatedSection);
-			setIsOpen(false); // Close the dialog
+			setIsOpen(false);
 			router.refresh();
 		} catch (error) {
 			toast({
