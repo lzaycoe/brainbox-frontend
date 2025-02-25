@@ -6,7 +6,7 @@ export const createCourse = async (courseData: Record<string, unknown>) => {
 	try {
 		const response = await axios.post(
 			`${process.env.NEXT_PUBLIC_API_URL}/courses`,
-			{ ...courseData, status: 'pending', teacherId: 1 },
+			{ ...courseData, status: 'pending', teacherId: 5 },
 			{
 				headers: {
 					'Content-Type': 'application/json',
