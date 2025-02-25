@@ -9,7 +9,7 @@ interface TabProps {
 
 const Tab: React.FC<TabProps> = ({ icon, title, isActive, onClick }) => {
 	return (
-		<div
+		<button
 			className={`w-[312px] h-16 p-5 bg-white flex justify-center items-center gap-2 cursor-pointer ${
 				isActive ? 'shadow-[inset_0px_-2px_0px_0px_rgba(255,102,54,1.00)]' : ''
 			}`}
@@ -24,7 +24,7 @@ const Tab: React.FC<TabProps> = ({ icon, title, isActive, onClick }) => {
 					{title}
 				</div>
 			</div>
-		</div>
+		</button>
 	);
 };
 

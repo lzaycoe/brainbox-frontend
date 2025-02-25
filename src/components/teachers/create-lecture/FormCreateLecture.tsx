@@ -194,7 +194,10 @@ export default function FormCreateLecture() {
 			)}
 			{type === 'video' && (
 				<div className="flex flex-col space-y-2">
-					<label className="text-lg font-medium text-[#1d1f26]">
+					<label
+						htmlFor="uploadOption"
+						className="text-lg font-medium text-[#1d1f26]"
+					>
 						Upload Video
 					</label>
 					<RadioGroup

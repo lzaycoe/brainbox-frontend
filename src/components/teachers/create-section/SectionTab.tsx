@@ -89,6 +89,11 @@ const SectionTab: FC<SectionTabProps> = ({
 				className="w-[1240px] h-[72px] p-6 flex justify-between items-center bg-slate-100 border border-gray-300 cursor-pointer"
 				onClick={handleExpand}
 				role="button"
+				onKeyDown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						handleExpand();
+					}
+				}}
 			>
 				<div className="flex items-center gap-3">
 					<div className="flex items-center gap-2">
