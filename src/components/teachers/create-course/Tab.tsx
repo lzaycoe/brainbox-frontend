@@ -14,7 +14,6 @@ const Tab: React.FC<TabProps> = ({ icon, title, isActive, onClick }) => {
 				isActive ? 'shadow-[inset_0px_-2px_0px_0px_rgba(255,102,54,1.00)]' : ''
 			}`}
 			onClick={onClick}
-			role="button"
 		>
 			<div className="flex items-center gap-2">
 				{icon}
