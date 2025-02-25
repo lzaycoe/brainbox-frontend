@@ -6,7 +6,6 @@ export const sectionSchema = z.object({
 
 export type SectionData = z.infer<typeof sectionSchema>;
 
-export interface Section {
+export interface Section extends SectionData {
 	id: number;
-	title: string;
 }
