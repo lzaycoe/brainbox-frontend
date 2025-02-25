@@ -13,7 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { courseSchema } from '@/schemas/course.schema';
 import type { CourseData } from '@/schemas/course.schema';
 import { createCourse } from '@/services/api/course';
-import { uploadImage } from '@/services/supabase/uploadImage';
+import { uploadImage } from '@/services/supabase/upload';
 
 const CreateCourse = () => {
 	const methods = useForm<CourseData>({
