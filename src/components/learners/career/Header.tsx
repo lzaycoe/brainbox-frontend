@@ -45,55 +45,57 @@ const ContactInfo = ({ title, description, buttonText }: ContactInfoProps) => (
 
 const WhyJoinUs = () => {
 	return (
-		<div className="w-full max-w-[1320px] h-auto px-5 py-10 bg-[#f4f7f9] flex justify-center items-start gap-20 mx-auto">
-			{/* Hình ảnh bên trái */}
-			<div className="w-[500px] h-[320px] flex-shrink-0 overflow-hidden">
-				<Image
-					src="/app/career/Career_02.png"
-					alt="Vietnam"
-					width={500}
-					height={320}
-					className="object-cover w-full h-full"
-				/>
-			</div>
-
-			{/* Phần văn bản và card bên phải */}
-			<div className="w-[400px] flex flex-col gap-3">
-				<div className="flex flex-col justify-start items-start gap-2">
-					<h2 className="text-[#1d1f26] text-[24px] font-semibold leading-[32px]">
-						Why you will join our team
-					</h2>
-					<p className="text-[#4d5565] text-sm leading-normal">
-						Quisque leo leo, suscipit sed arcu sit amet, iaculis feugiat felis.
-						Vestibulum non consectetur tortor. Morbi at orci vehicula, vehicula
-						mi ut, vestibulum odio.
-					</p>
+		<div className="w-full bg-[#f4f7f9]">
+			<div className="w-full max-w-[1320px] h-auto px-5 py-10 flex justify-center items-start gap-20 mx-auto">
+				{/* Hình ảnh bên trái */}
+				<div className="w-[500px] h-[320px] flex-shrink-0 overflow-hidden">
+					<Image
+						src="/app/career/Career_02.png"
+						alt="Vietnam"
+						width={500}
+						height={320}
+						className="object-cover w-full h-full"
+					/>
 				</div>
 
-				{/* Các card */}
-				<div className="flex flex-col justify-start items-start gap-3">
-					<div className="p-4 bg-white shadow-md flex gap-3 items-start">
-						<TbSquareRoundedCheckFilled className="text-[green] text-[32px] flex-shrink-0" />
-						<div className="flex flex-col justify-start items-start gap-1">
-							<div className="text-[#1d1f26] text-sm font-medium leading-snug">
-								Ut justo ligula, vehicula sed egestas vel.
-							</div>
-							<div className="text-[#6e7484] text-xs leading-snug">
-								Quisque leo leo, suscipit sed arcu sit amet, iaculis feugiat
-								felis. Vestibulum non consectetur tortor. Morbi at orci
-								vehicula, vehicula mi ut, vestibulum odio.
+				{/* Phần văn bản và card bên phải */}
+				<div className="w-[400px] flex flex-col gap-3">
+					<div className="flex flex-col justify-start items-start gap-2">
+						<h2 className="text-[#1d1f26] text-[24px] font-semibold leading-[32px]">
+							Why you will join our team
+						</h2>
+						<p className="text-[#4d5565] text-sm leading-normal">
+							Quisque leo leo, suscipit sed arcu sit amet, iaculis feugiat
+							felis. Vestibulum non consectetur tortor. Morbi at orci vehicula,
+							vehicula mi ut, vestibulum odio.
+						</p>
+					</div>
+
+					{/* Các card */}
+					<div className="flex flex-col justify-start items-start gap-3">
+						<div className="p-4 bg-white shadow-md flex gap-3 items-start">
+							<TbSquareRoundedCheckFilled className="text-[green] text-[32px] flex-shrink-0" />
+							<div className="flex flex-col justify-start items-start gap-1">
+								<div className="text-[#1d1f26] text-sm font-medium leading-snug">
+									Ut justo ligula, vehicula sed egestas vel.
+								</div>
+								<div className="text-[#6e7484] text-xs leading-snug">
+									Quisque leo leo, suscipit sed arcu sit amet, iaculis feugiat
+									felis. Vestibulum non consectetur tortor. Morbi at orci
+									vehicula, vehicula mi ut, vestibulum odio.
+								</div>
 							</div>
 						</div>
-					</div>
-					<div className="p-4 bg-white shadow-md flex gap-3 items-start">
-						<TbSquareRoundedCheckFilled className="text-[green] text-[32px] flex-shrink-0" />
-						<div className="flex flex-col justify-start items-start gap-1">
-							<div className="text-[#1d1f26] text-sm font-medium leading-snug">
-								Aenean vitae leo leo praesent ullamcorper ac.
-							</div>
-							<div className="text-[#6e7484] text-xs leading-snug">
-								Aenean vitae leo leo. Praesent ullamcorper ac libero et mattis.
-								Aenean vel erat at neque viverra feugiat.
+						<div className="p-4 bg-white shadow-md flex gap-3 items-start">
+							<TbSquareRoundedCheckFilled className="text-[green] text-[32px] flex-shrink-0" />
+							<div className="flex flex-col justify-start items-start gap-1">
+								<div className="text-[#1d1f26] text-sm font-medium leading-snug">
+									Aenean vitae leo leo praesent ullamcorper ac.
+								</div>
+								<div className="text-[#6e7484] text-xs leading-snug">
+									Aenean vitae leo leo. Praesent ullamcorper ac libero et
+									mattis. Aenean vel erat at neque viverra feugiat.
+								</div>
 							</div>
 						</div>
 					</div>

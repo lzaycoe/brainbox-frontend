@@ -33,11 +33,11 @@ const PerkCard = ({
 
 const Card_Perk = () => {
 	return (
-		<div className="w-full max-w-[1320px] h-auto px-5 bg-white flex flex-col justify-center items-center gap-10 mx-auto">
+		<div className="w-full max-w-[1040px] h-auto px-5 bg-white flex flex-col justify-center items-center gap-10 mx-auto mt-10">
 			<h3 className="text-[#1d1f26] text-[36px] font-semibold leading-[44px]">
 				Our Perks & Benefits
 			</h3>
-			<div className="grid grid-cols-4 gap-4 w-full justify-items-center">
+			<div className="grid grid-cols-4 gap-x-6 gap-y-6 w-full max-w-[1200px] justify-items-stretch">
 				<PerkCard
 					bgColor="bg-[#ffeee8]"
 					icon={<IoFastFoodSharp className="w-6 h-6 text-[#FF6636]" />}
