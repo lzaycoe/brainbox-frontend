@@ -19,7 +19,7 @@ export default function FileUploadInput<T extends FieldValues>({
 	label,
 	register,
 	onFileChange,
-}: FileUploadInputProps<T>) {
+}: Readonly<FileUploadInputProps<T>>) {
 	const [fileName, setFileName] = useState<string | null>(null);
 	const [fileUrl, setFileUrl] = useState<string | null>(null);
 
@@ -64,7 +64,15 @@ export default function FileUploadInput<T extends FieldValues>({
 			</div>
 			{fileUrl && (
 				<div className="w-full">
-					<video src={fileUrl} controls className="w-full h-auto" />
+					<video src={fileUrl} controls className="w-full h-auto">
+						<track
+							kind="captions"
+							srcLang="en"
+							label="English captions"
+							default
+						/>
+						Your browser does not support the video tag.
+					</video>
 				</div>
 			)}
 		</div>

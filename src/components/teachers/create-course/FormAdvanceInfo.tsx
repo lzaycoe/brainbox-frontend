@@ -113,6 +113,7 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 										<div
 											className="px-6 bg-[#ffeee8] justify-center items-center gap-3 inline-flex cursor-pointer"
 											onClick={handleUploadClick}
+											role="button"
 										>
 											<div className="text-[#ff6636] text-base font-semibold capitalize leading-[48px]">
 												Upload image

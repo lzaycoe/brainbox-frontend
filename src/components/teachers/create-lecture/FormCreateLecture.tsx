@@ -204,18 +204,18 @@ export default function FormCreateLecture() {
 						}
 					>
 						<div className="flex items-center space-x-2">
-							<RadioGroupItem value="link" id="link" />
+							<RadioGroupItem value="link" id="upload-link" />
 							<label
-								htmlFor="link"
+								htmlFor="upload-link"
 								className="text-lg font-medium text-[#1d1f26]"
 							>
 								Upload by Link
 							</label>
 						</div>
 						<div className="flex items-center space-x-2">
-							<RadioGroupItem value="file" id="file" />
+							<RadioGroupItem value="file" id="upload-file" />
 							<label
-								htmlFor="file"
+								htmlFor="upload-file"
 								className="text-lg font-medium text-[#1d1f26]"
 							>
 								Upload Video File

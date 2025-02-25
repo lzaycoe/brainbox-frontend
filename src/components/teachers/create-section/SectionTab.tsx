@@ -70,11 +70,25 @@ const SectionTab: FC<SectionTabProps> = ({
 		}
 	};
 
+	const handleLectureDeleted = (deletedLectureId: string) => {
+		setLectures((prevLectures) =>
+			prevLectures.filter((lec) => lec.id.toString() !== deletedLectureId),
+		);
+	};
+
+	const handleCreateLectureClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		router.push(
+			`/teachers/courses/${courseId}/sections/${section.id}/create-lecture`,
+		);
+	};
+
 	return (
 		<div>
 			<div
 				className="w-[1240px] h-[72px] p-6 flex justify-between items-center bg-slate-100 border border-gray-300 cursor-pointer"
 				onClick={handleExpand}
+				role="button"
 			>
 				<div className="flex items-center gap-3">
 					<div className="flex items-center gap-2">
@@ -88,15 +102,7 @@ const SectionTab: FC<SectionTabProps> = ({
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
-					<Button
-						variant="ghost"
-						onClick={(e) => {
-							e.stopPropagation();
-							router.push(
-								`/teachers/courses/${courseId}/sections/${section.id}/create-lecture`,
-							);
-						}}
-					>
+					<Button variant="ghost" onClick={handleCreateLectureClick}>
 						<PiPlusBold className="w-6 h-6 text-[#8C94A3]" />
 					</Button>
 					<UpdateSectionDialog
@@ -126,13 +132,7 @@ const SectionTab: FC<SectionTabProps> = ({
 							index={idx + 1}
 							courseId={courseId}
 							sectionId={section.id.toString()}
-							onLectureDeleted={(deletedLectureId: string) => {
-								setLectures((prevLectures) =>
-									prevLectures.filter(
-										(lec) => lec.id.toString() !== deletedLectureId,
-									),
-								);
-							}}
+							onLectureDeleted={handleLectureDeleted}
 						/>
 					))}
 				</div>

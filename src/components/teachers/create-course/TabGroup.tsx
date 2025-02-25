@@ -23,13 +23,15 @@ const TabGroup: React.FC<TabGroupProps> = ({
 	return (
 		<div className="px-40 w-[1245px]">
 			<div className="flex bg-white shadow-[inset_0px_-1px_0px_0px_rgba(233,234,240,1.00)]">
-				{tabs.map((tab, index) => (
+				{tabs.map((tab) => (
 					<Tab
-						key={index}
+						key={tab.title}
 						icon={tab.icon}
 						title={tab.title}
-						isActive={activeTab === index}
-						onClick={() => setActiveTab(index)}
+						isActive={tabs[activeTab].title === tab.title}
+						onClick={() =>
+							setActiveTab(tabs.findIndex((t) => t.title === tab.title))
+						}
 					/>
 				))}
 			</div>

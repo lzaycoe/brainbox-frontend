@@ -17,13 +17,15 @@ import { createSection } from '@/services/api/section';
 
 import SectionForm from './SectionForm';
 
+interface CreateSectionDialogProps {
+	courseId: string;
+	onSectionCreated: (newSection: Section) => void;
+}
+
 export default function CreateSectionDialog({
 	courseId,
 	onSectionCreated,
-}: {
-	courseId: string;
-	onSectionCreated: (newSection: Section) => void;
-}) {
+}: Readonly<CreateSectionDialogProps>) {
 	const router = useRouter();
 	const { toast } = useToast();
 	const [isOpen, setIsOpen] = useState(false);
