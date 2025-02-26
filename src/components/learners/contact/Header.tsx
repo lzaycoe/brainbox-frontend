@@ -1,33 +1,9 @@
 import Image from 'next/image';
 import { GoMail } from 'react-icons/go';
 
-import Content from './Content';
-import Footer from './Footer';
-
-interface Breadcrumb {
-	label: string;
-	active?: boolean;
-}
-
-interface HeaderSectionProps {
-	title: string;
-	breadcrumbs: Breadcrumb[];
-}
-
-const HeaderSection = ({ title, breadcrumbs }: HeaderSectionProps) => (
-	<div className="w-full px-[300px] py-[30px] bg-[#F5F7FA] flex flex-col justify-center items-center gap-2 mx-auto">
-		<div className="w-[1320px] text-center text-[#1D2026] text-2xl font-semibold">
-			{title}
-		</div>
-		<div className="flex gap-1 text-sm text-[#6E7485]">
-			{breadcrumbs.map((item) => (
-				<span key={item.label} className={item.active ? 'text-[#1D2026]' : ''}>
-					{item.label}
-				</span>
-			))}
-		</div>
-	</div>
-);
+import HeaderSection from '@/components/commons/learners/HeaderSection';
+import Content from '@/components/learners/contact/Content';
+import Footer from '@/components/learners/contact/Footer';
 
 interface ContactInfoProps {
 	title: string;
@@ -110,8 +86,7 @@ const Header = () => {
 			<HeaderSection
 				title="Contact"
 				breadcrumbs={[
-					{ label: 'Home' },
-					{ label: '/' },
+					{ label: 'Home', href: '/' },
 					{ label: 'Contact', active: true },
 				]}
 			/>
