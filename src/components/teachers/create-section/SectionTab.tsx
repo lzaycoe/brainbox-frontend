@@ -84,16 +84,16 @@ const SectionTab: FC<SectionTabProps> = ({
 	};
 
 	return (
-		<div>
-			<div
-				className="w-[1240px] h-[72px] p-6 flex justify-between items-center bg-slate-100 border border-gray-300 cursor-pointer"
+		<div className="w-[1240px] bg-slate-100 border border-gray-300">
+			<button
+				type="button"
+				className="w-full h-[72px] p-6 flex justify-between items-center cursor-pointer bg-transparent border-none"
 				onClick={handleExpand}
 				onKeyDown={(e) => {
 					if (e.key === 'Enter' || e.key === ' ') {
 						handleExpand();
 					}
 				}}
-				tabIndex={0}
 			>
 				<div className="flex items-center gap-3">
 					<div className="flex items-center gap-2">
@@ -106,27 +106,27 @@ const SectionTab: FC<SectionTabProps> = ({
 						{section.title}
 					</div>
 				</div>
-				<div className="flex items-center gap-2">
-					<Button variant="ghost" onClick={handleCreateLectureClick}>
-						<PiPlusBold className="w-6 h-6 text-[#8C94A3]" />
-					</Button>
-					<UpdateSectionDialog
-						courseId={courseId}
-						sectionId={section.id.toString()}
-						initialTitle={section.title}
-						onSectionUpdated={onSectionUpdated}
-					/>
-					<DeleteConfirmationDialog
-						isOpen={isDialogOpen}
-						onOpenChange={setIsDialogOpen}
-						onConfirm={handleDelete}
-						trigger={
-							<Button variant="ghost" onClick={(e) => e.stopPropagation()}>
-								<PiTrashBold className="w-6 h-6 text-[#8C94A3]" />
-							</Button>
-						}
-					/>
-				</div>
+			</button>
+			<div className="flex items-center gap-2 p-6 pt-0 justify-end">
+				<Button variant="ghost" onClick={handleCreateLectureClick}>
+					<PiPlusBold className="w-6 h-6 text-[#8C94A3]" />
+				</Button>
+				<UpdateSectionDialog
+					courseId={courseId}
+					sectionId={section.id.toString()}
+					initialTitle={section.title}
+					onSectionUpdated={onSectionUpdated}
+				/>
+				<DeleteConfirmationDialog
+					isOpen={isDialogOpen}
+					onOpenChange={setIsDialogOpen}
+					onConfirm={handleDelete}
+					trigger={
+						<Button variant="ghost" onClick={(e) => e.stopPropagation()}>
+							<PiTrashBold className="w-6 h-6 text-[#8C94A3]" />
+						</Button>
+					}
+				/>
 			</div>
 			{isExpanded && (
 				<div className="bg-slate-100 px-8 pb-5 border border-gray-300">

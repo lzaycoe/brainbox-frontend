@@ -26,11 +26,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<ClerkProvider>
-			<div>
-				<div className={`${geistSans.variable} ${geistMono.variable}`}>
+			<html lang="en">
+				<body className={`${geistSans.variable} ${geistMono.variable}`}>
 					{children}
-				</div>
-			</div>
+				</body>
+			</html>
 		</ClerkProvider>
 	);
 }
