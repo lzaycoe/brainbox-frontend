@@ -1,8 +1,6 @@
-'use client';
-
 import React from 'react';
 
-import CourseItem from './CourseItem';
+import CourseItem from '@/components/learners/wishlist/CourseItem';
 
 const courses = [
 	{
