@@ -94,7 +94,6 @@ const SectionTab: FC<SectionTabProps> = ({
 					}
 				}}
 				tabIndex={0}
-				role="button"
 			>
 				<div className="flex items-center gap-3">
 					<div className="flex items-center gap-2">
