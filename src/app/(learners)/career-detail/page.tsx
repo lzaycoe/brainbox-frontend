@@ -1,5 +1,9 @@
-// import Header from '@/components/learners/contact/Header';
+import JobPosting from '@/components/learners/career-detail/JobPosting';
 
 export default function Home() {
-	return <div>{/* <Header /> */}</div>;
+	return (
+		<div>
+			<JobPosting />
+		</div>
+	);
 }
