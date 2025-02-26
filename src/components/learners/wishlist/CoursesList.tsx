@@ -13,7 +13,7 @@ const courses = [
 		instructors: ['Harry Potter', 'John Wick'],
 		price: 37.0,
 		originalPrice: 49.0,
-		image: '/app/wishlist/01.png',
+		image: '/app/card-img-template.png',
 	},
 	{
 		id: 2,
@@ -22,7 +22,7 @@ const courses = [
 		reviews: 451444,
 		instructors: ['Nobody'],
 		price: 24.0,
-		image: '/app/wishlist/02.png',
+		image: '/app/card-img-template.png',
 	},
 	{
 		id: 3,
@@ -31,7 +31,7 @@ const courses = [
 		reviews: 451444,
 		instructors: ['Kevin Gilbert'],
 		price: 13.0,
-		image: '/app/wishlist/03.png',
+		image: '/app/card-img-template.png',
 	},
 ];
 
