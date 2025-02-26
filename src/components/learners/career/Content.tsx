@@ -18,7 +18,7 @@ const PerkCard = ({
 }) => {
 	return (
 		<div
-			className={`p-5 ${bgColor} flex flex-col justify-start items-start gap-4 rounded-md shadow-md w-[220px]`}
+			className={`p-5 ${bgColor} flex flex-col justify-start items-start gap-4 shadow-md w-[220px]`}
 		>
 			<div className="w-[45px] h-[45px] bg-white flex justify-center items-center rounded-md">
 				{icon}
@@ -30,7 +30,7 @@ const PerkCard = ({
 	);
 };
 
-const Card_Perk = () => {
+const CardPerk = () => {
 	return (
 		<div className="w-full max-w-[1040px] h-auto px-5 bg-white flex flex-col justify-center items-center gap-10 mx-auto mt-10">
 			<h3 className="text-[#1d1f26] text-[36px] font-semibold leading-[44px]">
@@ -121,7 +121,7 @@ const GallerySection = () => {
 const Content = () => {
 	return (
 		<>
-			<Card_Perk />
+			<CardPerk />
 			<GallerySection />
 		</>
 	);

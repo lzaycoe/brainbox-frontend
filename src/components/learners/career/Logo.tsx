@@ -52,13 +52,13 @@ const Logo = () => {
 
 						<div className="flex flex-col gap-2">
 							<div className="flex gap-4">
-								{companies.slice(0, 4).map((src, index) => (
-									<LogoCard key={index} src={src} />
+								{companies.slice(0, 4).map((src) => (
+									<LogoCard key={src} src={src} />
 								))}
 							</div>
 							<div className="flex gap-4">
-								{companies.slice(4).map((src, index) => (
-									<LogoCard key={index} src={src} />
+								{companies.slice(4).map((src) => (
+									<LogoCard key={src} src={src} />
 								))}
 							</div>
 						</div>
