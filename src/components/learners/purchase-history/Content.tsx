@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { ImCool } from 'react-icons/im';
 import { IoMdArrowDown, IoMdArrowUp } from 'react-icons/io';
 
-import ContentCard from './ContentCard';
-import CourseItem from './CourseItem';
+import ContentCard from '@/components/learners/purchase-history/ContentCard';
+import CourseItem from '@/components/learners/purchase-history/CourseItem';
 
 const orderDataList = [
 	{
@@ -24,7 +24,7 @@ const orderDataList = [
 				reviews: 451444,
 				instructors: ['Marvin McKinney'],
 				price: 13.99,
-				image: '/app/course/course01.png',
+				image: '/app/card-img-template.png',
 			},
 			{
 				id: 2,
@@ -34,7 +34,7 @@ const orderDataList = [
 				instructors: ['Esther Howard'],
 				price: 49.0,
 				originalPrice: 99.0,
-				image: '/app/course/course02.png',
+				image: '/app/card-img-template.png',
 			},
 		],
 	},
@@ -54,7 +54,7 @@ const orderDataList = [
 				reviews: 321000,
 				instructors: ['Jacob Smith'],
 				price: 19.99,
-				image: '/app/course/course03.png',
+				image: '/app/card-img-template.png',
 			},
 		],
 	},
@@ -74,7 +74,7 @@ const orderDataList = [
 				reviews: 500000,
 				instructors: ['Emily Davis'],
 				price: 29.99,
-				image: '/app/course/course04.png',
+				image: '/app/card-img-template.png',
 			},
 			{
 				id: 5,
@@ -83,7 +83,7 @@ const orderDataList = [
 				reviews: 210000,
 				instructors: ['Michael Lee'],
 				price: 30.0,
-				image: '/app/course/course01.png',
+				image: '/app/card-img-template.png',
 			},
 			{
 				id: 6,
@@ -92,7 +92,7 @@ const orderDataList = [
 				reviews: 180000,
 				instructors: ['Sarah Wilson'],
 				price: 30.0,
-				image: '/app/course/course02.png',
+				image: '/app/card-img-template.png',
 			},
 		],
 	},
@@ -135,7 +135,6 @@ const Summary: React.FC<SummaryProps> = ({
 	</aside>
 );
 
-// Main Component
 const Content = () => {
 	const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -151,7 +150,7 @@ const Content = () => {
 
 			{orderDataList.map((order, index) => (
 				<article
-					key={order.date} // Sửa key ở đây
+					key={order.date}
 					className="flex flex-col items-center py-6 bg-white border border-solid shadow-lg border-[#E9EAF0] relative mb-6"
 				>
 					<button

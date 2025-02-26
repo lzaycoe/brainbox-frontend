@@ -35,7 +35,7 @@ const CourseItem = ({ course }: { course: Course }) => {
 						</div>
 						<h3 className="mt-1 text-base text-black">{course.title}</h3>
 					</div>
-					<p className="flex gap-1 text-sm text-gray-800 mt-8">
+					<p className="flex gap-1 text-sm text-gray-800 mt-11">
 						<span className="text-gray-500">Course by:</span>
 						{course.instructors.join(' • ')}
 					</p>
