@@ -4,8 +4,8 @@ import { MdLibraryBooks, MdOutlineLocationOn } from 'react-icons/md';
 import { PiHandbag } from 'react-icons/pi';
 
 const Navbar = () => (
-	<div className="w-[1920px] h-[88px] px-[300px] py-5 bg-white justify-between items-center inline-flex">
-		<div className="justify-start items-start gap-2 flex">
+	<div className="max-w-[1100px] mx-auto h-[88px] px-10 py-5 bg-white flex justify-between items-center">
+		<div className="flex items-center gap-2">
 			<div data-svg-wrapper className="relative">
 				<svg
 					width="42"
@@ -37,16 +37,14 @@ const Navbar = () => (
 					/>
 				</svg>
 			</div>
-			<div className="text-[#1d1f26] text-[32px] font-semibold font-['Inter'] leading-10">
+			<div className="text-[#1d1f26] text-[32px] font-semibold leading-10">
 				BrainBox
 			</div>
 		</div>
-		<div className="justify-center items-center gap-4 flex">
-			<div className="px-6 bg-[#ffeee8] justify-center items-center gap-3 flex">
-				<div className="text-[#ff6636] text-base font-semibold font-['Inter'] capitalize leading-[48px]">
-					Back to homepage
-				</div>
-			</div>
+		<div>
+			<button className="px-6 py-2 bg-[#ffeee8] text-[#ff6636] text-base font-semibold capitalize">
+				Back to homepage
+			</button>
 		</div>
 	</div>
 );
