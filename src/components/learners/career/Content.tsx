@@ -7,7 +7,6 @@ import { IoFastFoodSharp, IoHourglassOutline } from 'react-icons/io5';
 import { LuTimerOff } from 'react-icons/lu';
 import { SiEventstore } from 'react-icons/si';
 
-// PerkCard Component
 const PerkCard = ({
 	bgColor,
 	icon,

@@ -2,30 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import { TbSquareRoundedCheckFilled } from 'react-icons/tb';
 
-interface Breadcrumb {
-	label: string;
-	active?: boolean;
-}
-
-interface HeaderSectionProps {
-	title: string;
-	breadcrumbs: Breadcrumb[];
-}
-
-const HeaderSection = ({ title, breadcrumbs }: HeaderSectionProps) => (
-	<div className="w-full px-5 py-4 bg-[#F5F7FA] flex flex-col justify-center items-center gap-2 mx-auto">
-		<div className="w-full max-w-[1320px] text-center text-[#1D2026] text-2xl font-semibold">
-			{title}
-		</div>
-		<div className="flex gap-1 text-sm text-[#6E7485]">
-			{breadcrumbs.map((item, index) => (
-				<span key={index} className={item.active ? 'text-[#1D2026]' : ''}>
-					{item.label}
-				</span>
-			))}
-		</div>
-	</div>
-);
+import HeaderSection from '@/components/commons/learners/HeaderSection';
 
 interface ContactInfoProps {
 	title: string;
@@ -47,7 +24,6 @@ const WhyJoinUs = () => {
 	return (
 		<div className="w-full bg-[#f4f7f9]">
 			<div className="w-full max-w-[1320px] h-auto px-5 py-10 flex justify-center items-start gap-20 mx-auto">
-				{/* Hình ảnh bên trái */}
 				<div className="w-[500px] h-[320px] flex-shrink-0 overflow-hidden">
 					<Image
 						src="/app/career/Career_02.png"
@@ -58,7 +34,6 @@ const WhyJoinUs = () => {
 					/>
 				</div>
 
-				{/* Phần văn bản và card bên phải */}
 				<div className="w-[400px] flex flex-col gap-3">
 					<div className="flex flex-col justify-start items-start gap-2">
 						<h2 className="text-[#1d1f26] text-[24px] font-semibold leading-[32px]">
@@ -71,7 +46,6 @@ const WhyJoinUs = () => {
 						</p>
 					</div>
 
-					{/* Các card */}
 					<div className="flex flex-col justify-start items-start gap-3">
 						<div className="p-4 bg-white shadow-md flex gap-3 items-start">
 							<TbSquareRoundedCheckFilled className="text-[green] text-[32px] flex-shrink-0" />
@@ -111,8 +85,7 @@ const Header = () => {
 			<HeaderSection
 				title="Career"
 				breadcrumbs={[
-					{ label: 'Home' },
-					{ label: '/' },
+					{ label: 'Home', href: '/' },
 					{ label: 'Career', active: true },
 				]}
 			/>

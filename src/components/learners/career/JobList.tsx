@@ -55,17 +55,14 @@ const JobList = () => {
 				<div className="flex-col gap-5 flex">
 					<div className="text-[#1d1f26] text-xl font-medium">{title}</div>
 					<div className="flex flex-wrap gap-4">
-						{/* Location */}
 						<div className="flex items-center gap-1.5">
 							<MdOutlineLocationOn className="text-[blue] text-xl" />
 							<div className="text-[#4d5565] text-sm">{location}</div>
 						</div>
-						{/* Type */}
 						<div className="flex items-center gap-1.5">
 							<PiHandbag className="text-[green] text-xl" />
 							<div className="text-[#4d5565] text-sm">{type}</div>
 						</div>
-						{/* Vacancy */}
 						<div className="flex items-center gap-1.5">
 							<MdLibraryBooks className="text-[orange] text-xl" />
 							<div className="text-[#4d5565] text-sm">{vacancy} Vacancy</div>
