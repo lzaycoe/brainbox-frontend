@@ -91,8 +91,8 @@ const JobList = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center gap-6 p-4">
-			<h2 className="text-3xl font-bold text-gray-800 mt-4">
+		<div className="min-h-screen bg-[#f4f7f9] flex flex-col justify-center items-center gap-6">
+			<h2 className="text-3xl font-bold text-gray-800">
 				Our all open positions ({jobs.length})
 			</h2>
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

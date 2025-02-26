@@ -34,9 +34,12 @@ const LogoCard: React.FC<LogoCardProps> = ({ src }) => (
 
 const Logo = () => {
 	return (
-		<div className="w-full flex justify-center bg-[#f4f7f9] py-10">
-			<div className="w-full max-w-[1140px] bg-white shadow-lg p-6 rounded-lg">
-				<div className="w-full max-w-[1200px] mx-auto px-5 mt-10 mb-10">
+		<div className="w-full flex justify-center bg-[#f4f7f9] py-2 relative">
+			{/* Lớp phủ nửa trên màu trắng */}
+			<div className="absolute top-0 left-0 w-full h-1/3 bg-white"></div>
+
+			<div className="w-full max-w-[1140px] bg-white shadow-lg p-6 border border-gray-200 relative z-10">
+				<div className="w-full max-w-[1200px] mx-auto px-5 mt-6 mb-6">
 					<article className="flex justify-between items-center gap-10">
 						{/* Văn bản giới thiệu */}
 						<header className="w-[350px] flex-shrink-0">
