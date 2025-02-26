@@ -161,13 +161,13 @@ const Content = () => {
 					<div className="flex flex-row items-center">
 						<div className="flex flex-col">
 							<div className="flex -space-x-4">
-								{companies.slice(0, 4).map((src, index) => (
-									<LogoCard key={index} src={src} />
+								{companies.slice(0, 4).map((src) => (
+									<LogoCard key={src} src={src} />
 								))}
 							</div>
 							<div className="flex -space-x-4 mt-[-10px]">
-								{companies.slice(4).map((src, index) => (
-									<LogoCard key={index} src={src} />
+								{companies.slice(4).map((src) => (
+									<LogoCard key={src} src={src} />
 								))}
 							</div>
 						</div>
@@ -175,9 +175,9 @@ const Content = () => {
 				</article>
 
 				<section className="flex flex-row justify-center items-start gap-x-6 mt-10 max-md:mt-10 max-md:max-w-full">
-					{statistics.map((stat, index) => (
+					{statistics.map((stat) => (
 						<StatisticCard
-							key={index}
+							key={stat.label}
 							value={stat.value}
 							label={stat.label}
 							Icon={stat.icon}
