@@ -1,17 +1,17 @@
 'use client';
 
-import { ChevronRightIcon } from '@radix-ui/react-icons';
 import React, { useState } from 'react';
+import { HiChevronRight } from 'react-icons/hi';
 
-import CourseCard from './CourseCard';
-import CourseHeader from './CourseHeader';
-import CurriculumSection from './CurriculumSection';
-import InstructorSection from './InstructorSection';
-import OverviewSection from './OverviewSection';
-import RelatedCourses from './RelatedCourses';
-import ReviewSection from './ReviewSection';
-import Tabs from './Tabs';
-import VideoSection from './VideoSection';
+import CourseCard from '@/components/learners/courses/course/course-detail/CourseCard';
+import CourseHeader from '@/components/learners/courses/course/course-detail/CourseHeader';
+import CurriculumSection from '@/components/learners/courses/course/course-detail/CurriculumSection';
+import InstructorSection from '@/components/learners/courses/course/course-detail/InstructorSection';
+import OverviewSection from '@/components/learners/courses/course/course-detail/OverviewSection';
+import RelatedCourses from '@/components/learners/courses/course/course-detail/RelatedCourses';
+import ReviewSection from '@/components/learners/courses/course/course-detail/ReviewSection';
+import Tabs from '@/components/learners/courses/course/course-detail/Tabs';
+import VideoSection from '@/components/learners/courses/course/course-detail/VideoSection';
 
 type Instructor = {
 	id: string;
@@ -95,7 +95,7 @@ const CourseDetailsPage = () => {
 	const reviewData = {
 		comments: [
 			{
-				id: 'review-1', // Added unique ID
+				id: 'review-1',
 				user: {
 					name: 'Guy Hawkins',
 					avatar: '/app/teacher/avt1.png',
@@ -106,7 +106,7 @@ const CourseDetailsPage = () => {
 					"Outstanding course content! The instructor's teaching method is exceptional and the practical examples really helped solidify my understanding.",
 			},
 			{
-				id: 'review-2', // Added unique ID
+				id: 'review-2',
 				user: {
 					name: 'Sarah Johnson',
 					avatar: '/app/teacher/avt2.png',
@@ -117,7 +117,7 @@ const CourseDetailsPage = () => {
 					'Very comprehensive course. The step-by-step tutorials are easy to follow and the real-world projects are invaluable.',
 			},
 			{
-				id: 'review-3', // Added unique ID
+				id: 'review-3',
 				user: {
 					name: 'Michael Chen',
 					avatar: '/app/teacher/avt3.png',
@@ -138,7 +138,6 @@ const CourseDetailsPage = () => {
 			lectures: 4,
 			duration: '51m',
 		},
-		// Add more sections as needed
 	];
 
 	return (
@@ -148,7 +147,7 @@ const CourseDetailsPage = () => {
 					<React.Fragment key={item}>
 						<span className="hover:text-gray-700 cursor-pointer">{item}</span>
 						{index < courseInfo.breadcrumbs.length - 1 && (
-							<ChevronRightIcon className="w-4 h-4" />
+							<HiChevronRight className="w-4 h-4" />
 						)}
 					</React.Fragment>
 				))}
