@@ -5,21 +5,20 @@ import { IoArrowForwardSharp } from 'react-icons/io5';
 
 const MissionSection = () => {
 	return (
-		<section className="w-full px-5 h-auto bg-[#ffeee8] flex justify-center items-center gap-10">
+		<section className="w-full px-5 h-auto bg-[#ffeee8] flex justify-center items-center gap-10 pt-4">
 			<div className="w-full max-w-[1200px] flex justify-center items-center gap-10">
 				<Image
 					src="/app/about/AboutSection_01.png"
 					alt="Mission Image"
 					width={600}
 					height={400}
-					// className="object-cover "
 				/>
 				<div className="flex-col justify-start items-start gap-6 flex max-w-[536px]">
 					<div className="flex-col justify-start items-start gap-2 flex">
-						<div className="text-[#ff6636] text-base font-medium leading-snug">
+						<div className="text-[#ff6636] text-sm font-medium">
 							OUR ONE BILLION MISSION
 						</div>
-						<div className="text-[#1d1f26] text-[40px] font-semibold leading-[48px]">
+						<div className="text-[#1d1f26] text-[40px] font-semibold leading-[40px]">
 							Our one billion mission sounds bold, We agree.
 						</div>
 					</div>
@@ -68,7 +67,6 @@ const GallerySection = () => {
 						alt="Gallery Image"
 						width={600}
 						height={400}
-						// className="object-cover"
 					/>
 				</div>
 			</div>
@@ -98,10 +96,8 @@ const TestimonialsSection = () => {
 		<section className="mt-10 mb-10 w-full px-5 h-auto bg-white flex justify-center items-center">
 			<div className="w-full max-w-[1000px] flex justify-center items-start gap-8">
 				{testimonials.map((testimonial, index) => {
-					// Tách phần công ty để thêm link
 					const [position, company] = testimonial.title.split(' of ');
 
-					// Định nghĩa link theo tên công ty
 					const companyLinks = {
 						Google: 'https://www.google.com',
 						Microsoft: 'https://www.microsoft.com',
@@ -136,7 +132,6 @@ const TestimonialsSection = () => {
 									<span className="text-[#6e7484] text-xs font-normal leading-snug">
 										{position} of{' '}
 									</span>
-									{/* Gắn link cho tên công ty */}
 									<a
 										href={companyLink}
 										target="_blank"

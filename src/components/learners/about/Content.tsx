@@ -2,12 +2,12 @@ import { Briefcase, CheckCircle, Globe, Shield, Users } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 
-import AboutSection from './AboutSection';
+import HeaderSection from '@/components/commons/learners/HeaderSection';
+import AboutSection from '@/components/learners/about/AboutSection';
 
 const HeroSection = () => {
 	return (
 		<div className="w-full max-w-[1200px] mx-auto px-5 py-14 flex justify-between items-center gap-10">
-			{/* Phần văn bản chiếm 50% */}
 			<div className="w-1/2 flex-col justify-start items-start gap-8">
 				<div className="flex-col justify-start items-start gap-4">
 					<div className="text-[#e8eaef] text-[80px] font-semibold leading-[80px]">
@@ -24,7 +24,6 @@ const HeroSection = () => {
 				</div>
 			</div>
 
-			{/* Phần hình ảnh chiếm 50% */}
 			<div className="w-1/2">
 				<Image
 					src="/app/about/01.png"
@@ -138,6 +137,13 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
 const Content = () => {
 	return (
 		<>
+			<HeaderSection
+				title="About"
+				breadcrumbs={[
+					{ label: 'Home', href: '/' },
+					{ label: 'About', active: true },
+				]}
+			/>
 			<HeroSection />
 			<hr className="border-gray-200 w-full" />
 			<div className="w-full max-w-[1200px] mx-auto px-5 mt-10 mb-10">
@@ -152,7 +158,6 @@ const Content = () => {
 						</p>
 					</header>
 
-					{/* Hiển thị logo đã căn chỉnh */}
 					<div className="flex flex-row items-center">
 						<div className="flex flex-col">
 							<div className="flex -space-x-4">
@@ -169,7 +174,6 @@ const Content = () => {
 					</div>
 				</article>
 
-				{/* Phần thống kê */}
 				<section className="flex flex-row justify-center items-start gap-x-6 mt-10 max-md:mt-10 max-md:max-w-full">
 					{statistics.map((stat, index) => (
 						<StatisticCard
