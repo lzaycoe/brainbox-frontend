@@ -76,31 +76,35 @@ const JobSection = ({ title, children }: JobSectionProps) => (
 );
 
 const JobPosting = () => {
+	const requirements = [
+		'Vestibulum hendrerit facilisis libero, pretium condimentum ipsum vulputate at.',
+		'Quisque varius auctor augue id blandit.',
+		'Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+		'Ut ut magna condimentum, pharetra est nec, lacinia nulla.',
+		'Aliquam tempus mollis sem eget ullamcorper.',
+		'Donec non orci eget lorem laoreet ullamcorper et et magna.',
+		'Curabitur quis ipsum sollicitudin, sagittis elit in, sodales felis.',
+		'Nam bibendum tristique nibh id tristique.',
+		'Vestibulum lorem libero, rutrum vitae tincidunt quis, sodales quis neque.',
+	];
+
+	const benefits = [
+		'Nulla facilisi. Integer non euismod neque.',
+		'Suspendisse a ligula posuere, convallis dui et, commodo nisl.',
+		'Suspendisse a ligula posuere, convallis dui et, commodo nisl aliquam iaculis tristique nulla.',
+		'Donec dolor nunc, ultrices ac imperdiet eu, dignissim ut purus.',
+		'Mauris et tellus in mauris commodo varius nec sit amet urna.',
+		'Integer bibendum, tellus luctus laoreet pulvinar.',
+		'Donec dolor nunc, ultrices ac imperdiet eu, dignissim ut purus. Aliquam erat volutpat.',
+	];
+
 	return (
 		<article className="flex flex-col justify-center items-center pb-20">
 			<JobHeader />
-			<JobSection title="Who we are">
-				<p>
-					Sed lacinia accumsan eros in pretium. Praesent vitae eros condimentum,
-					elementum nisl quis, vestibulum nulla. Aenean quis nibh ullamcorper,
-					suscipit magna et, pretium nisi. Sed sed egestas mi. Donec viverra
-					efficitur ipsum, ut cursus risus fringilla id.
-				</p>
-			</JobSection>
 			<JobSection title="Requirements">
 				<ul className="mt-4 w-full text-sm tracking-normal leading-loose text-gray-500 list-disc pl-5">
-					{[
-						'Vestibulum hendrerit facilisis libero, pretium condimentum ipsum vulputate at.',
-						'Quisque varius auctor augue id blandit.',
-						'Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-						'Ut ut magna condimentum, pharetra est nec, lacinia nulla.',
-						'Aliquam tempus mollis sem eget ullamcorper.',
-						'Donec non orci eget lorem laoreet ullamcorper et et magna.',
-						'Curabitur quis ipsum sollicitudin, sagittis elit in, sodales felis.',
-						'Nam bibendum tristique nibh id tristique.',
-						'Vestibulum lorem libero, rutrum vitae tincidunt quis, sodales quis neque.',
-					].map((requirement, index) => (
-						<li key={index} className="mt-2.5 max-md:max-w-full">
+					{requirements.map((requirement) => (
+						<li key={requirement} className="mt-2.5 max-md:max-w-full">
 							{requirement}
 						</li>
 					))}
@@ -108,17 +112,9 @@ const JobPosting = () => {
 			</JobSection>
 			<JobSection title="Benefits">
 				<ul className="mt-4 text-sm tracking-normal leading-loose text-gray-600 max-md:max-w-full">
-					{[
-						'Nulla facilisi. Integer non euismod neque.',
-						'Suspendisse a ligula posuere, convallis dui et, commodo nisl.',
-						'Suspendisse a ligula posuere, convallis dui et, commodo nisl aliquam iaculis tristique nulla.',
-						'Donec dolor nunc, ultrices ac imperdiet eu, dignissim ut purus.',
-						'Mauris et tellus in mauris commodo varius nec sit amet urna.',
-						'Integer bibendum, tellus luctus laoreet pulvinar.',
-						'Donec dolor nunc, ultrices ac imperdiet eu, dignissim ut purus. Aliquam erat volutpat.',
-					].map((benefit, index) => (
+					{benefits.map((benefit) => (
 						<li
-							key={index}
+							key={benefit}
 							className="flex items-center gap-2 mt-2.5 max-md:max-w-full"
 						>
 							<FiCheck className="shrink-0 w-5 h-5 text-green-500" />
@@ -127,24 +123,6 @@ const JobPosting = () => {
 					))}
 				</ul>
 			</JobSection>
-			<JobSection title="Salary">
-				<p>Based on Skills [20K - 40K (USD)] and Other Benefits</p>
-			</JobSection>
-			<JobSection title="Job Nature">
-				<p>Job Type: Full Time</p>
-				<p>
-					Office Hours: 9 AM to 5 PM (Sat-Thurs) 6 days (We will consider remote
-					as well)
-				</p>
-				<p className="mt-4">
-					<strong className="font-medium text-neutral-800">Location:</strong>{' '}
-					FPT University Campus, An Phu Thinh New Urban Area, Nhon Binh Ward &
-					Dong Da Ward, Quy Nhon City, Quy Nhon
-				</p>
-			</JobSection>
-			<div className="mt-10">
-				<ApplyButton />
-			</div>
 		</article>
 	);
 };
