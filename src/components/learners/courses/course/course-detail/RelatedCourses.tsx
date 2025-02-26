@@ -1,38 +1,7 @@
-import Image from 'next/image';
-import { FaArrowRight, FaStar } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 
-import { Course, courses } from '@/data/CourseData';
-
-const CourseCard = ({ course }: { course: Course }) => (
-	<div className="flex flex-col">
-		<div className="relative aspect-[4/3] w-full">
-			<Image
-				src={course.image}
-				alt={course.title}
-				fill
-				className="object-cover rounded-lg"
-			/>
-		</div>
-		<div className="mt-3">
-			<div className="flex justify-between items-center">
-				<span className={`text-xs uppercase ${course.categoryColor}`}>
-					{course.category}
-				</span>
-				<span className="text-sm font-medium">${course.price}</span>
-			</div>
-			<h3 className="mt-2 text-sm font-medium line-clamp-2">{course.title}</h3>
-			<div className="flex items-center gap-1 mt-2">
-				<div className="flex items-center">
-					<FaStar className="w-4 h-4 text-yellow-400" />
-					<span className="ml-1 text-sm">{course.rating.toFixed(1)}</span>
-				</div>
-				<span className="text-sm text-gray-500">
-					{course.students} students
-				</span>
-			</div>
-		</div>
-	</div>
-);
+import CourseCard from '@/components/commons/CourseCard';
+import { courses } from '@/data/CourseData';
 
 export default function RelatedCourses() {
 	return (
@@ -47,7 +16,17 @@ export default function RelatedCourses() {
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
 				{courses.map((course) => (
-					<CourseCard key={course.id} course={course} />
+					<CourseCard
+						key={course.id}
+						imageUrl={course.imageUrl ?? ''}
+						category={course.category ?? ''}
+						categoryBgColor={course.categoryBgColor ?? ''}
+						categoryTextColor={course.categoryTextColor ?? ''}
+						price={course.price ? course.price.toString() : ''}
+						title={course.title ?? ''}
+						rating={course.rating ? course.rating.toString() : ''}
+						students={course.students ? course.students.toString() : ''}
+					/>
 				))}
 			</div>
 		</section>
