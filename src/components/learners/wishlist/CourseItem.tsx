@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import { IoStar } from 'react-icons/io5';
 
 import WishlistActions from './WishlistActions';
@@ -16,8 +16,6 @@ interface Course {
 }
 
 const CourseItem = ({ course }: { course: Course }) => {
-	const [isFavorited, setIsFavorited] = useState(false);
-
 	return (
 		<article className="grid grid-cols-[45%_5%_20%_30%] items-center mt-6 max-w-full w-[1272px] px-6">
 			<section className="flex gap-5 items-start">
@@ -42,7 +40,7 @@ const CourseItem = ({ course }: { course: Course }) => {
 						</div>
 						<h3 className="mt-2 text-lg text-black">{course.title}</h3>
 					</div>
-					<p className="flex gap-1.5 mt-6 text-sm text-gray-800">
+					<p className="flex gap-1.5 mt-5 text-sm text-gray-800">
 						<span className="text-gray-500">Course by:</span>{' '}
 						{course.instructors.join(' • ')}
 					</p>
@@ -62,10 +60,7 @@ const CourseItem = ({ course }: { course: Course }) => {
 				)}
 			</div>
 
-			<WishlistActions
-				isFavorited={isFavorited}
-				setIsFavorited={setIsFavorited}
-			/>
+			<WishlistActions />
 		</article>
 	);
 };
