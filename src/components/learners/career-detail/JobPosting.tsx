@@ -3,8 +3,56 @@ import { IoMdArrowForward } from 'react-icons/io';
 import { MdLibraryBooks, MdOutlineLocationOn } from 'react-icons/md';
 import { PiHandbag } from 'react-icons/pi';
 
+const Navbar = () => (
+	<div className="w-[1920px] h-[88px] px-[300px] py-5 bg-white justify-between items-center inline-flex">
+		<div className="justify-start items-start gap-2 flex">
+			<div data-svg-wrapper className="relative">
+				<svg
+					width="42"
+					height="40"
+					viewBox="0 0 42 40"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M2.25 15L21 5L39.75 15L21 25L2.25 15Z"
+						stroke="#FF6636"
+						strokeWidth="3"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+					<path
+						d="M30.375 37.5V20L21 15"
+						stroke="#FF6636"
+						strokeWidth="3"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+					<path
+						d="M35.375 17.332V25.8509C35.3755 26.1206 35.2884 26.3831 35.1266 26.5989C34.074 27.9995 29.6333 33.1237 21 33.1237C12.3667 33.1237 7.92597 27.9995 6.87336 26.5989C6.71165 26.3831 6.62449 26.1206 6.625 25.8509V17.332"
+						stroke="#FF6636"
+						strokeWidth="3"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+				</svg>
+			</div>
+			<div className="text-[#1d1f26] text-[32px] font-semibold font-['Inter'] leading-10">
+				BrainBox
+			</div>
+		</div>
+		<div className="justify-center items-center gap-4 flex">
+			<div className="px-6 bg-[#ffeee8] justify-center items-center gap-3 flex">
+				<div className="text-[#ff6636] text-base font-semibold font-['Inter'] capitalize leading-[48px]">
+					Back to homepage
+				</div>
+			</div>
+		</div>
+	</div>
+);
+
 const ApplyButton = () => (
-	<button className="flex gap-3 justify-center items-center px-8 py-2 text-lg font-semibold text-white bg-orange-500 hover:bg-orange-600 transition duration-300 leading-[40px] max-md:px-5">
+	<button className="flex gap-3 justify-center items-center px-8 py-1 text-lg font-semibold text-white bg-orange-500 hover:bg-orange-600 transition duration-300 leading-[40px] max-md:px-5">
 		<span>Apply now</span>
 		<IoMdArrowForward className="w-6 h-6" />
 	</button>
@@ -99,31 +147,52 @@ const JobPosting = () => {
 	];
 
 	return (
-		<article className="flex flex-col justify-center items-center pb-20">
-			<JobHeader />
-			<JobSection title="Requirements">
-				<ul className="mt-4 w-full text-sm tracking-normal leading-loose text-gray-500 list-disc pl-5">
-					{requirements.map((requirement) => (
-						<li key={requirement} className="mt-2.5 max-md:max-w-full">
-							{requirement}
-						</li>
-					))}
-				</ul>
-			</JobSection>
-			<JobSection title="Benefits">
-				<ul className="mt-4 text-sm tracking-normal leading-loose text-gray-600 max-md:max-w-full">
-					{benefits.map((benefit) => (
-						<li
-							key={benefit}
-							className="flex items-center gap-2 mt-2.5 max-md:max-w-full"
-						>
-							<FiCheck className="shrink-0 w-5 h-5 text-green-500" />
-							<span className="max-md:max-w-full">{benefit}</span>
-						</li>
-					))}
-				</ul>
-			</JobSection>
-		</article>
+		<>
+			<Navbar />
+			<article className="flex flex-col justify-center items-center pb-20">
+				<JobHeader />
+				<JobSection title="Requirements">
+					<ul className="mt-4 w-full text-sm tracking-normal leading-loose text-gray-500 list-disc pl-5">
+						{requirements.map((requirement) => (
+							<li key={requirement} className="mt-2.5 max-md:max-w-full">
+								{requirement}
+							</li>
+						))}
+					</ul>
+				</JobSection>
+				<JobSection title="Benefits">
+					<ul className="mt-4 text-sm tracking-normal leading-loose text-gray-600 max-md:max-w-full">
+						{benefits.map((benefit) => (
+							<li
+								key={benefit}
+								className="flex items-center gap-2 mt-2.5 max-md:max-w-full"
+							>
+								<FiCheck className="shrink-0 w-5 h-5 text-green-500" />
+								<span className="max-md:max-w-full">{benefit}</span>
+							</li>
+						))}
+					</ul>
+				</JobSection>
+				<JobSection title="Salary">
+					<p>Based on Skills [20K - 40K (USD)] and Other Benefits</p>
+				</JobSection>
+				<JobSection title="Job Nature">
+					<p>Job Type: Full Time</p>
+					<p>
+						Office Hours: 9 AM to 5 PM (Sat-Thurs) 6 days (We will consider
+						remote as well)
+					</p>
+					<p className="mt-4">
+						<strong className="font-medium text-neutral-800">Location:</strong>{' '}
+						FPT University Campus, An Phu Thinh New Urban Area, Nhon Binh Ward &
+						Dong Da Ward, Quy Nhon City, Quy Nhon
+					</p>
+				</JobSection>
+				<div className="mt-10">
+					<ApplyButton />
+				</div>
+			</article>
+		</>
 	);
 };
 
