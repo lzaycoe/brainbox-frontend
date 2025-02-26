@@ -92,10 +92,11 @@ const TestimonialsSection = () => {
 			text: 'In total, it was a big success, I would get emails about what a fantastic resource it was.',
 		},
 	];
+
 	return (
 		<section className="mt-10 mb-10 w-full px-5 h-auto bg-white flex justify-center items-center">
 			<div className="w-full max-w-[1000px] flex justify-center items-start gap-8">
-				{testimonials.map((testimonial, index) => {
+				{testimonials.map((testimonial) => {
 					const [position, company] = testimonial.title.split(' of ');
 
 					const companyLinks = {
@@ -108,7 +109,7 @@ const TestimonialsSection = () => {
 
 					return (
 						<div
-							key={index}
+							key={testimonial.name}
 							className="flex-col justify-start items-center gap-4 inline-flex"
 						>
 							<div className="relative p-6 bg-[#f4f7f9] shadow-sm w-[320px] flex flex-col justify-between items-center gap-2">
@@ -149,6 +150,7 @@ const TestimonialsSection = () => {
 		</section>
 	);
 };
+
 const AboutSection = () => {
 	return (
 		<>
