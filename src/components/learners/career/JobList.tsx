@@ -88,7 +88,7 @@ const JobList = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-[#f4f7f9] flex flex-col justify-center items-center gap-6">
+		<div className="py-10 bg-[#f4f7f9] flex flex-col justify-center items-center gap-6">
 			<h2 className="text-3xl font-bold text-gray-800">
 				Our all open positions ({jobs.length})
 			</h2>
