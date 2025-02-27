@@ -2,8 +2,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import '@/app/globals.css';
-import { Toaster } from '@/components/ui/toaster';
-import TeacherLayout from '@/layouts/TeacherLayout';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -16,23 +14,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'BrainBox | Teacher Dashboard',
+	title: 'BrainBox | Admin Dashboard',
 	description: 'An e-learning platform built with Next.js and Shadcn UI',
 };
 
-export default function TeacherPageLayout({
+export default function AdminPageLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
 	return (
-		<div>
-			<div
+		<html lang="en">
+			<body
 				className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
 			>
-				<TeacherLayout>{children}</TeacherLayout>
-				<Toaster />
-			</div>
-		</div>
+				{/* <AdminLayout>{children}</AdminLayout> */}
+				{children}
+			</body>
+		</html>
 	);
 }

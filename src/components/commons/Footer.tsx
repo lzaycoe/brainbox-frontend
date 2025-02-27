@@ -301,7 +301,7 @@ export const Footer = () => {
 							alt="Contributors to BrainBox"
 							width={100}
 							height={20}
-							className="w-20 h-15"
+							className="w-56 h-15"
 						/>
 					</Link>
 				</div>

@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: 'https',
+				hostname: 'jxaztnbdaxoeftmzztcc.supabase.co',
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
 				hostname: 'cdn.builder.io',
 				pathname: '/**',
 			},
