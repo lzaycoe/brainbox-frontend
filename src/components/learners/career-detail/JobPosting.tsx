@@ -4,47 +4,49 @@ import { MdLibraryBooks, MdOutlineLocationOn } from 'react-icons/md';
 import { PiHandbag } from 'react-icons/pi';
 
 const Navbar = () => (
-	<div className="max-w-[1100px] mx-auto h-[88px] px-10 py-5 bg-white flex justify-between items-center">
-		<div className="flex items-center gap-2">
-			<div data-svg-wrapper className="relative">
-				<svg
-					width="42"
-					height="40"
-					viewBox="0 0 42 40"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						d="M2.25 15L21 5L39.75 15L21 25L2.25 15Z"
-						stroke="#FF6636"
-						strokeWidth="3"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					/>
-					<path
-						d="M30.375 37.5V20L21 15"
-						stroke="#FF6636"
-						strokeWidth="3"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					/>
-					<path
-						d="M35.375 17.332V25.8509C35.3755 26.1206 35.2884 26.3831 35.1266 26.5989C34.074 27.9995 29.6333 33.1237 21 33.1237C12.3667 33.1237 7.92597 27.9995 6.87336 26.5989C6.71165 26.3831 6.62449 26.1206 6.625 25.8509V17.332"
-						stroke="#FF6636"
-						strokeWidth="3"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					/>
-				</svg>
+	<div className="fixed top-0 left-0 w-full bg-white shadow-md z-50 h-[88px] flex justify-center">
+		<div className="w-[1100px] px-10 py-5 flex justify-between items-center">
+			<div className="flex items-center gap-2">
+				<div data-svg-wrapper className="relative">
+					<svg
+						width="42"
+						height="40"
+						viewBox="0 0 42 40"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M2.25 15L21 5L39.75 15L21 25L2.25 15Z"
+							stroke="#FF6636"
+							strokeWidth="3"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+						<path
+							d="M30.375 37.5V20L21 15"
+							stroke="#FF6636"
+							strokeWidth="3"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+						<path
+							d="M35.375 17.332V25.8509C35.3755 26.1206 35.2884 26.3831 35.1266 26.5989C34.074 27.9995 29.6333 33.1237 21 33.1237C12.3667 33.1237 7.92597 27.9995 6.87336 26.5989C6.71165 26.3831 6.62449 26.1206 6.625 25.8509V17.332"
+							stroke="#FF6636"
+							strokeWidth="3"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+					</svg>
+				</div>
+				<div className="text-[#1d1f26] text-[32px] font-semibold leading-10">
+					BrainBox
+				</div>
 			</div>
-			<div className="text-[#1d1f26] text-[32px] font-semibold leading-10">
-				BrainBox
+			<div>
+				<button className="px-6 py-2 bg-[#ffeee8] text-[#ff6636] text-base font-semibold capitalize transition-all hover:bg-orange-300 transition duration-300">
+					<span className="group-hover:font-bold">Back to homepage</span>
+				</button>
 			</div>
-		</div>
-		<div>
-			<button className="px-6 py-2 bg-[#ffeee8] text-[#ff6636] text-base font-semibold capitalize">
-				Back to homepage
-			</button>
 		</div>
 	</div>
 );
@@ -57,7 +59,7 @@ const ApplyButton = () => (
 );
 
 const JobHeader = () => (
-	<header className="flex flex-wrap gap-10 justify-between items-start px-40 py-20 w-full bg-slate-100 max-md:px-5 max-md:max-w-full">
+	<header className="flex flex-wrap gap-10 justify-between items-start px-40 py-14 w-full bg-slate-100 max-md:px-5 max-md:max-w-full">
 		<div className="flex w-full justify-between max-md:flex-col max-md:items-start">
 			<div className="flex flex-col self-stretch my-auto min-w-60 w-[60%] max-md:max-w-full">
 				<div className="flex flex-col w-full max-md:max-w-full">
@@ -145,9 +147,9 @@ const JobPosting = () => {
 	];
 
 	return (
-		<>
+		<div className="absolute top-0 left-0 w-full bg-white z-50">
 			<Navbar />
-			<article className="flex flex-col justify-center items-center pb-20">
+			<article className="pt-[88px] flex flex-col justify-center items-center pb-20">
 				<JobHeader />
 				<JobSection title="Requirements">
 					<ul className="mt-4 w-full text-sm tracking-normal leading-loose text-gray-500 list-disc pl-5">
@@ -190,7 +192,7 @@ const JobPosting = () => {
 					<ApplyButton />
 				</div>
 			</article>
-		</>
+		</div>
 	);
 };
 
