@@ -1,24 +1,22 @@
+'use client';
+
+import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-	PiChartBarLight,
-	PiChatCircleDots,
-	PiCreditCard,
-	PiGear,
-	PiPlusCircleBold,
-	PiStack,
-} from 'react-icons/pi';
+
+import { menuItems } from '@/config/menuItems';
 
 export const SideBar = () => {
 	const pathname = usePathname();
 
-	const getLinkClasses = (path: string) => {
-		const isActive = pathname.startsWith(path);
-		return isActive
-			? 'flex items-center gap-3 px-6 py-3 bg-orange-500 text-white'
-			: 'flex items-center gap-3 px-6 py-3 text-gray-400 hover:text-white';
-	};
+	const getLinkClasses = (path: string) =>
+		clsx(
+			'flex items-center gap-3 px-6 py-3',
+			pathname.startsWith(path)
+				? 'bg-orange-500 text-white'
+				: 'text-gray-400 hover:text-white',
+		);
 
 	return (
 		<div className="flex flex-col bg-neutral-800 text-white shadow-sm sm:w-[300px] fixed top-0 left-0 h-full">
@@ -36,47 +34,21 @@ export const SideBar = () => {
 				</div>
 			</div>
 			<nav className="flex flex-col mt-4 space-y-2">
-				<Link
-					href="/teachers/dashboard"
-					className={getLinkClasses('/teachers/dashboard')}
-				>
-					<PiChartBarLight className="w-8 h-8" />
-					Dashboard
-				</Link>
-				<Link
-					href="/teachers/create-course"
-					className={getLinkClasses('/teachers/create-course')}
-				>
-					<PiPlusCircleBold className="w-8 h-8" />
-					Create New Course
-				</Link>
-				<Link
-					href="/teachers/courses"
-					className={getLinkClasses('/teachers/courses')}
-				>
-					<PiStack className="w-8 h-8" />
-					My Courses
-				</Link>
-				<Link href="/earnings" className={getLinkClasses('/earnings')}>
-					<PiCreditCard className="w-8 h-8" />
-					Earnings
-				</Link>
-				<Link href="/messages" className={getLinkClasses('/messages')}>
-					<div className="flex items-center gap-3">
-						<PiChatCircleDots className="w-8 h-8" />
-						Messages
-					</div>
-					<div className="text-xs w-6 h-6 flex items-center justify-center bg-orange-500 rounded-full">
-						3
-					</div>
-				</Link>
-				<Link
-					href="/teachers/settings"
-					className={getLinkClasses('/teachers/settings')}
-				>
-					<PiGear className="w-8 h-8" />
-					Settings
-				</Link>
+				{menuItems.map((item) => (
+					<Link
+						key={item.path}
+						href={item.path}
+						className={getLinkClasses(item.path)}
+					>
+						<item.icon className="w-8 h-8" />
+						{item.label}
+						{item.badge && (
+							<div className="text-xs w-6 h-6 flex items-center justify-center bg-orange-500 rounded-full">
+								{item.badge}
+							</div>
+						)}
+					</Link>
+				))}
 			</nav>
 		</div>
 	);
