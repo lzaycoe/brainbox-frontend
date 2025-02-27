@@ -151,6 +151,14 @@ const JobPosting = () => {
 			<Navbar />
 			<article className="pt-[88px] flex flex-col justify-center items-center pb-20">
 				<JobHeader />
+				<JobSection title="Who we are">
+					<p>
+						Sed lacinia accumsan eros in pretium. Praesent vitae eros
+						condimentum, elementum nisl quis, vestibulum nulla. Aenean quis nibh
+						ullamcorper, suscipit magna et, pretium nisi. Sed sed egestas mi.
+						Donec viverra efficitur ipsum, ut cursus risus fringilla id.
+					</p>
+				</JobSection>
 				<JobSection title="Requirements">
 					<ul className="mt-4 w-full text-sm tracking-normal leading-loose text-gray-500 list-disc pl-5">
 						{requirements.map((requirement) => (
