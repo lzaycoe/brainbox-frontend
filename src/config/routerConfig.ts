@@ -18,6 +18,6 @@ export const routeConfig: RouteConfig = {
 		title: 'Create a new lecture',
 		dynamic: true,
 	},
-	'/teachers/earning': { title: 'Earning' },
-	'/teachers/message': { title: 'Message' },
+	'/teachers/earnings': { title: 'Earning' },
+	'/teachers/messages': { title: 'Message' },
 };

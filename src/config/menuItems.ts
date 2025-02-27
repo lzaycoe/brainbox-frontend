@@ -23,7 +23,12 @@ export const menuItems: MenuItem[] = [
 		icon: PiPlusCircleBold,
 	},
 	{ path: '/teachers/courses', label: 'My Courses', icon: PiStack },
-	{ path: '/earnings', label: 'Earnings', icon: PiCreditCard },
-	{ path: '/messages', label: 'Messages', icon: PiChatCircleDots, badge: '3' },
+	{ path: '/teachers/earnings', label: 'Earnings', icon: PiCreditCard },
+	{
+		path: '/teachers/messages',
+		label: 'Messages',
+		icon: PiChatCircleDots,
+		badge: '3',
+	},
 	{ path: '/teachers/settings', label: 'Settings', icon: PiGear },
 ];
