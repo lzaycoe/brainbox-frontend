@@ -97,7 +97,7 @@ const JobHeader = () => (
 						<p className="mt-2 leading-6 text-neutral-800">
 							career.lazycode@gmail.com
 							<br />
-							(219) 555-0114
+							(+84) 333 382 420
 						</p>
 					</div>
 				</div>
