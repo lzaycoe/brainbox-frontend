@@ -6,35 +6,26 @@ import React, { useEffect, useState } from 'react';
 import { Footer } from '@/components/commons/teachers/Footer';
 import { Header } from '@/components/commons/teachers/Header';
 import { SideBar } from '@/components/commons/teachers/SideBar';
+import { routeConfig } from '@/config/routerConfig';
 
-const TeacherLayout = ({
-	children,
-}: Readonly<{
+interface TeacherLayoutProps {
 	children: React.ReactNode;
-}>) => {
+}
+
+const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children }) => {
 	const pathname = usePathname();
 	const [title, setTitle] = useState('Dashboard');
 
 	useEffect(() => {
-		if (pathname.includes('/teachers/dashboard')) {
-			setTitle('Dashboard');
-		} else if (pathname.includes('/teachers/settings')) {
-			setTitle('Settings');
-		} else if (
-			/\/teachers\/courses\/[^/]+\/sections\/[^/]+\/create-lecture/.test(
-				pathname,
-			)
-		) {
-			setTitle('Create a new lecture');
-		} else if (/\/teachers\/courses\/[^/]+\/sections/.test(pathname)) {
-			setTitle('Course Sections');
-		} else if (pathname.includes('/teachers/courses')) {
-			setTitle('My courses');
-		} else if (pathname.includes('/teachers/create-course')) {
-			setTitle('Create a new course');
-		} else {
-			setTitle('Teacher Portal');
-		}
+		const matchedRoute = Object.keys(routeConfig).find((route) => {
+			if (routeConfig[route].dynamic) {
+				const regex = new RegExp(route.replace(/\[.*?\]/g, '[^/]+'));
+				return regex.test(pathname);
+			}
+			return pathname.includes(route);
+		});
+
+		setTitle(matchedRoute ? routeConfig[matchedRoute].title : 'Teacher Portal');
 	}, [pathname]);
 
 	return (
