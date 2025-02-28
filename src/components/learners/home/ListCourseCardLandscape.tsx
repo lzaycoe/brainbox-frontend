@@ -43,7 +43,7 @@ const ListCourseCardLandscape: React.FC = () => {
 				const fetchedCourses: Course[] = await getCourses();
 
 				const formattedCourses: CourseCardLandscapeProps[] = fetchedCourses.map(
-					(course, index) => ({
+					(course) => ({
 						id: course.id,
 						title: course.title,
 						subtitle: course.subtitle || 'No subtitle available',
@@ -68,7 +68,7 @@ const ListCourseCardLandscape: React.FC = () => {
 				);
 
 				setCourses(formattedCourses.slice(0, 4));
-			} catch (err) {
+			} catch {
 				setError('Failed to fetch courses');
 			} finally {
 				setLoading(false);
