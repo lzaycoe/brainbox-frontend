@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Lecture } from '@/schemas/lecture.schema';
 import { Section } from '@/schemas/section.schema';
-import { getAllLecturesInsection } from '@/services/api/lecture';
+import { getAllLecturesInSection } from '@/services/api/lecture';
 import { deleteSection } from '@/services/api/section';
 
 interface SectionTabProps {
@@ -60,7 +60,7 @@ const SectionTab: FC<SectionTabProps> = ({
 	const handleExpand = async () => {
 		setIsExpanded(!isExpanded);
 		if (!isExpanded) {
-			const fetchedLectures = await getAllLecturesInsection(
+			const fetchedLectures = await getAllLecturesInSection(
 				courseId,
 				section.id.toString(),
 			);
