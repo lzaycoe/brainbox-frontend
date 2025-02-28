@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import '@/app/globals.css';
+import { Toaster } from '@/components/ui/toaster';
 import TeacherLayout from '@/layouts/TeacherLayout';
 
 const geistSans = Geist({
@@ -25,12 +26,13 @@ export default function TeacherPageLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body
+		<div>
+			<div
 				className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
 			>
 				<TeacherLayout>{children}</TeacherLayout>
-			</body>
-		</html>
+				<Toaster />
+			</div>
+		</div>
 	);
 }
