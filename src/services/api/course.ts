@@ -1,12 +1,15 @@
 import axios from 'axios';
 
-import { CourseData } from '@/schemas/course.schema';
+import { Course } from '@/schemas/course.schema';
 
-export const createCourse = async (courseData: Record<string, unknown>) => {
+export const createCourse = async (
+	courseData: Record<string, unknown>,
+	teacherId: number,
+) => {
 	try {
 		const response = await axios.post(
 			`${process.env.NEXT_PUBLIC_API_URL}/courses`,
-			{ ...courseData, status: 'pending', teacherId: 5 },
+			{ ...courseData, status: 'pending', teacherId: teacherId },
 			{
 				headers: {
 					'Content-Type': 'application/json',
@@ -20,7 +23,7 @@ export const createCourse = async (courseData: Record<string, unknown>) => {
 	}
 };
 
-export const getCourse = async (id: string): Promise<CourseData> => {
+export const getCourse = async (id: number): Promise<Course> => {
 	try {
 		const response = await axios.get(
 			`${process.env.NEXT_PUBLIC_API_URL}/courses/${id}`,
@@ -28,6 +31,20 @@ export const getCourse = async (id: string): Promise<CourseData> => {
 		return response.data;
 	} catch (error) {
 		console.error('Failed to fetch course:', error);
-		throw error;
+		throw new Error('Failed to fetch course');
+	}
+};
+
+export const getTeacherCourses = async (
+	teacherId: number,
+): Promise<Course[]> => {
+	try {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses/teacher/${teacherId}`,
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch teacher courses:', error);
+		throw new Error('Failed to fetch teacher courses');
 	}
 };
