@@ -15,12 +15,13 @@ export default clerkMiddleware(async (auth, req) => {
 	const { userId } = await auth();
 
 	if (isProtectedRoute(req) && !userId) {
-		return (await auth()).redirectToSignIn({ returnBackUrl: req.url });
+		return NextResponse.redirect(new URL('/', req.url));
 	}
 
 	let role: 'learner' | 'teacher' | undefined;
 	if (userId) {
-		const user = await (await clerkClient()).users.getUser(userId);
+		const client = await clerkClient();
+		const user = await client.users.getUser(userId);
 		role = user.publicMetadata.role as 'learner' | 'teacher' | undefined;
 	}
 

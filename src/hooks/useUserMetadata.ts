@@ -7,13 +7,14 @@ import { User } from '@/schemas/user.schema';
 import { getUser } from '@/services/api/user';
 
 export const useUserMetadata = () => {
-	const { user, isLoaded } = useUser();
+	const { user, isLoaded, isSignedIn } = useUser();
 	const [userMetadata, setUserMetadata] = useState<User | null>(null);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchUserMetadata = async () => {
-			if (!isLoaded || !user) {
+			if (!isLoaded || !isSignedIn || !user) {
+				setUserMetadata(null);
 				setLoading(false);
 				return;
 			}
@@ -31,6 +32,8 @@ export const useUserMetadata = () => {
 				};
 
 				setUserMetadata(metadata);
+				console.log('User:', user);
+				console.log('User metadata after successful sign-in:', metadata);
 			} catch (error) {
 				console.error('Failed to fetch user metadata:', error);
 				setUserMetadata(null);
@@ -40,7 +43,7 @@ export const useUserMetadata = () => {
 		};
 
 		fetchUserMetadata();
-	}, [isLoaded, user]);
+	}, [isLoaded, isSignedIn, user]);
 
 	return { userMetadata, loading };
 };
