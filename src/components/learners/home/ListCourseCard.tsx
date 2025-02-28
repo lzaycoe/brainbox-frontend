@@ -25,7 +25,7 @@ const ListCourseCard: React.FC = () => {
 					(a, b) => b.salePrice - a.salePrice,
 				);
 				setCourses(sortedCourses.slice(0, 10));
-			} catch (err) {
+			} catch {
 				setError('Failed to fetch courses');
 			} finally {
 				setLoading(false);
