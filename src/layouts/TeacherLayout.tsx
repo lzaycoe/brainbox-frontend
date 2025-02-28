@@ -20,8 +20,18 @@ const TeacherLayout = ({
 			setTitle('Dashboard');
 		} else if (pathname.includes('/teachers/settings')) {
 			setTitle('Settings');
+		} else if (
+			/\/teachers\/courses\/[^/]+\/sections\/[^/]+\/create-lecture/.test(
+				pathname,
+			)
+		) {
+			setTitle('Create a new lecture');
+		} else if (/\/teachers\/courses\/[^/]+\/sections/.test(pathname)) {
+			setTitle('Course Sections');
 		} else if (pathname.includes('/teachers/courses')) {
 			setTitle('My courses');
+		} else if (pathname.includes('/teachers/create-course')) {
+			setTitle('Create a new course');
 		} else {
 			setTitle('Teacher Portal');
 		}
