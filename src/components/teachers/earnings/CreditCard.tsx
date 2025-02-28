@@ -1,23 +1,8 @@
-// import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
 import React from 'react';
 
 export const CreditCard = () => {
 	return (
-		// 	<Card className="flex flex-col flex-1 ">
-		// 	<div className="flex gap-10 justify-between items-center px-5 py-4 w-full bg-white shadow-sm max-md:max-w-full">
-		// 		<CardTitle>Cards</CardTitle>
-		// 	</div>
-		// 	<CardContent className="mt-4 py-3">
-
-		// 	</CardContent>
-		// 	<CardFooter className="flex-col items-start gap-2 text-sm">
-
-		// 		<div className="leading-none text-muted-foreground">
-		// 			USD Dollar you earned.
-		// 		</div>
-		// 	</CardFooter>
-		// </Card>
 		<section className="overflow-hidden max-w-[424px]">
 			<article className="flex flex-col items-center pb-5 w-full bg-white">
 				<header className="flex gap-10 justify-between items-center self-stretch px-5 py-4 w-full whitespace-nowrap bg-white shadow-sm">
