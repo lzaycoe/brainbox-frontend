@@ -16,9 +16,9 @@ const WithdrawHistory = () => {
 				<div className="self-stretch my-auto w-[124px]">Status</div>
 			</div>
 
-			{transactions.map((transaction, index) => (
+			{transactions.map((transaction) => (
 				<div
-					key={index}
+					key={transaction.id}
 					className="flex flex-wrap gap-3 justify-center items-center px-5 py-3 text-sm tracking-normal leading-loose text-gray-600"
 				>
 					<div className="self-stretch my-auto w-[200px]">
