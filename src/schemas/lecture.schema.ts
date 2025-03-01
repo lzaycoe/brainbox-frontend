@@ -12,6 +12,14 @@ export const lectureSchema = z.object({
 
 export type LectureData = z.infer<typeof lectureSchema>;
 
+interface ClerkUser {
+	id: string;
+	firstName: string | null;
+	lastName: string | null;
+	imageUrl: string | null;
+}
+
 export interface Lecture extends LectureData {
 	id: number;
+	clerkUser?: ClerkUser;
 }
