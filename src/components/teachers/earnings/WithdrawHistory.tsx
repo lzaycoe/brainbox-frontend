@@ -1,56 +1,6 @@
-const WithdrawHistory = () => {
-	const transactions = [
-		{
-			date: '21 Sep, 2024 at 2:14 AM',
-			method: 'Mastercards',
-			amount: 'American Express',
-			status: 'Pending',
-			statusColor: 'text-amber-500',
-		},
-		{
-			date: '21 Sep, 2024 at 2:14 AM',
-			method: 'Visa',
-			amount: 'American Express',
-			status: 'Pending',
-			statusColor: 'text-amber-500',
-		},
-		{
-			date: '21 Sep, 2024 at 2:14 AM',
-			method: 'Visa',
-			amount: 'American Express',
-			status: 'Completed',
-			statusColor: 'text-green-600',
-		},
-		{
-			date: '21 Sep, 2024 at 2:14 AM',
-			method: 'Mastercards',
-			amount: 'American Express',
-			status: 'Completed',
-			statusColor: 'text-green-600',
-		},
-		{
-			date: '21 Sep, 2024 at 2:14 AM',
-			method: 'Visa',
-			amount: 'American Express',
-			status: 'Canceled',
-			statusColor: 'text-red-500',
-		},
-		{
-			date: '21 Sep, 2024 at 2:14 AM',
-			method: 'Mastercards',
-			amount: 'American Express',
-			status: 'Completed',
-			statusColor: 'text-green-600',
-		},
-		{
-			date: '21 Sep, 2024 at 2:14 AM',
-			method: 'Mastercards',
-			amount: 'American Express',
-			status: 'Completed',
-			statusColor: 'text-green-600',
-		},
-	];
+import transactions from '@/data/transactionsData';
 
+const WithdrawHistory = () => {
 	return (
 		<section className="px-3 bg-white max-w-[784px]">
 			<header className="flex flex-wrap gap-10 justify-between items-center px-5 py-4 w-full bg-white shadow-sm max-md:max-w-full">
