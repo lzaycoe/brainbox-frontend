@@ -27,7 +27,7 @@ export const createLecture = async (
 	}
 };
 
-export const getAllLecturesInsection = async (
+export const getAllLecturesInSection = async (
 	courseId: string,
 	sectionId: string,
 ): Promise<Lecture[] | null> => {
@@ -67,5 +67,19 @@ export const deleteLecture = async (
 	} catch (error) {
 		console.error('Failed to delete lecture:', error);
 		return false;
+	}
+};
+
+export const getAllLecturesInCourse = async (
+	courseId: string,
+): Promise<Lecture[]> => {
+	try {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/lectures`,
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch lectures:', error);
+		throw new Error('Failed to fetch lectures');
 	}
 };
