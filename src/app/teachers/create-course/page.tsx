@@ -9,6 +9,7 @@ import { PiClipboardTextDuotone, PiStackDuotone } from 'react-icons/pi';
 import FormAdvanceInfo from '@/components/teachers/create-course/FormAdvanceInfo';
 import FormBasicInfo from '@/components/teachers/create-course/FormBasicInfo';
 import TabGroup from '@/components/teachers/create-course/TabGroup';
+import { useUserContext } from '@/contexts/UserContext';
 import { useToast } from '@/hooks/use-toast';
 import { courseSchema } from '@/schemas/course.schema';
 import type { CourseData } from '@/schemas/course.schema';
@@ -24,8 +25,11 @@ const CreateCourse = () => {
 
 	const [activeTab, setActiveTab] = useState(0);
 	const { toast } = useToast();
+	const { user, loading } = useUserContext();
 
 	const onSubmit = async (data: CourseData, file: File | null) => {
+		if (!user || loading) return;
+
 		try {
 			if (data.salePrice > data.originPrice) {
 				methods.setError('salePrice', {
@@ -41,7 +45,10 @@ const CreateCourse = () => {
 					data.thumbnail = publicUrl;
 				}
 			}
-			await createCourse(data);
+
+			const teacherId = user.id;
+
+			await createCourse(data, teacherId);
 			toast({
 				title: 'Course created successfully!',
 				description: 'Your course has been created.',
