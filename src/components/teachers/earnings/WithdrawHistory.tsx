@@ -1,4 +1,4 @@
-import transactions from '@/data/transactionsData';
+import transactions from '@/data/TransactionsData';
 
 const WithdrawHistory = () => {
 	return (
