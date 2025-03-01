@@ -37,7 +37,6 @@ export const getCourses = async (): Promise<Course[]> => {
 		const response = await axios.get(
 			`${process.env.NEXT_PUBLIC_API_URL}/courses`,
 		);
-		console.log('data', response);
 		return response.data;
 	} catch (error) {
 		console.error('Failed to fetch courses:', error);
