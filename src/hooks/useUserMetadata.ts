@@ -4,7 +4,7 @@ import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 
 import { User } from '@/schemas/user.schema';
-import { getUser } from '@/services/api/user';
+import { getUserByClerkId } from '@/services/api/user';
 
 export const useUserMetadata = () => {
 	const { user, isLoaded, isSignedIn } = useUser();
@@ -23,7 +23,7 @@ export const useUserMetadata = () => {
 				const clerkId = user.id;
 				const role =
 					(user.publicMetadata?.role as 'learner' | 'teacher') || 'learner';
-				const backendUser = await getUser(clerkId);
+				const backendUser = await getUserByClerkId(clerkId);
 
 				const metadata: User = {
 					id: backendUser.id,
@@ -32,8 +32,6 @@ export const useUserMetadata = () => {
 				};
 
 				setUserMetadata(metadata);
-				console.log('User:', user);
-				console.log('User metadata after successful sign-in:', metadata);
 			} catch (error) {
 				console.error('Failed to fetch user metadata:', error);
 				setUserMetadata(null);
