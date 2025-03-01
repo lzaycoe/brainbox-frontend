@@ -3,53 +3,40 @@ import {
 	PiArrowDownBold,
 	PiArrowUpBold,
 	PiChecks,
-	PiPauseFill,
 	PiPlayCircle,
-	PiPlayFill,
-	PiTimer,
 } from 'react-icons/pi';
 
-export default function CourseMenu() {
-	const progress = 15; // Progress in percentage
-	const sections = [
-		{
-			id: 1,
-			title: 'Getting Started',
-			lectures: '4 lectures',
-			duration: '51m',
-			progress: '25% finish (1/4)',
-			isExpanded: true,
-			lecturesDetails: [
-				{ id: 1, title: '1. What is Webflow?', time: '07:31', isDone: false },
-				{
-					id: 2,
-					title: '2. Sign up in Webflow',
-					time: '07:31',
-					isActive: true,
-					isDone: true,
-				},
-				{ id: 3, title: '3. Teaser of Webflow', time: '07:31', isDone: false },
-				{ id: 4, title: '4. Figma Introduction', time: '07:31', isDone: false },
-			],
-		},
-		{
-			id: 2,
-			title: 'Secret of Good Design',
-			lectures: '52 lectures',
-			duration: '5h 49m',
-			isExpanded: false,
-			lecturesDetails: [],
-		},
-		{
-			id: 3,
-			title: 'Practice Design Like an Artist',
-			lectures: '43 lectures',
-			duration: '51m',
-			isExpanded: false,
-			lecturesDetails: [],
-		},
-	];
+interface LectureDetail {
+	id: number;
+	title: string;
+	isDone: boolean;
+	isActive?: boolean;
+}
 
+interface Section {
+	id: number;
+	title: string;
+	lecturesCount: number;
+	progress: number;
+	isExpanded: boolean;
+	lecturesDetails: LectureDetail[];
+}
+
+interface CourseMenuProps {
+	progress: number;
+	sections: Section[];
+	onToggleSection: (sectionId: number) => void;
+	onToggleLectureActive: (sectionId: number, lectureId: number) => void;
+	onCheckboxChange: (sectionId: number, lectureId: number) => void;
+}
+
+const CourseMenu: React.FC<CourseMenuProps> = ({
+	progress,
+	sections,
+	onToggleSection,
+	onToggleLectureActive,
+	onCheckboxChange,
+}) => {
 	return (
 		<div className="flex flex-col max-w-[603px]">
 			{/* Header Section */}
@@ -61,7 +48,7 @@ export default function CourseMenu() {
 					className="self-stretch my-auto text-base leading-none text-right text-green-600"
 					aria-live="polite"
 				>
-					{progress}% Completed
+					{progress.toFixed(1)}% Completed
 				</div>
 			</div>
 
@@ -78,7 +65,7 @@ export default function CourseMenu() {
 					<div
 						className="absolute top-0 left-0 h-4 bg-green-600"
 						style={{ width: `${progress}%` }}
-					></div>
+					/>
 				</div>
 			</div>
 
@@ -90,7 +77,10 @@ export default function CourseMenu() {
 						className={`${section.isExpanded ? 'bg-slate-100' : 'bg-white'}`}
 					>
 						{/* Section Header */}
-						<div className="flex flex-wrap gap-10 justify-between items-center p-4 w-full max-md:max-w-full">
+						<div
+							className="flex flex-wrap gap-10 justify-between items-center p-4 w-full max-md:max-w-full cursor-pointer"
+							onClick={() => onToggleSection(section.id)}
+						>
 							<div className="flex gap-2 items-center my-auto text-base leading-none text-neutral-800 flex-1 min-w-0">
 								<div
 									className="flex shrink-0 items-center w-5 h-5"
@@ -106,86 +96,68 @@ export default function CourseMenu() {
 									className={`ml-1 ${
 										section.isExpanded ? 'text-orange-500' : 'text-neutral-800'
 									} truncate text-base font-medium leading-none max-w-[300px]`}
-									title={section.title} // Tooltip for full title
+									title={section.title}
 								>
 									{section.title}
 								</h2>
 							</div>
-
 							<div className="flex gap-2 items-center text-sm tracking-normal leading-loose text-gray-600">
 								<div className="flex gap-1 items-center">
 									<PiPlayCircle
 										className="object-contain w-4 h-4"
 										color="#564FFD"
 									/>
-									<span>{section.lectures}</span>
+									<span>{section.lecturesCount} lectures</span>
 								</div>
-								<div className="flex gap-1 items-center">
-									<PiTimer className="object-contain w-4 h-4" color="#FD8E1F" />
-									<span>{section.duration}</span>
+								<div className="flex gap-1 items-center text-gray-400">
+									<PiChecks
+										className="object-contain w-4 h-4"
+										color="#23BD33"
+									/>
+									<span>{section.progress.toFixed(1)}%</span>
 								</div>
-								{section.progress && (
-									<div className="flex gap-1 items-center text-gray-400">
-										<PiChecks
-											className="object-contain w-4 h-4"
-											color="#23BD33"
-										/>
-										<span>{section.progress}</span>
-									</div>
-								)}
 							</div>
 						</div>
 
 						{/* Divider */}
-						<div className="w-full bg-white border border-gray-200 min-h-[1px] max-md:max-w-full"></div>
-						{section.lecturesDetails.map((lecture) => (
-							<div
-								key={lecture.id}
-								className={`flex flex-wrap gap-10 justify-between items-center px-5 py-3 w-full ${
-									lecture.isActive ? 'bg-rose-100 text-neutral-800' : ''
-								} max-md:max-w-full`}
-							>
+						<div className="w-full bg-white border border-gray-200 min-h-[1px] max-md:max-w-full" />
+
+						{/* Lectures */}
+						{section.isExpanded &&
+							section.lecturesDetails.map((lecture) => (
 								<div
-									className={`flex gap-3 items-center self-stretch my-auto ${
-										lecture.isActive
-											? 'font-medium leading-none'
-											: 'text-gray-600'
-									}`}
+									key={lecture.id}
+									className={`flex flex-wrap gap-10 justify-between items-center px-5 py-3 w-full ${
+										lecture.isActive ? 'bg-rose-100 text-neutral-800' : ''
+									} max-md:max-w-full cursor-pointer`}
+									onClick={() => onToggleLectureActive(section.id, lecture.id)}
 								>
 									<div
-										className={`flex shrink-0 self-stretch my-auto h-[18px] w-[18px] ${
+										className={`flex gap-3 items-center self-stretch my-auto ${
 											lecture.isActive
-												? 'bg-white border border-orange-500'
-												: 'bg-white border border-gray-300'
+												? 'font-medium leading-none'
+												: 'text-gray-600'
 										}`}
-										aria-hidden="true"
-									></div>
-
-									<span className="self-stretch my-auto">{lecture.title}</span>
+									>
+										<input
+											type="checkbox"
+											checked={lecture.isDone}
+											disabled={lecture.isDone}
+											onChange={() => onCheckboxChange(section.id, lecture.id)}
+											onClick={(e) => e.stopPropagation()}
+											className="flex shrink-0 self-stretch my-auto h-[18px] w-[18px] accent-green-500"
+										/>
+										<span className="self-stretch my-auto">
+											{lecture.title}
+										</span>
+									</div>
 								</div>
-								<div className="flex gap-1.5 justify-center items-center self-stretch my-auto leading-loose whitespace-nowrap text-gray-400">
-									{lecture.isActive ? (
-										<div
-											className="flex shrink-0 self-stretch my-auto"
-											aria-hidden="true"
-										>
-											<PiPauseFill className="object-contain w-4 h-4" />
-										</div>
-									) : (
-										<div
-											className="flex shrink-0 self-stretch my-auto"
-											aria-hidden="true"
-										>
-											<PiPlayFill className="object-contain w-4 h-4" />
-										</div>
-									)}
-									<span className="self-stretch my-auto">{lecture.time}</span>
-								</div>
-							</div>
-						))}
+							))}
 					</div>
 				))}
 			</div>
 		</div>
 	);
-}
+};
+
+export default CourseMenu;
