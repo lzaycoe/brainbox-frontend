@@ -1,4 +1,5 @@
 import debounce from 'lodash/debounce';
+import { Loader2 } from 'lucide-react';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
 	PiArrowDownBold,
@@ -47,11 +48,18 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	onCheckboxChange,
 }) => {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [loadingLectureId, setLoadingLectureId] = useState<number | null>(null); // Theo dõi lecture đang loading
+	const [isLoading, setIsLoading] = useState(false); // Trạng thái loading toàn cục
 
 	const debouncedCheckboxChange = useMemo(
 		() =>
-			debounce((sectionId: number, lectureId: number) => {
-				onCheckboxChange(sectionId, lectureId);
+			debounce(async (sectionId: number, lectureId: number) => {
+				try {
+					await onCheckboxChange(sectionId, lectureId);
+				} finally {
+					setLoadingLectureId(null);
+					setIsLoading(false); // Tắt loading toàn cục sau khi hoàn tất
+				}
 			}, 500),
 		[onCheckboxChange],
 	);
@@ -63,7 +71,10 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	};
 
 	const handleCheckboxChangeWrapper = useCallback(
-		(sectionId: number, lectureId: number) => {
+		async (sectionId: number, lectureId: number) => {
+			setLoadingLectureId(lectureId);
+			setIsLoading(true); // Bật loading toàn cục
+
 			const updatedSections = sections.map((section) =>
 				section.id === sectionId
 					? {
@@ -87,7 +98,9 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	);
 
 	return (
-		<div className="flex flex-col max-w-[603px]">
+		<div
+			className={`flex flex-col max-w-[603px] ${isLoading ? 'pointer-events-none opacity-75' : ''}`}
+		>
 			<div className="flex flex-wrap gap-10 justify-between items-center w-full font-semibold max-md:max-w-full">
 				<h2 className="self-stretch my-auto text-2xl tracking-tight leading-none text-neutral-800">
 					Course Contents
@@ -184,16 +197,20 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 													: 'text-gray-600'
 											}`}
 										>
-											<input
-												type="checkbox"
-												checked={lecture.isDone}
-												disabled={lecture.isDone}
-												onChange={() =>
-													handleCheckboxChangeWrapper(section.id, lecture.id)
-												}
-												onClick={(e) => e.stopPropagation()}
-												className="flex shrink-0 self-stretch my-auto h-[18px] w-[18px] accent-green-500"
-											/>
+											{loadingLectureId === lecture.id ? (
+												<Loader2 className="h-[18px] w-[18px] animate-spin text-orange-500" />
+											) : (
+												<input
+													type="checkbox"
+													checked={lecture.isDone}
+													disabled={lecture.isDone}
+													onChange={() =>
+														handleCheckboxChangeWrapper(section.id, lecture.id)
+													}
+													onClick={(e) => e.stopPropagation()}
+													className="flex shrink-0 self-stretch my-auto h-[18px] w-[18px] accent-green-500"
+												/>
+											)}
 											<span className="self-stretch my-auto">
 												{lecture.title}
 											</span>
