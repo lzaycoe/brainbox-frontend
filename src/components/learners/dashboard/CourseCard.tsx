@@ -26,8 +26,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
 					<Image
 						src={thumbnail}
 						alt={title}
-						layout="fill" // Đặt layout fill để tự động phù hợp với container
-						objectFit="cover" // Đảm bảo hình ảnh không bị méo
+						fill
+						style={{ objectFit: 'cover' }}
 						className="rounded-lg"
 					/>
 				</div>

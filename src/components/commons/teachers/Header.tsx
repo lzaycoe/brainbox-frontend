@@ -1,4 +1,7 @@
+'use client';
+
 import { SignedIn, UserButton, useClerk } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 import {
 	PiArrowCircleRightDuotone,
 	PiBell,
@@ -31,10 +34,26 @@ const getTimeOfDayGreeting = () => {
 export const Header: React.FC<HeaderProps> = ({ title }) => {
 	const greeting = getTimeOfDayGreeting();
 	const { signOut } = useClerk();
+	const router = useRouter();
+	const handleSignOut = () => {
+		console.log('Signing out...');
+		signOut(() => {
+			console.log('Signed out successfully!');
+			router.push('/');
+		}).catch((error) => {
+			console.error('Sign out failed:', error);
+			router.push('/');
+		});
+	};
 
 	const menuItems = [
-		{ label: 'Sign Out', icon: PiArrowCircleRightDuotone, action: signOut },
+		{
+			label: 'Sign Out',
+			icon: PiArrowCircleRightDuotone,
+			action: handleSignOut,
+		},
 	];
+
 	return (
 		<header
 			className="flex flex-wrap gap-10 justify-between items-center px-40 py-6 bg-white max-md:px-5 ml-64"
