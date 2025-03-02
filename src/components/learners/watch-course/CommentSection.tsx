@@ -23,7 +23,7 @@ export default function CommentSection() {
 	];
 
 	return (
-		<div className="flex flex-col justify-center py-px font-medium p-5">
+		<div className="flex flex-col justify-center py-px font-medium">
 			<div className="flex flex-col max-w-[915px] mt-5">
 				<h2 className="w-full text-2xl font-semibold tracking-tight leading-none text-neutral-800">
 					Comments <span className="sr-only">Total number of comments:</span>

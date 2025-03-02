@@ -17,7 +17,7 @@ const CourseDetail: React.FC = () => {
 		if (id) {
 			const fetchCourse = async () => {
 				try {
-					const courseData = await getCourse(id as string);
+					const courseData = await getCourse(parseInt(id));
 					setCourse(courseData);
 				} catch {
 					setError('Failed to fetch course details.');

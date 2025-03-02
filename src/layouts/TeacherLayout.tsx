@@ -6,42 +6,35 @@ import React, { useEffect, useState } from 'react';
 import { Footer } from '@/components/commons/teachers/Footer';
 import { Header } from '@/components/commons/teachers/Header';
 import { SideBar } from '@/components/commons/teachers/SideBar';
+import { routeConfig } from '@/config/routerConfig';
 
-const TeacherLayout = ({
-	children,
-}: Readonly<{
+interface TeacherLayoutProps {
 	children: React.ReactNode;
-}>) => {
+}
+
+const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children }) => {
 	const pathname = usePathname();
 	const [title, setTitle] = useState('Dashboard');
 
 	useEffect(() => {
-		let title = 'Teacher Portal';
+		const matchedRoute = Object.keys(routeConfig).find((route) => {
+			if (routeConfig[route].dynamic) {
+				const routeParts = route.split('/');
+				const pathParts = pathname.split('/');
+				if (routeParts.length !== pathParts.length) {
+					return false;
+				}
+				return routeParts.every((part, index) => {
+					if (part.startsWith('[') && part.endsWith(']')) {
+						return true;
+					}
+					return part === pathParts[index];
+				});
+			}
+			return pathname.includes(route);
+		});
 
-		switch (true) {
-			case pathname.includes('/teachers/dashboard'):
-				title = 'Dashboard';
-				break;
-			case pathname.includes('/teachers/create-course'):
-				title = 'Create course';
-				break;
-			case pathname.includes('/teachers/courses'):
-				title = 'My courses';
-				break;
-			case pathname.includes('/teachers/earnings'):
-				title = 'My earnings';
-				break;
-			case pathname.includes('/teachers/messages'):
-				title = 'My messages';
-				break;
-			case pathname.includes('/teachers/settings'):
-				title = 'Settings';
-				break;
-			default:
-				title = 'Teacher Portal';
-		}
-
-		setTitle(title);
+		setTitle(matchedRoute ? routeConfig[matchedRoute].title : 'Teacher Portal');
 	}, [pathname]);
 
 	return (
