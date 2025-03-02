@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	PiArrowDownBold,
 	PiArrowUpBold,
 	PiChecks,
 	PiPlayCircle,
 } from 'react-icons/pi';
+
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from '@/components/ui/dialog';
+
+// Import từ ShadCN
 
 interface LectureDetail {
 	id: number;
@@ -37,6 +47,38 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	onToggleLectureActive,
 	onCheckboxChange,
 }) => {
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+	const isCourseCompleted = (updatedSections: Section[]): boolean => {
+		return updatedSections.every((section) =>
+			section.lecturesDetails.every((lecture) => lecture.isDone),
+		);
+	};
+
+	const handleCheckboxChangeWrapper = (
+		sectionId: number,
+		lectureId: number,
+	) => {
+		onCheckboxChange(sectionId, lectureId);
+
+		const updatedSections = sections.map((section) =>
+			section.id === sectionId
+				? {
+						...section,
+						lecturesDetails: section.lecturesDetails.map((lecture) =>
+							lecture.id === lectureId && !lecture.isDone
+								? { ...lecture, isDone: true }
+								: lecture,
+						),
+					}
+				: section,
+		);
+
+		if (isCourseCompleted(updatedSections)) {
+			setIsDialogOpen(true);
+		}
+	};
+
 	return (
 		<div className="flex flex-col max-w-[603px]">
 			<div className="flex flex-wrap gap-10 justify-between items-center w-full font-semibold max-md:max-w-full">
@@ -140,7 +182,7 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 												checked={lecture.isDone}
 												disabled={lecture.isDone}
 												onChange={() =>
-													onCheckboxChange(section.id, lecture.id)
+													handleCheckboxChangeWrapper(section.id, lecture.id)
 												}
 												onClick={(e) => e.stopPropagation()}
 												className="flex shrink-0 self-stretch my-auto h-[18px] w-[18px] accent-green-500"
@@ -156,6 +198,24 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 					</div>
 				))}
 			</div>
+
+			<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Congratulation!</DialogTitle>
+						<DialogDescription>
+							You have completed 100% of the course! This is a great
+							achievement. Keep learning and exploring!
+						</DialogDescription>
+					</DialogHeader>
+					<button
+						className="mt-4 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+						onClick={() => setIsDialogOpen(false)}
+					>
+						Close
+					</button>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 };
