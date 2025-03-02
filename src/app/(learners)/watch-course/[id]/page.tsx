@@ -3,7 +3,6 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import CommentSection from '@/components/learners/watch-course/CommentSection';
 import CourseMenu from '@/components/learners/watch-course/CourseMenu';
 import CourseNavigation from '@/components/learners/watch-course/CourseNavigation';
 import CourseVideo from '@/components/learners/watch-course/CourseVideo';
@@ -11,7 +10,7 @@ import Header from '@/components/learners/watch-course/Header';
 import { useUserContext } from '@/contexts/UserContext';
 import { Course } from '@/schemas/course.schema';
 import { Progress } from '@/schemas/progress.schema';
-import { getProgressInCourse } from '@/services/api/progress';
+import { getProgressInCourse, updateProgress } from '@/services/api/progress';
 import { getUserClerk } from '@/services/api/user';
 import { checkPaymentForCourse } from '@/services/custom/course/checkPayment';
 import { fetchCourseData } from '@/services/custom/course/fetchCourseData';
@@ -32,6 +31,9 @@ export default function WatchCourse() {
 				title: string;
 				type: string;
 				attachments?: string[];
+				description?: string;
+				content?: string;
+				note?: string;
 				updateAt: string;
 				isDone: boolean;
 				isActive: boolean;
@@ -108,6 +110,9 @@ export default function WatchCourse() {
 							title: lecture.title,
 							type: lecture.type,
 							attachments: lecture.attachments || [],
+							description: lecture.description,
+							content: lecture.content,
+							note: lecture.note,
 							updateAt: lecture.updatedAt,
 							isDone: progressData.completedLectures.includes(lecture.id),
 							isActive: sectionIndex === 0 && lectureIndex === 0,
@@ -120,12 +125,6 @@ export default function WatchCourse() {
 				setTeacherAvatarUrl(teacherData.imageUrl);
 				setTeacherName(fullName);
 				setSectionsMenu(sectionsForMenu);
-
-				console.log('Progress:', progressData);
-				console.log('Course Data:', courseData);
-				console.log('Sections:', sectionsData);
-				console.log('Lectures:', lecturesData);
-				console.log('Teacher Data:', teacherData);
 			} catch (error) {
 				console.error('Failed to load course page:', error);
 				setError(error instanceof Error ? error.message : 'Unknown error');
@@ -164,7 +163,7 @@ export default function WatchCourse() {
 		);
 	};
 
-	const handleCheckboxChange = (sectionId: number, lectureId: number) => {
+	const handleCheckboxChange = async (sectionId: number, lectureId: number) => {
 		setSectionsMenu((prevSections) =>
 			prevSections.map((section) =>
 				section.id === sectionId
@@ -179,9 +178,37 @@ export default function WatchCourse() {
 					: section,
 			),
 		);
-		console.log(
-			`Checkbox toggled for lecture ${lectureId} in section ${sectionId}`,
-		);
+
+		try {
+			const updatedProgress = await updateProgress(
+				id as string,
+				lectureId.toString(),
+				user!.id,
+			);
+
+			setProgress(updatedProgress);
+
+			const sectionProgressMap: Record<number, number> = JSON.parse(
+				typeof updatedProgress.sectionProgress === 'string'
+					? updatedProgress.sectionProgress
+					: '{}',
+			);
+			setSectionsMenu((prevSections) =>
+				prevSections.map((section) =>
+					section.id === sectionId
+						? {
+								...section,
+								progress: sectionProgressMap[sectionId] || section.progress,
+							}
+						: section,
+				),
+			);
+		} catch (error) {
+			console.error(
+				'Failed to update progress in handleCheckboxChange:',
+				error,
+			);
+		}
 	};
 
 	const handleNextLecture = () => {
@@ -273,11 +300,6 @@ export default function WatchCourse() {
 	const lastUpdated = activeLecture?.updateAt
 		? formatDate(activeLecture.updateAt)
 		: undefined;
-
-	console.log('Active Lecture:', activeLecture);
-	console.log('Video URL:', videoURL);
-	console.log('Last Updated:', lastUpdated);
-
 	return (
 		<div>
 			<Header
@@ -300,8 +322,12 @@ export default function WatchCourse() {
 						lastUpdated={lastUpdated}
 						comments={0}
 					/>
-					<CourseNavigation />
-					<CommentSection />
+					<CourseNavigation
+						description={activeLecture?.description}
+						content={activeLecture?.content}
+						note={activeLecture?.note}
+						attachments={activeLecture?.attachments}
+					/>
 				</div>
 				<div className="w-full lg:w-4/12 px-4">
 					<CourseMenu
