@@ -16,3 +16,19 @@ export const getProgressInCourse = async (
 		throw new Error('Failed to fetch progress');
 	}
 };
+
+export const updateProgress = async (
+	courseId: string,
+	lectureId: string,
+	userId: number,
+): Promise<Progress> => {
+	try {
+		const response = await axios.put(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/lecture/${lectureId}/user/${userId}/progress`,
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to update progress:', error);
+		throw new Error('Failed to update progress');
+	}
+};
