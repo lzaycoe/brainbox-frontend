@@ -65,10 +65,10 @@ export default function CourseCard() {
 			</div>
 
 			<button className="w-full bg-orange-500 text-white py-3 rounded-md mt-6 hover:bg-orange-600 transition-colors">
-				Add To Cart
+				Buy Now
 			</button>
 			<button className="w-full bg-orange-50 text-orange-500 py-3 rounded-md mt-3 hover:bg-orange-100 transition-colors">
-				Buy Now
+				Add To Cart
 			</button>
 
 			<div className="flex gap-3 mt-3">
