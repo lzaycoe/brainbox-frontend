@@ -1,9 +1,11 @@
 import CourseDetailsPage from '@/components/learners/courses/course/course-detail/CourseDetail';
 
-export default function Home() {
+export default function CoursePage({
+	params,
+}: Readonly<{ params: { id: string } }>) {
 	return (
 		<div>
-			<CourseDetailsPage />
+			<CourseDetailsPage courseId={params.id} />
 		</div>
 	);
 }
