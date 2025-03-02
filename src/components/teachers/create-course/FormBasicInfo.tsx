@@ -23,17 +23,17 @@ import { Textarea } from '@/components/ui/textarea';
 import { CourseData } from '@/schemas/course.schema';
 
 const categories = [
-	{ value: 'business', label: 'Business' },
-	{ value: 'finance-accounting', label: 'Finance & Accounting' },
-	{ value: 'it-software', label: 'IT & Software' },
-	{ value: 'personal-development', label: 'Personal Development' },
-	{ value: 'office-productivity', label: 'Office Productivity' },
-	{ value: 'marketing', label: 'Marketing' },
-	{ value: 'photography-video', label: 'Photography & Video' },
-	{ value: 'lifestyle', label: 'Lifestyle' },
-	{ value: 'design', label: 'Design' },
-	{ value: 'health-fitness', label: 'Health & Fitness' },
-	{ value: 'music', label: 'Music' },
+	{ value: 'Business', label: 'Business' },
+	{ value: 'Finance & Accounting', label: 'Finance & Accounting' },
+	{ value: 'IT & Software', label: 'IT & Software' },
+	{ value: 'Personal Development', label: 'Personal Development' },
+	{ value: 'Office Productivity', label: 'Office Productivity' },
+	{ value: 'Marketing', label: 'Marketing' },
+	{ value: 'Photography & Video', label: 'Photography & Video' },
+	{ value: 'Lifestyle', label: 'Lifestyle' },
+	{ value: 'Design', label: 'Design' },
+	{ value: 'Health & Fitness', label: 'Health & Fitness' },
+	{ value: 'Music', label: 'Music' },
 ];
 
 interface FormBasicInfoProps {
