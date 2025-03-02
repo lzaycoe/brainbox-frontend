@@ -1,83 +1,100 @@
+'use client';
+
 import { Button } from '../../ui/button';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PiArrowRight } from 'react-icons/pi';
+
+import { Course } from '@/schemas/course.schema';
+import { getCourses } from '@/services/api/course';
 
 import CourseCardLandscape from './CourseCardLandscape';
 
+interface CourseCardLandscapeProps {
+	id: number;
+	title: string;
+	subtitle: string;
+	tag: string;
+	description: string;
+	thumbnail: string;
+	originPrice: number;
+	salePrice: number;
+	public: boolean;
+	imageUrl: string;
+	category: string;
+	categoryBgColor: string;
+	categoryTextColor: string;
+	price: string;
+	discountedPrice: string;
+	teacherAvatar: string;
+	teacherName: string;
+	rating: string;
+	students: string;
+	duration: string;
+}
+
 const ListCourseCardLandscape: React.FC = () => {
-	const courses = [
-		{
-			id: 1,
-			imageUrl: '/app/card-img-template.png',
-			category: 'Productivity',
-			categoryBgColor: 'bg-slate-100',
-			categoryTextColor: 'text-neutral-800',
-			price: '$14.00',
-			discountedPrice: '$26.00',
-			title: 'Adobe XD for Web Design: Essential Principles',
-			teacherAvatar: '/app/teacher-avatar-template.png',
-			teacherName: 'Kevin Gilbert',
-			rating: '5.0',
-			students: '357,914',
-			duration: '6 hours',
-		},
-		{
-			id: 2,
-			imageUrl: '/app/card-img-template.png',
-			category: 'Design',
-			categoryBgColor: 'bg-blue-100',
-			categoryTextColor: 'text-blue-800',
-			price: '$20.00',
-			discountedPrice: '$40.00',
-			title: 'Mastering Photoshop for Beginners',
-			teacherAvatar: '/app/teacher-avatar-template.png',
-			teacherName: 'Jane Doe',
-			rating: '4.8',
-			students: '200,000',
-			duration: '8 hours',
-		},
-		{
-			id: 3,
-			imageUrl: '/app/card-img-template.png',
-			category: 'Marketing',
-			categoryBgColor: 'bg-green-100',
-			categoryTextColor: 'text-green-800',
-			price: '$30.00',
-			discountedPrice: '$60.00',
-			title: 'Digital Marketing Strategies',
-			teacherAvatar: '/app/teacher-avatar-template.png',
-			teacherName: 'John Smith',
-			rating: '4.9',
-			students: '150,000',
-			duration: '10 hours',
-		},
-		{
-			id: 4,
-			imageUrl: '/app/card-img-template.png',
-			category: 'Development',
-			categoryBgColor: 'bg-red-100',
-			categoryTextColor: 'text-red-800',
-			price: '$25.00',
-			discountedPrice: '$50.00',
-			title: 'JavaScript Essentials',
-			teacherAvatar: '/app/teacher-avatar-template.png',
-			teacherName: 'Alice Johnson',
-			rating: '4.7',
-			students: '300,000',
-			duration: '12 hours',
-		},
-	];
+	const [courses, setCourses] = useState<CourseCardLandscapeProps[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		const fetchCourses = async () => {
+			try {
+				const fetchedCourses: Course[] = await getCourses();
+
+				const formattedCourses: CourseCardLandscapeProps[] = fetchedCourses.map(
+					(course) => ({
+						id: course.id,
+						title: course.title,
+						subtitle: course.subtitle || 'No subtitle available',
+						tag: course.tag || 'General',
+						description: course.description || 'No description available',
+						thumbnail: course.thumbnail || '/app/default-thumbnail.png',
+						originPrice: course.originPrice,
+						salePrice: course.salePrice,
+						public: course.public,
+						imageUrl: course.thumbnail || '/app/default-thumbnail.png',
+						category: course.tag || 'Uncategorized',
+						categoryBgColor: 'bg-gray-100',
+						categoryTextColor: 'text-gray-800',
+						price: `$${course.salePrice || course.originPrice}`,
+						discountedPrice: `$${course.originPrice || course.salePrice}`,
+						teacherAvatar: '/app/default-teacher.png',
+						teacherName: 'Unknown Instructor',
+						rating: '4.5',
+						students: '0',
+						duration: 'Unknown',
+					}),
+				);
+
+				setCourses(formattedCourses.slice(0, 4));
+			} catch {
+				setError('Failed to fetch courses');
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchCourses();
+	}, []);
 
 	return (
 		<section className="flex flex-col items-center py-10">
 			<h2 className="text-3xl font-semibold text-center mb-8">
-				Our feature courses
+				Our Feature Courses
 			</h2>
-			<div className="grid grid-cols-2 gap-6 max-md:grid-cols-1">
-				{courses.map((course) => (
-					<CourseCardLandscape key={course.id} {...course} />
-				))}
-			</div>
+
+			{loading && <p>Loading courses...</p>}
+			{error && <p className="text-red-500">{error}</p>}
+
+			{!loading && !error && (
+				<div className="grid grid-cols-2 gap-6 max-md:grid-cols-1">
+					{courses.map((course) => (
+						<CourseCardLandscape key={course.id} {...course} />
+					))}
+				</div>
+			)}
+
 			<Button className="flex gap-3 justify-center items-center px-6 text-base font-semibold tracking-normal leading-none text-orange-500 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 mt-8 capitalize">
 				<div className="self-stretch my-auto">Browse all Courses</div>
 				<PiArrowRight

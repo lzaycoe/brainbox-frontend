@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Course } from '@/schemas/course.schema';
+import { Course, CourseData } from '@/schemas/course.schema';
 
 export const createCourse = async (
 	courseData: Record<string, unknown>,
@@ -46,5 +46,18 @@ export const getTeacherCourses = async (
 	} catch (error) {
 		console.error('Failed to fetch teacher courses:', error);
 		throw new Error('Failed to fetch teacher courses');
+	}
+};
+
+export const getCourses = async (): Promise<Course[]> => {
+	try {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses`,
+		);
+		console.log('data', response);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch courses:', error);
+		throw error;
 	}
 };

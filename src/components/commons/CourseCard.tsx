@@ -43,7 +43,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 }) => {
 	return (
 		<Card
-			className={`flex flex-col justify-center bg-white ${maxWidth} transition-transform transform hover:scale-105 cursor-pointer group hover:shadow-2xl`}
+			className={`flex flex-col justify-between bg-white ${maxWidth} min-h-[300px] max-h-[450px] transition-transform transform hover:scale-105 cursor-pointer group hover:shadow-2xl`}
 		>
 			<Image
 				loading="lazy"
@@ -53,7 +53,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 				width={244}
 				height={183}
 			/>
-			<CardContent className="flex flex-col justify-center mt-1 w-full p-3">
+			<CardContent className="flex flex-col justify-center mt-1 w-full p-3 overflow-hidden">
 				<div className="flex gap-10 justify-between items-center w-full whitespace-nowrap">
 					<TooltipProvider>
 						<Tooltip>
