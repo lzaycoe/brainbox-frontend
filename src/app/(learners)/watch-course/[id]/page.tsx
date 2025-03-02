@@ -14,32 +14,40 @@ import { getProgressInCourse, updateProgress } from '@/services/api/progress';
 import { getUserClerk } from '@/services/api/user';
 import { checkPaymentForCourse } from '@/services/custom/course/checkPayment';
 import { fetchCourseData } from '@/services/custom/course/fetchCourseData';
+import {
+	mapLecturesDetails,
+	updateLectureActive,
+	updateLectureDone,
+	updateNextLecture,
+} from '@/services/custom/course/watchCourseServices';
 import { formatDate } from '@/utils/date';
+
+interface LectureDetail {
+	id: number;
+	title: string;
+	type: string;
+	attachments?: string[];
+	description?: string;
+	content?: string;
+	note?: string;
+	updateAt: string;
+	isDone: boolean;
+	isActive: boolean;
+}
+
+interface Section {
+	id: number;
+	title: string;
+	lecturesCount: number;
+	progress: number;
+	isExpanded: boolean;
+	lecturesDetails: LectureDetail[];
+}
 
 export default function WatchCourse() {
 	const { id } = useParams<{ id: string }>();
 	const [course, setCourse] = useState<Course | null>(null);
-	const [sectionsMenu, setSectionsMenu] = useState<
-		{
-			id: number;
-			title: string;
-			lecturesCount: number;
-			progress: number;
-			isExpanded: boolean;
-			lecturesDetails: {
-				id: number;
-				title: string;
-				type: string;
-				attachments?: string[];
-				description?: string;
-				content?: string;
-				note?: string;
-				updateAt: string;
-				isDone: boolean;
-				isActive: boolean;
-			}[];
-		}[]
-	>([]);
+	const [sectionsMenu, setSectionsMenu] = useState<Section[]>([]);
 	const [progress, setProgress] = useState<Progress | null>(null);
 	const [teacherAvatarUrl, setTeacherAvatarUrl] = useState<string | undefined>(
 		undefined,
@@ -95,6 +103,7 @@ export default function WatchCourse() {
 						? progressData.sectionProgress
 						: '{}',
 				);
+
 				const sectionsForMenu = sectionsData.map((section, sectionIndex) => {
 					const sectionLectures = lecturesData.filter(
 						(lecture) => lecture.sectionId === section.id,
@@ -105,18 +114,11 @@ export default function WatchCourse() {
 						lecturesCount: sectionLectures.length,
 						progress: sectionProgressMap[section.id] || 0,
 						isExpanded: sectionIndex === 0,
-						lecturesDetails: sectionLectures.map((lecture, lectureIndex) => ({
-							id: lecture.id,
-							title: lecture.title,
-							type: lecture.type,
-							attachments: lecture.attachments || [],
-							description: lecture.description,
-							content: lecture.content,
-							note: lecture.note,
-							updateAt: lecture.updatedAt,
-							isDone: progressData.completedLectures.includes(lecture.id),
-							isActive: sectionIndex === 0 && lectureIndex === 0,
-						})),
+						lecturesDetails: mapLecturesDetails(
+							sectionLectures,
+							progressData,
+							sectionIndex,
+						),
 					};
 				});
 
@@ -150,33 +152,13 @@ export default function WatchCourse() {
 
 	const toggleLectureActive = (sectionId: number, lectureId: number) => {
 		setSectionsMenu((prevSections) =>
-			prevSections.map((section) => ({
-				...section,
-				lecturesDetails: section.lecturesDetails.map((lecture) => ({
-					...lecture,
-					isActive:
-						section.id === sectionId && lecture.id === lectureId
-							? !lecture.isActive
-							: false,
-				})),
-			})),
+			updateLectureActive(prevSections, sectionId, lectureId),
 		);
 	};
 
 	const handleCheckboxChange = async (sectionId: number, lectureId: number) => {
 		setSectionsMenu((prevSections) =>
-			prevSections.map((section) =>
-				section.id === sectionId
-					? {
-							...section,
-							lecturesDetails: section.lecturesDetails.map((lecture) =>
-								lecture.id === lectureId && !lecture.isDone
-									? { ...lecture, isDone: true }
-									: lecture,
-							),
-						}
-					: section,
-			),
+			updateLectureDone(prevSections, sectionId, lectureId),
 		);
 
 		try {
@@ -185,7 +167,6 @@ export default function WatchCourse() {
 				lectureId.toString(),
 				user!.id,
 			);
-
 			setProgress(updatedProgress);
 
 			const sectionProgressMap: Record<number, number> = JSON.parse(
@@ -241,32 +222,9 @@ export default function WatchCourse() {
 				),
 			);
 		} else {
-			let nextSectionIndex = sectionsMenu.findIndex(
-				(section) => section.id === activeSectionId,
+			setSectionsMenu((prevSections) =>
+				updateNextLecture(prevSections, activeSectionId, activeLectureIndex),
 			);
-			let nextLectureIndex = activeLectureIndex + 1;
-
-			if (
-				nextLectureIndex >=
-				sectionsMenu[nextSectionIndex].lecturesDetails.length
-			) {
-				nextSectionIndex += 1;
-				nextLectureIndex = 0;
-			}
-
-			if (nextSectionIndex < sectionsMenu.length) {
-				setSectionsMenu((prevSections) =>
-					prevSections.map((section, sIndex) => ({
-						...section,
-						isExpanded: sIndex === nextSectionIndex,
-						lecturesDetails: section.lecturesDetails.map((lecture, lIndex) => ({
-							...lecture,
-							isActive:
-								sIndex === nextSectionIndex && lIndex === nextLectureIndex,
-						})),
-					})),
-				);
-			}
 		}
 	};
 
@@ -300,6 +258,7 @@ export default function WatchCourse() {
 	const lastUpdated = activeLecture?.updateAt
 		? formatDate(activeLecture.updateAt)
 		: undefined;
+
 	return (
 		<div>
 			<Header

@@ -22,7 +22,7 @@ const CourseVideo: React.FC<CourseVideoProps> = ({
 }) => {
 	const getYouTubeId = (url: string): string | null => {
 		const regex =
-			/(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/i;
+			/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([^"&?/\s]{11})/i;
 		const match = regex.exec(url);
 		return match ? match[1] : null;
 	};

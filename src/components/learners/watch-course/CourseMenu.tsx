@@ -37,11 +37,22 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	onToggleLectureActive,
 	onCheckboxChange,
 }) => {
+	// Tách logic xử lý key press
 	const handleKeyPress = (event: React.KeyboardEvent, callback: () => void) => {
 		if (event.key === 'Enter' || event.key === ' ') {
 			event.preventDefault();
 			callback();
 		}
+	};
+
+	// Tách callback cho section toggle
+	const handleSectionToggle = (sectionId: number) => () => {
+		onToggleSection(sectionId);
+	};
+
+	// Tách callback cho lecture toggle
+	const handleLectureToggle = (sectionId: number, lectureId: number) => () => {
+		onToggleLectureActive(sectionId, lectureId);
 	};
 
 	return (
@@ -79,13 +90,14 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 						className={`${section.isExpanded ? 'bg-slate-100' : 'bg-white'}`}
 					>
 						<div
-							className="flex flex-wrap gap-10 justify-between items-center p-4 w-full max-md:max-w-full cursor-pointer"
+							className="flex flex-wrap gap-10 justify-between items-center p-4 w-full max-md:max-w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
 							onClick={() => onToggleSection(section.id)}
 							onKeyPress={(e) =>
-								handleKeyPress(e, () => onToggleSection(section.id))
+								handleKeyPress(e, handleSectionToggle(section.id))
 							}
-							role="button"
 							tabIndex={0}
+							aria-expanded={section.isExpanded}
+							aria-controls={`section-${section.id}`}
 						>
 							<div className="flex gap-2 items-center my-auto text-base leading-none text-neutral-800 flex-1 min-w-0">
 								<div
@@ -125,43 +137,51 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 							</div>
 						</div>
 						<div className="w-full bg-white border border-gray-200 min-h-[1px] max-md:max-w-full" />
-						{section.isExpanded &&
-							section.lecturesDetails.map((lecture) => (
-								<div
-									key={lecture.id}
-									className={`flex flex-wrap gap-10 justify-between items-center px-5 py-3 w-full ${
-										lecture.isActive ? 'bg-rose-100 text-neutral-800' : ''
-									} max-md:max-w-full cursor-pointer`}
-									onClick={() => onToggleLectureActive(section.id, lecture.id)}
-									onKeyPress={(e) =>
-										handleKeyPress(e, () =>
-											onToggleLectureActive(section.id, lecture.id),
-										)
-									}
-									role="button"
-									tabIndex={0}
-								>
+						{section.isExpanded && (
+							<div id={`section-${section.id}`}>
+								{section.lecturesDetails.map((lecture) => (
 									<div
-										className={`flex gap-3 items-center self-stretch my-auto ${
-											lecture.isActive
-												? 'font-medium leading-none'
-												: 'text-gray-600'
-										}`}
+										key={lecture.id}
+										className={`flex flex-wrap gap-10 justify-between items-center px-5 py-3 w-full ${
+											lecture.isActive ? 'bg-rose-100 text-neutral-800' : ''
+										} max-md:max-w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500`}
+										onClick={() =>
+											onToggleLectureActive(section.id, lecture.id)
+										}
+										onKeyPress={(e) =>
+											handleKeyPress(
+												e,
+												handleLectureToggle(section.id, lecture.id),
+											)
+										}
+										tabIndex={0}
+										aria-selected={lecture.isActive}
 									>
-										<input
-											type="checkbox"
-											checked={lecture.isDone}
-											disabled={lecture.isDone}
-											onChange={() => onCheckboxChange(section.id, lecture.id)}
-											onClick={(e) => e.stopPropagation()}
-											className="flex shrink-0 self-stretch my-auto h-[18px] w-[18px] accent-green-500"
-										/>
-										<span className="self-stretch my-auto">
-											{lecture.title}
-										</span>
+										<div
+											className={`flex gap-3 items-center self-stretch my-auto ${
+												lecture.isActive
+													? 'font-medium leading-none'
+													: 'text-gray-600'
+											}`}
+										>
+											<input
+												type="checkbox"
+												checked={lecture.isDone}
+												disabled={lecture.isDone}
+												onChange={() =>
+													onCheckboxChange(section.id, lecture.id)
+												}
+												onClick={(e) => e.stopPropagation()}
+												className="flex shrink-0 self-stretch my-auto h-[18px] w-[18px] accent-green-500"
+											/>
+											<span className="self-stretch my-auto">
+												{lecture.title}
+											</span>
+										</div>
 									</div>
-								</div>
-							))}
+								))}
+							</div>
+						)}
 					</div>
 				))}
 			</div>
