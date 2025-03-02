@@ -1,8 +1,9 @@
 import { AiFillStar } from 'react-icons/ai';
 
 interface CourseHeaderProps {
+	breadcrumbs: string[];
 	title: string;
-	description: string;
+	subtitle: string;
 	creators: string[];
 	rating: number;
 	reviews: number;
@@ -10,15 +11,16 @@ interface CourseHeaderProps {
 
 export default function CourseHeader({
 	title,
-	description,
+	subtitle,
 	creators,
 	rating,
 	reviews,
+	// Kept but unused (no ESLint warning since it's part of props)
 }: Readonly<CourseHeaderProps>) {
 	return (
 		<div className="course-header mb-10">
 			<h1 className="text-2xl font-bold mb-2">{title}</h1>
-			<p className="text-gray-600 mb-4">{description}</p>
+			<p className="text-gray-600 mb-4">{subtitle}</p>
 			<div className="text-gray-500 mb-4">
 				<span>Created by {creators.join(' • ')}</span>
 			</div>
