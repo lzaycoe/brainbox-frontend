@@ -37,21 +37,6 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	onToggleLectureActive,
 	onCheckboxChange,
 }) => {
-	const handleKeyPress = (event: React.KeyboardEvent, callback: () => void) => {
-		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault();
-			callback();
-		}
-	};
-
-	const handleSectionToggle = (sectionId: number) => () => {
-		onToggleSection(sectionId);
-	};
-
-	const handleLectureToggle = (sectionId: number, lectureId: number) => () => {
-		onToggleLectureActive(sectionId, lectureId);
-	};
-
 	return (
 		<div className="flex flex-col max-w-[603px]">
 			<div className="flex flex-wrap gap-10 justify-between items-center w-full font-semibold max-md:max-w-full">
@@ -86,19 +71,14 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 						key={section.id}
 						className={`${section.isExpanded ? 'bg-slate-100' : 'bg-white'}`}
 					>
-						<div
+						<button
 							className="flex flex-wrap gap-10 justify-between items-center p-4 w-full max-md:max-w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
 							onClick={() => onToggleSection(section.id)}
-							onKeyPress={(e) =>
-								handleKeyPress(e, handleSectionToggle(section.id))
-							}
-							tabIndex={0}
-							role="button"
 							aria-expanded={section.isExpanded}
 							aria-controls={`section-${section.id}`}
 						>
-							<div className="flex gap-2 items-center my-auto text-base leading-none text-neutral-800 flex-1 min-w-0">
-								<div
+							<span className="flex gap-2 items-center my-auto text-base leading-none text-neutral-800 flex-1 min-w-0">
+								<span
 									className="flex shrink-0 items-center w-5 h-5"
 									aria-hidden="true"
 								>
@@ -107,38 +87,38 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 									) : (
 										<PiArrowDownBold className="object-contain w-5 h-4 text-neutral-800" />
 									)}
-								</div>
-								<h2
+								</span>
+								<span
 									className={`ml-1 ${
 										section.isExpanded ? 'text-orange-500' : 'text-neutral-800'
 									} truncate text-base font-medium leading-none max-w-[300px]`}
 									title={section.title}
 								>
 									{section.title}
-								</h2>
-							</div>
-							<div className="flex gap-2 items-center text-sm tracking-normal leading-loose text-gray-600">
-								<div className="flex gap-1 items-center">
+								</span>
+							</span>
+							<span className="flex gap-2 items-center text-sm tracking-normal leading-loose text-gray-600">
+								<span className="flex gap-1 items-center">
 									<PiPlayCircle
 										className="object-contain w-4 h-4"
 										color="#564FFD"
 									/>
 									<span>{section.lecturesCount} lectures</span>
-								</div>
-								<div className="flex gap-1 items-center text-gray-400">
+								</span>
+								<span className="flex gap-1 items-center text-gray-400">
 									<PiChecks
 										className="object-contain w-4 h-4"
 										color="#23BD33"
 									/>
 									<span>{section.progress.toFixed(1)}%</span>
-								</div>
-							</div>
-						</div>
+								</span>
+							</span>
+						</button>
 						<div className="w-full bg-white border border-gray-200 min-h-[1px] max-md:max-w-full" />
 						{section.isExpanded && (
 							<div id={`section-${section.id}`}>
 								{section.lecturesDetails.map((lecture) => (
-									<div
+									<button
 										key={lecture.id}
 										className={`flex flex-wrap gap-10 justify-between items-center px-5 py-3 w-full ${
 											lecture.isActive ? 'bg-rose-100 text-neutral-800' : ''
@@ -146,17 +126,9 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 										onClick={() =>
 											onToggleLectureActive(section.id, lecture.id)
 										}
-										onKeyPress={(e) =>
-											handleKeyPress(
-												e,
-												handleLectureToggle(section.id, lecture.id),
-											)
-										}
-										tabIndex={0}
-										role="button"
 										aria-pressed={lecture.isActive}
 									>
-										<div
+										<span
 											className={`flex gap-3 items-center self-stretch my-auto ${
 												lecture.isActive
 													? 'font-medium leading-none'
@@ -176,8 +148,8 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 											<span className="self-stretch my-auto">
 												{lecture.title}
 											</span>
-										</div>
-									</div>
+										</span>
+									</button>
 								))}
 							</div>
 						)}
