@@ -14,7 +14,7 @@ interface CourseVideoProps {
 const CourseVideo: React.FC<CourseVideoProps> = ({
 	videoURL,
 	title = 'Lecture Video',
-	poster = 'https://via.placeholder.com/800x450?text=Video+Thumbnail',
+	poster,
 	teacherAvatarUrl = '/app/watch-course/avatar.png',
 	teacherName = 'Unknown Teacher',
 	lastUpdated = 'Unknown Date',

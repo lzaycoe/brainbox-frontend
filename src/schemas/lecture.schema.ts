@@ -15,6 +15,6 @@ export type LectureData = z.infer<typeof lectureSchema>;
 export interface Lecture extends LectureData {
 	id: number;
 	sectionId: number;
-	createAt: string;
-	updateAt: string;
+	createdAt: string;
+	updatedAt: string;
 }
