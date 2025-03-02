@@ -19,8 +19,17 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children }) => {
 	useEffect(() => {
 		const matchedRoute = Object.keys(routeConfig).find((route) => {
 			if (routeConfig[route].dynamic) {
-				const regex = new RegExp(route.replace(/\[.*?\]/g, '[^/]+'));
-				return regex.test(pathname);
+				const routeParts = route.split('/');
+				const pathParts = pathname.split('/');
+				if (routeParts.length !== pathParts.length) {
+					return false;
+				}
+				return routeParts.every((part, index) => {
+					if (part.startsWith('[') && part.endsWith(']')) {
+						return true;
+					}
+					return part === pathParts[index];
+				});
 			}
 			return pathname.includes(route);
 		});
