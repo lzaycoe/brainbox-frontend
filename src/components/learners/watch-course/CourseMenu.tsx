@@ -37,9 +37,15 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	onToggleLectureActive,
 	onCheckboxChange,
 }) => {
+	const handleKeyPress = (event: React.KeyboardEvent, callback: () => void) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			callback();
+		}
+	};
+
 	return (
 		<div className="flex flex-col max-w-[603px]">
-			{/* Header Section */}
 			<div className="flex flex-wrap gap-10 justify-between items-center w-full font-semibold max-md:max-w-full">
 				<h2 className="self-stretch my-auto text-2xl tracking-tight leading-none text-neutral-800">
 					Course Contents
@@ -51,8 +57,6 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 					{progress.toFixed(1)}% Completed
 				</div>
 			</div>
-
-			{/* Progress Bar Section */}
 			<div className="flex flex-col mt-4 w-full max-md:max-w-full">
 				<div className="relative w-full h-2 bg-gray-200 rounded-md overflow-hidden">
 					<progress
@@ -68,18 +72,20 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 					/>
 				</div>
 			</div>
-
-			{/* Course Sections */}
 			<div className="flex flex-col bg-white border border-gray-200 max-w-[603px] mt-4">
 				{sections.map((section) => (
 					<div
 						key={section.id}
 						className={`${section.isExpanded ? 'bg-slate-100' : 'bg-white'}`}
 					>
-						{/* Section Header */}
 						<div
 							className="flex flex-wrap gap-10 justify-between items-center p-4 w-full max-md:max-w-full cursor-pointer"
 							onClick={() => onToggleSection(section.id)}
+							onKeyPress={(e) =>
+								handleKeyPress(e, () => onToggleSection(section.id))
+							}
+							role="button"
+							tabIndex={0}
 						>
 							<div className="flex gap-2 items-center my-auto text-base leading-none text-neutral-800 flex-1 min-w-0">
 								<div
@@ -118,11 +124,7 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 								</div>
 							</div>
 						</div>
-
-						{/* Divider */}
 						<div className="w-full bg-white border border-gray-200 min-h-[1px] max-md:max-w-full" />
-
-						{/* Lectures */}
 						{section.isExpanded &&
 							section.lecturesDetails.map((lecture) => (
 								<div
@@ -131,6 +133,13 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 										lecture.isActive ? 'bg-rose-100 text-neutral-800' : ''
 									} max-md:max-w-full cursor-pointer`}
 									onClick={() => onToggleLectureActive(section.id, lecture.id)}
+									onKeyPress={(e) =>
+										handleKeyPress(e, () =>
+											onToggleLectureActive(section.id, lecture.id),
+										)
+									}
+									role="button"
+									tabIndex={0}
 								>
 									<div
 										className={`flex gap-3 items-center self-stretch my-auto ${

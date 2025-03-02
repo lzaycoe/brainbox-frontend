@@ -20,15 +20,15 @@ export const fetchFileMetadata = async (url: string): Promise<FileMetadata> => {
 		if (error) throw error;
 
 		const fileNameParts = path.split('-');
-		const fileName = fileNameParts.slice(1).join('-') || path;
+		const fileName = fileNameParts.slice(1).join('-') ?? path;
 		return {
 			url,
 			name: fileName,
-			size: data?.size || null,
+			size: data?.size ?? null,
 		};
 	} catch (error) {
 		console.error(`Failed to fetch metadata for ${url}:`, error);
-		return { url, name: url.split('/').pop() || 'Unknown file', size: null };
+		return { url, name: url.split('/').pop() ?? 'Unknown file', size: null };
 	}
 };
 

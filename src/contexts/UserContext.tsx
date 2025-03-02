@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, createContext, useContext } from 'react';
+import { ReactNode, createContext, useContext, useMemo } from 'react';
 
 import { useUserMetadata } from '@/hooks/useUserMetadata';
 import { User } from '@/schemas/user.schema';
@@ -15,11 +15,12 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
 	const { userMetadata, loading } = useUserMetadata();
 
-	return (
-		<UserContext.Provider value={{ user: userMetadata, loading }}>
-			{children}
-		</UserContext.Provider>
+	const value = useMemo(
+		() => ({ user: userMetadata, loading }),
+		[userMetadata, loading],
 	);
+
+	return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useUserContext = () => {

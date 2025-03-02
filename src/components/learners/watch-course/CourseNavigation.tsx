@@ -5,10 +5,10 @@ import CommentSection from '@/components/learners/watch-course/CommentSection';
 import { fetchFileMetadata, formatFileSize } from '@/utils/file';
 
 interface CourseNavigationProps {
-	description?: string;
-	content?: string;
-	note?: string;
-	attachments?: string[];
+	readonly description?: string;
+	readonly content?: string;
+	readonly note?: string;
+	readonly attachments?: string[];
 }
 
 interface FileMetadata {
@@ -191,13 +191,13 @@ export default function CourseNavigation({
 							</span>
 						</h2>
 						{attachments.length > 0 ? (
-							attachments.map((attachment, index) => {
+							attachments.map((attachment) => {
 								const fileMeta = fileMetadata.find(
 									(meta) => meta.url === attachment,
 								);
 								return (
 									<div
-										key={index}
+										key={attachment}
 										className="flex flex-wrap gap-10 justify-between items-center p-6 mt-5 w-full bg-slate-100 max-md:px-5 max-md:max-w-full"
 									>
 										<div className="flex gap-3 items-start self-stretch my-auto">
@@ -209,7 +209,7 @@ export default function CourseNavigation({
 											</div>
 											<div className="flex flex-col">
 												<div className="text-base font-medium leading-none text-neutral-800">
-													{fileMeta?.name || `File ${index + 1}`}{' '}
+													{fileMeta?.name || `File ${attachment}`}{' '}
 												</div>
 												<div className="mt-1 text-sm tracking-normal leading-loose text-gray-500">
 													{fileMeta?.size !== undefined

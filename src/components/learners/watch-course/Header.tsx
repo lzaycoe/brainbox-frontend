@@ -2,11 +2,11 @@ import React from 'react';
 import { PiArrowLeftBold, PiFolderOpen, PiPlayCircle } from 'react-icons/pi';
 
 interface HeaderProps {
-	courseTitle: string;
-	sectionsCount: number;
-	lecturesCount: number;
-	onNextLecture: () => void;
-	onGoBack: () => void;
+	readonly courseTitle: string;
+	readonly sectionsCount: number;
+	readonly lecturesCount: number;
+	readonly onNextLecture: () => void;
+	readonly onGoBack: () => void;
 }
 
 export default function Header({
@@ -26,14 +26,11 @@ export default function Header({
 				>
 					<PiArrowLeftBold className="object-contain w-6 h-8" />
 				</button>
-
-				{/* Course Details */}
 				<div>
 					<h2 className="text-lg font-medium text-neutral-800">
 						{courseTitle}
 					</h2>
 					<div className="flex gap-4 mt-2 text-sm text-gray-600">
-						{/* Sections */}
 						<div className="flex items-center gap-1">
 							<div
 								className="rounded-full flex items-center justify-center"
@@ -46,8 +43,6 @@ export default function Header({
 							</div>
 							<span>{sectionsCount} Sections</span>
 						</div>
-
-						{/* Lectures */}
 						<div className="flex items-center gap-1">
 							<div
 								className="rounded-full flex items-center justify-center"
@@ -63,8 +58,6 @@ export default function Header({
 					</div>
 				</div>
 			</div>
-
-			{/* Buttons */}
 			<div className="flex gap-3">
 				<button className="px-6 py-2 text-orange-500 bg-white border border-orange-500">
 					Write a Review
