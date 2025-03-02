@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import debounce from 'lodash/debounce';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
 	PiArrowDownBold,
 	PiArrowUpBold,
@@ -13,8 +14,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from '@/components/ui/dialog';
-
-// Import từ ShadCN
 
 interface LectureDetail {
 	id: number;
@@ -37,7 +36,7 @@ interface CourseMenuProps {
 	sections: Section[];
 	onToggleSection: (sectionId: number) => void;
 	onToggleLectureActive: (sectionId: number, lectureId: number) => void;
-	onCheckboxChange: (sectionId: number, lectureId: number) => void;
+	onCheckboxChange: (sectionId: number, lectureId: number) => Promise<void>;
 }
 
 const CourseMenu: React.FC<CourseMenuProps> = ({
@@ -49,35 +48,43 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 }) => {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+	const debouncedCheckboxChange = useMemo(
+		() =>
+			debounce((sectionId: number, lectureId: number) => {
+				onCheckboxChange(sectionId, lectureId);
+			}, 500),
+		[onCheckboxChange],
+	);
+
 	const isCourseCompleted = (updatedSections: Section[]): boolean => {
 		return updatedSections.every((section) =>
 			section.lecturesDetails.every((lecture) => lecture.isDone),
 		);
 	};
 
-	const handleCheckboxChangeWrapper = (
-		sectionId: number,
-		lectureId: number,
-	) => {
-		onCheckboxChange(sectionId, lectureId);
+	const handleCheckboxChangeWrapper = useCallback(
+		(sectionId: number, lectureId: number) => {
+			const updatedSections = sections.map((section) =>
+				section.id === sectionId
+					? {
+							...section,
+							lecturesDetails: section.lecturesDetails.map((lecture) =>
+								lecture.id === lectureId && !lecture.isDone
+									? { ...lecture, isDone: true }
+									: lecture,
+							),
+						}
+					: section,
+			);
 
-		const updatedSections = sections.map((section) =>
-			section.id === sectionId
-				? {
-						...section,
-						lecturesDetails: section.lecturesDetails.map((lecture) =>
-							lecture.id === lectureId && !lecture.isDone
-								? { ...lecture, isDone: true }
-								: lecture,
-						),
-					}
-				: section,
-		);
+			if (isCourseCompleted(updatedSections)) {
+				setIsDialogOpen(true);
+			}
 
-		if (isCourseCompleted(updatedSections)) {
-			setIsDialogOpen(true);
-		}
-	};
+			debouncedCheckboxChange(sectionId, lectureId);
+		},
+		[sections, debouncedCheckboxChange],
+	);
 
 	return (
 		<div className="flex flex-col max-w-[603px]">
