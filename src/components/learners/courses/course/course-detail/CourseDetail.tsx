@@ -71,9 +71,9 @@ export default function CourseDetailsPage({
 					],
 					title: course.title,
 					subtitle: course.subtitle || 'No subtitle available',
-					creators: ['Dionne Russell', 'Kristin Watson'], // Hardcoded fallback
-					rating: 4.8, // Hardcoded fallback
-					reviews: 161444, // Hardcoded fallback
+					creators: ['Dionne Russell', 'Kristin Watson'],
+					rating: 4.8,
+					reviews: 161444,
 				});
 			} catch (error) {
 				console.error(`Failed to fetch course data for ID ${courseId}:`, error);
@@ -236,7 +236,7 @@ export default function CourseDetailsPage({
 				</div>
 			</div>
 
-			<RelatedCourses />
+			<RelatedCourses courseId={courseId} />
 		</div>
 	);
 }
