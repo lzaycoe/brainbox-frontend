@@ -107,8 +107,8 @@ export default function WatchCourse() {
 							id: lecture.id,
 							title: lecture.title,
 							type: lecture.type,
-							attachments: lecture.attachments,
-							updateAt: lecture.updateAt,
+							attachments: lecture.attachments || [],
+							updateAt: lecture.updatedAt,
 							isDone: progressData.completedLectures.includes(lecture.id),
 							isActive: sectionIndex === 0 && lectureIndex === 0,
 						})),
@@ -142,11 +142,10 @@ export default function WatchCourse() {
 
 	const toggleSection = (sectionId: number) => {
 		setSectionsMenu((prevSections) =>
-			prevSections.map((section) =>
-				section.id === sectionId
-					? { ...section, isExpanded: !section.isExpanded }
-					: section,
-			),
+			prevSections.map((section) => ({
+				...section,
+				isExpanded: section.id === sectionId ? !section.isExpanded : false,
+			})),
 		);
 	};
 
@@ -244,6 +243,10 @@ export default function WatchCourse() {
 		}
 	};
 
+	const handleGoBack = () => {
+		router.back();
+	};
+
 	if (loading || userLoading) {
 		return <div>Loading...</div>;
 	}
@@ -285,8 +288,9 @@ export default function WatchCourse() {
 					0,
 				)}
 				onNextLecture={handleNextLecture}
+				onGoBack={handleGoBack}
 			/>
-			<div className="flex flex-wrap lg:flex-nowrap mt-8">
+			<div className="flex flex-wrap lg:flex-nowrap mt-8 px-10">
 				<div className="w-full lg:w-8/12 mb-10">
 					<CourseVideo
 						videoURL={videoURL}

@@ -6,6 +6,7 @@ interface HeaderProps {
 	sectionsCount: number;
 	lecturesCount: number;
 	onNextLecture: () => void;
+	onGoBack: () => void;
 }
 
 export default function Header({
@@ -13,6 +14,7 @@ export default function Header({
 	sectionsCount,
 	lecturesCount,
 	onNextLecture,
+	onGoBack,
 }: HeaderProps) {
 	return (
 		<div className="flex justify-between items-center px-8 py-5 bg-slate-100 max-md:px-5">
@@ -20,6 +22,7 @@ export default function Header({
 				<button
 					className="flex items-center justify-center w-10 h-10 rounded-full bg-white cursor-pointer"
 					aria-label="Go back"
+					onClick={onGoBack}
 				>
 					<PiArrowLeftBold className="object-contain w-6 h-8" />
 				</button>
