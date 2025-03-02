@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Course, CourseData } from '@/schemas/course.schema';
+import { Course } from '@/schemas/course.schema';
 
 export const createCourse = async (
 	courseData: Record<string, unknown>,
