@@ -15,7 +15,8 @@ import { getUserClerk } from '@/services/api/user';
 import { checkPaymentForCourse } from '@/services/custom/course/checkPayment';
 import { fetchCourseData } from '@/services/custom/course/fetchCourseData';
 import {
-	mapLecturesDetails,
+	createSectionsForMenu,
+	resetToFirstLecture,
 	updateLectureActive,
 	updateLectureDone,
 	updateNextLecture,
@@ -73,7 +74,6 @@ export default function WatchCourse() {
 				router.push,
 			);
 			if (!hasPaid) {
-				setLoading(false);
 				return;
 			}
 
@@ -98,29 +98,11 @@ export default function WatchCourse() {
 					.join(' ')
 					.trim();
 
-				const sectionProgressMap: Record<number, number> = JSON.parse(
-					typeof progressData.sectionProgress === 'string'
-						? progressData.sectionProgress
-						: '{}',
+				const sectionsForMenu = createSectionsForMenu(
+					sectionsData,
+					lecturesData,
+					progressData,
 				);
-
-				const sectionsForMenu = sectionsData.map((section, sectionIndex) => {
-					const sectionLectures = lecturesData.filter(
-						(lecture) => lecture.sectionId === section.id,
-					);
-					return {
-						id: section.id,
-						title: section.title,
-						lecturesCount: sectionLectures.length,
-						progress: sectionProgressMap[section.id] || 0,
-						isExpanded: sectionIndex === 0,
-						lecturesDetails: mapLecturesDetails(
-							sectionLectures,
-							progressData,
-							sectionIndex,
-						),
-					};
-				});
 
 				setProgress(progressData);
 				setCourse(courseData);
@@ -207,20 +189,7 @@ export default function WatchCourse() {
 		});
 
 		if (activeLectureIndex === -1) {
-			setSectionsMenu((prevSections) =>
-				prevSections.map((section, index) =>
-					index === 0
-						? {
-								...section,
-								isExpanded: true,
-								lecturesDetails: section.lecturesDetails.map((lecture, i) => ({
-									...lecture,
-									isActive: i === 0,
-								})),
-							}
-						: section,
-				),
-			);
+			setSectionsMenu((prevSections) => resetToFirstLecture(prevSections));
 		} else {
 			setSectionsMenu((prevSections) =>
 				updateNextLecture(prevSections, activeSectionId, activeLectureIndex),

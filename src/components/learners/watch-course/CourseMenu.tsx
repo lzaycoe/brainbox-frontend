@@ -37,7 +37,6 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	onToggleLectureActive,
 	onCheckboxChange,
 }) => {
-	// Tách logic xử lý key press
 	const handleKeyPress = (event: React.KeyboardEvent, callback: () => void) => {
 		if (event.key === 'Enter' || event.key === ' ') {
 			event.preventDefault();
@@ -45,12 +44,10 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 		}
 	};
 
-	// Tách callback cho section toggle
 	const handleSectionToggle = (sectionId: number) => () => {
 		onToggleSection(sectionId);
 	};
 
-	// Tách callback cho lecture toggle
 	const handleLectureToggle = (sectionId: number, lectureId: number) => () => {
 		onToggleLectureActive(sectionId, lectureId);
 	};
@@ -96,6 +93,7 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 								handleKeyPress(e, handleSectionToggle(section.id))
 							}
 							tabIndex={0}
+							role="button"
 							aria-expanded={section.isExpanded}
 							aria-controls={`section-${section.id}`}
 						>
@@ -155,7 +153,8 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 											)
 										}
 										tabIndex={0}
-										aria-selected={lecture.isActive}
+										role="button"
+										aria-pressed={lecture.isActive}
 									>
 										<div
 											className={`flex gap-3 items-center self-stretch my-auto ${

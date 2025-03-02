@@ -1,5 +1,6 @@
 import { Lecture } from '@/schemas/lecture.schema';
 import { Progress } from '@/schemas/progress.schema';
+import { Section as RawSection } from '@/schemas/section.schema';
 
 interface LectureDetail {
 	id: number;
@@ -121,3 +122,47 @@ export const updateNextLecture = (
 		})),
 	}));
 };
+
+export const createSectionsForMenu = (
+	sectionsData: RawSection[],
+	lecturesData: Lecture[],
+	progressData: Progress,
+): Section[] => {
+	const sectionProgressMap: Record<number, number> = JSON.parse(
+		typeof progressData.sectionProgress === 'string'
+			? progressData.sectionProgress
+			: '{}',
+	);
+
+	return sectionsData.map((section, sectionIndex) => {
+		const sectionLectures = lecturesData.filter(
+			(lecture) => lecture.sectionId === section.id,
+		);
+		return {
+			id: section.id,
+			title: section.title,
+			lecturesCount: sectionLectures.length,
+			progress: sectionProgressMap[section.id] || 0,
+			isExpanded: sectionIndex === 0,
+			lecturesDetails: mapLecturesDetails(
+				sectionLectures,
+				progressData,
+				sectionIndex,
+			),
+		};
+	});
+};
+
+export const resetToFirstLecture = (prevSections: Section[]): Section[] =>
+	prevSections.map((section, index) =>
+		index === 0
+			? {
+					...section,
+					isExpanded: true,
+					lecturesDetails: section.lecturesDetails.map((lecture, i) => ({
+						...lecture,
+						isActive: i === 0,
+					})),
+				}
+			: section,
+	);
