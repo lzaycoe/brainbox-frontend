@@ -35,7 +35,7 @@ const ListCourseCard: React.FC = () => {
 		fetchCourses();
 	}, []);
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <p className="flex justify-center">Loading...</p>;
 	if (error) return <p className="text-red-500">{error}</p>;
 
 	return (
@@ -51,7 +51,7 @@ const ListCourseCard: React.FC = () => {
 						category={course.tag}
 						categoryBgColor="bg-blue-100"
 						categoryTextColor="text-blue-800"
-						price={`$${course.salePrice}`}
+						price={`${course.salePrice}`}
 						title={course.title}
 						rating="4.8"
 						students="150K"
