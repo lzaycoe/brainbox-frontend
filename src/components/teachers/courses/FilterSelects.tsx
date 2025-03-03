@@ -40,7 +40,7 @@ const prices = [
 interface FilterSelectsProps {
 	onCategoryChange: (category: string) => void;
 	onRatingChange: (rating: string) => void;
-	onPriceChange: (price: string) => void;
+	onPriceChange?: (price: string) => void;
 }
 
 const FilterSelects: React.FC<FilterSelectsProps> = ({
@@ -86,25 +86,7 @@ const FilterSelects: React.FC<FilterSelectsProps> = ({
 					</SelectContent>
 				</Select>
 			</div>
-			{/* <div className="w-60 flex flex-col justify-start items-start gap-2">
-				<div className="text-[#6e7484] text-xs font-normal leading-none">
-					Price:
-				</div>
-				<Select onValueChange={onPriceChange}>
-					<SelectTrigger className="h-12 pl-[18px] pr-4 py-3 bg-white border border-[#e8eaef] items-center gap-[103px] inline-flex overflow-hidden justify-between">
-						<SelectValue placeholder="All Price" />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectItem value="all">All Price</SelectItem>
-						{prices.map((prices) => (
-							<SelectItem key={prices.value} value={prices.value}>
-								{prices.label}
-							</SelectItem>
-						))}
-					</SelectContent>
-				</Select>
-			</div> */}
-			{onPriceChange && ( // Kiểm tra nếu `onPriceChange` được truyền vào
+			{onPriceChange && (
 				<div className="w-60 flex flex-col justify-start items-start gap-2">
 					<div className="text-[#6e7484] text-xs font-normal leading-none">
 						Price:
