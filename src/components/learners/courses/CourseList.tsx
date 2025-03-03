@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import PaginationCustom from '@/components/commons/PaginationCustom';
@@ -23,6 +24,7 @@ const CourseList: React.FC<{ userId: number }> = ({ userId }) => {
 	const [statusFilter, setStatusFilter] = useState('all');
 	const [courses, setCourses] = useState<CourseData[]>([]);
 	const coursesPerPage = 12;
+	const router = useRouter();
 
 	useEffect(() => {
 		const loadCourses = async () => {
@@ -59,6 +61,17 @@ const CourseList: React.FC<{ userId: number }> = ({ userId }) => {
 
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+	const handleCourseClick = (courseId: number) => {
+		router.push(`/watch-course/${courseId}`);
+	};
+
+	const handleKeyDown = (event: React.KeyboardEvent, courseId: number) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault(); // Ngăn hành vi mặc định của Space (scroll)
+			handleCourseClick(courseId);
+		}
+	};
+
 	return (
 		<div className="flex flex-col items-center py-5">
 			<SearchAndFilter
@@ -89,7 +102,15 @@ const CourseList: React.FC<{ userId: number }> = ({ userId }) => {
 				<>
 					<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mt-10 mb-5">
 						{currentCourses.map((course) => (
-							<CourseCard key={course.id} {...course} />
+							<button
+								key={course.id}
+								onClick={() => handleCourseClick(course.id)}
+								onKeyDown={(e) => handleKeyDown(e, course.id)}
+								className="cursor-pointer bg-transparent border-none p-0"
+								type="button"
+							>
+								<CourseCard {...course} />
+							</button>
 						))}
 					</div>
 					<PaginationCustom
