@@ -80,8 +80,8 @@ export default function CourseDetailsPage({
 					reviews: 161444,
 				});
 				setCoursePrice({
-					salePrice: parseFloat(course.salePrice.toString()), // Ensure number
-					originPrice: parseFloat(course.originPrice.toString()), // Ensure number
+					salePrice: parseFloat(course.salePrice.toString()),
+					originPrice: parseFloat(course.originPrice.toString()),
 				});
 			} catch (error) {
 				console.error(`Failed to fetch course data for ID ${courseId}:`, error);
@@ -243,6 +243,7 @@ export default function CourseDetailsPage({
 					<CourseCard
 						salePrice={coursePrice.salePrice}
 						originPrice={coursePrice.originPrice}
+						courseId={courseId}
 					/>
 				</div>
 			</div>
