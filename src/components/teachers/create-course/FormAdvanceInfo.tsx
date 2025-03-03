@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { PiUploadSimpleBold } from 'react-icons/pi';
 
@@ -15,22 +15,56 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import { CourseData } from '@/schemas/course.schema';
+import { formatCurrency } from '@/utils/currency';
 
 interface FormAdvanceInfoProps {
 	onPreviousTab: () => void;
 	onSubmit: (data: CourseData, file: File | null) => Promise<void>;
+	isLoading?: boolean;
+	isEdit?: boolean;
+	initialThumbnail?: string | null;
 }
 
 const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 	onPreviousTab,
 	onSubmit,
+	isLoading = false,
+	isEdit = false,
+	initialThumbnail,
 }) => {
-	const { handleSubmit, control, setValue } = useFormContext<CourseData>();
+	const { handleSubmit, control, setValue, trigger } =
+		useFormContext<CourseData>();
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [thumbnail, setThumbnail] = useState<string | null>(null);
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const [displayOriginPrice, setDisplayOriginPrice] = useState<string>('');
+	const [displaySalePrice, setDisplaySalePrice] = useState<string>('');
+
+	useEffect(() => {
+		const originPrice = control._formValues.originPrice;
+		const salePrice = control._formValues.salePrice;
+
+		if (originPrice !== undefined && displayOriginPrice === '') {
+			setDisplayOriginPrice(formatCurrency(originPrice));
+		}
+		if (salePrice !== undefined && displaySalePrice === '') {
+			setDisplaySalePrice(formatCurrency(salePrice));
+		}
+	}, [
+		control._formValues.originPrice,
+		control._formValues.salePrice,
+		displayOriginPrice,
+		displaySalePrice,
+	]);
+
+	useEffect(() => {
+		if (initialThumbnail && !thumbnail) {
+			setThumbnail(initialThumbnail);
+		}
+	}, [initialThumbnail, thumbnail]);
 
 	const handleUploadClick = () => {
 		if (fileInputRef.current) {
@@ -47,11 +81,29 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 		}
 	};
 
-	const handleNumberChange = (field: keyof CourseData, value: string) => {
-		const parsedValue = value === '' ? undefined : parseFloat(value);
-		setValue(field, parsedValue ?? 0, {
-			shouldValidate: true,
-		});
+	const handleNumberChange = (
+		field: keyof CourseData,
+		value: string,
+		setDisplay: (val: string) => void,
+	) => {
+		const numericValue = value.replace(/[^0-9]/g, '');
+		const parsedValue =
+			numericValue === '' ? undefined : parseFloat(numericValue);
+
+		setValue(field, parsedValue ?? 0, { shouldValidate: true });
+		setDisplay(numericValue);
+		trigger(field);
+	};
+
+	const handleBlur = (
+		field: keyof CourseData,
+		value: string,
+		setDisplay: (val: string) => void,
+	) => {
+		const numericValue = value.replace(/[^0-9]/g, '');
+		const parsedValue =
+			numericValue === '' ? undefined : parseFloat(numericValue);
+		setDisplay(formatCurrency(parsedValue));
 	};
 
 	const handleFormSubmit = (data: CourseData) => {
@@ -82,15 +134,17 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 											<Image
 												src={thumbnail}
 												alt="Course Thumbnail"
-												layout="fill"
-												objectFit="cover"
+												fill
+												sizes="(max-width: 450px) 100vw, 450px"
+												style={{ objectFit: 'cover' }}
 											/>
 										) : (
 											<Image
 												src="/app/course-thumbnail-placeholder.png"
 												alt="Course Thumbnail Placeholder"
-												layout="fill"
-												objectFit="cover"
+												fill
+												sizes="(max-width: 450px) 100vw, 450px"
+												style={{ objectFit: 'cover' }}
 											/>
 										)}
 									</div>
@@ -144,24 +198,35 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 				<FormField
 					control={control}
 					name="originPrice"
-					render={({ field }) => (
+					rules={{
+						validate: (value) =>
+							(value !== undefined && value >= 2000) ||
+							'Original price must be at least 2000 VND',
+					}}
+					render={() => (
 						<FormItem>
 							<FormLabel className="text-lg">Original Price</FormLabel>
 							<FormControl>
-								<div className="relative">
-									<span className="absolute inset-y-0 left-0 flex items-center pl-3 text-lg text-gray-500">
-										$
-									</span>
-									<Input
-										type="number"
-										className="h-14 text-lg pl-8"
-										placeholder="Enter original price"
-										value={field.value ?? ''}
-										onChange={(e) =>
-											handleNumberChange('originPrice', e.target.value)
-										}
-									/>
-								</div>
+								<Input
+									type="text"
+									className="h-14 text-lg"
+									placeholder="Enter original price (VND)"
+									value={displayOriginPrice}
+									onChange={(e) =>
+										handleNumberChange(
+											'originPrice',
+											e.target.value,
+											setDisplayOriginPrice,
+										)
+									}
+									onBlur={(e) =>
+										handleBlur(
+											'originPrice',
+											e.target.value,
+											setDisplayOriginPrice,
+										)
+									}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -170,24 +235,31 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 				<FormField
 					control={control}
 					name="salePrice"
-					render={({ field }) => (
+					rules={{
+						validate: (value) =>
+							(value !== undefined && value >= 2000) ||
+							'Sale price must be at least 2000 VND',
+					}}
+					render={() => (
 						<FormItem>
 							<FormLabel className="text-lg">Sale Price</FormLabel>
 							<FormControl>
-								<div className="relative">
-									<span className="absolute inset-y-0 left-0 flex items-center pl-3 text-lg text-gray-500">
-										$
-									</span>
-									<Input
-										type="number"
-										className="h-14 text-lg pl-8"
-										placeholder="Enter sale price"
-										value={field.value ?? ''}
-										onChange={(e) =>
-											handleNumberChange('salePrice', e.target.value)
-										}
-									/>
-								</div>
+								<Input
+									type="text"
+									className="h-14 text-lg"
+									placeholder="Enter sale price (VND)"
+									value={displaySalePrice}
+									onChange={(e) =>
+										handleNumberChange(
+											'salePrice',
+											e.target.value,
+											setDisplaySalePrice,
+										)
+									}
+									onBlur={(e) =>
+										handleBlur('salePrice', e.target.value, setDisplaySalePrice)
+									}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -216,15 +288,26 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 						type="button"
 						className="text-lg h-14"
 						onClick={onPreviousTab}
+						disabled={isLoading}
 					>
 						Previous
 					</Button>
 					<Button
 						type="submit"
 						variant="outline"
-						className="text-lg h-14 bg-orange-500 text-white"
+						className="text-lg h-14 bg-orange-500 text-white disabled:opacity-70"
+						disabled={isLoading}
 					>
-						Create
+						{isLoading ? (
+							<div className="flex items-center space-x-2">
+								<Spinner size="small" />
+								<span>{isEdit ? 'Updating...' : 'Creating...'}</span>
+							</div>
+						) : isEdit ? (
+							'Update'
+						) : (
+							'Create'
+						)}
 					</Button>
 				</div>
 			</form>
