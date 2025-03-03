@@ -103,6 +103,8 @@ export const getTeacher = async (teacherId: number) => {
 	} catch (error) {
 		console.error('Failed to fetch teacher data:', error);
 		throw new Error('Failed to fetch teacher data');
+	}
+};
 
 export const getAllLecturesInCourse = async (
 	courseId: string,
