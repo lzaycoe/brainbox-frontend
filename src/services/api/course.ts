@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Course } from '@/schemas/course.schema';
+import { Course, CourseData } from '@/schemas/course.schema';
 
 export const createCourse = async (
 	courseData: Record<string, unknown>,
@@ -59,5 +59,27 @@ export const getCourses = async (): Promise<Course[]> => {
 	} catch (error) {
 		console.error('Failed to fetch courses:', error);
 		throw error;
+	}
+};
+
+export const updateCourse = async (
+	courseId: string,
+	courseData: CourseData,
+	teacherId: number,
+): Promise<Course> => {
+	try {
+		const response = await axios.put(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}`,
+			{ ...courseData, teacherId },
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to update course:', error);
+		throw new Error('Failed to update course');
 	}
 };
