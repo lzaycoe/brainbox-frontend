@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { PiDotsThreeOutlineFill } from 'react-icons/pi';
 
@@ -18,6 +19,7 @@ interface TeacherCourseCardProps extends Course {
 }
 
 const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
+	id,
 	thumbnail: imageUrl,
 	tag: category,
 	title,
@@ -28,6 +30,12 @@ const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
 }) => {
 	const { bgColor: categoryBgColor, textColor: categoryTextColor } =
 		getCategoryColors(category);
+
+	const router = useRouter();
+
+	const handleEditCourse = () => {
+		router.push(`/teachers/courses/${id}/edit`);
+	};
 
 	return (
 		<CourseCard
@@ -71,7 +79,10 @@ const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
 						<DropdownMenuItem className="pl-[18px] pr-[18px] py-[5px] text-[#4d5565] text-sm font-normal leading-snug hover:bg-[#ff6636] hover:text-white cursor-pointer">
 							View Details
 						</DropdownMenuItem>
-						<DropdownMenuItem className="pl-[18px] pr-[18px] py-[5px] text-[#4d5565] text-sm font-normal leading-snug hover:bg-[#ff6636] hover:text-white cursor-pointer">
+						<DropdownMenuItem
+							className="pl-[18px] pr-[18px] py-[5px] text-[#4d5565] text-sm font-normal leading-snug hover:bg-[#ff6636] hover:text-white cursor-pointer"
+							onClick={handleEditCourse}
+						>
 							Edit Course
 						</DropdownMenuItem>
 						<DropdownMenuItem className="pl-[18px] pr-[18px] py-[5px] text-[#4d5565] text-sm font-normal leading-snug hover:bg-[#ff6636] hover:text-white cursor-pointer">
