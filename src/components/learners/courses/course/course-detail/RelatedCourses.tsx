@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 
@@ -8,10 +9,11 @@ import { Course } from '@/schemas/course.schema';
 import { getCourse, getCourses } from '@/services/api/course';
 
 interface RelatedCoursesProps {
-	readonly courseId: string; // Marked as readonly
+	readonly courseId: string;
 }
 
 export default function RelatedCourses({ courseId }: RelatedCoursesProps) {
+	const router = useRouter(); // Initialize useRouter
 	const [relatedCourses, setRelatedCourses] = useState<Course[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -44,6 +46,10 @@ export default function RelatedCourses({ courseId }: RelatedCoursesProps) {
 		fetchRelatedCourses();
 	}, [courseId]);
 
+	const handleViewAll = () => {
+		router.push('/course-list');
+	};
+
 	if (loading) {
 		return (
 			<section className="mt-12 mb-8">
@@ -64,7 +70,10 @@ export default function RelatedCourses({ courseId }: RelatedCoursesProps) {
 		<section className="mt-12 mb-8">
 			<div className="flex justify-between items-center mb-6">
 				<h2 className="text-xl font-medium">Related Courses</h2>
-				<button className="flex items-center gap-2 text-orange-500 hover:text-orange-600 transition-colors">
+				<button
+					onClick={handleViewAll}
+					className="flex items-center gap-2 text-orange-500 hover:text-orange-600 transition-colors"
+				>
 					View All
 					<FaArrowRight className="w-4 h-4" />
 				</button>
