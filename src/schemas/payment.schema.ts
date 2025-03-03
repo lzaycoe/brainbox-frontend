@@ -1,7 +1,7 @@
 export interface Payment {
 	id: number;
 	userId: number;
-	couseId: number;
+	courseId: number;
 	price: string;
 	status: string;
 }
