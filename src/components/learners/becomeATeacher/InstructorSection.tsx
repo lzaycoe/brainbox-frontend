@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 
 import { User } from '@/schemas/user.schema';
 import { getUserByClerkId } from '@/services/api/user';
+import { becomeATeacher } from '@/utils/teacherPrice';
 
 export default function InstructorSection() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,6 +15,10 @@ export default function InstructorSection() {
 	const [userData, setUserData] = useState<User | null>(null);
 	const { user } = useUser();
 
+	console.log(
+		'process.env.NEXT_PUBLIC_BECOME_A_TEACHER',
+		process.env.NEXT_PUBLIC_BECOME_A_TEACHER,
+	);
 	const fetchUser = async () => {
 		try {
 			if (!user) {
@@ -38,7 +43,7 @@ export default function InstructorSection() {
 		const paymentData = {
 			userId: userData?.id,
 			courseId: null,
-			price: 5000,
+			price: 50000,
 		};
 
 		setIsSubmitting(true);
@@ -59,9 +64,9 @@ export default function InstructorSection() {
 				return;
 			}
 
-			if (!response.ok) {
-				throw new Error('Failed to complete payment.');
-			}
+			// if (!response.ok) {
+			// 	throw new Error('Failed to complete payment.');
+			// }
 
 			const redirectUrl = await response.text();
 			window.location.href = redirectUrl;
