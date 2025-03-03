@@ -2,6 +2,6 @@ export interface Payment {
 	id: number;
 	userId: number;
 	courseId: number;
-	price: string;
+	price: number;
 	status: string;
 }

@@ -1,213 +1,282 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ImCool } from 'react-icons/im';
-import { IoMdArrowDown, IoMdArrowUp } from 'react-icons/io';
+import { useUser } from '@clerk/nextjs';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 
-import ContentCard from '@/components/learners/purchase-history/ContentCard';
-import CourseItem from '@/components/learners/purchase-history/CourseItem';
+import PaginationCustom from '@/components/commons/PaginationCustom';
+import { User } from '@/schemas/user.schema';
+import { getCourse } from '@/services/api/course';
+import { getPaymentsByUserId } from '@/services/api/payment';
+import { getUserByClerkId, getUserClerk } from '@/services/api/user';
+import { formatPrice } from '@/utils/formatPrice';
 
-const orderDataList = [
-	{
-		date: '12th January, 2025 at 11:30 PM',
-		courses: 2,
-		totalPrice: '$62.99',
-		paymentMethod: 'Credit Card',
-		user: 'Kevin Gilbert',
-		cardNumber: '4142 **** **** ****',
-		expiryDate: '04/24',
-		items: [
-			{
-				id: 1,
-				title: 'Learn Ethical Hacking From Scratch',
-				rating: 4.7,
-				reviews: 451444,
-				instructors: ['Marvin McKinney'],
-				price: 13.99,
-				image: '/app/card-img-template.png',
-			},
-			{
-				id: 2,
-				title: 'Mega Digital Marketing Course A-Z',
-				rating: 4.7,
-				reviews: 451444,
-				instructors: ['Esther Howard'],
-				price: 49.0,
-				originalPrice: 99.0,
-				image: '/app/card-img-template.png',
-			},
-		],
-	},
-	{
-		date: '5th February, 2025 at 09:15 AM',
-		courses: 1,
-		totalPrice: '$19.99',
-		paymentMethod: 'PayPal',
-		user: 'Alice Johnson',
-		cardNumber: 'PayPal Account',
-		expiryDate: '',
-		items: [
-			{
-				id: 3,
-				title: 'Mastering React for Web Development',
-				rating: 4.8,
-				reviews: 321000,
-				instructors: ['Jacob Smith'],
-				price: 19.99,
-				image: '/app/card-img-template.png',
-			},
-		],
-	},
-	{
-		date: '20th March, 2025 at 07:45 PM',
-		courses: 3,
-		totalPrice: '$89.99',
-		paymentMethod: 'Credit Card',
-		user: 'John Doe',
-		cardNumber: '4142 **** **** ****',
-		expiryDate: '12/26',
-		items: [
-			{
-				id: 4,
-				title: 'Full-Stack Web Development Bootcamp',
-				rating: 4.9,
-				reviews: 500000,
-				instructors: ['Emily Davis'],
-				price: 29.99,
-				image: '/app/card-img-template.png',
-			},
-			{
-				id: 5,
-				title: 'Advanced JavaScript Concepts',
-				rating: 4.7,
-				reviews: 210000,
-				instructors: ['Michael Lee'],
-				price: 30.0,
-				image: '/app/card-img-template.png',
-			},
-			{
-				id: 6,
-				title: 'UI/UX Design Masterclass',
-				rating: 4.6,
-				reviews: 180000,
-				instructors: ['Sarah Wilson'],
-				price: 30.0,
-				image: '/app/card-img-template.png',
-			},
-		],
-	},
-];
+import FilterStatusSelects from './FilterStatusSelects';
 
-interface SummaryProps {
-	user: string;
-	cardNumber: string;
-	expiryDate: string;
-	order: {
-		date: string;
-		courses: number;
-		totalPrice: string;
-		paymentMethod: string;
-	};
+interface Payment {
+	id: number;
+	userId: number;
+	courseId: number;
+	price: number;
+	status: string;
+	courseDetails?: Course | null;
 }
 
-const Summary: React.FC<SummaryProps> = ({
-	user,
-	cardNumber,
-	expiryDate,
-	order,
-}) => (
-	<aside className="bg-white w-full max-w-[500px] p-6 text-black flex-shrink-0 flex flex-col relative">
-		<div className="absolute top-0 left-0 w-[1px] h-[calc(100%+40px)] bg-gray-300"></div>
-		<div className="text-left">
-			<ContentCard
-				date={order.date}
-				courses={order.courses}
-				totalPrice={order.totalPrice}
-				paymentMethod={order.paymentMethod}
-			/>
-		</div>
+interface Course {
+	id: number;
+	title: string;
+	thumbnail: string;
+	originPrice: number;
+	salePrice: number;
+	teacherId: number;
+	teacherDetails?: User;
+}
 
-		<div className="mt-4 ml-7 flex items-center text-sm gap-7 text-left">
-			<span>{user}</span>
-			<span>{cardNumber}</span>
-			<span className="ml-14">{expiryDate}</span>
-		</div>
-	</aside>
-);
+const PaymentList = () => {
+	const [currentPage, setCurrentPage] = useState(1);
+	const paymentsPerPage = 5;
+	const [payments, setPayments] = useState<Payment[]>([]);
+	const [userData, setUserData] = useState<User | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+	const { user } = useUser();
+	const [selectedStatus, setSelectedStatus] = useState('all');
 
-const Content = () => {
-	const [openIndex, setOpenIndex] = useState<number | null>(null);
+	const indexOfLastPayment = currentPage * paymentsPerPage;
+	const indexOfFirstPayment = indexOfLastPayment - paymentsPerPage;
 
-	const toggleContent = (index: number) => {
-		setOpenIndex(openIndex === index ? null : index);
+	const filteredPayments = payments.filter((payment) => {
+		const matchStatus =
+			selectedStatus === 'all' ||
+			payment.status.toLowerCase() === selectedStatus.toLowerCase();
+		return matchStatus;
+	});
+
+	const currentPayment = filteredPayments.slice(
+		indexOfFirstPayment,
+		indexOfLastPayment,
+	);
+
+	const totalPages = Math.ceil(filteredPayments.length / paymentsPerPage);
+
+	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+	const fetchUser = async () => {
+		try {
+			if (!user) {
+				throw new Error('User is undefined');
+			}
+			const userData = await getUserByClerkId(user?.id);
+			setUserData(userData);
+		} catch (error) {
+			console.error('Failed to fetch user metadata:', error);
+			setUserData(null);
+		} finally {
+			setLoading(false);
+		}
 	};
 
+	const fetchPayments = async () => {
+		try {
+			const response = await getPaymentsByUserId(userData?.id || 0);
+
+			if (!response) {
+				throw new Error('Failed to fetch payments');
+			}
+
+			const data = response;
+			const filteredPayments = data.filter(
+				(payment: Payment) =>
+					payment.status === 'paid' || payment.status === 'canceled',
+			);
+
+			const paymentsWithCourses = await Promise.all(
+				filteredPayments.map(async (payment: Payment) => {
+					if (payment.courseId === null) {
+						return { ...payment, courseDetails: null };
+					}
+
+					const course = await fetchCourseById(payment.courseId);
+					if (course) {
+						const teacher = await fetchTeacher(course.teacherId);
+						if (teacher) {
+							course.teacherDetails = teacher;
+						}
+					}
+					return { ...payment, courseDetails: course };
+				}),
+			);
+
+			const sortedPayments = paymentsWithCourses.toSorted(
+				(a, b) => b.id - a.id,
+			);
+
+			setPayments(sortedPayments);
+		} catch (err) {
+			console.error(err);
+			setError('Could not fetch payments. Please try again later.');
+		}
+	};
+
+	const fetchCourseById = async (courseId: number): Promise<Course | null> => {
+		try {
+			const response = await getCourse(courseId);
+
+			if (!response) {
+				throw new Error(`Failed to fetch course with ID: ${courseId}`);
+			}
+
+			return response;
+		} catch (error) {
+			console.error('Failed to fetch course:', error);
+			return null;
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const fetchTeacher = async (teacherId: number): Promise<User | null> => {
+		try {
+			const response = await getUserClerk(teacherId);
+			return response;
+		} catch (error) {
+			console.error('Failed to fetch teacher metadata:', error);
+			return null;
+		} finally {
+			setLoading(false);
+		}
+	};
+	useEffect(() => {
+		if (user) {
+			fetchUser();
+		}
+	}, [user?.id]);
+
+	useEffect(() => {
+		if (userData) {
+			fetchPayments();
+		}
+	}, [userData?.id]);
+
+	if (loading) {
+		return <div>Loading payments...</div>;
+	}
+
+	if (error) {
+		return <div className="text-red-500">{error}</div>;
+	}
+
+	if (payments.length === 0) {
+		return <div>No payments found for user {user?.fullName}.</div>;
+	}
+
 	return (
-		<section className="w-full mt-10">
-			<h2 className="text-[#1D2026] text-2xl font-semibold leading-8 break-words mb-6 text-left">
-				Purchase History
-			</h2>
+		<section className="w-full mt-10 space-y-6">
+			<FilterStatusSelects onStatusChange={setSelectedStatus} />
 
-			{orderDataList.map((order, index) => (
-				<article
-					key={order.date}
-					className="flex flex-col items-center py-6 bg-white border border-solid shadow-lg border-[#E9EAF0] relative mb-6"
-				>
-					<button
-						className="flex items-center justify-between w-full relative text-left focus:outline-none p-0 m-0 bg-transparent border-0"
-						onClick={() => toggleContent(index)}
-						aria-expanded={openIndex === index}
+			{filteredPayments.length === 0 ? (
+				<div className="col-span-4 mt-10 text-xl text-gray-500">
+					No payment found for your search.
+				</div>
+			) : (
+				currentPayment.map((payment) => (
+					<div
+						key={payment.id}
+						className="border border-gray-300 shadow-md p-2 bg-white "
 					>
-						<ContentCard
-							date={order.date}
-							courses={order.courses}
-							totalPrice={order.totalPrice}
-							paymentMethod={order.paymentMethod}
-							isOpen={openIndex === index}
-						/>
-
-						<div
-							className={`flex items-center justify-center w-12 h-12 rounded-md shadow-md mr-5 ${
-								openIndex === index ? 'bg-orange-500' : 'bg-gray-100'
-							}`}
-						>
-							{openIndex === index ? (
-								<IoMdArrowUp className="text-white text-2xl" />
+						<article className="grid grid-cols-[55%_25%_20%] items-center max-w-full">
+							{payment.courseDetails ? (
+								<CourseItem course={payment.courseDetails} />
 							) : (
-								<IoMdArrowDown className="text-[#1D2026] text-2xl" />
+								<section className="flex gap-5 items-start">
+									<Image
+										src="/app/become_a_teacher/become_a_teacher_1.png"
+										alt="Become a Teacher"
+										className="object-contain"
+										width={160}
+										height={90}
+									/>
+									<div className="flex flex-col justify-between min-h-[160px] w-full">
+										<div>
+											<h3 className="mt-2 text-lg text-black">
+												Become a Teacher
+											</h3>
+										</div>
+									</div>
+								</section>
 							)}
-						</div>
-					</button>
 
-					{openIndex === index && (
-						<>
-							<hr className="self-stretch mt-6 w-full bg-gray-200 border-0 h-px" />
+							<div className="text-left">
+								<span className="text-orange-500 text-xl font-medium">
+									{formatPrice(
+										payment.courseDetails?.salePrice || payment.price,
+									)}
+								</span>
+								{payment.courseDetails?.originPrice && (
+									<span className="text-lg line-through text-gray-400 ml-2">
+										{formatPrice(payment.courseDetails.originPrice)}
+									</span>
+								)}
+							</div>
 
-							<section className="flex gap-10 justify-between items-center w-full max-w-[1272px]">
-								<div className="w-full max-w-[calc(100%-350px-40px)]">
-									{order.items.map((course) => (
-										<CourseItem key={course.id} course={course} />
-									))}
-								</div>
+							<div className="flex justify-center items-center gap-2">
+								<span className="text-gray-500 text-sm font-medium">
+									Status:
+								</span>
+								<span
+									className={`px-2 py-1 rounded text-sm font-semibold ${
+										payment.status === 'paid'
+											? 'bg-green-100 text-green-600'
+											: 'bg-red-100 text-red-600'
+									}`}
+								>
+									{payment.status.toUpperCase()}
+								</span>
+							</div>
+						</article>
+					</div>
+				))
+			)}
 
-								<Summary
-									user={order.user}
-									cardNumber={order.cardNumber}
-									expiryDate={order.expiryDate}
-									order={order}
-								/>
-							</section>
-						</>
+			{filteredPayments.length > 0 && (
+				<PaginationCustom
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={paginate}
+					activeClassName="bg-[#FF6636] text-white"
+					hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
+				/>
+			)}
+		</section>
+	);
+};
+
+const CourseItem = ({ course }: { course: Course }) => {
+	return (
+		<section className="flex gap-5 items-center">
+			<Image
+				src={course.thumbnail}
+				alt={course.title}
+				className="object-contain"
+				width={160}
+				height={90}
+			/>
+			<div className="flex flex-col justify-between min-h-[120px] w-full">
+				<div>
+					<h3 className="mt-2 text-lg text-black">{course.title}</h3>
+				</div>
+				<p className="flex gap-1.5 mt-3 text-sm text-gray-800">
+					<span className="text-gray-500">Created by:</span>{' '}
+					{Boolean(course.teacherId) && (
+						<span className="text-sm text-gray-600">
+							{course.teacherDetails?.firstName}{' '}
+							{course.teacherDetails?.lastName}
+						</span>
 					)}
-				</article>
-			))}
-
-			<div className="text-center text-[#1D2026] text-base font-normal leading-6 break-words mt-10 flex items-center justify-center gap-2">
-				<span>Yay! You have seen all your purchase history.</span>
-				<ImCool size={22} />
+				</p>
 			</div>
 		</section>
 	);
 };
 
-export default Content;
+export default PaymentList;
