@@ -1,9 +1,20 @@
+import { auth } from '@clerk/nextjs/server';
+
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
 import CoursesSection from '@/components/learners/dashboard/CoursesSection';
 import StatsSection from '@/components/learners/dashboard/StatsSection';
 
-export default function Home() {
+export default async function Home() {
+	const authData = await auth(); // Dùng await để lấy dữ liệu từ Promise
+	const userId = authData.userId; // Lấy userId từ authData
+
+	if (!userId) {
+		return <div>Please log in to view your dashboard.</div>;
+	}
+
+	const parsedUserId = parseInt(userId, 10) || 1;
+
 	return (
 		<div>
 			<Profile />
@@ -13,7 +24,7 @@ export default function Home() {
 					<StatsSection />
 				</div>
 				<div className="w-full max-w-[1245px]">
-					<CoursesSection />
+					<CoursesSection userId={parsedUserId} />
 				</div>
 			</div>
 		</div>

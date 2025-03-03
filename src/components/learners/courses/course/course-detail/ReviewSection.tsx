@@ -10,7 +10,7 @@ type Review = {
 	rating: number;
 	time: string;
 	comment: string;
-	id: string; // Added unique identifier
+	id: string;
 };
 
 interface ReviewSectionProps {

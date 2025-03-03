@@ -16,7 +16,7 @@ export const getPaymentsFromCourse = async (
 	}
 };
 
-export const getPaymentsByUserId = async (
+export const getPaymentsFromUser = async (
 	userId: number,
 ): Promise<Payment[] | null> => {
 	try {
