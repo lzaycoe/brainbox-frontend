@@ -26,10 +26,12 @@ const CreateCourse = () => {
 	const [activeTab, setActiveTab] = useState(0);
 	const { toast } = useToast();
 	const { user, loading } = useUserContext();
+	const [isLoading, setIsLoading] = useState(false);
 
 	const onSubmit = async (data: CourseData, file: File | null) => {
 		if (!user || loading) return;
 
+		setIsLoading(true);
 		try {
 			if (data.salePrice > data.originPrice) {
 				methods.setError('salePrice', {
@@ -62,6 +64,8 @@ const CreateCourse = () => {
 				description: 'There was a problem creating your course.',
 				variant: 'destructive',
 			});
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -86,6 +90,8 @@ const CreateCourse = () => {
 				<FormAdvanceInfo
 					onPreviousTab={handlePreviousTab}
 					onSubmit={onSubmit}
+					isLoading={isLoading}
+					isEdit={false}
 				/>
 			),
 		},
