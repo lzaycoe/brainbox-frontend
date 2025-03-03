@@ -1,3 +1,6 @@
+'use client';
+
+import React, { useState } from 'react';
 import {
 	FaArchive,
 	FaCheckCircle,
@@ -35,6 +38,18 @@ export default function CourseCard({
 	const discountPercentage = Math.round(
 		((originPrice - salePrice) / originPrice) * 100,
 	);
+	const [isCopied, setIsCopied] = useState(false);
+
+	const handleCopyLink = async () => {
+		try {
+			const currentUrl = window.location.href;
+			await navigator.clipboard.writeText(currentUrl);
+			setIsCopied(true);
+			setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
+		} catch (error) {
+			console.error('Failed to copy link:', error);
+		}
+	};
 
 	return (
 		<div className="border border-gray-200 rounded-lg bg-white p-6">
@@ -138,9 +153,12 @@ export default function CourseCard({
 			<div className="mt-6">
 				<h3 className="font-medium mb-4">Share this course:</h3>
 				<div className="flex gap-2">
-					<button className="px-4 py-2 bg-gray-50 rounded-md text-gray-600 hover:bg-gray-100 transition-colors flex items-center gap-2">
+					<button
+						onClick={handleCopyLink}
+						className="px-4 py-2 bg-gray-50 rounded-md text-gray-600 hover:bg-gray-100 transition-colors flex items-center gap-2"
+					>
 						<FaLink className="w-4 h-4" />
-						Copy link
+						{isCopied ? 'Link copied' : 'Copy link'}
 					</button>
 					<SocialButton icon={FaLinkedin} />
 					<SocialButton icon={FaTwitter} />
