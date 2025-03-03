@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 
+import CourseCard from '@/components/commons/CourseCard';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import FilterSelects from '@/components/teachers/courses/FilterSelects';
-import TeacherCourseCard from '@/components/teachers/courses/TeacherCourseCard';
 
 const coursesData = [
 	{
@@ -17,7 +17,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#22C55E]',
 		rating: '4.9',
 		students: '52,822',
-		originalPrice: '$97.00',
+		price: '$97.00',
 	},
 	{
 		id: 2,
@@ -28,7 +28,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#F59E0B]',
 		rating: '4.8',
 		students: '33,841',
-		originalPrice: '$87.00',
+		price: '$87.00',
 	},
 	{
 		id: 3,
@@ -39,7 +39,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#E34444]',
 		rating: '4.7',
 		students: '22,649',
-		originalPrice: '$107.00',
+		price: '$107.00',
 	},
 	{
 		id: 4,
@@ -50,7 +50,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#E34444]',
 		rating: '4.6',
 		students: '20,126',
-		originalPrice: '$77.00',
+		price: '$77.00',
 	},
 	{
 		id: 5,
@@ -61,7 +61,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#000000]',
 		rating: '4.5',
 		students: '13,932',
-		originalPrice: '$67.00',
+		price: '$67.00',
 	},
 	{
 		id: 6,
@@ -72,7 +72,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#564FFD]',
 		rating: '4.4',
 		students: '12,068',
-		originalPrice: '$117.00',
+		price: '$117.00',
 	},
 	{
 		id: 7,
@@ -83,7 +83,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#000000]',
 		rating: '4.3',
 		students: '6,196',
-		originalPrice: '$127.00',
+		price: '$127.00',
 	},
 	{
 		id: 8,
@@ -94,7 +94,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#FD8E1F]',
 		rating: '4.2',
 		students: '2,736',
-		originalPrice: '$137.00',
+		price: '$137.00',
 	},
 	{
 		id: 9,
@@ -105,7 +105,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#FF6636]',
 		rating: '4.1',
 		students: '2,600',
-		originalPrice: '$87.00',
+		price: '$87.00',
 	},
 	{
 		id: 10,
@@ -116,7 +116,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#23BD33]',
 		rating: '4.0',
 		students: '1,678',
-		originalPrice: '$97.00',
+		price: '$97.00',
 	},
 	{
 		id: 11,
@@ -127,7 +127,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#FD8E1F]',
 		rating: '3.9',
 		students: '959',
-		originalPrice: '$107.00',
+		price: '$107.00',
 	},
 	{
 		id: 12,
@@ -138,7 +138,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#22C55E]',
 		rating: '3.8',
 		students: '52,822',
-		originalPrice: '$117.00',
+		price: '$117.00',
 	},
 	{
 		id: 13,
@@ -149,7 +149,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#F59E0B]',
 		rating: '3.7',
 		students: '33,841',
-		originalPrice: '$127.00',
+		price: '$127.00',
 	},
 	{
 		id: 14,
@@ -160,7 +160,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#E34444]',
 		rating: '3.6',
 		students: '22,649',
-		originalPrice: '$137.00',
+		price: '$137.00',
 	},
 	{
 		id: 15,
@@ -171,7 +171,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#E34444]',
 		rating: '3.5',
 		students: '20,126',
-		originalPrice: '$87.00',
+		price: '$87.00',
 	},
 	{
 		id: 16,
@@ -182,7 +182,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#000000]',
 		rating: '3.4',
 		students: '13,932',
-		originalPrice: '$97.00',
+		price: '$97.00',
 	},
 	{
 		id: 17,
@@ -193,7 +193,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#564FFD]',
 		rating: '3.3',
 		students: '12,068',
-		originalPrice: '$107.00',
+		price: '$107.00',
 	},
 	{
 		id: 18,
@@ -204,7 +204,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#000000]',
 		rating: '3.2',
 		students: '6,196',
-		originalPrice: '$117.00',
+		price: '$117.00',
 	},
 	{
 		id: 19,
@@ -215,7 +215,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#FD8E1F]',
 		rating: '3.1',
 		students: '2,736',
-		originalPrice: '$127.00',
+		price: '$127.00',
 	},
 	{
 		id: 20,
@@ -226,7 +226,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#FF6636]',
 		rating: '3.0',
 		students: '2,600',
-		originalPrice: '$137.00',
+		price: '$137.00',
 	},
 
 	{
@@ -238,7 +238,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#F59E0B]',
 		rating: '3.7',
 		students: '33,841',
-		originalPrice: '$127.00',
+		price: '$127.00',
 	},
 	{
 		id: 22,
@@ -249,7 +249,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#E34444]',
 		rating: '3.6',
 		students: '22,649',
-		originalPrice: '$137.00',
+		price: '$137.00',
 	},
 	{
 		id: 23,
@@ -260,7 +260,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#E34444]',
 		rating: '3.5',
 		students: '20,126',
-		originalPrice: '$87.00',
+		price: '$87.00',
 	},
 	{
 		id: 24,
@@ -271,7 +271,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#000000]',
 		rating: '3.4',
 		students: '13,932',
-		originalPrice: '$97.00',
+		price: '$97.00',
 	},
 	{
 		id: 25,
@@ -282,7 +282,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#564FFD]',
 		rating: '3.3',
 		students: '12,068',
-		originalPrice: '$107.00',
+		price: '$107.00',
 	},
 	{
 		id: 26,
@@ -293,7 +293,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#000000]',
 		rating: '3.2',
 		students: '6,196',
-		originalPrice: '$117.00',
+		price: '$117.00',
 	},
 	{
 		id: 27,
@@ -304,7 +304,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#FD8E1F]',
 		rating: '3.1',
 		students: '2,736',
-		originalPrice: '$127.00',
+		price: '$127.00',
 	},
 	{
 		id: 28,
@@ -315,7 +315,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#FF6636]',
 		rating: '3.0',
 		students: '2,600',
-		originalPrice: '$137.00',
+		price: '$137.00',
 	},
 	{
 		id: 29,
@@ -326,7 +326,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#E34444]',
 		rating: '3.5',
 		students: '20,126',
-		originalPrice: '$87.00',
+		price: '$87.00',
 	},
 	{
 		id: 30,
@@ -337,7 +337,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#000000]',
 		rating: '3.4',
 		students: '13,932',
-		originalPrice: '$97.00',
+		price: '$97.00',
 	},
 	{
 		id: 31,
@@ -348,7 +348,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#564FFD]',
 		rating: '3.3',
 		students: '12,068',
-		originalPrice: '$107.00',
+		price: '$107.00',
 	},
 	{
 		id: 32,
@@ -359,7 +359,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#000000]',
 		rating: '3.2',
 		students: '6,196',
-		originalPrice: '$117.00',
+		price: '$117.00',
 	},
 	{
 		id: 33,
@@ -370,7 +370,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#FD8E1F]',
 		rating: '3.1',
 		students: '2,736',
-		originalPrice: '$127.00',
+		price: '$127.00',
 	},
 	{
 		id: 34,
@@ -381,7 +381,7 @@ const coursesData = [
 		categoryTextColor: 'text-[#FF6636]',
 		rating: '3.0',
 		students: '2,600',
-		originalPrice: '$137.00',
+		price: '$137.00',
 	},
 ];
 
@@ -407,7 +407,7 @@ const Course: React.FC = () => {
 			selectedRating === 'all' ||
 			parseFloat(course.rating) >= parseFloat(selectedRating.split('-')[0]);
 		const matchesPricing = (() => {
-			const price = parseFloat(course.originalPrice.replace('$', ''));
+			const price = parseFloat(course.price.replace('$', ''));
 			switch (selectedPricing) {
 				case '1':
 					return price >= 1 && price <= 20;
@@ -448,7 +448,7 @@ const Course: React.FC = () => {
 					onPriceChange={setSelectedPricing}
 				/>
 			</SearchAndFilter>
-			<>
+			<div>
 				<div>
 					<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mb-5">
 						{filteredCourses.length === 0 ? (
@@ -457,7 +457,12 @@ const Course: React.FC = () => {
 							</div>
 						) : (
 							currentCourses.map((course) => (
-								<TeacherCourseCard key={course.id} {...course} />
+								<CourseCard
+									key={course.id}
+									{...course}
+									hideAddToCartButton
+									maxWidth="max-w-[300px]"
+								/>
 							))
 						)}
 					</div>
@@ -471,7 +476,7 @@ const Course: React.FC = () => {
 						hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
 					/>
 				)}
-			</>
+			</div>
 		</div>
 	);
 };
