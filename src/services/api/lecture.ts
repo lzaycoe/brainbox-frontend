@@ -69,3 +69,39 @@ export const deleteLecture = async (
 		return false;
 	}
 };
+
+export const getTopTeachers = async (): Promise<Lecture[] | null> => {
+	try {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/users/teachers/top/5`,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch top teachers:', error);
+		return null;
+	}
+};
+
+export const getTeacher = async (teacherId: number) => {
+	try {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/users/clerk/${teacherId}`,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch teacher data:', error);
+		throw new Error('Failed to fetch teacher data');
+	}
+};

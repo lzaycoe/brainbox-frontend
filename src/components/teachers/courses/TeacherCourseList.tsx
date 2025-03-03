@@ -255,6 +255,7 @@ const TeacherCourseList: React.FC = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
 	const [selectedRating, setSelectedRating] = useState('all');
+	const [selectedPricing, setSelectedPricing] = useState('all'); // Added for price filtering
 	const coursesPerPage = 12;
 
 	const indexOfLastCourse = currentPage * coursesPerPage;
@@ -270,7 +271,31 @@ const TeacherCourseList: React.FC = () => {
 		const matchesRating =
 			selectedRating === 'all' ||
 			parseFloat(course.rating) >= parseFloat(selectedRating.split('-')[0]);
-		return matchesSearchQuery && matchesCategory && matchesRating;
+		const matchesPricing = (() => {
+			const price =
+				parseFloat(course.discountPrice.replace('$', '')) ||
+				parseFloat(course.originalPrice.replace('$', ''));
+			switch (selectedPricing) {
+				case '1':
+					return price >= 1 && price <= 20;
+				case '2':
+					return price >= 21 && price <= 40;
+				case '3':
+					return price >= 41 && price <= 60;
+				case '4':
+					return price >= 61 && price <= 80;
+				case '5':
+					return price > 80;
+				case 'all':
+					return true;
+				default:
+					return true;
+			}
+		})();
+
+		return (
+			matchesSearchQuery && matchesCategory && matchesRating && matchesPricing
+		);
 	});
 
 	const currentCourses = filteredCourses.slice(
@@ -288,6 +313,7 @@ const TeacherCourseList: React.FC = () => {
 				<FilterSelects
 					onCategoryChange={setSelectedCategory}
 					onRatingChange={setSelectedRating}
+					onPriceChange={setSelectedPricing} // Added onPriceChange
 				/>
 			</SearchAndFilter>
 			{filteredCourses.length === 0 ? (

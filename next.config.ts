@@ -34,6 +34,11 @@ const nextConfig: NextConfig = {
 				hostname: 'd3f1iyfxxz8i1e.cloudfront.net',
 				pathname: '/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'img.clerk.com',
+				pathname: '/**',
+			},
 		],
 		dangerouslyAllowSVG: true,
 	},

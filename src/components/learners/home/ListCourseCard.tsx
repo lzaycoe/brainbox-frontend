@@ -1,12 +1,15 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
+// Import useRouter
 import CourseCard from '@/components/commons/CourseCard';
 import { Course } from '@/schemas/course.schema';
 import { getCourses } from '@/services/api/course';
 
 const ListCourseCard: React.FC = () => {
+	const router = useRouter(); // Initialize useRouter
 	const [courses, setCourses] = useState<Course[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
@@ -35,6 +38,20 @@ const ListCourseCard: React.FC = () => {
 		fetchCourses();
 	}, []);
 
+	const handleCourseClick = (id: number) => {
+		router.push(`/courses/${id}`); // Navigate to /courses/[id]
+	};
+
+	const handleKeyDown = (
+		event: React.KeyboardEvent<HTMLButtonElement>,
+		id: number,
+	) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault(); // Prevent scrolling on Space
+			handleCourseClick(id);
+		}
+	};
+
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p className="text-red-500">{error}</p>;
 
@@ -45,17 +62,23 @@ const ListCourseCard: React.FC = () => {
 			</h2>
 			<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
 				{courses.map((course) => (
-					<CourseCard
+					<button
 						key={course.id}
-						imageUrl={course.thumbnail}
-						category={course.tag}
-						categoryBgColor="bg-blue-100"
-						categoryTextColor="text-blue-800"
-						price={`$${course.salePrice}`}
-						title={course.title}
-						rating="4.8"
-						students="150K"
-					/>
+						onClick={() => handleCourseClick(course.id)}
+						onKeyDown={(e) => handleKeyDown(e, course.id)}
+						className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
+					>
+						<CourseCard
+							imageUrl={course.thumbnail}
+							category={course.tag}
+							categoryBgColor="bg-blue-100"
+							categoryTextColor="text-blue-800"
+							price={`$${course.salePrice}`}
+							title={course.title}
+							rating="4.8"
+							students="150K"
+						/>
+					</button>
 				))}
 			</div>
 		</section>
