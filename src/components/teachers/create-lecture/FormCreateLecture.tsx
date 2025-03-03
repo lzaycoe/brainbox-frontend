@@ -99,7 +99,8 @@ export default function FormCreateLecture({
 			if (isEdit && initialData?.attachments?.[0]) {
 				await deleteAttachment(initialData.attachments[0]);
 			}
-			const publicUrl = await uploadAttachment(selectedFile!);
+			// Xóa non-null assertion (!) vì selectedFile đã được kiểm tra
+			const publicUrl = await uploadAttachment(selectedFile as File);
 			if (!publicUrl) {
 				throw new Error('Failed to upload attachment');
 			}
@@ -133,9 +134,10 @@ export default function FormCreateLecture({
 	const onSubmit = async (data: LectureData) => {
 		setIsLoading(true);
 		try {
-			if (validateFileUpload()) {
-				await handleAttachment(data);
-			} else if (type === 'video' && uploadOption === 'link') {
+			// Gộp hai nhánh trùng lặp thành một
+			const requiresAttachment =
+				validateFileUpload() || (type === 'video' && uploadOption === 'link');
+			if (requiresAttachment) {
 				await handleAttachment(data);
 			}
 			await submitLecture(data);
