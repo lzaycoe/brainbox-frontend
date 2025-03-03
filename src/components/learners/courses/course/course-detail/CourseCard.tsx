@@ -1,6 +1,8 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+// Import useRouter
 import {
 	FaArchive,
 	FaCheckCircle,
@@ -29,12 +31,15 @@ const SocialButton = ({ icon: Icon }: SocialButtonProps) => (
 interface CourseCardProps {
 	readonly salePrice: number;
 	readonly originPrice: number;
+	readonly courseId: string; // Added courseId prop
 }
 
 export default function CourseCard({
 	salePrice,
 	originPrice,
+	courseId,
 }: CourseCardProps) {
+	const router = useRouter(); // Initialize useRouter
 	const discountPercentage = Math.round(
 		((originPrice - salePrice) / originPrice) * 100,
 	);
@@ -45,10 +50,14 @@ export default function CourseCard({
 			const currentUrl = window.location.href;
 			await navigator.clipboard.writeText(currentUrl);
 			setIsCopied(true);
-			setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
+			setTimeout(() => setIsCopied(false), 2000);
 		} catch (error) {
 			console.error('Failed to copy link:', error);
 		}
+	};
+
+	const handleBuyNow = () => {
+		router.push(`/checkout/${courseId}`); // Navigate to /checkout/[id]
 	};
 
 	return (
@@ -93,7 +102,10 @@ export default function CourseCard({
 				</div>
 			</div>
 
-			<button className="w-full bg-orange-500 text-white py-3 rounded-md mt-6 hover:bg-orange-600 transition-colors">
+			<button
+				onClick={handleBuyNow}
+				className="w-full bg-orange-500 text-white py-3 rounded-md mt-6 hover:bg-orange-600 transition-colors"
+			>
 				Buy Now
 			</button>
 			<button className="w-full bg-orange-50 text-orange-500 py-3 rounded-md mt-3 hover:bg-orange-100 transition-colors">
