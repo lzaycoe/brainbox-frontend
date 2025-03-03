@@ -23,16 +23,30 @@ const SocialButton = ({ icon: Icon }: SocialButtonProps) => (
 	</button>
 );
 
-export default function CourseCard() {
+interface CourseCardProps {
+	readonly salePrice: number;
+	readonly originPrice: number;
+}
+
+export default function CourseCard({
+	salePrice,
+	originPrice,
+}: CourseCardProps) {
+	const discountPercentage = Math.round(
+		((originPrice - salePrice) / originPrice) * 100,
+	);
+
 	return (
 		<div className="border border-gray-200 rounded-lg bg-white p-6">
 			<div className="flex justify-between items-start">
 				<div className="flex items-center gap-2">
-					<span className="text-2xl font-medium">$14.00</span>
-					<span className="text-gray-400 line-through">$26.00</span>
+					<span className="text-2xl font-medium">${salePrice.toFixed(2)}</span>
+					<span className="text-gray-400 line-through">
+						${originPrice.toFixed(2)}
+					</span>
 				</div>
 				<span className="px-2 py-1 bg-orange-50 text-orange-500 text-xs font-medium rounded">
-					56% OFF
+					{discountPercentage}% OFF
 				</span>
 			</div>
 
@@ -87,8 +101,8 @@ export default function CourseCard() {
 			</div>
 
 			<p className="mt-4 text-sm text-gray-500">
-				<span className="font-medium text-gray-700">Note:</span> all course have
-				30-days money-back guarantee
+				<span className="font-medium text-gray-700">Note:</span> all courses
+				have 30-days money-back guarantee
 			</p>
 
 			<div className="mt-6">
