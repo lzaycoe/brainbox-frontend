@@ -47,7 +47,7 @@ export default function CourseSections() {
 	}, [courseId]);
 
 	if (loading) {
-		return <div className="px-40">Loading...</div>;
+		return <div className="px-40 flex justify-center mt-10">Loading...</div>;
 	}
 
 	return (

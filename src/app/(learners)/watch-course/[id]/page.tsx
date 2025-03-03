@@ -202,7 +202,7 @@ export default function WatchCourse() {
 	};
 
 	if (loading || userLoading) {
-		return <div>Loading...</div>;
+		return <div className="px-40 flex justify-center mt-10">Loading...</div>;
 	}
 
 	if (error) {
