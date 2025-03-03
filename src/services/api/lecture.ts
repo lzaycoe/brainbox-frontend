@@ -87,3 +87,21 @@ export const getTopTeachers = async (): Promise<Lecture[] | null> => {
 		return null;
 	}
 };
+
+export const getTeacher = async (teacherId: number) => {
+	try {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/users/clerk/${teacherId}`,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch teacher data:', error);
+		throw new Error('Failed to fetch teacher data');
+	}
+};
