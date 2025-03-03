@@ -19,7 +19,7 @@ export default function ProfileSettings() {
 
 			{/* Main Content */}
 			<main className="max-w-7xl mx-auto px-4 py-8">
-				<h2 className="text-xl font-medium mb-8">Account settings</h2>
+				<h2 className="text-xl font-bold mb-8">Account settings</h2>
 
 				<div className="grid grid-cols-[280px,1fr] gap-8">
 					{/* Left Column - Photo Uploader */}
@@ -31,7 +31,7 @@ export default function ProfileSettings() {
 
 						{/* Password Change Section */}
 						<div className="mt-12">
-							<h2 className="text-xl font-medium mb-8">Change password</h2>
+							<h2 className="text-xl font-bold mb-8">Change password</h2>
 							<PasswordChangeForm />
 						</div>
 					</div>
