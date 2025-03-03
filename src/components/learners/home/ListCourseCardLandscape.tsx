@@ -1,7 +1,9 @@
 'use client';
 
 import { Button } from '../../ui/button';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+// Import useRouter
 import { PiArrowRight } from 'react-icons/pi';
 
 import { Course } from '@/schemas/course.schema';
@@ -33,6 +35,7 @@ interface CourseCardLandscapeProps {
 }
 
 const ListCourseCardLandscape: React.FC = () => {
+	const router = useRouter(); // Initialize useRouter
 	const [courses, setCourses] = useState<CourseCardLandscapeProps[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
@@ -78,6 +81,24 @@ const ListCourseCardLandscape: React.FC = () => {
 		fetchCourses();
 	}, []);
 
+	const handleCourseClick = (id: number) => {
+		router.push(`/courses/${id}`); // Navigate to /courses/[id]
+	};
+
+	const handleBrowseAll = () => {
+		router.push('/course-list'); // Navigate to /course-list
+	};
+
+	const handleKeyDown = (
+		event: React.KeyboardEvent<HTMLButtonElement>,
+		id: number,
+	) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault(); // Prevent scrolling on Space
+			handleCourseClick(id);
+		}
+	};
+
 	return (
 		<section className="flex flex-col items-center py-10">
 			<h2 className="text-3xl font-semibold text-center mb-8">
@@ -90,12 +111,22 @@ const ListCourseCardLandscape: React.FC = () => {
 			{!loading && !error && (
 				<div className="grid grid-cols-2 gap-6 max-md:grid-cols-1">
 					{courses.map((course) => (
-						<CourseCardLandscape key={course.id} {...course} />
+						<button
+							key={course.id}
+							onClick={() => handleCourseClick(course.id)}
+							onKeyDown={(e) => handleKeyDown(e, course.id)}
+							className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
+						>
+							<CourseCardLandscape {...course} />
+						</button>
 					))}
 				</div>
 			)}
 
-			<Button className="flex gap-3 justify-center items-center px-6 text-base font-semibold tracking-normal leading-none text-orange-500 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 mt-8 capitalize">
+			<Button
+				onClick={handleBrowseAll}
+				className="flex gap-3 justify-center items-center px-6 text-base font-semibold tracking-normal leading-none text-orange-500 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 mt-8 capitalize"
+			>
 				<div className="self-stretch my-auto">Browse all Courses</div>
 				<PiArrowRight
 					className="flex shrink-0 self-stretch my-auto w-6 h-6"
