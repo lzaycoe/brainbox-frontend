@@ -1,9 +1,29 @@
-import Course from '@/components/learners/course-list/Course';
+import CourseComponent from '@/components/learners/course-list/Course';
+import { Course as BaseCourse } from '@/schemas/course.schema';
+import { getCourses } from '@/services/api/course';
 
-export default function CourseList() {
+// Extend Course to match the expected type
+interface Course extends BaseCourse {
+	id: number;
+	status: string;
+	teacherId: number;
+	createdAt: string;
+	updatedAt: string;
+	rating?: string;
+}
+
+export default async function CourseListPage() {
+	let initialCourses: Course[] = [];
+	try {
+		initialCourses = (await getCourses()) as unknown as Course[];
+	} catch (error) {
+		console.error('Error fetching courses:', error);
+		initialCourses = [];
+	}
+
 	return (
-		<div className="flex flex-col justify-center items-center px-4 mt-10 mb-10">
-			<Course />
+		<div>
+			<CourseComponent initialCourses={initialCourses} />
 		</div>
 	);
 }

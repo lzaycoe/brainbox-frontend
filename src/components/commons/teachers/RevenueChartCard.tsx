@@ -14,12 +14,16 @@ interface RevenueChartCardProps {
 			color: string;
 		};
 	};
+	description?: string;
+	subDescription?: string;
 }
 
 export const RevenueChartCard: React.FC<RevenueChartCardProps> = ({
 	title,
 	chartData,
 	chartConfig,
+	description,
+	subDescription,
 }) => {
 	return (
 		<Card className="flex flex-col flex-1 max-w-full max-md:rounded-md">
@@ -36,11 +40,11 @@ export const RevenueChartCard: React.FC<RevenueChartCardProps> = ({
 				<div className="flex w-full flex-col items-start gap-2 text-sm max-md:text-xs">
 					<div className="grid gap-2">
 						<div className="flex items-center gap-2 font-medium leading-none text-neutral-800">
-							Trending up by 5.2% this month{' '}
+							{description}{' '}
 							<TrendingUp className="h-4 w-4 max-md:h-3 max-md:w-3" />
 						</div>
 						<div className="flex items-center gap-2 leading-none text-gray-400">
-							January - June 2024
+							{subDescription}
 						</div>
 					</div>
 				</div>
