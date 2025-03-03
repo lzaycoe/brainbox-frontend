@@ -3,8 +3,7 @@ import axios from 'axios';
 import { toast } from '@/hooks/use-toast';
 import { Course } from '@/schemas/course.schema';
 import { Payment } from '@/schemas/payment.schema';
-
-import { getPaidPaymentsForUser } from './checkPayment';
+import { getPaidPaymentsForUser } from '@/services/custom/course/checkPayment';
 
 export interface CourseProgress {
 	id: number;
