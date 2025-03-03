@@ -10,6 +10,8 @@ import { getPaymentsByUserId } from '@/services/api/payment';
 import { getUserByClerkId, getUserClerk } from '@/services/api/user';
 
 interface Payment {
+	id: number;
+	userId: number;
 	courseId: number;
 	price: number;
 	status: string;
@@ -140,9 +142,9 @@ const PaymentList = () => {
 
 	return (
 		<section className="w-full mt-10 space-y-6">
-			{payments.map((payment, index) => (
+			{payments.map((payment) => (
 				<div
-					key={index}
+					key={payment.id}
 					className="border border-gray-300 shadow-md p-2 bg-white "
 				>
 					<article className="grid grid-cols-[55%_25%_20%] items-center max-w-full">
@@ -213,7 +215,7 @@ const CourseItem = ({ course }: { course: Course }) => {
 				</div>
 				<p className="flex gap-1.5 mt-3 text-sm text-gray-800">
 					<span className="text-gray-500">Created by:</span>{' '}
-					{course.teacherId && (
+					{Boolean(course.teacherId) && (
 						<span className="text-sm text-gray-600">
 							{course.teacherDetails?.firstName}{' '}
 							{course.teacherDetails?.lastName}

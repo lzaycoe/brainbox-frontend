@@ -9,7 +9,6 @@ import { User } from '@/schemas/user.schema';
 import { getUserByClerkId } from '@/services/api/user';
 
 export default function InstructorSection() {
-	const [loading, setLoading] = useState(true);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [showPopup, setShowPopup] = useState(false);
 	const [userData, setUserData] = useState<User | null>(null);
@@ -26,8 +25,6 @@ export default function InstructorSection() {
 		} catch (error) {
 			console.error('Failed to fetch user metadata:', error);
 			setUserData(null);
-		} finally {
-			setLoading(false);
 		}
 	};
 

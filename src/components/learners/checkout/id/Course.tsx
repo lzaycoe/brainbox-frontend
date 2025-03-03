@@ -2,8 +2,7 @@
 
 import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { Course } from '@/schemas/course.schema';
@@ -16,7 +15,6 @@ import { formatPrice } from '@/utils/formatPrice';
 export default function CourseList() {
 	const [course, setCourse] = useState<Course | null>(null);
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [teacherData, setTeacherData] = useState<User | null>(null);
 	const [showPopup, setShowPopup] = useState(false);
@@ -62,8 +60,8 @@ export default function CourseList() {
 		try {
 			const courseData = await getCourse(parseInt(id));
 			setCourse(courseData);
-		} catch {
-			setError('Failed to fetch course details.');
+		} catch (error) {
+			console.error('Failed to fetch course data:', error);
 		} finally {
 			setLoading(false);
 		}
@@ -106,16 +104,6 @@ export default function CourseList() {
 				setShowPopup(true);
 				return;
 			}
-
-			// if (!response.ok) {
-			//     throw new Error("Failed to complete payment.");
-			// }
-
-			// const redirectUrl = await response.text();
-
-			// console.log('redirectUrl', redirectUrl);
-			// window.location.href = redirectUrl;
-
 			router.push(response);
 		} catch (error) {
 			console.error('Error during payment:', error);
