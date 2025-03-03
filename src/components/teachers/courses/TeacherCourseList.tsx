@@ -14,7 +14,6 @@ const TeacherCourseList: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [selectedRating, setSelectedRating] = useState('all');
 	const [selectedPricing, setSelectedPricing] = useState('all'); // Added for price filtering
 	const coursesPerPage = 12;
@@ -83,7 +82,6 @@ const TeacherCourseList: React.FC = () => {
 		return (
 			matchesSearchQuery && matchesCategory && matchesRating && matchesPricing
 		);
-
 	});
 
 	const currentCourses = filteredCourses.slice(

@@ -3,11 +3,9 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-import CourseCard from '@/components/commons/CourseCard';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import FilterSelects from '@/components/teachers/courses/FilterSelects';
-
 import TeacherCourseCard from '@/components/teachers/courses/TeacherCourseCard';
 import { type Course as BaseCourse } from '@/schemas/course.schema';
 import { getCourses } from '@/services/api/course';
@@ -23,14 +21,20 @@ interface Course extends BaseCourse {
 
 interface TeacherCourseCardProps {
 	id: number;
+	teacherId: number;
 	title: string;
-	imageUrl: string;
+	subtitle: string;
+	tag: string;
+	description: string;
+	thumbnail: string;
 	category: string;
 	categoryBgColor: string;
 	categoryTextColor: string;
 	rating: string;
 	students: string;
-	originalPrice: string;
+	originPrice: number; // Giữ là number
+	salePrice: number; // Giữ là number
+	public: boolean;
 }
 
 interface CourseComponentProps {
@@ -72,14 +76,20 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 
 	const mapToCardProps = (course: Course): TeacherCourseCardProps => ({
 		id: course.id,
+		teacherId: course.teacherId,
 		title: course.title,
-		imageUrl: course.thumbnail,
+		subtitle: course.subtitle || 'No subtitle available',
+		tag: course.tag,
+		description: course.description || 'No description available',
+		thumbnail: course.thumbnail,
 		category: course.tag,
 		categoryBgColor: getCategoryBgColor(course.tag),
 		categoryTextColor: getCategoryTextColor(course.tag),
 		rating: course.rating ?? 'N/A',
 		students: 'N/A',
-		originalPrice: `$${Number(course.originPrice).toFixed(2)}`,
+		originPrice: Number(course.originPrice), // Trả về number
+		salePrice: Number(course.salePrice), // Trả về number
+		public: course.public,
 	});
 
 	const getCategoryBgColor = (tag: string): string => {
@@ -131,7 +141,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 			(course.rating &&
 				parseFloat(course.rating) >= parseFloat(selectedRating.split('-')[0]));
 		const matchesPricing = (() => {
-			const price = parseFloat(course.price.replace('$', ''));
+			const price = Number(course.originPrice); // Đã đúng với originPrice
 			switch (selectedPricing) {
 				case '1':
 					return price >= 1 && price <= 20;
@@ -169,7 +179,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 		id: number,
 	) => {
 		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault(); // Prevent scrolling on Space
+			event.preventDefault();
 			handleCourseClick(id);
 		}
 	};
