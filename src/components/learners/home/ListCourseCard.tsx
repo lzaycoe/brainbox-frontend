@@ -52,7 +52,8 @@ const ListCourseCard: React.FC = () => {
 		}
 	};
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <p className="flex justify-center">Loading...</p>;
+
 	if (error) return <p className="text-red-500">{error}</p>;
 
 	return (

@@ -119,3 +119,43 @@ export const getAllLecturesInCourse = async (
 		throw new Error('Failed to fetch lectures');
 	}
 };
+
+export const getLecture = async (
+	courseId: string,
+	sectionId: string,
+	lectureId: string,
+): Promise<Lecture> => {
+	try {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/sections/${sectionId}/lectures/${lectureId}`,
+		);
+		console.log('Lecture data fetched:', response.data);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch lecture:', error);
+		throw new Error('Failed to fetch lecture');
+	}
+};
+
+export const updateLecture = async (
+	courseId: string,
+	sectionId: string,
+	lectureId: string,
+	lectureData: LectureData,
+): Promise<Lecture> => {
+	try {
+		const response = await axios.put(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/sections/${sectionId}/lectures/${lectureId}`,
+			lectureData,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to update lecture:', error);
+		throw new Error('Failed to update lecture');
+	}
+};

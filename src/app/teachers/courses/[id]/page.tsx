@@ -31,7 +31,7 @@ const CourseDetail: React.FC = () => {
 	}, [id]);
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return <div className="px-40 flex justify-center mt-10">Loading...</div>;
 	}
 
 	if (error) {

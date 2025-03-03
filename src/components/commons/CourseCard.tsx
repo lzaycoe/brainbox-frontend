@@ -13,6 +13,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { formatCurrency } from '@/utils/currency';
 
 interface CourseCardProps {
 	imageUrl: string;
@@ -68,9 +69,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
 						</Tooltip>
 					</TooltipProvider>
 					<div className="flex items-center gap-2">
-						{price && (
+						{price !== undefined && (
 							<div className="self-stretch my-auto text-base font-semibold leading-none text-orange-500">
-								{price}
+								{formatCurrency(Number(price))}
 							</div>
 						)}
 						{!hideAddToCartButton && (
