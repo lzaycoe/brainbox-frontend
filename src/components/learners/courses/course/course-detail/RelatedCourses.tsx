@@ -13,7 +13,7 @@ interface RelatedCoursesProps {
 }
 
 export default function RelatedCourses({ courseId }: RelatedCoursesProps) {
-	const router = useRouter(); // Initialize useRouter
+	const router = useRouter();
 	const [relatedCourses, setRelatedCourses] = useState<Course[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -50,6 +50,20 @@ export default function RelatedCourses({ courseId }: RelatedCoursesProps) {
 		router.push('/course-list');
 	};
 
+	const handleCourseClick = (id: number) => {
+		router.push(`/courses/${id}`);
+	};
+
+	const handleKeyDown = (
+		event: React.KeyboardEvent<HTMLButtonElement>,
+		id: number,
+	) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault(); // Prevent scrolling on Space
+			handleCourseClick(id);
+		}
+	};
+
 	if (loading) {
 		return (
 			<section className="mt-12 mb-8">
@@ -84,17 +98,23 @@ export default function RelatedCourses({ courseId }: RelatedCoursesProps) {
 					<p className="text-gray-500">No related courses found.</p>
 				) : (
 					relatedCourses.map((course) => (
-						<CourseCard
+						<button
 							key={course.id}
-							imageUrl={course.thumbnail ?? ''}
-							category={course.tag ?? ''}
-							categoryBgColor="bg-gray-100"
-							categoryTextColor="text-gray-800"
-							price={course.originPrice ? course.originPrice.toString() : ''}
-							title={course.title ?? ''}
-							rating="4.8"
-							students="N/A"
-						/>
+							onClick={() => handleCourseClick(course.id)}
+							onKeyDown={(e) => handleKeyDown(e, course.id)}
+							className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
+						>
+							<CourseCard
+								imageUrl={course.thumbnail ?? ''}
+								category={course.tag ?? ''}
+								categoryBgColor="bg-gray-100"
+								categoryTextColor="text-gray-800"
+								price={course.originPrice ? course.originPrice.toString() : ''}
+								title={course.title ?? ''}
+								rating="4.8"
+								students="N/A"
+							/>
+						</button>
 					))
 				)}
 			</div>
