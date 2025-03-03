@@ -22,4 +22,7 @@ interface ClerkUser {
 export interface Lecture extends LectureData {
 	id: number;
 	clerkUser?: ClerkUser;
+	sectionId: number;
+	createdAt: string;
+	updatedAt: string;
 }

@@ -1,267 +1,54 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import FilterSelects from '@/components/teachers/courses/FilterSelects';
 import TeacherCourseCard from '@/components/teachers/courses/TeacherCourseCard';
-
-const coursesData = [
-	{
-		id: 1,
-		title: 'Reiki Level I, II and Master/Teacher Program',
-		imageUrl: '/app/course/course01.png',
-		category: 'Business',
-		categoryBgColor: 'bg-green-100',
-		categoryTextColor: 'text-[#22C55E]',
-		rating: '4.9',
-		students: '52,822',
-		discountPrice: '$57.00',
-		originalPrice: '$97.00',
-	},
-	{
-		id: 2,
-		title: 'Introduction to Python Programming',
-		imageUrl: '/app/course/course01.png',
-		category: 'Finance & Accounting',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#F59E0B]',
-		rating: '4.8',
-		students: '33,841',
-		discountPrice: '$47.00',
-		originalPrice: '$87.00',
-	},
-	{
-		id: 3,
-		title: 'Advanced JavaScript Concepts',
-		imageUrl: '/app/course/course01.png',
-		category: 'IT & Software',
-		categoryBgColor: 'bg-rose-50',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '4.7',
-		students: '22,649',
-		discountPrice: '$67.00',
-		originalPrice: '$107.00',
-	},
-	{
-		id: 4,
-		title: 'React for Beginners',
-		imageUrl: '/app/course/course01.png',
-		category: 'Personal Development',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '4.6',
-		students: '20,126',
-		discountPrice: '$37.00',
-		originalPrice: '$77.00',
-	},
-	{
-		id: 5,
-		title: 'Mastering CSS Grid and Flexbox',
-		imageUrl: '/app/course/course01.png',
-		category: 'Office Productivity',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '4.5',
-		students: '13,932',
-		discountPrice: '$27.00',
-		originalPrice: '$67.00',
-	},
-	{
-		id: 6,
-		title: 'Node.js and Express.js Fundamentals',
-		imageUrl: '/app/course/course01.png',
-		category: 'Marketing',
-		categoryBgColor: 'bg-violet-100',
-		categoryTextColor: 'text-[#564FFD]',
-		rating: '4.4',
-		students: '12,068',
-		discountPrice: '$77.00',
-		originalPrice: '$117.00',
-	},
-	{
-		id: 7,
-		title: 'Building RESTful APIs with Django',
-		imageUrl: '/app/course/course01.png',
-		category: 'Photography & Video',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '4.3',
-		students: '6,196',
-		discountPrice: '$87.00',
-		originalPrice: '$127.00',
-	},
-	{
-		id: 8,
-		title: 'Introduction to Machine Learning',
-		imageUrl: '/app/course/course01.png',
-		category: 'Lifestyle',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#FD8E1F]',
-		rating: '4.2',
-		students: '2,736',
-		discountPrice: '$97.00',
-		originalPrice: '$137.00',
-	},
-	{
-		id: 9,
-		title: 'Data Structures and Algorithms',
-		imageUrl: '/app/course/course01.png',
-		category: 'Design',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#FF6636]',
-		rating: '4.1',
-		students: '2,600',
-		discountPrice: '$47.00',
-		originalPrice: '$87.00',
-	},
-	{
-		id: 10,
-		title: 'Full-Stack Web Development',
-		imageUrl: '/app/course/course01.png',
-		category: 'Health & Fitness',
-		categoryBgColor: 'bg-green-100',
-		categoryTextColor: 'text-[#23BD33]',
-		rating: '4.0',
-		students: '1,678',
-		discountPrice: '$57.00',
-		originalPrice: '$97.00',
-	},
-	{
-		id: 11,
-		title: 'Digital Marketing Strategies',
-		imageUrl: '/app/course/course01.png',
-		category: 'Music',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#FD8E1F]',
-		rating: '3.9',
-		students: '959',
-		discountPrice: '$67.00',
-		originalPrice: '$107.00',
-	},
-	{
-		id: 12,
-		title: 'Graphic Design with Adobe Illustrator',
-		imageUrl: '/app/course/course01.png',
-		category: 'Business',
-		categoryBgColor: 'bg-green-100',
-		categoryTextColor: 'text-[#22C55E]',
-		rating: '3.8',
-		students: '52,822',
-		discountPrice: '$77.00',
-		originalPrice: '$117.00',
-	},
-	{
-		id: 13,
-		title: 'Photography Masterclass',
-		imageUrl: '/app/course/course01.png',
-		category: 'Finance & Accounting',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#F59E0B]',
-		rating: '3.7',
-		students: '33,841',
-		discountPrice: '$87.00',
-		originalPrice: '$127.00',
-	},
-	{
-		id: 14,
-		title: 'Music Production with Ableton Live',
-		imageUrl: '/app/course/course01.png',
-		category: 'IT & Software',
-		categoryBgColor: 'bg-rose-50',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '3.6',
-		students: '22,649',
-		discountPrice: '$97.00',
-		originalPrice: '$137.00',
-	},
-	{
-		id: 15,
-		title: 'Creative Writing Workshop',
-		imageUrl: '/app/course/course01.png',
-		category: 'Personal Development',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '3.5',
-		students: '20,126',
-		discountPrice: '$47.00',
-		originalPrice: '$87.00',
-	},
-	{
-		id: 16,
-		title: 'Public Speaking and Presentation Skills',
-		imageUrl: '/app/course/course01.png',
-		category: 'Office Productivity',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '3.4',
-		students: '13,932',
-		discountPrice: '$57.00',
-		originalPrice: '$97.00',
-	},
-	{
-		id: 17,
-		title: 'Financial Analysis and Modeling',
-		imageUrl: '/app/course/course01.png',
-		category: 'Marketing',
-		categoryBgColor: 'bg-violet-100',
-		categoryTextColor: 'text-[#564FFD]',
-		rating: '3.3',
-		students: '12,068',
-		discountPrice: '$67.00',
-		originalPrice: '$107.00',
-	},
-	{
-		id: 18,
-		title: 'Introduction to Blockchain Technology',
-		imageUrl: '/app/course/course01.png',
-		category: 'Photography & Video',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '3.2',
-		students: '6,196',
-		discountPrice: '$77.00',
-		originalPrice: '$117.00',
-	},
-	{
-		id: 19,
-		title: 'Cybersecurity Essentials',
-		imageUrl: '/app/course/course01.png',
-		category: 'Lifestyle',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#FD8E1F]',
-		rating: '3.1',
-		students: '2,736',
-		discountPrice: '$87.00',
-		originalPrice: '$127.00',
-	},
-	{
-		id: 20,
-		title: 'Artificial Intelligence for Everyone',
-		imageUrl: '/app/course/course01.png',
-		category: 'Design',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#FF6636]',
-		rating: '3.0',
-		students: '2,600',
-		discountPrice: '$97.00',
-		originalPrice: '$137.00',
-	},
-];
+import { useUserContext } from '@/contexts/UserContext';
+import { Course } from '@/schemas/course.schema';
+import { getTeacherCourses } from '@/services/api/course';
 
 const TeacherCourseList: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [selectedRating, setSelectedRating] = useState('all');
 	const [selectedPricing, setSelectedPricing] = useState('all'); // Added for price filtering
 	const coursesPerPage = 12;
+	const { user, loading: userLoading } = useUserContext();
+	const [courses, setCourses] = useState<Course[]>([]);
+	const [fetchLoading, setFetchLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchCourses = async () => {
+			if (userLoading || !user) {
+				setFetchLoading(false);
+				return;
+			}
+
+			try {
+				const teacherId = user.id;
+				const fetchedCourses = await getTeacherCourses(teacherId);
+				setCourses(fetchedCourses);
+				console.log('Fetched teacher courses:', fetchedCourses);
+			} catch (error) {
+				console.error('Error fetching courses:', error);
+				setCourses([]);
+			} finally {
+				setFetchLoading(false);
+			}
+		};
+
+		fetchCourses();
+	}, [userLoading, user]);
 
 	const indexOfLastCourse = currentPage * coursesPerPage;
 	const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
 
-	const filteredCourses = coursesData.filter((course) => {
+	const filteredCourses = courses.filter((course) => {
 		const matchesSearchQuery = course.title
 			.toLowerCase()
 			.includes(searchQuery.toLowerCase());
@@ -296,6 +83,7 @@ const TeacherCourseList: React.FC = () => {
 		return (
 			matchesSearchQuery && matchesCategory && matchesRating && matchesPricing
 		);
+
 	});
 
 	const currentCourses = filteredCourses.slice(
@@ -306,6 +94,14 @@ const TeacherCourseList: React.FC = () => {
 	const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
 
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+	if (userLoading || fetchLoading) {
+		return <div>Loading courses...</div>;
+	}
+
+	if (!user) {
+		return <div>Please sign in to view your courses.</div>;
+	}
 
 	return (
 		<div className="flex flex-col items-center">

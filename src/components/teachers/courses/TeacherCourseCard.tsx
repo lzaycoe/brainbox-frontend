@@ -9,30 +9,26 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { getCategoryColors } from '@/config/categoryColors';
+import { Course } from '@/schemas/course.schema';
 
-interface TeacherCourseCardProps {
-	imageUrl: string;
-	category: string;
-	categoryBgColor: string;
-	categoryTextColor: string;
-	title: string;
-	rating: string;
-	students: string;
-	discountPrice?: string;
-	originalPrice: string;
+interface TeacherCourseCardProps extends Course {
+	rating?: string;
+	students?: string;
 }
 
 const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
-	imageUrl,
-	category,
-	categoryBgColor,
-	categoryTextColor,
+	thumbnail: imageUrl,
+	tag: category,
 	title,
-	rating,
-	students,
-	discountPrice,
-	originalPrice,
+	rating = '0',
+	students = '0',
+	salePrice,
+	originPrice,
 }) => {
+	const { bgColor: categoryBgColor, textColor: categoryTextColor } =
+		getCategoryColors(category);
+
 	return (
 		<CourseCard
 			imageUrl={imageUrl}
@@ -47,18 +43,18 @@ const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
 		>
 			<div className="w-full flex justify-between items-center">
 				<div className="flex items-center gap-1">
-					{discountPrice ? (
+					{salePrice ? (
 						<>
 							<div className="text-[#ff6636] text-lg font-semibold leading-normal">
-								{discountPrice}
+								{salePrice}
 							</div>
 							<div className="text-[#a0a5b2] text-sm font-normal line-through leading-snug">
-								{originalPrice}
+								{originPrice}
 							</div>
 						</>
 					) : (
 						<div className="text-[#ff6636] text-lg font-semibold leading-normal">
-							{originalPrice}
+							{originPrice}
 						</div>
 					)}
 				</div>

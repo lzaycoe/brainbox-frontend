@@ -35,6 +35,12 @@ import {
 export const Header = () => {
 	const { signOut } = useClerk();
 
+	const handleSignOut = () => {
+		signOut().then(() => {
+			window.location.reload();
+		});
+	};
+
 	const menuItems = [
 		{
 			label: 'My Profile',
@@ -56,7 +62,11 @@ export const Header = () => {
 			icon: PiGearDuotone,
 			action: () => console.log('Settings'),
 		},
-		{ label: 'Sign Out', icon: PiArrowCircleRightDuotone, action: signOut },
+		{
+			label: 'Sign Out',
+			icon: PiArrowCircleRightDuotone,
+			action: handleSignOut,
+		},
 	];
 
 	return (

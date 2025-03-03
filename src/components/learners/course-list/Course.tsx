@@ -3,9 +3,11 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
+import CourseCard from '@/components/commons/CourseCard';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import FilterSelects from '@/components/teachers/courses/FilterSelects';
+
 import TeacherCourseCard from '@/components/teachers/courses/TeacherCourseCard';
 import { type Course as BaseCourse } from '@/schemas/course.schema';
 import { getCourses } from '@/services/api/course';
@@ -129,7 +131,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 			(course.rating &&
 				parseFloat(course.rating) >= parseFloat(selectedRating.split('-')[0]));
 		const matchesPricing = (() => {
-			const price = Number(course.originPrice);
+			const price = parseFloat(course.price.replace('$', ''));
 			switch (selectedPricing) {
 				case '1':
 					return price >= 1 && price <= 20;

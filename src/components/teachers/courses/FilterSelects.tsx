@@ -61,10 +61,7 @@ const FilterSelects: React.FC<FilterSelectsProps> = ({
 					<SelectContent>
 						<SelectItem value="all">All Categories</SelectItem>
 						{categories.map((category) => (
-							<SelectItem
-								key={category.id}
-								value={category.title.toLowerCase().replace(/ /g, '-')}
-							>
+							<SelectItem key={category.id} value={category.title}>
 								{category.title}
 							</SelectItem>
 						))}

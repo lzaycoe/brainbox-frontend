@@ -1,0 +1,60 @@
+const transactions = [
+	{
+		id: 1,
+		date: '21 Sep, 2024 at 2:14 AM',
+		method: 'Mastercards',
+		amount: 'American Express',
+		status: 'Pending',
+		statusColor: 'text-amber-500',
+	},
+	{
+		id: 2,
+		date: '21 Sep, 2024 at 2:14 AM',
+		method: 'Visa',
+		amount: 'American Express',
+		status: 'Pending',
+		statusColor: 'text-amber-500',
+	},
+	{
+		id: 3,
+		date: '21 Sep, 2024 at 2:14 AM',
+		method: 'Visa',
+		amount: 'American Express',
+		status: 'Completed',
+		statusColor: 'text-green-600',
+	},
+	{
+		id: 4,
+		date: '21 Sep, 2024 at 2:14 AM',
+		method: 'Mastercards',
+		amount: 'American Express',
+		status: 'Completed',
+		statusColor: 'text-green-600',
+	},
+	{
+		id: 5,
+		date: '21 Sep, 2024 at 2:14 AM',
+		method: 'Visa',
+		amount: 'American Express',
+		status: 'Canceled',
+		statusColor: 'text-red-500',
+	},
+	{
+		id: 6,
+		date: '21 Sep, 2024 at 2:14 AM',
+		method: 'Mastercards',
+		amount: 'American Express',
+		status: 'Completed',
+		statusColor: 'text-green-600',
+	},
+	{
+		id: 7,
+		date: '21 Sep, 2024 at 2:14 AM',
+		method: 'Mastercards',
+		amount: 'American Express',
+		status: 'Completed',
+		statusColor: 'text-green-600',
+	},
+];
+
+export default transactions;
