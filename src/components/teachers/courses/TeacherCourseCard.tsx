@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getCategoryColors } from '@/config/categoryColors';
 import { Course } from '@/schemas/course.schema';
+import { formatCurrency } from '@/utils/currency';
 
 interface TeacherCourseCardProps extends Course {
 	rating?: string;
@@ -37,6 +38,14 @@ const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
 		router.push(`/teachers/courses/${id}/edit`);
 	};
 
+	const handleViewDetails = () => {
+		router.push(`/teachers/courses/${id}`);
+	};
+
+	const handleSectionsAndLectures = () => {
+		router.push(`/teachers/courses/${id}/sections`);
+	};
+
 	return (
 		<CourseCard
 			imageUrl={imageUrl}
@@ -54,15 +63,15 @@ const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
 					{salePrice ? (
 						<>
 							<div className="text-[#ff6636] text-lg font-semibold leading-normal">
-								{salePrice}
+								{formatCurrency(salePrice)}
 							</div>
 							<div className="text-[#a0a5b2] text-sm font-normal line-through leading-snug">
-								{originPrice}
+								{formatCurrency(originPrice)}
 							</div>
 						</>
 					) : (
 						<div className="text-[#ff6636] text-lg font-semibold leading-normal">
-							{originPrice}
+							{formatCurrency(originPrice)}{' '}
 						</div>
 					)}
 				</div>
@@ -76,7 +85,10 @@ const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent className="w-[200px] py-3 bg-white shadow-[0px_6px_16px_0px_rgba(0,0,0,0.06)] border border-[#cdd0d8]">
-						<DropdownMenuItem className="pl-[18px] pr-[18px] py-[5px] text-[#4d5565] text-sm font-normal leading-snug hover:bg-[#ff6636] hover:text-white cursor-pointer">
+						<DropdownMenuItem
+							className="pl-[18px] pr-[18px] py-[5px] text-[#4d5565] text-sm font-normal leading-snug hover:bg-[#ff6636] hover:text-white cursor-pointer"
+							onClick={handleViewDetails}
+						>
 							View Details
 						</DropdownMenuItem>
 						<DropdownMenuItem
@@ -85,8 +97,11 @@ const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
 						>
 							Edit Course
 						</DropdownMenuItem>
-						<DropdownMenuItem className="pl-[18px] pr-[18px] py-[5px] text-[#4d5565] text-sm font-normal leading-snug hover:bg-[#ff6636] hover:text-white cursor-pointer">
-							Delete Course
+						<DropdownMenuItem
+							className="pl-[18px] pr-[18px] py-[5px] text-[#4d5565] text-sm font-normal leading-snug hover:bg-[#ff6636] hover:text-white cursor-pointer"
+							onClick={handleSectionsAndLectures}
+						>
+							Sections & Lectures
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
