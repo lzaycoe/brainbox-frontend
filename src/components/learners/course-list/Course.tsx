@@ -448,30 +448,28 @@ const Course: React.FC = () => {
 					onPriceChange={setSelectedPricing}
 				/>
 			</SearchAndFilter>
-			<>
-				<div>
-					<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mb-5">
-						{filteredCourses.length === 0 ? (
-							<div className="col-span-4 mt-10 text-xl text-gray-500">
-								No courses found for your search.
-							</div>
-						) : (
-							currentCourses.map((course) => (
-								<TeacherCourseCard key={course.id} {...course} />
-							))
-						)}
-					</div>
+			<div>
+				<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mb-5">
+					{filteredCourses.length === 0 ? (
+						<div className="col-span-4 mt-10 text-xl text-gray-500">
+							No courses found for your search.
+						</div>
+					) : (
+						currentCourses.map((course) => (
+							<TeacherCourseCard key={course.id} {...course} />
+						))
+					)}
 				</div>
-				{filteredCourses.length > 0 && (
-					<PaginationCustom
-						currentPage={currentPage}
-						totalPages={totalPages}
-						onPageChange={paginate}
-						activeClassName="bg-[#FF6636] text-white"
-						hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
-					/>
-				)}
-			</>
+			</div>
+			{filteredCourses.length > 0 && (
+				<PaginationCustom
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={paginate}
+					activeClassName="bg-[#FF6636] text-white"
+					hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
+				/>
+			)}
 		</div>
 	);
 };

@@ -107,7 +107,9 @@ const PaymentList = () => {
 				}),
 			);
 
-			const sortedPayments = paymentsWithCourses.sort((a, b) => b.id - a.id);
+			const sortedPayments = paymentsWithCourses.toSorted(
+				(a, b) => b.id - a.id,
+			);
 
 			setPayments(sortedPayments);
 		} catch (err) {
