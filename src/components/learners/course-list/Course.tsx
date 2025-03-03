@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import PaginationCustom from '@/components/commons/PaginationCustom';
@@ -31,12 +32,13 @@ interface TeacherCourseCardProps {
 }
 
 interface CourseComponentProps {
-	initialCourses: Course[] | null; // Allow null to handle edge cases
+	initialCourses: Course[] | null;
 }
 
 const CourseComponent: React.FC<CourseComponentProps> = ({
 	initialCourses,
 }) => {
+	const router = useRouter();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
@@ -108,6 +110,10 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 		}
 	};
 
+	const handleCourseClick = (id: number) => {
+		router.push(`/courses/${id}`);
+	};
+
 	const indexOfLastCourse = currentPage * coursesPerPage;
 	const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
 
@@ -156,6 +162,16 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+	const handleKeyDown = (
+		event: React.KeyboardEvent<HTMLButtonElement>,
+		id: number,
+	) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault(); // Prevent scrolling on Space
+			handleCourseClick(id);
+		}
+	};
+
 	if (loading) {
 		return (
 			<div className="flex justify-center items-center h-screen">
@@ -189,7 +205,14 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 						</div>
 					) : (
 						currentCourses.map((course) => (
-							<TeacherCourseCard key={course.id} {...mapToCardProps(course)} />
+							<button
+								key={course.id}
+								onClick={() => handleCourseClick(course.id)}
+								onKeyDown={(e) => handleKeyDown(e, course.id)}
+								className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
+							>
+								<TeacherCourseCard {...mapToCardProps(course)} />
+							</button>
 						))
 					)}
 				</div>
@@ -208,21 +231,3 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 };
 
 export default CourseComponent;
-
-export async function getServerSideProps() {
-	try {
-		const courses = (await getCourses()) as unknown as Course[];
-		return {
-			props: {
-				initialCourses: courses || [],
-			},
-		};
-	} catch (error) {
-		console.error('Error fetching courses in getServerSideProps:', error);
-		return {
-			props: {
-				initialCourses: [],
-			},
-		};
-	}
-}
