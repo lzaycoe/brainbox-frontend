@@ -53,6 +53,10 @@ export default function CourseDetailsPage({
 }: CourseDetailsPageProps) {
 	const [activeTab, setActiveTab] = useState('overview');
 	const [courseInfo, setCourseInfo] = useState<CourseInfoType | null>(null);
+	const [coursePrice, setCoursePrice] = useState<{
+		salePrice: number;
+		originPrice: number;
+	} | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const tabs = ['overview', 'curriculum', 'instructor', 'review'];
@@ -74,6 +78,10 @@ export default function CourseDetailsPage({
 					creators: ['Dionne Russell', 'Kristin Watson'],
 					rating: 4.8,
 					reviews: 161444,
+				});
+				setCoursePrice({
+					salePrice: parseFloat(course.salePrice.toString()), // Ensure number
+					originPrice: parseFloat(course.originPrice.toString()), // Ensure number
 				});
 			} catch (error) {
 				console.error(`Failed to fetch course data for ID ${courseId}:`, error);
@@ -168,7 +176,7 @@ export default function CourseDetailsPage({
 		);
 	}
 
-	if (error || !courseInfo) {
+	if (error || !courseInfo || !coursePrice) {
 		return (
 			<div className="max-w-7xl mx-auto px-6 py-2">
 				<p className="text-red-500">{error ?? 'Course data not available.'}</p>
@@ -232,7 +240,10 @@ export default function CourseDetailsPage({
 				</div>
 
 				<div>
-					<CourseCard />
+					<CourseCard
+						salePrice={coursePrice.salePrice}
+						originPrice={coursePrice.originPrice}
+					/>
 				</div>
 			</div>
 
