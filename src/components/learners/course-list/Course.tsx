@@ -448,7 +448,7 @@ const Course: React.FC = () => {
 					onPriceChange={setSelectedPricing}
 				/>
 			</SearchAndFilter>
-			<>
+			<div>
 				<div>
 					<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mb-5">
 						{filteredCourses.length === 0 ? (
@@ -476,7 +476,7 @@ const Course: React.FC = () => {
 						hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
 					/>
 				)}
-			</>
+			</div>
 		</div>
 	);
 };
