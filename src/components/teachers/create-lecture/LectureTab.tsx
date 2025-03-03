@@ -69,7 +69,7 @@ const LectureTab: FC<LectureTabProps> = ({
 					variant="ghost"
 					onClick={() =>
 						router.push(
-							`/teachers/courses/${courseId}/sections/${sectionId}/lectures/${lecture.id}/update-lecture`,
+							`/teachers/courses/${courseId}/sections/${sectionId}/lectures/${lecture.id}/edit`,
 						)
 					}
 				>

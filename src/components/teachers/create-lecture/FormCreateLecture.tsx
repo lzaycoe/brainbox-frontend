@@ -1,8 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -20,27 +20,39 @@ import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { LectureData, lectureSchema } from '@/schemas/lecture.schema';
-import { createLecture } from '@/services/api/lecture';
+import { createLecture, updateLecture } from '@/services/api/lecture';
+import { deleteAttachment } from '@/services/supabase/delete';
 import { uploadAttachment } from '@/services/supabase/upload';
 
 import FileUploadInput from './FileUploadInput';
 
-export default function FormCreateLecture() {
-	const { toast } = useToast();
-	const pathname = usePathname();
-	const router = useRouter();
+interface FormCreateLectureProps {
+	initialData?: LectureData;
+	isEdit?: boolean;
+	courseId: string;
+	sectionId: string;
+	lectureId?: string;
+}
 
-	const courseId = pathname.split('/')[3];
-	const sectionId = pathname.split('/')[5];
+export default function FormCreateLecture({
+	initialData,
+	isEdit = false,
+	courseId,
+	sectionId,
+	lectureId,
+}: FormCreateLectureProps) {
+	const { toast } = useToast();
+	const router = useRouter();
 
 	const {
 		register,
 		handleSubmit,
 		control,
 		formState: { errors },
+		reset,
 	} = useForm<LectureData>({
 		resolver: zodResolver(lectureSchema),
-		defaultValues: {
+		defaultValues: initialData || {
 			title: '',
 			description: '',
 			content: '',
@@ -49,10 +61,29 @@ export default function FormCreateLecture() {
 			canPreview: false,
 		},
 	});
-	const [type, setType] = useState<'video' | 'file' | ''>('');
-	const [uploadOption, setUploadOption] = useState<'link' | 'file'>('link');
+
+	const [type, setType] = useState<'video' | 'file' | ''>(
+		initialData?.type || '',
+	);
+	const [uploadOption, setUploadOption] = useState<'link' | 'file'>(
+		initialData?.attachments?.length && initialData.type === 'video'
+			? 'link'
+			: 'file',
+	);
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		if (initialData) {
+			reset(initialData);
+			setType(initialData.type || '');
+			setUploadOption(
+				initialData.attachments?.length && initialData.type === 'video'
+					? 'link'
+					: 'file',
+			);
+		}
+	}, [initialData, reset]);
 
 	const onSubmit = async (data: LectureData) => {
 		setIsLoading(true);
@@ -61,31 +92,40 @@ export default function FormCreateLecture() {
 				if (!selectedFile) {
 					throw new Error('No file selected for upload');
 				}
+				if (isEdit && initialData?.attachments?.[0]) {
+					await deleteAttachment(initialData.attachments[0]);
+				}
 				const publicUrl = await uploadAttachment(selectedFile);
 				if (!publicUrl) {
 					throw new Error('Failed to upload attachment');
 				}
 				data.attachments = [publicUrl];
-				console.log('Updated data with attachment:', data);
 			} else if (type === 'video' && uploadOption === 'link') {
-				console.log('Using link from form:', data.attachments);
+				if (!data.attachments?.[0] && initialData?.attachments?.[0]) {
+					data.attachments = initialData.attachments;
+				}
 			}
 
-			const createdLecture = await createLecture(courseId, sectionId, data);
+			if (isEdit && lectureId) {
+				await updateLecture(courseId, sectionId, lectureId, data);
+				toast({
+					title: 'Success',
+					description: 'Lecture updated successfully!',
+					variant: 'success',
+				});
+			} else {
+				await createLecture(courseId, sectionId, data);
+				toast({
+					title: 'Success',
+					description: 'Lecture created successfully!',
+					variant: 'success',
+				});
+			}
+
 			router.push(`/teachers/courses/${courseId}/sections`);
-
-			if (!createdLecture) {
-				throw new Error('Failed to create lecture');
-			}
-
-			toast({
-				title: 'Success',
-				description: 'Lecture created successfully!',
-				variant: 'success',
-			});
 		} catch (error) {
 			const errorMessage =
-				error instanceof Error ? error.message : 'Failed to create lecture';
+				error instanceof Error ? error.message : 'Failed to process lecture';
 			console.error('Error in onSubmit:', error);
 			toast({
 				title: 'Error',
@@ -283,8 +323,10 @@ export default function FormCreateLecture() {
 					{isLoading ? (
 						<div className="flex items-center space-x-2">
 							<Spinner size="small" />
-							<span>Creating...</span>
+							<span>{isEdit ? 'Updating...' : 'Creating...'}</span>
 						</div>
+					) : isEdit ? (
+						'Update Lecture'
 					) : (
 						'Create Lecture'
 					)}
