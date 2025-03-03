@@ -35,7 +35,12 @@ const nextConfig: NextConfig = {
 				pathname: '/**',
 			},
 			{
-				protocol: 'https',
+        protocol: 'https',
+				hostname: 'img.clerk.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
 				hostname: 'cdn.builder.io',
 				pathname: '/**',
 			},

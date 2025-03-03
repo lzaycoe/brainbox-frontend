@@ -1,6 +1,8 @@
+// CourseDetailsPage.tsx
 'use client';
 
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { HiChevronRight } from 'react-icons/hi';
 
 import CourseCard from '@/components/learners/courses/course/course-detail/CourseCard';
@@ -12,6 +14,11 @@ import RelatedCourses from '@/components/learners/courses/course/course-detail/R
 import ReviewSection from '@/components/learners/courses/course/course-detail/ReviewSection';
 import Tabs from '@/components/learners/courses/course/course-detail/Tabs';
 import VideoSection from '@/components/learners/courses/course/course-detail/VideoSection';
+import { CourseData } from '@/schemas/course.schema';
+import { getCourse } from '@/services/api/course';
+import { getTeacher } from '@/services/api/lecture';
+
+// CourseDetailsPage.tsx
 
 type Instructor = {
 	id: string;
@@ -28,13 +35,13 @@ type Instructor = {
 type CourseInfoType = {
 	breadcrumbs: string[];
 	title: string;
-	description: string;
+	subtitle: string;
 	creators: string[];
 	rating: number;
 	reviews: number;
 };
 
-type CurriculumSection = {
+type CurriculumSectionType = {
 	id: string;
 	title: string;
 	content: string;
@@ -42,20 +49,82 @@ type CurriculumSection = {
 	duration: string;
 };
 
-const CourseDetailsPage = () => {
+interface CourseDetailsPageProps {
+	readonly courseId: string;
+}
+
+interface ExtendedCourseData extends CourseData {
+	teacherId?: number;
+}
+
+export default function CourseDetailsPage({
+	courseId,
+}: CourseDetailsPageProps) {
 	const [activeTab, setActiveTab] = useState('overview');
+	const [courseInfo, setCourseInfo] = useState<CourseInfoType | null>(null);
+	const [coursePrice, setCoursePrice] = useState<{
+		salePrice: number;
+		originPrice: number;
+	} | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 	const tabs = ['overview', 'curriculum', 'instructor', 'review'];
 
-	const courseInfo: CourseInfoType = {
-		breadcrumbs: ['Home', 'Development', 'Web Development', 'Webflow'],
-		title:
-			'Complete Website Responsive Design: from Figma to Webflow to Website Design',
-		description:
-			'3 in 1 Course: Learn to design websites with Figma, build with Webflow, and make a living freelancing.',
-		creators: ['Dionne Russell', 'Kristin Watson'],
-		rating: 4.8,
-		reviews: 161444,
-	};
+	useEffect(() => {
+		const fetchCourseData = async () => {
+			try {
+				setLoading(true);
+
+				const course = (await getCourse(courseId)) as ExtendedCourseData;
+
+				let teacherData;
+				if (course.teacherId) {
+					teacherData = await getTeacher(course.teacherId);
+				}
+
+				// Tách ternary lồng nhau thành câu lệnh riêng
+				let creatorName = 'Unknown Instructor';
+				if (teacherData) {
+					const lastNamePart = teacherData.lastName
+						? ` ${teacherData.lastName}`
+						: '';
+					creatorName = `${teacherData.firstName}${lastNamePart}`;
+				}
+
+				setCourseInfo({
+					breadcrumbs: [
+						'Home',
+						'Development',
+						'Web Development',
+						course.tag || 'Unknown',
+					],
+					title: course.title,
+					subtitle: course.subtitle || 'No subtitle available',
+					creators: [creatorName],
+					rating: 4.8,
+					reviews: 161444,
+				});
+
+				setCoursePrice({
+					salePrice: parseFloat(course.salePrice.toString()),
+					originPrice: parseFloat(course.originPrice.toString()),
+				});
+			} catch (error) {
+				console.error(`Failed to fetch course data for ID ${courseId}:`, error);
+				if (axios.isAxiosError(error)) {
+					setError(
+						error.response?.data?.message || 'Failed to load course details.',
+					);
+				} else {
+					setError('An unexpected error occurred.');
+				}
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchCourseData();
+	}, [courseId]);
 
 	const whatYouLearn = [
 		'Design beautiful websites using Figma, used by designers at Uber, Airbnb and Microsoft',
@@ -96,41 +165,32 @@ const CourseDetailsPage = () => {
 		comments: [
 			{
 				id: 'review-1',
-				user: {
-					name: 'Guy Hawkins',
-					avatar: '/app/teacher/avt1.png',
-				},
+				user: { name: 'Guy Hawkins', avatar: '/app/teacher/avt1.png' },
 				rating: 5,
 				time: '1 week ago',
 				comment:
-					"Outstanding course content! The instructor's teaching method is exceptional and the practical examples really helped solidify my understanding.",
+					"Outstanding course content! The instructor's teaching method is exceptional...",
 			},
 			{
 				id: 'review-2',
-				user: {
-					name: 'Sarah Johnson',
-					avatar: '/app/teacher/avt2.png',
-				},
+				user: { name: 'Sarah Johnson', avatar: '/app/teacher/avt2.png' },
 				rating: 4,
 				time: '2 weeks ago',
 				comment:
-					'Very comprehensive course. The step-by-step tutorials are easy to follow and the real-world projects are invaluable.',
+					'Very comprehensive course. The step-by-step tutorials are easy to follow...',
 			},
 			{
 				id: 'review-3',
-				user: {
-					name: 'Michael Chen',
-					avatar: '/app/teacher/avt3.png',
-				},
+				user: { name: 'Michael Chen', avatar: '/app/teacher/avt3.png' },
 				rating: 5,
 				time: '3 weeks ago',
 				comment:
-					"This course exceeded my expectations. The instructor's expertise and clear explanations made complex concepts accessible.",
+					"This course exceeded my expectations. The instructor's expertise...",
 			},
 		],
 	};
 
-	const curriculumSections: CurriculumSection[] = [
+	const curriculumSections: CurriculumSectionType[] = [
 		{
 			id: '1',
 			title: 'Getting Started',
@@ -139,6 +199,22 @@ const CourseDetailsPage = () => {
 			duration: '51m',
 		},
 	];
+
+	if (loading) {
+		return (
+			<div className="max-w-7xl mx-auto px-6 py-2">
+				<p className="text-gray-500">Loading course details...</p>
+			</div>
+		);
+	}
+
+	if (error || !courseInfo || !coursePrice) {
+		return (
+			<div className="max-w-7xl mx-auto px-6 py-2">
+				<p className="text-red-500">{error ?? 'Course data not available.'}</p>
+			</div>
+		);
+	}
 
 	return (
 		<div className="max-w-7xl mx-auto px-6 py-2">
@@ -153,11 +229,18 @@ const CourseDetailsPage = () => {
 				))}
 			</nav>
 
-			<CourseHeader {...courseInfo} />
+			<CourseHeader
+				breadcrumbs={courseInfo.breadcrumbs}
+				title={courseInfo.title}
+				subtitle={courseInfo.subtitle}
+				creators={courseInfo.creators}
+				rating={courseInfo.rating}
+				reviews={courseInfo.reviews}
+			/>
 
 			<div className="grid grid-cols-1 lg:grid-cols-[1fr,400px] gap-4 mt-2">
 				<div className="space-y-2">
-					<VideoSection />
+					<VideoSection courseId={courseId} />
 
 					<div className="border-t pt-2 mt-8 py-4">
 						<Tabs
@@ -189,13 +272,15 @@ const CourseDetailsPage = () => {
 				</div>
 
 				<div>
-					<CourseCard />
+					<CourseCard
+						salePrice={coursePrice.salePrice}
+						originPrice={coursePrice.originPrice}
+						courseId={courseId}
+					/>
 				</div>
 			</div>
 
-			<RelatedCourses />
+			<RelatedCourses courseId={courseId} />
 		</div>
 	);
-};
-
-export default CourseDetailsPage;
+}
