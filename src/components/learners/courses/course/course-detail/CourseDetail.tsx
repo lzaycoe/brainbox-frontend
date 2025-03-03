@@ -1,5 +1,7 @@
+// CourseDetailsPage.tsx
 'use client';
 
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { HiChevronRight } from 'react-icons/hi';
 
@@ -14,6 +16,9 @@ import Tabs from '@/components/learners/courses/course/course-detail/Tabs';
 import VideoSection from '@/components/learners/courses/course/course-detail/VideoSection';
 import { CourseData } from '@/schemas/course.schema';
 import { getCourse } from '@/services/api/course';
+import { getTeacher } from '@/services/api/lecture';
+
+// CourseDetailsPage.tsx
 
 type Instructor = {
 	id: string;
@@ -48,6 +53,10 @@ interface CourseDetailsPageProps {
 	readonly courseId: string;
 }
 
+interface ExtendedCourseData extends CourseData {
+	teacherId?: number;
+}
+
 export default function CourseDetailsPage({
 	courseId,
 }: CourseDetailsPageProps) {
@@ -65,7 +74,23 @@ export default function CourseDetailsPage({
 		const fetchCourseData = async () => {
 			try {
 				setLoading(true);
-				const course: CourseData = await getCourse(courseId);
+
+				const course = (await getCourse(courseId)) as ExtendedCourseData;
+
+				let teacherData;
+				if (course.teacherId) {
+					teacherData = await getTeacher(course.teacherId);
+				}
+
+				// Tách ternary lồng nhau thành câu lệnh riêng
+				let creatorName = 'Unknown Instructor';
+				if (teacherData) {
+					const lastNamePart = teacherData.lastName
+						? ` ${teacherData.lastName}`
+						: '';
+					creatorName = `${teacherData.firstName}${lastNamePart}`;
+				}
+
 				setCourseInfo({
 					breadcrumbs: [
 						'Home',
@@ -75,17 +100,24 @@ export default function CourseDetailsPage({
 					],
 					title: course.title,
 					subtitle: course.subtitle || 'No subtitle available',
-					creators: ['Dionne Russell', 'Kristin Watson'],
+					creators: [creatorName],
 					rating: 4.8,
 					reviews: 161444,
 				});
+
 				setCoursePrice({
 					salePrice: parseFloat(course.salePrice.toString()),
 					originPrice: parseFloat(course.originPrice.toString()),
 				});
 			} catch (error) {
 				console.error(`Failed to fetch course data for ID ${courseId}:`, error);
-				setError('Failed to load course details.');
+				if (axios.isAxiosError(error)) {
+					setError(
+						error.response?.data?.message || 'Failed to load course details.',
+					);
+				} else {
+					setError('An unexpected error occurred.');
+				}
 			} finally {
 				setLoading(false);
 			}
@@ -137,7 +169,7 @@ export default function CourseDetailsPage({
 				rating: 5,
 				time: '1 week ago',
 				comment:
-					"Outstanding course content! The instructor's teaching method is exceptional and the practical examples really helped solidify my understanding.",
+					"Outstanding course content! The instructor's teaching method is exceptional...",
 			},
 			{
 				id: 'review-2',
@@ -145,7 +177,7 @@ export default function CourseDetailsPage({
 				rating: 4,
 				time: '2 weeks ago',
 				comment:
-					'Very comprehensive course. The step-by-step tutorials are easy to follow and the real-world projects are invaluable.',
+					'Very comprehensive course. The step-by-step tutorials are easy to follow...',
 			},
 			{
 				id: 'review-3',
@@ -153,7 +185,7 @@ export default function CourseDetailsPage({
 				rating: 5,
 				time: '3 weeks ago',
 				comment:
-					"This course exceeded my expectations. The instructor's expertise and clear explanations made complex concepts accessible.",
+					"This course exceeded my expectations. The instructor's expertise...",
 			},
 		],
 	};
