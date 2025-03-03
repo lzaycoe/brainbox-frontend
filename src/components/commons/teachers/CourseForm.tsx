@@ -77,50 +77,65 @@ const CourseForm: React.FC<CourseFormProps> = ({
 		loadCourseData();
 	}, [courseId, user, userLoading, methods, router, toast, isEdit]);
 
+	const validatePrices = (data: CourseData): boolean => {
+		if (data.salePrice > data.originPrice) {
+			methods.setError('salePrice', {
+				type: 'manual',
+				message: 'Sale price cannot be greater than original price',
+			});
+			return false;
+		}
+		return true;
+	};
+
+	const handleImageUpload = async (
+		file: File | null,
+		thumbnailToDelete: string | null,
+	): Promise<string | undefined> => {
+		if (!file) return undefined;
+
+		if (isEdit && thumbnailToDelete) {
+			await deleteImage(thumbnailToDelete);
+		}
+		const publicUrl = await uploadImage(file);
+		if (!publicUrl) {
+			throw new Error('Failed to upload new thumbnail');
+		}
+		return publicUrl;
+	};
+
+	const submitCourseData = async (data: CourseData, teacherId: number) => {
+		if (isEdit && courseId) {
+			await updateCourse(courseId, data, teacherId);
+			toast({
+				title: 'Course updated successfully!',
+				description: 'Your course has been updated.',
+				variant: 'success',
+			});
+		} else {
+			await createCourse(data, teacherId);
+			toast({
+				title: 'Course created successfully!',
+				description: 'Your course has been created.',
+				variant: 'success',
+			});
+		}
+		router.push('/teachers/courses');
+	};
+
 	const onSubmit = async (data: CourseData, file: File | null) => {
 		if (!user || userLoading || (isEdit && !courseId)) return;
 
 		setIsLoading(true);
 		try {
-			if (data.salePrice > data.originPrice) {
-				methods.setError('salePrice', {
-					type: 'manual',
-					message: 'Sale price cannot be greater than original price',
-				});
-				return;
+			if (!validatePrices(data)) return;
+
+			const newThumbnail = await handleImageUpload(file, originalThumbnail);
+			if (newThumbnail) {
+				data.thumbnail = newThumbnail;
 			}
 
-			if (file) {
-				if (isEdit && originalThumbnail) {
-					await deleteImage(originalThumbnail);
-				}
-				const publicUrl = await uploadImage(file);
-				if (publicUrl) {
-					data.thumbnail = publicUrl;
-				} else {
-					throw new Error('Failed to upload new thumbnail');
-				}
-			}
-
-			const teacherId = user.id;
-
-			if (isEdit && courseId) {
-				await updateCourse(courseId, data, teacherId);
-				toast({
-					title: 'Course updated successfully!',
-					description: 'Your course has been updated.',
-					variant: 'success',
-				});
-			} else {
-				await createCourse(data, teacherId);
-				toast({
-					title: 'Course created successfully!',
-					description: 'Your course has been created.',
-					variant: 'success',
-				});
-			}
-
-			router.push('/teachers/courses');
+			await submitCourseData(data, user.id);
 		} catch (error) {
 			console.error(`Failed to ${isEdit ? 'update' : 'create'} course:`, error);
 			toast({

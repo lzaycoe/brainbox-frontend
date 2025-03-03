@@ -86,7 +86,7 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 		value: string,
 		setDisplay: (val: string) => void,
 	) => {
-		const numericValue = value.replace(/[^0-9]/g, '');
+		const numericValue = value.replace(/\D/g, '');
 		const parsedValue =
 			numericValue === '' ? undefined : parseFloat(numericValue);
 
@@ -100,7 +100,7 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 		value: string,
 		setDisplay: (val: string) => void,
 	) => {
-		const numericValue = value.replace(/[^0-9]/g, '');
+		const numericValue = value.replace(/\D/g, '');
 		const parsedValue =
 			numericValue === '' ? undefined : parseFloat(numericValue);
 		setDisplay(formatCurrency(parsedValue));
@@ -109,6 +109,8 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 	const handleFormSubmit = (data: CourseData) => {
 		onSubmit(data, selectedFile);
 	};
+
+	const submitButtonText = isEdit ? 'Update' : 'Create';
 
 	return (
 		<div className="flex flex-col gap-8">
@@ -303,10 +305,8 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 								<Spinner size="small" />
 								<span>{isEdit ? 'Updating...' : 'Creating...'}</span>
 							</div>
-						) : isEdit ? (
-							'Update'
 						) : (
-							'Create'
+							submitButtonText
 						)}
 					</Button>
 				</div>

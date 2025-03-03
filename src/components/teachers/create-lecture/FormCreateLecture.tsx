@@ -27,11 +27,11 @@ import { uploadAttachment } from '@/services/supabase/upload';
 import FileUploadInput from './FileUploadInput';
 
 interface FormCreateLectureProps {
-	initialData?: LectureData;
-	isEdit?: boolean;
-	courseId: string;
-	sectionId: string;
-	lectureId?: string;
+	readonly initialData?: LectureData;
+	readonly isEdit?: boolean;
+	readonly courseId: string;
+	readonly sectionId: string;
+	readonly lectureId?: string;
 }
 
 export default function FormCreateLecture({
@@ -85,44 +85,60 @@ export default function FormCreateLecture({
 		}
 	}, [initialData, reset]);
 
+	const validateFileUpload = (): boolean => {
+		const requiresFile =
+			type === 'file' || (type === 'video' && uploadOption === 'file');
+		if (requiresFile && !selectedFile) {
+			throw new Error('No file selected for upload');
+		}
+		return requiresFile;
+	};
+
+	const handleAttachment = async (data: LectureData) => {
+		if (type === 'file' || (type === 'video' && uploadOption === 'file')) {
+			if (isEdit && initialData?.attachments?.[0]) {
+				await deleteAttachment(initialData.attachments[0]);
+			}
+			const publicUrl = await uploadAttachment(selectedFile!);
+			if (!publicUrl) {
+				throw new Error('Failed to upload attachment');
+			}
+			data.attachments = [publicUrl];
+		} else if (type === 'video' && uploadOption === 'link') {
+			if (!data.attachments?.[0] && initialData?.attachments?.[0]) {
+				data.attachments = initialData.attachments;
+			}
+		}
+	};
+
+	const submitLecture = async (data: LectureData) => {
+		if (isEdit && lectureId) {
+			await updateLecture(courseId, sectionId, lectureId, data);
+			toast({
+				title: 'Success',
+				description: 'Lecture updated successfully!',
+				variant: 'success',
+			});
+		} else {
+			await createLecture(courseId, sectionId, data);
+			toast({
+				title: 'Success',
+				description: 'Lecture created successfully!',
+				variant: 'success',
+			});
+		}
+		router.push(`/teachers/courses/${courseId}/sections`);
+	};
+
 	const onSubmit = async (data: LectureData) => {
 		setIsLoading(true);
 		try {
-			if (type === 'file' || (type === 'video' && uploadOption === 'file')) {
-				if (!selectedFile) {
-					throw new Error('No file selected for upload');
-				}
-				if (isEdit && initialData?.attachments?.[0]) {
-					await deleteAttachment(initialData.attachments[0]);
-				}
-				const publicUrl = await uploadAttachment(selectedFile);
-				if (!publicUrl) {
-					throw new Error('Failed to upload attachment');
-				}
-				data.attachments = [publicUrl];
+			if (validateFileUpload()) {
+				await handleAttachment(data);
 			} else if (type === 'video' && uploadOption === 'link') {
-				if (!data.attachments?.[0] && initialData?.attachments?.[0]) {
-					data.attachments = initialData.attachments;
-				}
+				await handleAttachment(data);
 			}
-
-			if (isEdit && lectureId) {
-				await updateLecture(courseId, sectionId, lectureId, data);
-				toast({
-					title: 'Success',
-					description: 'Lecture updated successfully!',
-					variant: 'success',
-				});
-			} else {
-				await createLecture(courseId, sectionId, data);
-				toast({
-					title: 'Success',
-					description: 'Lecture created successfully!',
-					variant: 'success',
-				});
-			}
-
-			router.push(`/teachers/courses/${courseId}/sections`);
+			await submitLecture(data);
 		} catch (error) {
 			const errorMessage =
 				error instanceof Error ? error.message : 'Failed to process lecture';
@@ -136,6 +152,8 @@ export default function FormCreateLecture({
 			setIsLoading(false);
 		}
 	};
+
+	const submitButtonText = isEdit ? 'Update Lecture' : 'Create Lecture';
 
 	return (
 		<form
@@ -325,10 +343,8 @@ export default function FormCreateLecture({
 							<Spinner size="small" />
 							<span>{isEdit ? 'Updating...' : 'Creating...'}</span>
 						</div>
-					) : isEdit ? (
-						'Update Lecture'
 					) : (
-						'Create Lecture'
+						submitButtonText
 					)}
 				</Button>
 			</div>
