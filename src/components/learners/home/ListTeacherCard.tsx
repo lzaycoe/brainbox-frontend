@@ -104,6 +104,8 @@ const ListTeacherCard: React.FC = () => {
 				/>
 			);
 		});
+	};
+
 	const handleClick = () => {
 		router.push(`/become-instructor`);
 	};
