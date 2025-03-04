@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { getCategoryColors } from '@/config/categoryColors';
 import { Course } from '@/schemas/course.schema';
 import { formatCurrency } from '@/utils/currency';
 
@@ -39,6 +40,7 @@ const CourseDetailCard: React.FC<CourseDetailCardProps> = ({
 		createdAt,
 		updatedAt,
 	});
+	const categoryColors = getCategoryColors(tag);
 	return (
 		<div className="h-[312px] p-6 bg-white flex gap-6">
 			<Image
@@ -52,7 +54,7 @@ const CourseDetailCard: React.FC<CourseDetailCardProps> = ({
 				<div className="flex flex-col gap-3">
 					<div className="flex gap-4 text-xs text-[#8c93a3]">
 						<div
-							className={`gap-2.5 self-stretch px-1.5 py-1 my-auto text-xs font-medium leading-tight uppercase bg-blue-100 text-blue-800 truncate min-w-[50px] max-w-[300px]`}
+							className={`gap-2.5 self-stretch px-1.5 py-1 my-auto text-xs font-medium leading-tight uppercase ${categoryColors.bgColor} ${categoryColors.textColor} truncate min-w-[50px] max-w-[300px]`}
 						>
 							{tag}
 						</div>
