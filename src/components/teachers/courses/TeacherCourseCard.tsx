@@ -56,7 +56,7 @@ const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
 			rating={rating}
 			students={students}
 			hideAddToCartButton={true}
-			maxWidth="w-[300px]"
+			maxWidth="w-[244px]"
 		>
 			<div className="w-full flex justify-between items-center">
 				<div className="flex items-center gap-1">

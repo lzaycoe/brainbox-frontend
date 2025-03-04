@@ -1,413 +1,147 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import FilterSelects from '@/components/teachers/courses/FilterSelects';
 import TeacherCourseCard from '@/components/teachers/courses/TeacherCourseCard';
+import { type Course as BaseCourse } from '@/schemas/course.schema';
+import { getCourses } from '@/services/api/course';
 
-const coursesData = [
-	{
-		id: 1,
-		title: 'Reiki Level I, II and Master/Teacher Program',
-		imageUrl: '/app/course/course01.png',
-		category: 'Business',
-		categoryBgColor: 'bg-green-100',
-		categoryTextColor: 'text-[#22C55E]',
-		rating: '4.9',
-		students: '52,822',
-		originalPrice: '$97.00',
-	},
-	{
-		id: 2,
-		title: 'Introduction to Python Programming',
-		imageUrl: '/app/course/course01.png',
-		category: 'Finance & Accounting',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#F59E0B]',
-		rating: '4.8',
-		students: '33,841',
-		originalPrice: '$87.00',
-	},
-	{
-		id: 3,
-		title: 'Advanced JavaScript Concepts',
-		imageUrl: '/app/course/course01.png',
-		category: 'IT & Software',
-		categoryBgColor: 'bg-rose-50',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '4.7',
-		students: '22,649',
-		originalPrice: '$107.00',
-	},
-	{
-		id: 4,
-		title: 'React for Beginners',
-		imageUrl: '/app/course/course01.png',
-		category: 'Personal Development',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '4.6',
-		students: '20,126',
-		originalPrice: '$77.00',
-	},
-	{
-		id: 5,
-		title: 'Mastering CSS Grid and Flexbox',
-		imageUrl: '/app/course/course01.png',
-		category: 'Office Productivity',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '4.5',
-		students: '13,932',
-		originalPrice: '$67.00',
-	},
-	{
-		id: 6,
-		title: 'Node.js and Express.js Fundamentals',
-		imageUrl: '/app/course/course01.png',
-		category: 'Marketing',
-		categoryBgColor: 'bg-violet-100',
-		categoryTextColor: 'text-[#564FFD]',
-		rating: '4.4',
-		students: '12,068',
-		originalPrice: '$117.00',
-	},
-	{
-		id: 7,
-		title: 'Building RESTful APIs with Django',
-		imageUrl: '/app/course/course01.png',
-		category: 'Photography & Video',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '4.3',
-		students: '6,196',
-		originalPrice: '$127.00',
-	},
-	{
-		id: 8,
-		title: 'Introduction to Machine Learning',
-		imageUrl: '/app/course/course01.png',
-		category: 'Lifestyle',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#FD8E1F]',
-		rating: '4.2',
-		students: '2,736',
-		originalPrice: '$137.00',
-	},
-	{
-		id: 9,
-		title: 'Data Structures and Algorithms',
-		imageUrl: '/app/course/course01.png',
-		category: 'Design',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#FF6636]',
-		rating: '4.1',
-		students: '2,600',
-		originalPrice: '$87.00',
-	},
-	{
-		id: 10,
-		title: 'Full-Stack Web Development',
-		imageUrl: '/app/course/course01.png',
-		category: 'Health & Fitness',
-		categoryBgColor: 'bg-green-100',
-		categoryTextColor: 'text-[#23BD33]',
-		rating: '4.0',
-		students: '1,678',
-		originalPrice: '$97.00',
-	},
-	{
-		id: 11,
-		title: 'Digital Marketing Strategies',
-		imageUrl: '/app/course/course01.png',
-		category: 'Music',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#FD8E1F]',
-		rating: '3.9',
-		students: '959',
-		originalPrice: '$107.00',
-	},
-	{
-		id: 12,
-		title: 'Graphic Design with Adobe Illustrator',
-		imageUrl: '/app/course/course01.png',
-		category: 'Business',
-		categoryBgColor: 'bg-green-100',
-		categoryTextColor: 'text-[#22C55E]',
-		rating: '3.8',
-		students: '52,822',
-		originalPrice: '$117.00',
-	},
-	{
-		id: 13,
-		title: 'Photography Masterclass',
-		imageUrl: '/app/course/course01.png',
-		category: 'Finance & Accounting',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#F59E0B]',
-		rating: '3.7',
-		students: '33,841',
-		originalPrice: '$127.00',
-	},
-	{
-		id: 14,
-		title: 'Music Production with Ableton Live',
-		imageUrl: '/app/course/course01.png',
-		category: 'IT & Software',
-		categoryBgColor: 'bg-rose-50',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '3.6',
-		students: '22,649',
-		originalPrice: '$137.00',
-	},
-	{
-		id: 15,
-		title: 'Creative Writing Workshop',
-		imageUrl: '/app/course/course01.png',
-		category: 'Personal Development',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '3.5',
-		students: '20,126',
-		originalPrice: '$87.00',
-	},
-	{
-		id: 16,
-		title: 'Public Speaking and Presentation Skills',
-		imageUrl: '/app/course/course01.png',
-		category: 'Office Productivity',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '3.4',
-		students: '13,932',
-		originalPrice: '$97.00',
-	},
-	{
-		id: 17,
-		title: 'Financial Analysis and Modeling',
-		imageUrl: '/app/course/course01.png',
-		category: 'Marketing',
-		categoryBgColor: 'bg-violet-100',
-		categoryTextColor: 'text-[#564FFD]',
-		rating: '3.3',
-		students: '12,068',
-		originalPrice: '$107.00',
-	},
-	{
-		id: 18,
-		title: 'Introduction to Blockchain Technology',
-		imageUrl: '/app/course/course01.png',
-		category: 'Photography & Video',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '3.2',
-		students: '6,196',
-		originalPrice: '$117.00',
-	},
-	{
-		id: 19,
-		title: 'Cybersecurity Essentials',
-		imageUrl: '/app/course/course01.png',
-		category: 'Lifestyle',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#FD8E1F]',
-		rating: '3.1',
-		students: '2,736',
-		originalPrice: '$127.00',
-	},
-	{
-		id: 20,
-		title: 'Artificial Intelligence for Everyone',
-		imageUrl: '/app/course/course01.png',
-		category: 'Design',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#FF6636]',
-		rating: '3.0',
-		students: '2,600',
-		originalPrice: '$137.00',
-	},
+interface Course extends BaseCourse {
+	id: number;
+	status: string;
+	teacherId: number;
+	createdAt: string;
+	updatedAt: string;
+	rating?: string;
+}
 
-	{
-		id: 21,
-		title: 'Photography Masterclass',
-		imageUrl: '/app/course/course01.png',
-		category: 'Finance & Accounting',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#F59E0B]',
-		rating: '3.7',
-		students: '33,841',
-		originalPrice: '$127.00',
-	},
-	{
-		id: 22,
-		title: 'Music Production with Ableton Live',
-		imageUrl: '/app/course/course01.png',
-		category: 'IT & Software',
-		categoryBgColor: 'bg-rose-50',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '3.6',
-		students: '22,649',
-		originalPrice: '$137.00',
-	},
-	{
-		id: 23,
-		title: 'Creative Writing Workshop',
-		imageUrl: '/app/course/course01.png',
-		category: 'Personal Development',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '3.5',
-		students: '20,126',
-		originalPrice: '$87.00',
-	},
-	{
-		id: 24,
-		title: 'Public Speaking and Presentation Skills',
-		imageUrl: '/app/course/course01.png',
-		category: 'Office Productivity',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '3.4',
-		students: '13,932',
-		originalPrice: '$97.00',
-	},
-	{
-		id: 25,
-		title: 'Financial Analysis and Modeling',
-		imageUrl: '/app/course/course01.png',
-		category: 'Marketing',
-		categoryBgColor: 'bg-violet-100',
-		categoryTextColor: 'text-[#564FFD]',
-		rating: '3.3',
-		students: '12,068',
-		originalPrice: '$107.00',
-	},
-	{
-		id: 26,
-		title: 'Introduction to Blockchain Technology',
-		imageUrl: '/app/course/course01.png',
-		category: 'Photography & Video',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '3.2',
-		students: '6,196',
-		originalPrice: '$117.00',
-	},
-	{
-		id: 27,
-		title: 'Cybersecurity Essentials',
-		imageUrl: '/app/course/course01.png',
-		category: 'Lifestyle',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#FD8E1F]',
-		rating: '3.1',
-		students: '2,736',
-		originalPrice: '$127.00',
-	},
-	{
-		id: 28,
-		title: 'Artificial Intelligence for Everyone',
-		imageUrl: '/app/course/course01.png',
-		category: 'Design',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#FF6636]',
-		rating: '3.0',
-		students: '2,600',
-		originalPrice: '$137.00',
-	},
-	{
-		id: 29,
-		title: 'Creative Writing Workshop',
-		imageUrl: '/app/course/course01.png',
-		category: 'Personal Development',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#E34444]',
-		rating: '3.5',
-		students: '20,126',
-		originalPrice: '$87.00',
-	},
-	{
-		id: 30,
-		title: 'Public Speaking and Presentation Skills',
-		imageUrl: '/app/course/course01.png',
-		category: 'Office Productivity',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '3.4',
-		students: '13,932',
-		originalPrice: '$97.00',
-	},
-	{
-		id: 31,
-		title: 'Financial Analysis and Modeling',
-		imageUrl: '/app/course/course01.png',
-		category: 'Marketing',
-		categoryBgColor: 'bg-violet-100',
-		categoryTextColor: 'text-[#564FFD]',
-		rating: '3.3',
-		students: '12,068',
-		originalPrice: '$107.00',
-	},
-	{
-		id: 32,
-		title: 'Introduction to Blockchain Technology',
-		imageUrl: '/app/course/course01.png',
-		category: 'Photography & Video',
-		categoryBgColor: 'bg-slate-100',
-		categoryTextColor: 'text-[#000000]',
-		rating: '3.2',
-		students: '6,196',
-		originalPrice: '$117.00',
-	},
-	{
-		id: 33,
-		title: 'Cybersecurity Essentials',
-		imageUrl: '/app/course/course01.png',
-		category: 'Lifestyle',
-		categoryBgColor: 'bg-orange-50',
-		categoryTextColor: 'text-[#FD8E1F]',
-		rating: '3.1',
-		students: '2,736',
-		originalPrice: '$127.00',
-	},
-	{
-		id: 34,
-		title: 'Artificial Intelligence for Everyone',
-		imageUrl: '/app/course/course01.png',
-		category: 'Design',
-		categoryBgColor: 'bg-rose-100',
-		categoryTextColor: 'text-[#FF6636]',
-		rating: '3.0',
-		students: '2,600',
-		originalPrice: '$137.00',
-	},
-];
+interface TeacherCourseCardProps {
+	id: number;
+	teacherId: number;
+	title: string;
+	subtitle: string;
+	tag: string;
+	description: string;
+	thumbnail: string;
+	category: string;
+	categoryBgColor: string;
+	categoryTextColor: string;
+	rating: string;
+	students: string;
+	originPrice: number; // Giữ là number
+	salePrice: number; // Giữ là number
+	public: boolean;
+}
 
-const Course: React.FC = () => {
+interface CourseComponentProps {
+	initialCourses: Course[] | null;
+}
+
+const CourseComponent: React.FC<CourseComponentProps> = ({
+	initialCourses,
+}) => {
+	const router = useRouter();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
 	const [selectedRating, setSelectedRating] = useState('all');
 	const [selectedPricing, setSelectedPricing] = useState('all');
+	const [courses, setCourses] = useState<Course[]>(initialCourses || []);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 	const coursesPerPage = 12;
+
+	useEffect(() => {
+		const fetchCourses = async () => {
+			try {
+				setLoading(true);
+				const fetchedCourses = (await getCourses()) as unknown as Course[];
+				setCourses(fetchedCourses || []);
+			} catch {
+				setError('Failed to load courses. Please try again later.');
+				setCourses([]);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		if (!initialCourses || initialCourses.length === 0) {
+			fetchCourses();
+		}
+	}, [initialCourses]);
+
+	const mapToCardProps = (course: Course): TeacherCourseCardProps => ({
+		id: course.id,
+		teacherId: course.teacherId,
+		title: course.title,
+		subtitle: course.subtitle || 'No subtitle available',
+		tag: course.tag,
+		description: course.description || 'No description available',
+		thumbnail: course.thumbnail,
+		category: course.tag,
+		categoryBgColor: getCategoryBgColor(course.tag),
+		categoryTextColor: getCategoryTextColor(course.tag),
+		rating: course.rating ?? 'N/A',
+		students: 'N/A',
+		originPrice: Number(course.originPrice), // Trả về number
+		salePrice: Number(course.salePrice), // Trả về number
+		public: course.public,
+	});
+
+	const getCategoryBgColor = (tag: string): string => {
+		switch (tag.toLowerCase()) {
+			case 'it & software':
+				return 'bg-rose-50';
+			case 'business':
+				return 'bg-green-100';
+			case 'personal development':
+				return 'bg-rose-100';
+			case 'office-productivity':
+				return 'bg-slate-100';
+			default:
+				return 'bg-gray-100';
+		}
+	};
+
+	const getCategoryTextColor = (tag: string): string => {
+		switch (tag.toLowerCase()) {
+			case 'it & software':
+				return 'text-[#E34444]';
+			case 'business':
+				return 'text-[#22C55E]';
+			case 'personal development':
+				return 'text-[#E34444]';
+			case 'office-productivity':
+				return 'text-[#000000]';
+			default:
+				return 'text-gray-800';
+		}
+	};
+
+	const handleCourseClick = (id: number) => {
+		router.push(`/courses/${id}`);
+	};
 
 	const indexOfLastCourse = currentPage * coursesPerPage;
 	const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
 
-	const filteredCourses = coursesData.filter((course) => {
+	const filteredCourses = (courses || []).filter((course) => {
 		const matchesSearchQuery = course.title
 			.toLowerCase()
 			.includes(searchQuery.toLowerCase());
 		const matchesCategory =
 			selectedCategory === 'all' ||
-			course.category.toLowerCase().replace(/ /g, '-') === selectedCategory;
+			course.tag.toLowerCase().replace(/ /g, '-') === selectedCategory;
 		const matchesRating =
 			selectedRating === 'all' ||
-			parseFloat(course.rating) >= parseFloat(selectedRating.split('-')[0]);
+			(course.rating &&
+				parseFloat(course.rating) >= parseFloat(selectedRating.split('-')[0]));
 		const matchesPricing = (() => {
-			const price = parseFloat(course.originalPrice.replace('$', ''));
+			const price = Number(course.originPrice); // Đã đúng với originPrice
 			switch (selectedPricing) {
 				case '1':
 					return price >= 1 && price <= 20;
@@ -420,6 +154,7 @@ const Course: React.FC = () => {
 				case '5':
 					return price > 80;
 				case 'all':
+					return true;
 				default:
 					return true;
 			}
@@ -439,6 +174,32 @@ const Course: React.FC = () => {
 
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+	const handleKeyDown = (
+		event: React.KeyboardEvent<HTMLButtonElement>,
+		id: number,
+	) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			handleCourseClick(id);
+		}
+	};
+
+	if (loading) {
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<div className="text-xl text-gray-500">Loading courses...</div>
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<div className="text-xl text-red-500">{error}</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className="flex flex-col items-center">
 			<SearchAndFilter onSearch={setSearchQuery}>
@@ -448,32 +209,37 @@ const Course: React.FC = () => {
 					onPriceChange={setSelectedPricing}
 				/>
 			</SearchAndFilter>
-			<>
-				<div>
-					<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mb-5">
-						{filteredCourses.length === 0 ? (
-							<div className="col-span-4 mt-10 text-xl text-gray-500">
-								No courses found for your search.
-							</div>
-						) : (
-							currentCourses.map((course) => (
-								<TeacherCourseCard key={course.id} {...course} />
-							))
-						)}
-					</div>
+			<div>
+				<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mb-5">
+					{filteredCourses.length === 0 ? (
+						<div className="col-span-4 mt-10 text-xl text-gray-500">
+							No courses found for your search.
+						</div>
+					) : (
+						currentCourses.map((course) => (
+							<button
+								key={course.id}
+								onClick={() => handleCourseClick(course.id)}
+								onKeyDown={(e) => handleKeyDown(e, course.id)}
+								className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
+							>
+								<TeacherCourseCard {...mapToCardProps(course)} />
+							</button>
+						))
+					)}
 				</div>
-				{filteredCourses.length > 0 && (
-					<PaginationCustom
-						currentPage={currentPage}
-						totalPages={totalPages}
-						onPageChange={paginate}
-						activeClassName="bg-[#FF6636] text-white"
-						hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
-					/>
-				)}
-			</>
+			</div>
+			{filteredCourses.length > 0 && (
+				<PaginationCustom
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={paginate}
+					activeClassName="bg-[#FF6636] text-white"
+					hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
+				/>
+			)}
 		</div>
 	);
 };
 
-export default Course;
+export default CourseComponent;
