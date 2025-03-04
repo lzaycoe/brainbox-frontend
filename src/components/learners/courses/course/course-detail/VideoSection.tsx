@@ -18,7 +18,7 @@ export default function VideoSection({ courseId }: VideoSectionProps) {
 		const fetchThumbnail = async () => {
 			try {
 				setLoading(true);
-				const course = await getCourse(courseId);
+				const course = await getCourse(+courseId);
 				// Handle empty string by converting to null
 				const thumbnailUrl =
 					course.thumbnail && course.thumbnail.trim() !== ''

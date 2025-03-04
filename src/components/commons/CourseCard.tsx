@@ -36,8 +36,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
 	categoryTextColor,
 	price,
 	title,
-	rating,
-	students,
+	rating = '0.0',
+	students = '0',
 	maxWidth = 'max-w-[244px]',
 	hideAddToCartButton = false,
 	children,
@@ -85,7 +85,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 						)}
 					</div>
 				</div>
-				<CardTitle className="mt-2.5 text-sm font-bold tracking-normal leading-5 text-neutral-800 group-hover:text-orange-500 line-clamp-2 min-h-[2.5rem]">
+				<CardTitle className="mt-2.5 text-sm font-bold tracking-normal leading-5 text-neutral-800 group-hover:text-orange-500 line-clamp-2 min-h-[2.5rem] flex justify-start">
 					{title}
 				</CardTitle>
 			</CardContent>

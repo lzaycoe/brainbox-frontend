@@ -1,10 +1,10 @@
 'use client';
 
-import { Button } from '../../ui/button';
 import { useEffect, useState } from 'react';
 import { PiArrowRight } from 'react-icons/pi';
 
-import TeacherCourseCard from '@/components/teachers/courses/TeacherCourseCard';
+import TeacherCard from '@/components/learners/home/TeacherCard';
+import { Button } from '@/components/ui/button';
 import { Lecture } from '@/schemas/lecture.schema';
 import { getTopTeachers } from '@/services/api/lecture';
 
@@ -70,9 +70,13 @@ const ListTeacherCard: React.FC = () => {
 			<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
 				{teachers ? (
 					teachers.map((teacher) => (
-						<TeacherCourseCard
+						<TeacherCard
 							key={teacher.id}
-							{...transformLectureToCardProps(teacher)}
+							avatarUrl={transformLectureToCardProps(teacher).imageUrl}
+							name={transformLectureToCardProps(teacher).title}
+							major={transformLectureToCardProps(teacher).category}
+							rating={transformLectureToCardProps(teacher).rating}
+							students={transformLectureToCardProps(teacher).students}
 						/>
 					))
 				) : (

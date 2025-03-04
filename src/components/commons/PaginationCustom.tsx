@@ -25,7 +25,7 @@ const PaginationCustom: React.FC<PaginationComponentProps> = ({
 	hoverClassName = 'hover:bg-[#FFEEE8] hover:text-[#FF6636]',
 }) => {
 	return (
-		<UIPagination className="mt-6">
+		<UIPagination className="my-6">
 			<PaginationContent>
 				<PaginationPrevious
 					hoverClassName={hoverClassName}

@@ -1,4 +1,3 @@
-// CourseDetailsPage.tsx
 'use client';
 
 import axios from 'axios';
@@ -17,8 +16,6 @@ import VideoSection from '@/components/learners/courses/course/course-detail/Vid
 import { CourseData } from '@/schemas/course.schema';
 import { getCourse } from '@/services/api/course';
 import { getTeacher } from '@/services/api/lecture';
-
-// CourseDetailsPage.tsx
 
 type Instructor = {
 	id: string;
@@ -75,7 +72,7 @@ export default function CourseDetailsPage({
 			try {
 				setLoading(true);
 
-				const course = (await getCourse(courseId)) as ExtendedCourseData;
+				const course = (await getCourse(+courseId)) as ExtendedCourseData;
 
 				let teacherData;
 				if (course.teacherId) {
