@@ -52,3 +52,17 @@ export const createPayment = async (
 		throw new Error('Failed to create payment');
 	}
 };
+
+export const fetchPaidStudentsCount = async (
+	courseId: number,
+): Promise<number> => {
+	try {
+		const payments = await getPaymentsFromCourse(courseId);
+		return (payments ?? []).filter(
+			(payment: Payment) => payment.status === 'paid',
+		).length;
+	} catch (error) {
+		console.error(`Error fetching payments for course ${courseId}:`, error);
+		return 0;
+	}
+};

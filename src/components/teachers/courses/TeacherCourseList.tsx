@@ -8,9 +8,8 @@ import FilterSelects from '@/components/teachers/courses/FilterSelects';
 import TeacherCourseCard from '@/components/teachers/courses/TeacherCourseCard';
 import { useUserContext } from '@/contexts/UserContext';
 import { Course } from '@/schemas/course.schema';
-import { Payment } from '@/schemas/payment.schema';
 import { getTeacherCourses } from '@/services/api/course';
-import { getPaymentsFromCourse } from '@/services/api/payment';
+import { fetchPaidStudentsCount } from '@/services/api/payment';
 
 const TeacherCourseList: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
@@ -57,11 +56,7 @@ const TeacherCourseList: React.FC = () => {
 
 			await Promise.all(
 				courses.map(async (course) => {
-					const payments = await getPaymentsFromCourse(course.id);
-					const paidCount = (payments ?? []).filter(
-						(payment: Payment) => payment.status === 'paid',
-					).length;
-					paymentsCountMap[course.id] = paidCount;
+					paymentsCountMap[course.id] = await fetchPaidStudentsCount(course.id);
 				}),
 			);
 
