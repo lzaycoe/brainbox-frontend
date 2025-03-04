@@ -23,8 +23,8 @@ interface CourseCardLandscapeProps {
 	title: string;
 	teacherAvatar: string;
 	teacherName: string;
-	rating: string;
-	students: string;
+	rating: number | string;
+	students: number | string;
 	duration: string;
 }
 

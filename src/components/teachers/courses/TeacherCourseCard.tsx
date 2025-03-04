@@ -15,8 +15,7 @@ import { Course } from '@/schemas/course.schema';
 import { formatCurrency } from '@/utils/currency';
 
 interface TeacherCourseCardProps extends Course {
-	rating?: string;
-	students?: string;
+	rating?: number;
 }
 
 const TeacherCourseCard: React.FC<TeacherCourseCardProps> = ({
