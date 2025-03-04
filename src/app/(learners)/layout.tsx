@@ -26,14 +26,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" suppressHydrationWarning>
-			<body
+		<div suppressHydrationWarning>
+			<div
 				suppressHydrationWarning
 				className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
 			>
 				<MainLayout>{children}</MainLayout>
 				<Toaster />
-			</body>
-		</html>
+			</div>
+		</div>
 	);
 }
