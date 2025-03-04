@@ -38,6 +38,9 @@ interface CourseMenuProps {
 	onToggleSection: (sectionId: number) => void;
 	onToggleLectureActive: (sectionId: number, lectureId: number) => void;
 	onCheckboxChange: (sectionId: number, lectureId: number) => Promise<void>;
+	hideCourseProgress?: boolean;
+	hideCheckbox?: boolean;
+	hideSectionProgress?: boolean;
 }
 
 const CourseMenu: React.FC<CourseMenuProps> = ({
@@ -46,6 +49,9 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	onToggleSection,
 	onToggleLectureActive,
 	onCheckboxChange,
+	hideCourseProgress = false,
+	hideCheckbox = false,
+	hideSectionProgress = false,
 }) => {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [loadingLectureId, setLoadingLectureId] = useState<number | null>(null); // Theo dõi lecture đang loading
@@ -101,32 +107,36 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 		<div
 			className={`flex flex-col max-w-[603px] ${isLoading ? 'pointer-events-none opacity-75' : ''}`}
 		>
-			<div className="flex flex-wrap gap-10 justify-between items-center w-full font-semibold max-md:max-w-full">
-				<h2 className="self-stretch my-auto text-2xl tracking-tight leading-none text-neutral-800">
-					Course Contents
-				</h2>
-				<div
-					className="self-stretch my-auto text-base leading-none text-right text-green-600"
-					aria-live="polite"
-				>
-					{progress.toFixed(1)}% Completed
+			{!hideCourseProgress && (
+				<div>
+					<div className="flex flex-wrap gap-10 justify-between items-center w-full font-semibold max-md:max-w-full">
+						<h2 className="self-stretch my-auto text-2xl tracking-tight leading-none text-neutral-800">
+							Course Contents
+						</h2>
+						<div
+							className="self-stretch my-auto text-base leading-none text-right text-green-600"
+							aria-live="polite"
+						>
+							{progress.toFixed(1)}% Completed
+						</div>
+					</div>
+					<div className="flex flex-col mt-4 w-full max-md:max-w-full">
+						<div className="relative w-full h-2 bg-gray-200 rounded-md overflow-hidden">
+							<progress
+								className="absolute top-0 left-0 w-full h-4 appearance-none"
+								value={progress}
+								max={100}
+							>
+								{progress}%
+							</progress>
+							<div
+								className="absolute top-0 left-0 h-4 bg-green-600"
+								style={{ width: `${progress}%` }}
+							/>
+						</div>
+					</div>
 				</div>
-			</div>
-			<div className="flex flex-col mt-4 w-full max-md:max-w-full">
-				<div className="relative w-full h-2 bg-gray-200 rounded-md overflow-hidden">
-					<progress
-						className="absolute top-0 left-0 w-full h-4 appearance-none"
-						value={progress}
-						max={100}
-					>
-						{progress}%
-					</progress>
-					<div
-						className="absolute top-0 left-0 h-4 bg-green-600"
-						style={{ width: `${progress}%` }}
-					/>
-				</div>
-			</div>
+			)}
 			<div className="flex flex-col bg-white border border-gray-200 max-w-[603px] mt-4">
 				{sections.map((section) => (
 					<div
@@ -167,13 +177,15 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 									/>
 									<span>{section.lecturesCount} lectures</span>
 								</span>
-								<span className="flex gap-1 items-center text-gray-400">
-									<PiChecks
-										className="object-contain w-4 h-4"
-										color="#23BD33"
-									/>
-									<span>{section.progress.toFixed(1)}%</span>
-								</span>
+								{!hideSectionProgress && (
+									<span className="flex gap-1 items-center">
+										<PiChecks
+											className="object-contain w-4 h-4"
+											color="#23BD33"
+										/>
+										<span>{section.progress.toFixed(1)}%</span>
+									</span>
+								)}
 							</span>
 						</button>
 						<div className="w-full bg-white border border-gray-200 min-h-[1px] max-md:max-w-full" />
@@ -197,20 +209,25 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 													: 'text-gray-600'
 											}`}
 										>
-											{loadingLectureId === lecture.id ? (
-												<Loader2 className="h-[18px] w-[18px] animate-spin text-orange-500" />
-											) : (
-												<input
-													type="checkbox"
-													checked={lecture.isDone}
-													disabled={lecture.isDone}
-													onChange={() =>
-														handleCheckboxChangeWrapper(section.id, lecture.id)
-													}
-													onClick={(e) => e.stopPropagation()}
-													className="flex shrink-0 self-stretch my-auto h-[18px] w-[18px] accent-green-500"
-												/>
-											)}
+											{!hideCheckbox &&
+												(loadingLectureId === lecture.id ? (
+													<Loader2 className="h-[18px] w-[18px] animate-spin text-orange-500" />
+												) : (
+													<input
+														type="checkbox"
+														checked={lecture.isDone}
+														disabled={lecture.isDone}
+														onChange={() =>
+															handleCheckboxChangeWrapper(
+																section.id,
+																lecture.id,
+															)
+														}
+														onClick={(e) => e.stopPropagation()}
+														className="flex shrink-0 self-stretch my-auto h-[18px] w-[18px] accent-green-500"
+													/>
+												))}
+
 											<span className="self-stretch my-auto">
 												{lecture.title}
 											</span>

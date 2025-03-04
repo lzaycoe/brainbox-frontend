@@ -27,4 +27,6 @@ export interface Course extends CourseData {
 	teacherId: number;
 	students?: number;
 	status: 'pending' | 'approved' | 'rejected';
+	createdAt?: string;
+	updatedAt?: string;
 }

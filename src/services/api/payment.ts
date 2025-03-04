@@ -65,3 +65,17 @@ export const fetchPaidStudentsCount = async (
 		return 0;
 	}
 };
+
+export const fetchTotalEarnings = async (courseId: number): Promise<number> => {
+	try {
+		const payments = await getPaymentsFromCourse(courseId);
+		return (payments ?? []).reduce(
+			(total: number, payment: Payment) =>
+				payment.status === 'paid' ? total + +payment.price : total,
+			0,
+		);
+	} catch (error) {
+		console.error(`Error fetching payments for course ${courseId}:`, error);
+		return 0;
+	}
+};
