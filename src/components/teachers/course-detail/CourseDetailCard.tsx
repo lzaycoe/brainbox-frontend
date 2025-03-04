@@ -24,6 +24,7 @@ const CourseDetailCard: React.FC<CourseDetailCardProps> = ({
 	salePrice,
 	creators,
 	avatarImages,
+	status,
 	createdAt,
 	updatedAt,
 }) => {
@@ -37,6 +38,7 @@ const CourseDetailCard: React.FC<CourseDetailCardProps> = ({
 		salePrice,
 		creators,
 		avatarImages,
+		status,
 		createdAt,
 		updatedAt,
 	});

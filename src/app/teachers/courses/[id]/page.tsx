@@ -101,6 +101,7 @@ const CourseDetail: React.FC = () => {
 								: ''
 						}
 						public={false}
+						status={course?.status ?? 'pending'}
 					/>
 				</div>
 			)}
