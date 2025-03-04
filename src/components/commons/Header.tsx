@@ -10,6 +10,7 @@ import {
 } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FaRegHeart } from 'react-icons/fa';
 import { FiSearch, FiShoppingCart } from 'react-icons/fi';
@@ -34,6 +35,7 @@ import {
 
 export const Header = () => {
 	const { signOut } = useClerk();
+	const router = useRouter();
 
 	const handleSignOut = () => {
 		signOut().then(() => {
@@ -41,26 +43,30 @@ export const Header = () => {
 		});
 	};
 
+	const navigate = (path: string) => {
+		router.push(path);
+	};
+
 	const menuItems = [
 		{
 			label: 'My Profile',
 			icon: PiUserCircleDuotone,
-			action: () => console.log('Go to Profile'),
+			action: () => navigate('/dashboard'),
 		},
 		{
 			label: 'My Courses',
 			icon: PiStackDuotone,
-			action: () => console.log('Đơn hàng của tôi'),
+			action: () => navigate('/courses'),
 		},
 		{
 			label: 'Payments History',
 			icon: PiCreditCardDuotone,
-			action: () => console.log('Lịch sử thanh toán'),
+			action: () => navigate('/purchase-history'),
 		},
 		{
 			label: 'Setting',
 			icon: PiGearDuotone,
-			action: () => console.log('Settings'),
+			action: () => navigate('/settings'),
 		},
 		{
 			label: 'Sign Out',
