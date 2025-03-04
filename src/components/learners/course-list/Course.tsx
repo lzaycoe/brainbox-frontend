@@ -32,8 +32,8 @@ interface TeacherCourseCardProps {
 	categoryTextColor: string;
 	rating: string;
 	students: string;
-	originPrice: number; // Giữ là number
-	salePrice: number; // Giữ là number
+	originPrice: number;
+	salePrice: number;
 	public: boolean;
 }
 
