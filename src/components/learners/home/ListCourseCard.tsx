@@ -20,8 +20,12 @@ const ListCourseCard: React.FC = () => {
 			try {
 				const data = await getCourses();
 
+				const approvedCourses = data.filter(
+					(course) => course.status === 'approved',
+				);
+
 				const formattedData: Course[] = await Promise.all(
-					data.map(async (course, index) => {
+					approvedCourses.map(async (course, index) => {
 						const students = await fetchPaidStudentsCount(course.id);
 						return {
 							...course,

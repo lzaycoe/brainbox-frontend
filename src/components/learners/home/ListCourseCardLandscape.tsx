@@ -1,19 +1,18 @@
 'use client';
 
-import { Button } from '../../ui/button';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { PiArrowRight } from 'react-icons/pi';
 
 import Loading from '@/components/commons/Loading';
+import CourseCardLandscape from '@/components/learners/home/CourseCardLandscape';
+import { Button } from '@/components/ui/button';
 import { getCategoryColors } from '@/config/categoryColors';
 import { Course } from '@/schemas/course.schema';
 import { getCourses } from '@/services/api/course';
 import { fetchPaidStudentsCount } from '@/services/api/payment';
 import { getUserClerk } from '@/services/api/user';
 import { formatCurrency } from '@/utils/currency';
-
-import CourseCardLandscape from './CourseCardLandscape';
 
 interface CourseCardLandscapeProps {
 	id: number;
@@ -49,8 +48,12 @@ const ListCourseCardLandscape: React.FC = () => {
 			try {
 				const fetchedCourses: Course[] = await getCourses();
 
+				const approvedCourses = fetchedCourses.filter(
+					(course) => course.status === 'approved',
+				);
+
 				const formattedCourses: CourseCardLandscapeProps[] = await Promise.all(
-					fetchedCourses.map(async (course) => {
+					approvedCourses.map(async (course) => {
 						let teacherAvatar = '/app/default-teacher.png';
 						let teacherName = 'Unknown Instructor';
 
