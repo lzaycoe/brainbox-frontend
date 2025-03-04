@@ -2,12 +2,20 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { PiArrowCircleRightDuotone } from 'react-icons/pi';
+
+import { useUserContext } from '@/contexts/UserContext';
 
 export default function Profile() {
 	const router = useRouter();
+	const { user } = useUserContext();
 
 	const navigate = () => {
-		router.push('/become-instructor');
+		if (user?.role === 'teacher') {
+			router.push('/teachers');
+		} else {
+			router.push('/become-instructor');
+		}
 	};
 
 	return (
@@ -32,19 +40,10 @@ export default function Profile() {
 							className="ml-auto bg-[#FFF1EC] text-[#FF6636] px-6 py-2.5 rounded-lg hover:bg-[#FFE4DB] transition-colors flex items-center gap-2"
 							onClick={navigate}
 						>
-							Become Instructor
-							<svg
-								width="16"
-								height="16"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							>
-								<path d="M5 12h14m-7-7l7 7-7 7" />
-							</svg>
+							{user?.role === 'teacher'
+								? 'Go to Teacher Dashboard'
+								: 'Become Instructor'}
+							<PiArrowCircleRightDuotone className="w-8 h-8" />
 						</button>
 					</header>
 				</div>
