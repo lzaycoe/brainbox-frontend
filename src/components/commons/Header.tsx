@@ -85,43 +85,51 @@ export const Header = () => {
 				<div className="flex flex-wrap gap-2 justify-center items-center self-stretch my-auto font-medium leading-none text-gray-400 min-w-[240px] max-md:max-w-full">
 					<Link
 						href="/"
-						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap shadow-sm bg-neutral-800 ${
-							pathname === '/' ? 'text-white font-bold' : 'text-gray-400'
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap shadow-sm bg-neutral-800 border-t-4 transition-all duration-100 ease-in-out ${
+							pathname === '/'
+								? 'text-white font-bold border-orange-500'
+								: 'text-gray-400 border-transparent'
 						}`}
 						aria-current={pathname === '/' ? 'page' : undefined}
 					>
 						Home
 					</Link>
 					<Link
-						href="/courses"
-						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 ${
-							pathname === '/courses' ? 'text-white font-bold' : 'text-gray-400'
+						href="/course-list"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 border-t-4 transition-all duration-500 ease-in-out ${
+							pathname === '/course-list'
+								? 'text-white font-bold border-orange-500'
+								: 'text-gray-400 border-transparent'
 						}`}
 					>
 						Courses
 					</Link>
 					<Link
 						href="/about"
-						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 ${
-							pathname === '/about' ? 'text-white font-bold' : 'text-gray-400'
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 border-t-4 transition-all duration-500 ease-in-out ${
+							pathname === '/about'
+								? 'text-white font-bold border-orange-500'
+								: 'text-gray-400 border-transparent'
 						}`}
 					>
 						About
 					</Link>
 					<Link
 						href="/contact"
-						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 ${
-							pathname === '/contact' ? 'text-white font-bold' : 'text-gray-400'
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 border-t-4 transition-all duration-500 ease-in-out ${
+							pathname === '/contact'
+								? 'text-white font-bold border-orange-500'
+								: 'text-gray-400 border-transparent'
 						}`}
 					>
 						Contact
 					</Link>
 					<Link
 						href="/become-instructor"
-						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 ${
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 border-t-4 transition-all duration-500 ease-in-out ${
 							pathname === '/become-instructor'
-								? 'text-white font-bold'
-								: 'text-gray-400'
+								? 'text-white font-bold border-orange-500'
+								: 'text-gray-400 border-transparent'
 						}`}
 					>
 						Become an Instructor
