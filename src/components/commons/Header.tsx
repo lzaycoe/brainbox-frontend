@@ -10,7 +10,7 @@ import {
 } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { FaRegHeart } from 'react-icons/fa';
 import { FiSearch, FiShoppingCart } from 'react-icons/fi';
@@ -36,6 +36,7 @@ import {
 export const Header = () => {
 	const { signOut } = useClerk();
 	const router = useRouter();
+	const pathname = usePathname();
 
 	const handleSignOut = () => {
 		signOut().then(() => {
@@ -84,32 +85,44 @@ export const Header = () => {
 				<div className="flex flex-wrap gap-2 justify-center items-center self-stretch my-auto font-medium leading-none text-gray-400 min-w-[240px] max-md:max-w-full">
 					<Link
 						href="/"
-						className="gap-2.5 self-stretch p-4 my-auto text-white whitespace-nowrap shadow-sm bg-neutral-800"
-						aria-current="page"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap shadow-sm bg-neutral-800 ${
+							pathname === '/' ? 'text-white font-bold' : 'text-gray-400'
+						}`}
+						aria-current={pathname === '/' ? 'page' : undefined}
 					>
 						Home
 					</Link>
 					<Link
 						href="/courses"
-						className="gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 ${
+							pathname === '/courses' ? 'text-white font-bold' : 'text-gray-400'
+						}`}
 					>
 						Courses
 					</Link>
 					<Link
 						href="/about"
-						className="gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 ${
+							pathname === '/about' ? 'text-white font-bold' : 'text-gray-400'
+						}`}
 					>
 						About
 					</Link>
 					<Link
 						href="/contact"
-						className="gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 ${
+							pathname === '/contact' ? 'text-white font-bold' : 'text-gray-400'
+						}`}
 					>
 						Contact
 					</Link>
 					<Link
 						href="/become-instructor"
-						className="gap-2.5 self-stretch p-4 my-auto bg-neutral-800"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 ${
+							pathname === '/become-instructor'
+								? 'text-white font-bold'
+								: 'text-gray-400'
+						}`}
 					>
 						Become an Instructor
 					</Link>
