@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 import CourseCard from '@/components/commons/CourseCard';
 import Loading from '@/components/commons/Loading';
+import { getCategoryColors } from '@/config/categoryColors';
 import { Course } from '@/schemas/course.schema';
 import { getCourses } from '@/services/api/course';
 import { fetchPaidStudentsCount } from '@/services/api/payment';
@@ -60,20 +61,23 @@ const ListCourseCard: React.FC = () => {
 				<Loading />
 			) : (
 				<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
-					{courses.map((course) => (
-						<CourseCard
-							key={course.id}
-							imageUrl={course.thumbnail}
-							category={course.tag}
-							categoryBgColor="bg-blue-100"
-							categoryTextColor="text-blue-800"
-							price={`${course.salePrice}`}
-							title={course.title}
-							rating={0.0}
-							students={course.students ?? 0}
-							onClick={() => handleCourseClick(course.id)}
-						/>
-					))}
+					{courses.map((course) => {
+						const { bgColor, textColor } = getCategoryColors(course.tag);
+						return (
+							<CourseCard
+								key={course.id}
+								imageUrl={course.thumbnail}
+								category={course.tag}
+								categoryBgColor={bgColor}
+								categoryTextColor={textColor}
+								price={`${course.salePrice}`}
+								title={course.title}
+								rating={0.0}
+								students={course.students ?? 0}
+								onClick={() => handleCourseClick(course.id)}
+							/>
+						);
+					})}
 				</div>
 			)}
 		</section>
