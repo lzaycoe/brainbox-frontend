@@ -100,7 +100,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 				</div>
 				<div className="flex justify-center self-stretch my-auto">
 					<PiUser className="self-stretch my-auto leading-none text-[#564FFD]" />
-					<div className="self-stretch my-auto leading-none text-gray-600 font-medium">
+					<div className="self-stretch my-auto leading-none text-gray-600 font-medium ml-1">
 						{students}
 					</div>
 					<div className="self-stretch my-auto leading-loose text-gray-400 ml-1">

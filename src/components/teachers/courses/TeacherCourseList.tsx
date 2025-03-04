@@ -8,7 +8,9 @@ import FilterSelects from '@/components/teachers/courses/FilterSelects';
 import TeacherCourseCard from '@/components/teachers/courses/TeacherCourseCard';
 import { useUserContext } from '@/contexts/UserContext';
 import { Course } from '@/schemas/course.schema';
+import { Payment } from '@/schemas/payment.schema';
 import { getTeacherCourses } from '@/services/api/course';
+import { getPaymentsFromCourse } from '@/services/api/payment';
 
 const TeacherCourseList: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
@@ -20,6 +22,9 @@ const TeacherCourseList: React.FC = () => {
 	const { user, loading: userLoading } = useUserContext();
 	const [courses, setCourses] = useState<Course[]>([]);
 	const [fetchLoading, setFetchLoading] = useState(true);
+	const [paidPaymentsCount, setPaidPaymentsCount] = useState<{
+		[key: number]: number;
+	}>({});
 
 	useEffect(() => {
 		const fetchCourses = async () => {
@@ -43,6 +48,28 @@ const TeacherCourseList: React.FC = () => {
 
 		fetchCourses();
 	}, [userLoading, user]);
+
+	useEffect(() => {
+		const fetchPaymentsForCourses = async () => {
+			if (courses.length === 0) return;
+
+			const paymentsCountMap: { [key: number]: number } = {};
+
+			await Promise.all(
+				courses.map(async (course) => {
+					const payments = await getPaymentsFromCourse(course.id);
+					const paidCount = (payments ?? []).filter(
+						(payment: Payment) => payment.status === 'paid',
+					).length;
+					paymentsCountMap[course.id] = paidCount;
+				}),
+			);
+
+			setPaidPaymentsCount(paymentsCountMap);
+		};
+
+		fetchPaymentsForCourses();
+	}, [courses]);
 
 	const indexOfLastCourse = currentPage * coursesPerPage;
 	const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
@@ -90,7 +117,12 @@ const TeacherCourseList: React.FC = () => {
 				<>
 					<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mb-5">
 						{currentCourses.map((course) => (
-							<TeacherCourseCard key={course.id} {...course} />
+							<TeacherCourseCard
+								key={course.id}
+								{...course}
+								rating="5.0"
+								students={(paidPaymentsCount[course.id] || 0).toString()}
+							/>
 						))}
 					</div>
 					<PaginationCustom
