@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { PiArrowRight } from 'react-icons/pi';
 
@@ -22,6 +23,7 @@ interface TeacherCardProps {
 const ListTeacherCard: React.FC = () => {
 	const [teachers, setTeachers] = useState<User[] | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
+	const router = useRouter();
 
 	useEffect(() => {
 		const fetchTeachers = async () => {
@@ -102,6 +104,8 @@ const ListTeacherCard: React.FC = () => {
 				/>
 			);
 		});
+	const handleClick = () => {
+		router.push(`/become-instructor`);
 	};
 
 	return (
@@ -120,6 +124,7 @@ const ListTeacherCard: React.FC = () => {
 				<Button
 					className="flex gap-2 justify-center items-center self-stretch py-1 my-auto font-medium leading-none text-orange-500 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500"
 					aria-label="Become Instructor"
+					onClick={handleClick}
 				>
 					<span className="self-stretch my-auto">Become a Teacher</span>
 					<PiArrowRight

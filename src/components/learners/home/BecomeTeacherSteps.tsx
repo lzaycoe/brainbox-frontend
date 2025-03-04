@@ -1,9 +1,18 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { PiArrowRight } from 'react-icons/pi';
 
 import { Button } from '@/components/ui/button';
 
 const BecomeTeacherSteps: React.FC = () => {
+	const router = useRouter();
+
+	const navigate = () => {
+		router.push('/become-instructor');
+	};
+
 	return (
 		<div className="flex flex-wrap gap-6 justify-center items-center px-10 pt-20 pb-20 bg-slate-100 max-md:px-5 max-md:pb-24">
 			<div
@@ -23,7 +32,10 @@ const BecomeTeacherSteps: React.FC = () => {
 							Udemy. We provide the tools and skills to teach what you love.
 						</p>
 					</div>
-					<Button className="flex gap-3 justify-center items-center self-start px-6 mt-8 text-base font-semibold tracking-normal leading-none text-orange-500 capitalize bg-white shadow-lg max-md:px-5">
+					<Button
+						className="flex gap-3 justify-center items-center self-start px-6 mt-8 text-base font-semibold tracking-normal leading-none text-orange-500 capitalize bg-white shadow-lg max-md:px-5"
+						onClick={navigate}
+					>
 						<span className="self-stretch my-auto">Start teaching</span>
 						<PiArrowRight
 							className="flex shrink-0 self-stretch my-auto w-6 h-6"

@@ -209,7 +209,7 @@ const PaymentList = () => {
 							<div className="text-left">
 								<span className="text-orange-500 text-xl font-medium">
 									{formatPrice(
-										payment.courseDetails?.salePrice || payment.price,
+										payment.courseDetails?.salePrice ?? payment.price,
 									)}
 								</span>
 								{payment.courseDetails?.originPrice && (
