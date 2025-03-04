@@ -37,8 +37,8 @@ const ListTeacherCard: React.FC = () => {
 						)
 					: [];
 
-				const sortedTeachers = teachersWithStudents.sort(
-					(a, b) => b.students - a.students,
+				const sortedTeachers = [...teachersWithStudents].sort(
+					(a, b) => (b.students || 0) - (a.students || 0),
 				);
 
 				setTeachers(sortedTeachers);
@@ -54,14 +54,14 @@ const ListTeacherCard: React.FC = () => {
 	}, []);
 
 	const transformLectureToCardProps = (teacher: User): TeacherCardProps => {
-		const clerkUser = teacher.clerkUser || {};
-		const firstName = clerkUser.firstName || teacher.firstName || '';
-		const lastName = clerkUser.lastName || teacher.lastName || '';
+		const clerkUser = teacher.clerkUser ?? {};
+		const firstName = clerkUser.firstName ?? teacher.firstName ?? '';
+		const lastName = clerkUser.lastName ?? teacher.lastName ?? '';
 		const fullName =
 			firstName || lastName ? `${firstName} ${lastName}`.trim() : 'Unknown';
 		const imageUrl =
-			clerkUser.imageUrl ||
-			teacher.imageUrl ||
+			clerkUser.imageUrl ??
+			teacher.imageUrl ??
 			'/app/teacher-img-placeholder.png';
 
 		return {
@@ -70,9 +70,31 @@ const ListTeacherCard: React.FC = () => {
 			title: fullName,
 			major: 'Software Engineering',
 			rating: 0.0,
-			students: teacher.students || 0,
+			students: teacher.students ?? 0,
 		};
 	};
+
+	const teacherGridContent = loading ? (
+		<div className="col-span-5 flex justify-center">
+			<Loading />
+		</div>
+	) : teachers && teachers.length > 0 ? (
+		teachers.map((teacher) => {
+			const cardProps = transformLectureToCardProps(teacher);
+			return (
+				<TeacherCard
+					key={teacher.id}
+					avatarUrl={cardProps.imageUrl}
+					name={cardProps.title}
+					major={cardProps.major}
+					rating={cardProps.rating}
+					students={cardProps.students}
+				/>
+			);
+		})
+	) : (
+		<p className="col-span-5 text-center text-red-500">No teachers found</p>
+	);
 
 	return (
 		<section className="flex flex-col items-center py-10">
@@ -80,29 +102,7 @@ const ListTeacherCard: React.FC = () => {
 				Top teachers of the month
 			</h2>
 			<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
-				{loading ? (
-					<div className="col-span-5 flex justify-center">
-						<Loading />
-					</div>
-				) : teachers && teachers.length > 0 ? (
-					teachers.map((teacher) => {
-						const cardProps = transformLectureToCardProps(teacher);
-						return (
-							<TeacherCard
-								key={teacher.id}
-								avatarUrl={cardProps.imageUrl}
-								name={cardProps.title}
-								major={cardProps.major}
-								rating={cardProps.rating}
-								students={cardProps.students}
-							/>
-						);
-					})
-				) : (
-					<p className="col-span-5 text-center text-red-500">
-						No teachers found
-					</p>
-				)}
+				{teacherGridContent}
 			</div>
 			<div className="flex gap-3 items-center mt-10 text-sm tracking-normal text-center">
 				<p className="self-stretch my-auto leading-loose text-gray-600">
