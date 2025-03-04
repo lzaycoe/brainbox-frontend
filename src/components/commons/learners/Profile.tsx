@@ -7,7 +7,7 @@ export default function Profile() {
 	const router = useRouter();
 
 	const navigate = () => {
-		router.push('/become-instuctor');
+		router.push('/become-instructor');
 	};
 
 	return (
