@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import '@/app/globals.css';
+import { Toaster } from '@/components/ui/toaster';
 import MainLayout from '@/layouts/MainLayout';
 
 const geistSans = Geist({
@@ -25,12 +26,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body
+		<div suppressHydrationWarning>
+			<div
+				suppressHydrationWarning
 				className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
 			>
 				<MainLayout>{children}</MainLayout>
-			</body>
-		</html>
+				<Toaster />
+			</div>
+		</div>
 	);
 }

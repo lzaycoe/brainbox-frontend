@@ -9,8 +9,8 @@ interface TeacherCardProps {
 	avatarUrl: string;
 	name: string;
 	major: string;
-	rating: string;
-	students: string;
+	rating: number;
+	students: number;
 }
 
 const TeacherCard: React.FC<TeacherCardProps> = ({

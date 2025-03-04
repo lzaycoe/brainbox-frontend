@@ -1,3 +1,4 @@
+import { useUser } from '@clerk/nextjs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import React from 'react';
@@ -34,11 +35,13 @@ const formInfoSchema = z.object({
 });
 
 const FormInfo = () => {
+	const { user } = useUser();
+
 	const form = useForm<z.infer<typeof formInfoSchema>>({
 		resolver: zodResolver(formInfoSchema),
 		defaultValues: {
-			firstName: '',
-			lastName: '',
+			firstName: user?.firstName ?? '',
+			lastName: user?.lastName ?? '',
 			username: '',
 			phoneNumber: '',
 			title: '',
@@ -157,7 +160,7 @@ const FormInfo = () => {
 								<div className="flex relative flex-col pt-40 w-full aspect-square max-md:pt-24">
 									<Image
 										loading="lazy"
-										src="/app/lazyavt.png"
+										src={user?.imageUrl ?? '/images/placeholder.png'}
 										alt="Profile picture"
 										className="object-cover absolute inset-0 size-full"
 										width={200}
