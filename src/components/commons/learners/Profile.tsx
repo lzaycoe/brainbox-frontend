@@ -1,6 +1,13 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function Profile() {
+	const router = useRouter();
+
+	const navigate = () => {
+		router.push('/become-instuctor');
+	};
+
 	return (
 		<div className="bg-[#FFEEE8] pt-20">
 			<div className="max-w-7xl mx-auto px-4">
@@ -19,7 +26,10 @@ export default function Profile() {
 								Web Designer & Best-Selling Instructor
 							</p>
 						</div>
-						<button className="ml-auto bg-[#FFF1EC] text-[#FF6636] px-6 py-2.5 rounded-lg hover:bg-[#FFE4DB] transition-colors flex items-center gap-2">
+						<button
+							className="ml-auto bg-[#FFF1EC] text-[#FF6636] px-6 py-2.5 rounded-lg hover:bg-[#FFE4DB] transition-colors flex items-center gap-2"
+							onClick={navigate}
+						>
 							Become Instructor
 							<svg
 								width="16"
