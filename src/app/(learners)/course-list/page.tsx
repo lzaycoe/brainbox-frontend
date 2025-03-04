@@ -4,9 +4,7 @@ import { getCourses } from '@/services/api/course';
 
 // Extend Course to match the expected type
 interface Course extends BaseCourse {
-	id: number;
 	status: string;
-	teacherId: number;
 	createdAt: string;
 	updatedAt: string;
 	rating?: string;

@@ -1,8 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-// Import useRouter
+import React, { useEffect, useState } from 'react';
 import {
 	FaArchive,
 	FaCheckCircle,
@@ -18,6 +17,9 @@ import {
 	FaVideo,
 } from 'react-icons/fa';
 
+import { fetchPaidStudentsCount } from '@/services/api/payment';
+import { formatCurrency } from '@/utils/currency';
+
 type SocialButtonProps = {
 	icon: React.ElementType;
 };
@@ -31,7 +33,7 @@ const SocialButton = ({ icon: Icon }: SocialButtonProps) => (
 interface CourseCardProps {
 	readonly salePrice: number;
 	readonly originPrice: number;
-	readonly courseId: string; // Added courseId prop
+	readonly courseId: string;
 }
 
 export default function CourseCard({
@@ -39,11 +41,25 @@ export default function CourseCard({
 	originPrice,
 	courseId,
 }: CourseCardProps) {
-	const router = useRouter(); // Initialize useRouter
+	const router = useRouter();
 	const discountPercentage = Math.round(
 		((originPrice - salePrice) / originPrice) * 100,
 	);
 	const [isCopied, setIsCopied] = useState(false);
+	const [students, setStudents] = useState<number>(0);
+
+	useEffect(() => {
+		const fetchStudents = async () => {
+			try {
+				const studentCount = await fetchPaidStudentsCount(Number(courseId));
+				setStudents(studentCount);
+			} catch (error) {
+				console.error('Failed to fetch student count:', error);
+			}
+		};
+
+		fetchStudents();
+	}, [courseId]);
 
 	const handleCopyLink = async () => {
 		try {
@@ -57,16 +73,18 @@ export default function CourseCard({
 	};
 
 	const handleBuyNow = () => {
-		router.push(`/checkout/${courseId}`); // Navigate to /checkout/[id]
+		router.push(`/checkout/${courseId}`);
 	};
 
 	return (
 		<div className="border border-gray-200 rounded-lg bg-white p-6">
 			<div className="flex justify-between items-start">
 				<div className="flex items-center gap-2">
-					<span className="text-2xl font-medium">${salePrice.toFixed(2)}</span>
+					<span className="text-2xl font-medium">
+						{formatCurrency(salePrice)}
+					</span>
 					<span className="text-gray-400 line-through">
-						${originPrice.toFixed(2)}
+						{formatCurrency(originPrice)}
 					</span>
 				</div>
 				<span className="px-2 py-1 bg-orange-50 text-orange-500 text-xs font-medium rounded">
@@ -82,19 +100,19 @@ export default function CourseCard({
 			<div className="mt-6 space-y-4">
 				<div className="flex justify-between">
 					<span className="text-gray-600">Course Duration</span>
-					<span>6 Month</span>
+					<span>Life-time</span>
 				</div>
 				<div className="flex justify-between">
 					<span className="text-gray-600">Course Level</span>
-					<span>Beginner and Intermediate</span>
+					<span>Coming soon</span>
 				</div>
 				<div className="flex justify-between">
 					<span className="text-gray-600">Students Enrolled</span>
-					<span>69,419,618</span>
+					<span>{students.toLocaleString()}</span>
 				</div>
 				<div className="flex justify-between">
 					<span className="text-gray-600">Language</span>
-					<span>Mandarin</span>
+					<span>English</span>
 				</div>
 				<div className="flex justify-between">
 					<span className="text-gray-600">Subtitle Language</span>

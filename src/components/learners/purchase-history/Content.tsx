@@ -78,7 +78,7 @@ const PaymentList = () => {
 
 	const fetchPayments = async () => {
 		try {
-			const response = await getPaymentsFromUser(userData?.id ?? 0);
+			const response = await getPaymentsFromUser(userData?.id || 0);
 
 			if (!response) {
 				throw new Error('Failed to fetch payments');
