@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import FilterSelects from '@/components/teachers/courses/FilterSelects';
@@ -89,7 +90,7 @@ const TeacherCourseList: React.FC = () => {
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
 	if (userLoading || fetchLoading) {
-		return <div>Loading courses...</div>;
+		return <Loading />;
 	}
 
 	if (!user) {
