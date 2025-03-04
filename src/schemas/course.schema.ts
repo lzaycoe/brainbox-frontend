@@ -26,4 +26,6 @@ export interface Course extends CourseData {
 	id: number;
 	teacherId: number;
 	students?: number;
+	createdAt?: string;
+	updatedAt?: string;
 }
