@@ -77,6 +77,7 @@ const CurriculumSection: React.FC<CurriculumProps> = ({ courseId }) => {
 			return (
 				<video controls className="w-full">
 					<source src={url} type="video/mp4" />
+					<track kind="captions" srcLang="en" label="English captions" />
 					Your browser does not support the video tag.
 				</video>
 			);
@@ -130,8 +131,7 @@ const CurriculumSection: React.FC<CurriculumProps> = ({ courseId }) => {
 						<DialogTitle>{previewLecture.title}</DialogTitle>
 						<DialogDescription>
 							{previewLecture.type === 'video' &&
-								previewLecture.attachments &&
-								previewLecture.attachments[0] &&
+								previewLecture.attachments?.[0] &&
 								renderVideoPlayer(previewLecture.attachments[0])}
 						</DialogDescription>
 					</DialogContent>
