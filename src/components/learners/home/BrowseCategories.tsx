@@ -1,123 +1,70 @@
-import React from 'react';
-import { FiPenTool } from 'react-icons/fi';
-import { HiChip } from 'react-icons/hi';
-import {
-	PiArrowRight,
-	PiBugDroidBold,
-	PiCameraDuotone,
-	PiChartBarHorizontal,
-	PiCreditCardDuotone,
-	PiFirstAidKitDuotone,
-	PiHandshakeDuotone,
-	PiHeadphonesDuotone,
-	PiMegaphoneSimpleDuotone,
-	PiPackageDuotone,
-	PiReceiptDuotone,
-} from 'react-icons/pi';
+'use client';
 
+import React, { JSX, useEffect, useState } from 'react';
+import { PiArrowRight } from 'react-icons/pi';
+
+import Loading from '@/components/commons/Loading';
 import { Button } from '@/components/ui/button';
+import { getCategoryConfig } from '@/config/categoryConfig';
+import { getCourses } from '@/services/api/course';
 
 import CategoryCard from './CatergoryCard';
 
 export const BrowseCategories = () => {
-	const categories = [
+	const [categories, setCategories] = useState<
 		{
-			id: 1,
-			icon: <HiChip />,
-			title: 'Label',
-			courseCount: '63,476',
-			bgColor: 'bg-violet-100',
-			iconColor: '#564FFD',
-		},
-		{
-			id: 2,
-			icon: <PiHandshakeDuotone />,
-			title: 'Business',
-			courseCount: '52,822',
-			bgColor: 'bg-green-100',
-			iconColor: '#22C55E',
-		},
-		{
-			id: 3,
-			icon: <PiCreditCardDuotone />,
-			title: 'Finance & Accounting',
-			courseCount: '33,841',
-			bgColor: 'bg-orange-50',
-			iconColor: '#F59E0B',
-		},
-		{
-			id: 4,
-			icon: <PiChartBarHorizontal />,
-			title: 'IT & Software',
-			courseCount: '22,649',
-			bgColor: 'bg-rose-50',
-			iconColor: '#E34444',
-		},
-		{
-			id: 5,
-			icon: <PiBugDroidBold />,
-			title: 'Personal Development',
-			courseCount: '20,126',
-			bgColor: 'bg-rose-100',
-			iconColor: '#E34444',
-		},
-		{
-			id: 6,
-			icon: <PiReceiptDuotone />,
-			title: 'Office Productivity',
-			courseCount: '13,932',
-			bgColor: 'bg-slate-100',
-			iconColor: undefined,
-		},
-		{
-			id: 7,
-			icon: <PiMegaphoneSimpleDuotone />,
-			title: 'Marketing',
-			courseCount: '12,068',
-			bgColor: 'bg-violet-100',
-			iconColor: '#564FFD',
-		},
-		{
-			id: 8,
-			icon: <PiCameraDuotone />,
-			title: 'Photography & Video',
-			courseCount: '6,196',
-			bgColor: 'bg-slate-100',
-			iconColor: undefined,
-		},
-		{
-			id: 9,
-			icon: <PiPackageDuotone />,
-			title: 'Lifestyle',
-			courseCount: '2,736',
-			bgColor: 'bg-orange-50',
-			iconColor: '#FD8E1F',
-		},
-		{
-			id: 10,
-			icon: <FiPenTool />,
-			title: 'Design',
-			courseCount: '2,600',
-			bgColor: 'bg-rose-100',
-			iconColor: '#FF6636',
-		},
-		{
-			id: 11,
-			icon: <PiFirstAidKitDuotone />,
-			title: 'Health & Fitness',
-			courseCount: '1,678',
-			bgColor: 'bg-green-100',
-			iconColor: '#23BD33',
-		},
-		{
-			id: 12,
-			icon: <PiHeadphonesDuotone />,
-			title: 'Music',
-			courseCount: '959',
-			bgColor: 'bg-orange-50',
-			iconColor: '#FD8E1F',
-		},
-	];
+			id: number;
+			icon: JSX.Element;
+			title: string;
+			courseCount: number;
+			bgColor: string;
+			iconColor: string;
+		}[]
+	>([]);
+	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
+		const fetchCourses = async () => {
+			setLoading(true);
+			try {
+				const courses = await getCourses();
+				const categoryCounts: Record<string, number> = {};
+
+				courses.forEach((course) => {
+					const category = course.tag;
+					if (category) {
+						categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+					}
+				});
+
+				const categoryData = Object.keys(categoryCounts)
+					.map((category, index) => {
+						const {
+							icon: Icon,
+							bgColor,
+							iconColor,
+						} = getCategoryConfig(category);
+						return {
+							id: index + 1,
+							icon: <Icon className="icon-class" />,
+							title: category,
+							courseCount: categoryCounts[category],
+							bgColor,
+							iconColor: iconColor,
+						};
+					})
+					.sort((a, b) => b.courseCount - a.courseCount);
+
+				setCategories(categoryData);
+			} catch (error) {
+				console.error('Failed to fetch courses:', error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchCourses();
+	}, []);
 
 	return (
 		<section
@@ -131,11 +78,22 @@ export const BrowseCategories = () => {
 				Browse top category
 			</h2>
 			<div className="flex flex-col mt-10 max-md:max-w-full">
-				<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1">
-					{categories.map((category) => (
-						<CategoryCard key={category.id} {...category} />
-					))}
-				</div>
+				{loading ? (
+					<Loading />
+				) : (
+					<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1">
+						{categories.map((category) => (
+							<CategoryCard
+								key={category.id}
+								icon={category.icon}
+								title={category.title}
+								courseCount={category.courseCount}
+								bgColor={category.bgColor}
+								iconColor={category.iconColor}
+							/>
+						))}
+					</div>
+				)}
 			</div>
 			<div className="flex gap-3 items-center mt-10 text-sm tracking-normal text-center">
 				<p className="self-stretch my-auto leading-loose text-gray-600">

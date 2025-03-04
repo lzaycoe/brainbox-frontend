@@ -3,13 +3,14 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import { getCourse } from '@/services/api/course';
 
-interface VideoSectionProps {
+interface ThumbnailSection {
 	readonly courseId: string;
 }
 
-export default function VideoSection({ courseId }: VideoSectionProps) {
+export default function ThumbnailSection({ courseId }: ThumbnailSection) {
 	const [thumbnail, setThumbnail] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -18,8 +19,7 @@ export default function VideoSection({ courseId }: VideoSectionProps) {
 		const fetchThumbnail = async () => {
 			try {
 				setLoading(true);
-				const course = await getCourse(courseId);
-				// Handle empty string by converting to null
+				const course = await getCourse(+courseId);
 				const thumbnailUrl =
 					course.thumbnail && course.thumbnail.trim() !== ''
 						? course.thumbnail
@@ -43,7 +43,7 @@ export default function VideoSection({ courseId }: VideoSectionProps) {
 		return (
 			<section className="flex flex-col justify-center items-center px-16 py-38 max-w-[872px] max-md:px-5 max-md:py-24">
 				<div className="relative w-full max-w-3xl aspect-video flex items-center justify-center">
-					<p className="text-gray-500">Loading...</p>
+					<Loading />
 				</div>
 			</section>
 		);
@@ -59,9 +59,8 @@ export default function VideoSection({ courseId }: VideoSectionProps) {
 		);
 	}
 
-	// Only render Image if thumbnail is a valid string
 	return (
-		<section className="flex flex-col justify-center items-center px-16 py-38 max-w-[872px] max-md:px-5 max-md:py-24">
+		<section className="flex flex-col justify-center items-center py-38 max-w-[872px] max-md:px-5 max-md:py-24">
 			<div className="relative w-full max-w-3xl aspect-video">
 				{thumbnail ? (
 					<Image
@@ -74,7 +73,7 @@ export default function VideoSection({ courseId }: VideoSectionProps) {
 				) : (
 					<Image
 						className="w-full h-full rounded-lg shadow-lg object-cover"
-						src="https://via.placeholder.com/872x490"
+						src="/app/course-thumbnail-placeholder.png"
 						alt="Course Thumbnail Placeholder"
 						width={872}
 						height={490}

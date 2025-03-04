@@ -20,13 +20,14 @@ interface CourseCardProps {
 	category: string;
 	categoryBgColor: string;
 	categoryTextColor: string;
-	price?: string;
+	price?: number | string;
 	title: string;
-	rating: string;
-	students: string;
+	rating: number | string;
+	students: number | string;
 	maxWidth?: string;
 	hideAddToCartButton?: boolean;
 	children?: React.ReactNode;
+	onClick?: () => void;
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({
@@ -36,15 +37,26 @@ const CourseCard: React.FC<CourseCardProps> = ({
 	categoryTextColor,
 	price,
 	title,
-	rating,
-	students,
+	rating = '0.0',
+	students = '0',
 	maxWidth = 'max-w-[244px]',
 	hideAddToCartButton = false,
 	children,
+	onClick,
 }) => {
 	return (
 		<Card
 			className={`flex flex-col justify-between bg-white ${maxWidth} min-h-[300px] max-h-[450px] transition-transform transform hover:scale-105 cursor-pointer group hover:shadow-2xl`}
+			typeof="button"
+			onClick={onClick}
+			tabIndex={0}
+			aria-label={`View course: ${title}`}
+			onKeyDown={(e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					onClick?.();
+				}
+			}}
 		>
 			<Image
 				loading="lazy"
@@ -76,16 +88,17 @@ const CourseCard: React.FC<CourseCardProps> = ({
 						)}
 						{!hideAddToCartButton && (
 							<Button
-								aria-label="Shopping cart"
+								aria-label="Add to cart"
 								className="focus:outline-none"
 								variant={'ghost'}
+								onClick={(e) => e.stopPropagation()}
 							>
 								<FiShoppingCart />
 							</Button>
 						)}
 					</div>
 				</div>
-				<CardTitle className="mt-2.5 text-sm font-bold tracking-normal leading-5 text-neutral-800 group-hover:text-orange-500 line-clamp-2 min-h-[2.5rem]">
+				<CardTitle className="mt-2.5 text-sm font-bold tracking-normal leading-5 text-neutral-800 group-hover:text-orange-500 line-clamp-2 min-h-[2.5rem] flex justify-start">
 					{title}
 				</CardTitle>
 			</CardContent>
@@ -100,7 +113,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 				</div>
 				<div className="flex justify-center self-stretch my-auto">
 					<PiUser className="self-stretch my-auto leading-none text-[#564FFD]" />
-					<div className="self-stretch my-auto leading-none text-gray-600 font-medium">
+					<div className="self-stretch my-auto leading-none text-gray-600 font-medium ml-1">
 						{students}
 					</div>
 					<div className="self-stretch my-auto leading-loose text-gray-400 ml-1">
