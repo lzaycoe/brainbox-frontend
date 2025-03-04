@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { PiClipboardTextDuotone, PiStackDuotone } from 'react-icons/pi';
 
+import Loading from '@/components/commons/Loading';
 import FormAdvanceInfo from '@/components/teachers/create-course/FormAdvanceInfo';
 import FormBasicInfo from '@/components/teachers/create-course/FormBasicInfo';
 import TabGroup from '@/components/teachers/create-course/TabGroup';
@@ -178,7 +179,7 @@ const CourseForm: React.FC<CourseFormProps> = ({
 	];
 
 	if (isFetching || userLoading) {
-		return <div className="px-40 flex justify-center mt-10">Loading...</div>;
+		return <Loading />;
 	}
 
 	return (
