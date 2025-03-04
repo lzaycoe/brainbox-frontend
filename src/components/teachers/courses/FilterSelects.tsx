@@ -50,12 +50,12 @@ const FilterSelects: React.FC<FilterSelectsProps> = ({
 }) => {
 	return (
 		<div className="flex gap-6">
-			<div className="w-60 flex flex-col justify-start items-start gap-2">
+			<div className="w-80 min-w-70 flex flex-col justify-start items-start gap-2">
 				<div className="text-[#6e7484] text-xs font-normal leading-none">
 					Category:
 				</div>
 				<Select onValueChange={onCategoryChange}>
-					<SelectTrigger className="h-12 pl-[18px] pr-4 py-3 bg-white border border-[#e8eaef] justify-between items-center gap-[100px] inline-flex overflow-hidden">
+					<SelectTrigger className="h-12 pl-[18px] pr-4 py-3 bg-white border border-[#e8eaef] justify-between items-center gap-[100px] inline-flex">
 						<SelectValue placeholder="All Categories" />
 					</SelectTrigger>
 					<SelectContent>
