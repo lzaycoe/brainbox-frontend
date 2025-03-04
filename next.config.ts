@@ -34,11 +34,6 @@ const nextConfig: NextConfig = {
 				hostname: 'd2ms8rpfqc4h24.cloudfront.net',
 				pathname: '/**',
 			},
-			{
-        protocol: 'https',
-				hostname: 'img.clerk.com',
-        pathname: '/**',
-      },
       {
         protocol: 'https',
 				hostname: 'cdn.builder.io',
