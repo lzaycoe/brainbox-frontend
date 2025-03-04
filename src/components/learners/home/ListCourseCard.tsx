@@ -3,13 +3,14 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-// Import useRouter
 import CourseCard from '@/components/commons/CourseCard';
+import Loading from '@/components/commons/Loading';
 import { Course } from '@/schemas/course.schema';
 import { getCourses } from '@/services/api/course';
+import { fetchPaidStudentsCount } from '@/services/api/payment';
 
 const ListCourseCard: React.FC = () => {
-	const router = useRouter(); // Initialize useRouter
+	const router = useRouter();
 	const [courses, setCourses] = useState<Course[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
@@ -19,13 +20,19 @@ const ListCourseCard: React.FC = () => {
 			try {
 				const data = await getCourses();
 
-				const formattedData: Course[] = data.map((course, index) => ({
-					...course,
-					id: course.id || index + 1,
-				}));
+				const formattedData: Course[] = await Promise.all(
+					data.map(async (course, index) => {
+						const students = await fetchPaidStudentsCount(course.id);
+						return {
+							...course,
+							id: course.id || index + 1,
+							students,
+						};
+					}),
+				);
 
 				const sortedCourses = [...formattedData].sort(
-					(a, b) => b.salePrice - a.salePrice,
+					(a, b) => (b.students ?? 0) - (a.students ?? 0),
 				);
 				setCourses(sortedCourses.slice(0, 10));
 			} catch {
@@ -39,20 +46,8 @@ const ListCourseCard: React.FC = () => {
 	}, []);
 
 	const handleCourseClick = (id: number) => {
-		router.push(`/courses/${id}`); // Navigate to /courses/[id]
+		router.push(`/courses/${id}`);
 	};
-
-	const handleKeyDown = (
-		event: React.KeyboardEvent<HTMLButtonElement>,
-		id: number,
-	) => {
-		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault(); // Prevent scrolling on Space
-			handleCourseClick(id);
-		}
-	};
-
-	if (loading) return <p className="flex justify-center">Loading...</p>;
 
 	if (error) return <p className="text-red-500">{error}</p>;
 
@@ -61,27 +56,26 @@ const ListCourseCard: React.FC = () => {
 			<h2 className="text-3xl font-semibold text-center mb-8">
 				Best Selling Courses
 			</h2>
-			<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
-				{courses.map((course) => (
-					<button
-						key={course.id}
-						onClick={() => handleCourseClick(course.id)}
-						onKeyDown={(e) => handleKeyDown(e, course.id)}
-						className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
-					>
+			{loading ? (
+				<Loading />
+			) : (
+				<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
+					{courses.map((course) => (
 						<CourseCard
+							key={course.id}
 							imageUrl={course.thumbnail}
 							category={course.tag}
 							categoryBgColor="bg-blue-100"
 							categoryTextColor="text-blue-800"
-							price={`$${course.salePrice}`}
+							price={`${course.salePrice}`}
 							title={course.title}
-							rating="4.8"
-							students="150K"
+							rating={0.0}
+							students={course.students ?? 0}
+							onClick={() => handleCourseClick(course.id)}
 						/>
-					</button>
-				))}
-			</div>
+					))}
+				</div>
+			)}
 		</section>
 	);
 };

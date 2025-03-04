@@ -46,7 +46,7 @@ const BecomeTeacherSteps: React.FC = () => {
 								1
 							</div>
 							<p className="self-stretch my-auto text-base text-neutral-800 w-[206px]">
-								Apply to become instructor
+								Apply to become a teacher
 							</p>
 						</div>
 						<div className="flex gap-4 justify-center items-center min-w-[240px]">

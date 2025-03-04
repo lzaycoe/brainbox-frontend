@@ -116,8 +116,8 @@ const TeacherCourseList: React.FC = () => {
 							<TeacherCourseCard
 								key={course.id}
 								{...course}
-								rating="5.0"
-								students={(paidPaymentsCount[course.id] || 0).toString()}
+								rating={5.0}
+								students={paidPaymentsCount[course.id] || 0}
 							/>
 						))}
 					</div>

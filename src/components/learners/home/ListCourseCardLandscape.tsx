@@ -3,11 +3,15 @@
 import { Button } from '../../ui/button';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-// Import useRouter
 import { PiArrowRight } from 'react-icons/pi';
 
+import Loading from '@/components/commons/Loading';
+import { getCategoryColors } from '@/config/categoryColors';
 import { Course } from '@/schemas/course.schema';
 import { getCourses } from '@/services/api/course';
+import { fetchPaidStudentsCount } from '@/services/api/payment';
+import { getUserClerk } from '@/services/api/user';
+import { formatCurrency } from '@/utils/currency';
 
 import CourseCardLandscape from './CourseCardLandscape';
 
@@ -29,13 +33,13 @@ interface CourseCardLandscapeProps {
 	discountedPrice: string;
 	teacherAvatar: string;
 	teacherName: string;
-	rating: string;
-	students: string;
+	rating: number | string;
+	students: number | string;
 	duration: string;
 }
 
 const ListCourseCardLandscape: React.FC = () => {
-	const router = useRouter(); // Initialize useRouter
+	const router = useRouter();
 	const [courses, setCourses] = useState<CourseCardLandscapeProps[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
@@ -45,28 +49,54 @@ const ListCourseCardLandscape: React.FC = () => {
 			try {
 				const fetchedCourses: Course[] = await getCourses();
 
-				const formattedCourses: CourseCardLandscapeProps[] = fetchedCourses.map(
-					(course) => ({
-						id: course.id,
-						title: course.title,
-						subtitle: course.subtitle || 'No subtitle available',
-						tag: course.tag || 'General',
-						description: course.description || 'No description available',
-						thumbnail: course.thumbnail || '/app/default-thumbnail.png',
-						originPrice: course.originPrice,
-						salePrice: course.salePrice,
-						public: course.public,
-						imageUrl: course.thumbnail || '/app/default-thumbnail.png',
-						category: course.tag || 'Uncategorized',
-						categoryBgColor: 'bg-gray-100',
-						categoryTextColor: 'text-gray-800',
-						price: `$${course.salePrice || course.originPrice}`,
-						discountedPrice: `$${course.originPrice || course.salePrice}`,
-						teacherAvatar: '/app/default-teacher.png',
-						teacherName: 'Unknown Instructor',
-						rating: '4.5',
-						students: '0',
-						duration: 'Unknown',
+				const formattedCourses: CourseCardLandscapeProps[] = await Promise.all(
+					fetchedCourses.map(async (course) => {
+						let teacherAvatar = '/app/default-teacher.png';
+						let teacherName = 'Unknown Instructor';
+
+						if (course.teacherId) {
+							try {
+								const teacher = await getUserClerk(course.teacherId);
+								teacherAvatar = teacher.imageUrl || teacherAvatar;
+								teacherName =
+									`${teacher.firstName || ''} ${teacher.lastName || ''}`.trim() ||
+									teacherName;
+							} catch (error) {
+								console.error(
+									`Failed to fetch teacher data for course ${course.id}:`,
+									error,
+								);
+							}
+						}
+
+						const { bgColor, textColor } = getCategoryColors(
+							course.tag || 'Uncategorized',
+						);
+
+						const students = await fetchPaidStudentsCount(course.id);
+
+						return {
+							id: course.id,
+							title: course.title,
+							subtitle: course.subtitle || 'No subtitle available',
+							tag: course.tag || 'General',
+							description: course.description || 'No description available',
+							thumbnail: course.thumbnail || '/app/default-thumbnail.png',
+							originPrice: course.originPrice,
+							salePrice: course.salePrice,
+							public: course.public,
+							imageUrl: course.thumbnail || '/app/default-thumbnail.png',
+							category: course.tag || 'Uncategorized',
+							categoryBgColor: bgColor,
+							categoryTextColor: textColor,
+							price: `${formatCurrency(course.salePrice) || formatCurrency(course.originPrice)}`,
+							discountedPrice: `${formatCurrency(course.originPrice) || formatCurrency(course.salePrice)}`,
+							teacherAvatar,
+							teacherName,
+							rating: '0.0',
+							students: students,
+							duration: 'Life-time',
+						};
 					}),
 				);
 
@@ -82,11 +112,11 @@ const ListCourseCardLandscape: React.FC = () => {
 	}, []);
 
 	const handleCourseClick = (id: number) => {
-		router.push(`/courses/${id}`); // Navigate to /courses/[id]
+		router.push(`/courses/${id}`);
 	};
 
 	const handleBrowseAll = () => {
-		router.push('/course-list'); // Navigate to /course-list
+		router.push('/course-list');
 	};
 
 	const handleKeyDown = (
@@ -94,7 +124,7 @@ const ListCourseCardLandscape: React.FC = () => {
 		id: number,
 	) => {
 		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault(); // Prevent scrolling on Space
+			event.preventDefault();
 			handleCourseClick(id);
 		}
 	};
@@ -105,7 +135,7 @@ const ListCourseCardLandscape: React.FC = () => {
 				Our Feature Courses
 			</h2>
 
-			{loading && <p>Loading courses...</p>}
+			{loading && <Loading />}
 			{error && <p className="text-red-500">{error}</p>}
 
 			{!loading && !error && (

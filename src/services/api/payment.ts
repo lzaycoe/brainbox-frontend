@@ -43,7 +43,6 @@ export const createPayment = async (
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				// body: JSON.stringify(paymentData),
 			},
 		);
 		return response.data;

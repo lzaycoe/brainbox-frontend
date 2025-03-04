@@ -20,13 +20,14 @@ interface CourseCardProps {
 	category: string;
 	categoryBgColor: string;
 	categoryTextColor: string;
-	price?: string;
+	price?: number | string;
 	title: string;
-	rating: string;
-	students: string;
+	rating: number | string;
+	students: number | string;
 	maxWidth?: string;
 	hideAddToCartButton?: boolean;
 	children?: React.ReactNode;
+	onClick?: () => void;
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({
@@ -41,10 +42,21 @@ const CourseCard: React.FC<CourseCardProps> = ({
 	maxWidth = 'max-w-[244px]',
 	hideAddToCartButton = false,
 	children,
+	onClick,
 }) => {
 	return (
 		<Card
 			className={`flex flex-col justify-between bg-white ${maxWidth} min-h-[300px] max-h-[450px] transition-transform transform hover:scale-105 cursor-pointer group hover:shadow-2xl`}
+			typeof="button"
+			onClick={onClick}
+			tabIndex={0}
+			aria-label={`View course: ${title}`}
+			onKeyDown={(e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					onClick?.();
+				}
+			}}
 		>
 			<Image
 				loading="lazy"
@@ -76,9 +88,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
 						)}
 						{!hideAddToCartButton && (
 							<Button
-								aria-label="Shopping cart"
+								aria-label="Add to cart"
 								className="focus:outline-none"
 								variant={'ghost'}
+								onClick={(e) => e.stopPropagation()}
 							>
 								<FiShoppingCart />
 							</Button>
