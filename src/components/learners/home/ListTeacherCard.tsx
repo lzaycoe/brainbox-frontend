@@ -74,12 +74,22 @@ const ListTeacherCard: React.FC = () => {
 		};
 	};
 
-	const teacherGridContent = loading ? (
-		<div className="col-span-5 flex justify-center">
-			<Loading />
-		</div>
-	) : teachers && teachers.length > 0 ? (
-		teachers.map((teacher) => {
+	const renderTeacherGridContent = () => {
+		if (loading) {
+			return (
+				<div className="col-span-5 flex justify-center">
+					<Loading />
+				</div>
+			);
+		}
+
+		if (!teachers || teachers.length === 0) {
+			return (
+				<p className="col-span-5 text-center text-red-500">No teachers found</p>
+			);
+		}
+
+		return teachers.map((teacher) => {
 			const cardProps = transformLectureToCardProps(teacher);
 			return (
 				<TeacherCard
@@ -91,10 +101,8 @@ const ListTeacherCard: React.FC = () => {
 					students={cardProps.students}
 				/>
 			);
-		})
-	) : (
-		<p className="col-span-5 text-center text-red-500">No teachers found</p>
-	);
+		});
+	};
 
 	return (
 		<section className="flex flex-col items-center py-10">
@@ -102,7 +110,7 @@ const ListTeacherCard: React.FC = () => {
 				Top teachers of the month
 			</h2>
 			<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
-				{teacherGridContent}
+				{renderTeacherGridContent()}
 			</div>
 			<div className="flex gap-3 items-center mt-10 text-sm tracking-normal text-center">
 				<p className="self-stretch my-auto leading-loose text-gray-600">
