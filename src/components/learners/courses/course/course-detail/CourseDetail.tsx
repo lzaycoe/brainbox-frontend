@@ -15,7 +15,7 @@ import Tabs from '@/components/learners/courses/course/course-detail/Tabs';
 import VideoSection from '@/components/learners/courses/course/course-detail/VideoSection';
 import { CourseData } from '@/schemas/course.schema';
 import { getCourse } from '@/services/api/course';
-import { getTeacher } from '@/services/api/lecture';
+import { getUserClerk } from '@/services/api/user';
 
 type Instructor = {
 	id: string;
@@ -76,10 +76,9 @@ export default function CourseDetailsPage({
 
 				let teacherData;
 				if (course.teacherId) {
-					teacherData = await getTeacher(course.teacherId);
+					teacherData = await getUserClerk(course.teacherId);
 				}
 
-				// Tách ternary lồng nhau thành câu lệnh riêng
 				let creatorName = 'Unknown Instructor';
 				if (teacherData) {
 					const lastNamePart = teacherData.lastName
