@@ -92,8 +92,6 @@ export default function CourseList() {
 		const courseId = course.id;
 		const price = +course.salePrice;
 
-		console.log('paymentData', userId, courseId, price);
-
 		setIsSubmitting(true);
 		try {
 			const response = await createPayment(userId, courseId, price);
@@ -104,7 +102,7 @@ export default function CourseList() {
 				setShowPopup(true);
 				return;
 			}
-			router.push(response);
+			router.push(response.data);
 		} catch (error) {
 			console.error('Error during payment:', error);
 		} finally {
