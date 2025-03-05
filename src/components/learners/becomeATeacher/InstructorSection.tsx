@@ -3,9 +3,11 @@
 import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { User } from '@/schemas/user.schema';
+import { createPayment } from '@/services/api/payment';
 import { getUserByClerkId } from '@/services/api/user';
 
 export default function InstructorSection() {
@@ -13,6 +15,7 @@ export default function InstructorSection() {
 	const [showPopup, setShowPopup] = useState(false);
 	const [userData, setUserData] = useState<User | null>(null);
 	const { user } = useUser();
+	const router = useRouter();
 
 	const fetchUser = async () => {
 		try {
@@ -35,32 +38,22 @@ export default function InstructorSection() {
 	}, [user?.id]);
 
 	const handlePayment = async () => {
-		const paymentData = {
-			userId: userData?.id,
-			courseId: null,
-			price: 50000,
-		};
+		const userId = userData?.id || 0;
+		const courseId = null;
+		const price = 50000;
 
 		setIsSubmitting(true);
 		try {
-			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_API_URL}` + `/users/become-a-teacher`,
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(paymentData),
-				},
-			);
+			const response = await createPayment(userId, courseId, price);
+
+			console.log('response', response);
 
 			if (response.status === 409) {
 				setShowPopup(true);
 				return;
 			}
 
-			const redirectUrl = await response.text();
-			window.location.href = redirectUrl;
+			router.push(response.data);
 		} catch (error) {
 			console.error('Error during payment:', error);
 		} finally {
