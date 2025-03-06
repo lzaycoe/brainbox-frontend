@@ -46,42 +46,53 @@ const CommonMessageItem = ({
 	hasNotification,
 	onClick,
 	avatar,
-}: any) => (
-	<div
-		className={`p-3 flex items-center gap-4 w-full cursor-pointer transition-colors ${isActive ? 'bg-[#FFDDD1]' : 'bg-white'}`}
+}: {
+	name: string;
+	message: string;
+	time: string;
+	isActive: boolean;
+	hasNotification: boolean;
+	onClick: () => void;
+	avatar: string;
+}) => (
+	<button
+		className={`p-3 flex items-center gap-4 w-full cursor-pointer transition-colors text-left ${
+			isActive ? 'bg-[#FFDDD1]' : 'bg-white'
+		}`}
 		onClick={onClick}
-		role="button"
-		tabIndex={0}
 		aria-label={`Chat with ${name}`}
-		onKeyDown={(e) => e.key === 'Enter' && onClick()}
 	>
 		<div className="relative w-[48px] h-[48px]">
 			<Image
 				className="rounded-full"
 				src={avatar}
-				alt={name}
+				alt={`Avatar of ${name}`}
 				width={48}
 				height={48}
 			/>
-			<div className="w-[10px] h-[10px] absolute right-0 bottom-0 bg-[#23BD33] rounded-full border-2" />
+			<div className="w-[10px] h-[10px] absolute right-0 bottom-0 bg-[#23BD33] rounded-full border-2 border-white" />
 		</div>
 		<div className="flex flex-col w-full">
 			<div className="flex justify-between items-center">
-				<div className="text-[#1D2026] text-[14px] font-medium">{name}</div>
-				<div className="text-[#4E5566] text-[14px] font-normal">{time}</div>
+				<span className="text-[#1D2026] text-[14px] font-medium">{name}</span>
+				<span className="text-[#4E5566] text-[14px] font-normal">{time}</span>
 			</div>
 			<div className="flex justify-between items-center">
-				<div
-					className={`text-[14px] ${hasNotification ? 'font-bold text-[#1D2026]' : 'font-normal text-[#6E7485]'}`}
+				<span
+					className={`text-[14px] ${
+						hasNotification
+							? 'font-bold text-[#1D2026]'
+							: 'font-normal text-[#6E7485]'
+					}`}
 				>
 					{message}
-				</div>
+				</span>
 				{hasNotification && (
 					<div className="w-[8px] h-[8px] bg-[#FF6636] rounded-full" />
 				)}
 			</div>
 		</div>
-	</div>
+	</button>
 );
 
 const CommonInfo = ({
