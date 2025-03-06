@@ -8,65 +8,7 @@ import { GrSearch } from 'react-icons/gr';
 import { LuPencilLine } from 'react-icons/lu';
 import { VscSend } from 'react-icons/vsc';
 
-const messages = [
-	{
-		name: 'Jane Cooper',
-		message: 'Yeah sure, tell me Zafor',
-		time: 'just now',
-		avatar: '/app/lazyavt.png',
-	},
-	{
-		name: 'Jenny Wilson',
-		message: 'Thank you so much, sir',
-		time: '2 d',
-		avatar: '/app/lazyavt.png',
-		hasNotification: true,
-	},
-	{
-		name: 'Cody Fisher',
-		message: 'Are we meeting today?',
-		time: '1 h',
-		avatar: '/app/lazyavt.png',
-	},
-	{
-		name: 'Robert Fox',
-		message: 'I will send the files later.',
-		time: '5 h',
-		avatar: '/app/lazyavt.png',
-		hasNotification: true,
-	},
-];
-
-interface MessagesData {
-	[key: string]: { sender: string; text: string; time: string }[];
-}
-
-const messagesData: MessagesData = {
-	'Jane Cooper': [
-		{
-			sender: 'Jane Cooper',
-			text: 'Yeah sure, tell me Zafor',
-			time: 'just now',
-		},
-		{
-			sender: 'You',
-			text: 'Can you help me with the project?',
-			time: '2 min ago',
-		},
-	],
-	'Jenny Wilson': [
-		{ sender: 'Jenny Wilson', text: 'Thank you so much, sir', time: '2 d' },
-		{ sender: 'You', text: 'Let’s meet at 5 PM', time: '1 d' },
-	],
-	'Cody Fisher': [
-		{ sender: 'Cody Fisher', text: 'Are we meeting today?', time: '1 h' },
-		{ sender: 'You', text: 'Yes, at 3 PM', time: '30 min ago' },
-	],
-	'Robert Fox': [
-		{ sender: 'Robert Fox', text: 'I will send the files later.', time: '5 h' },
-		{ sender: 'You', text: 'Okay, thanks!', time: '4 h' },
-	],
-};
+import { User as ImportedUser, messages, messagesData } from '@/data/messages';
 
 const Header = () => (
 	<div className="w-full flex justify-between items-center">
@@ -100,8 +42,8 @@ interface MessageItemProps {
 	isActive: boolean;
 	hasNotification?: boolean;
 	onClick: () => void;
+	avatar: string;
 }
-
 const MessageItem: React.FC<MessageItemProps> = ({
 	name,
 	message,
@@ -109,6 +51,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
 	isActive,
 	hasNotification,
 	onClick,
+	avatar,
 }) => (
 	<div
 		className={`p-3 flex items-center gap-4 w-full cursor-pointer transition-colors ${isActive ? 'bg-[#FFDDD1]' : 'bg-white'}`}
@@ -117,7 +60,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
 		<div className="relative w-[48px] h-[48px]">
 			<Image
 				className="rounded-full"
-				src="/app/lazyavt.png"
+				src={avatar} // Lấy avatar từ dữ liệu
 				alt={name}
 				width={48}
 				height={48}
@@ -130,7 +73,12 @@ const MessageItem: React.FC<MessageItemProps> = ({
 				<div className="text-[#4E5566] text-[14px] font-normal">{time}</div>
 			</div>
 			<div className="flex justify-between items-center">
-				<div className="text-[#6E7485] text-[14px]">{message}</div>
+				<div
+					className={`text-[14px] ${hasNotification ? 'font-bold text-[#1D2026]' : 'font-normal text-[#6E7485]'}`}
+				>
+					{message}
+				</div>
+
 				{hasNotification && (
 					<div className="w-[8px] h-[8px] bg-[#FF6636] rounded-full" />
 				)}
@@ -173,7 +121,7 @@ const Info: React.FC<InfoProps> = ({ activeMessage, setActiveMessage }) => (
 	</div>
 );
 
-interface User {
+interface LocalUser {
 	name: string;
 	message: string;
 	time: string;
@@ -181,7 +129,9 @@ interface User {
 	hasNotification?: boolean;
 }
 
-const Chat: React.FC<{ selectedUser: User | null }> = ({ selectedUser }) => {
+const Chat: React.FC<{ selectedUser: LocalUser | null }> = ({
+	selectedUser,
+}) => {
 	const chatMessages = selectedUser
 		? messagesData[selectedUser.name] || []
 		: [];
@@ -205,7 +155,10 @@ const Chat: React.FC<{ selectedUser: User | null }> = ({ selectedUser }) => {
 						<div className="text-sm text-[#4E5566]">Active Now</div>
 					</div>
 				</div>
-				<BsThreeDots size={24} className="text-[#1D2026]" />
+				<BsThreeDots
+					size={36}
+					className="text-[#1D2026] p-2 hover:bg-[#E9EAF0] transition-colors"
+				/>
 			</div>
 
 			{/* Chat Messages */}
@@ -249,7 +202,10 @@ const Chat: React.FC<{ selectedUser: User | null }> = ({ selectedUser }) => {
 };
 
 const ChatApp = () => {
-	const [activeMessage, setActiveMessage] = useState<User | null>(null);
+	// Đặt tin nhắn đầu tiên làm mặc định
+	const [activeMessage, setActiveMessage] = useState<LocalUser | null>(
+		messages.length > 0 ? messages[0] : null,
+	);
 
 	return (
 		<div className="flex gap-4 mt-8 w-full max-w-7xl mx-auto px-4">
