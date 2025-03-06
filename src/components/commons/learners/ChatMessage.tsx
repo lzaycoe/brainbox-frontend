@@ -143,7 +143,7 @@ const CommonChat = ({ selectedUser, messagesData }: any) => {
 					className="p-2 hover:bg-[#E9EAF0] transition-colors"
 					aria-label="More Options"
 				>
-					<BsThreeDots size={36} className="text-[#1D2026]" />
+					<BsThreeDots size={24} className="text-[#1D2026]" />
 				</button>
 			</div>
 
