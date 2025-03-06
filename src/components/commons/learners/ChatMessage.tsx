@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { GoPlus } from 'react-icons/go';
 import { GrSearch } from 'react-icons/gr';
@@ -41,39 +41,50 @@ const CommonMessageItem = ({
 	hasNotification,
 	onClick,
 	avatar,
-}: any) => (
-	<div
-		className={`p-3 flex items-center gap-4 w-full cursor-pointer transition-colors ${isActive ? 'bg-[#FFDDD1]' : 'bg-white'}`}
-		onClick={onClick}
-	>
-		<div className="relative w-[48px] h-[48px]">
-			<Image
-				className="rounded-full"
-				src={avatar}
-				alt={name}
-				width={48}
-				height={48}
-			/>
-			<div className="w-[10px] h-[10px] absolute right-0 bottom-0 bg-[#23BD33] rounded-full border-2" />
-		</div>
-		<div className="flex flex-col w-full">
-			<div className="flex justify-between items-center">
-				<div className="text-[#1D2026] text-[14px] font-medium">{name}</div>
-				<div className="text-[#4E5566] text-[14px] font-normal">{time}</div>
+}: any) => {
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			onClick();
+		}
+	};
+
+	return (
+		<div
+			role="button"
+			tabIndex={0}
+			className={`p-3 flex items-center gap-4 w-full cursor-pointer transition-colors ${isActive ? 'bg-[#FFDDD1]' : 'bg-white'}`}
+			onClick={onClick}
+			onKeyDown={handleKeyDown}
+		>
+			<div className="relative w-[48px] h-[48px]">
+				<Image
+					className="rounded-full"
+					src={avatar}
+					alt={name}
+					width={48}
+					height={48}
+				/>
+				<div className="w-[10px] h-[10px] absolute right-0 bottom-0 bg-[#23BD33] rounded-full border-2" />
 			</div>
-			<div className="flex justify-between items-center">
-				<div
-					className={`text-[14px] ${hasNotification ? 'font-bold text-[#1D2026]' : 'font-normal text-[#6E7485]'}`}
-				>
-					{message}
+			<div className="flex flex-col w-full">
+				<div className="flex justify-between items-center">
+					<div className="text-[#1D2026] text-[14px] font-medium">{name}</div>
+					<div className="text-[#4E5566] text-[14px] font-normal">{time}</div>
 				</div>
-				{hasNotification && (
-					<div className="w-[8px] h-[8px] bg-[#FF6636] rounded-full" />
-				)}
+				<div className="flex justify-between items-center">
+					<div
+						className={`text-[14px] ${hasNotification ? 'font-bold text-[#1D2026]' : 'font-normal text-[#6E7485]'}`}
+					>
+						{message}
+					</div>
+					{hasNotification && (
+						<div className="w-[8px] h-[8px] bg-[#FF6636] rounded-full" />
+					)}
+				</div>
 			</div>
 		</div>
-	</div>
-);
+	);
+};
 
 const CommonInfo = ({
 	title,
@@ -87,9 +98,9 @@ const CommonInfo = ({
 		<div className="flex flex-col w-full mt-4">
 			{messages.map((msg: any) => (
 				<CommonMessageItem
-					key={msg.name}
+					key={msg.id}
 					{...msg}
-					isActive={activeMessage?.name === msg.name}
+					isActive={activeMessage?.id === msg.id}
 					onClick={() => setActiveMessage(msg)}
 				/>
 			))}
