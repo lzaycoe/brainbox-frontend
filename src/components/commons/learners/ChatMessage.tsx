@@ -13,7 +13,11 @@ const Header = ({ title }: { title: string }) => (
 		<div className="text-[#1D2026] text-[20px] font-semibold leading-[26px]">
 			{title}
 		</div>
-		<button className="px-4 py-2 bg-[#EBEBFF] flex justify-center items-center gap-2 cursor-pointer">
+		<button
+			className="px-4 py-2 bg-[#EBEBFF] flex justify-center items-center gap-2 cursor-pointer"
+			role="button"
+			aria-label="Compose Message"
+		>
 			<GoPlus size={22} color="#564FFD" />
 			<div className="text-[#564FFD] text-[14px] font-semibold capitalize">
 				Compose
@@ -29,6 +33,7 @@ const SearchBar = () => (
 			type="text"
 			placeholder="Search"
 			className="ml-3 text-[#8C94A3] text-[16px] font-normal outline-none w-full"
+			aria-label="Search Messages"
 		/>
 	</div>
 );
@@ -41,50 +46,43 @@ const CommonMessageItem = ({
 	hasNotification,
 	onClick,
 	avatar,
-}: any) => {
-	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-		if (event.key === 'Enter' || event.key === ' ') {
-			onClick();
-		}
-	};
-
-	return (
-		<div
-			role="button"
-			tabIndex={0}
-			className={`p-3 flex items-center gap-4 w-full cursor-pointer transition-colors ${isActive ? 'bg-[#FFDDD1]' : 'bg-white'}`}
-			onClick={onClick}
-			onKeyDown={handleKeyDown}
-		>
-			<div className="relative w-[48px] h-[48px]">
-				<Image
-					className="rounded-full"
-					src={avatar}
-					alt={name}
-					width={48}
-					height={48}
-				/>
-				<div className="w-[10px] h-[10px] absolute right-0 bottom-0 bg-[#23BD33] rounded-full border-2" />
+}: any) => (
+	<div
+		className={`p-3 flex items-center gap-4 w-full cursor-pointer transition-colors ${isActive ? 'bg-[#FFDDD1]' : 'bg-white'}`}
+		onClick={onClick}
+		role="button"
+		tabIndex={0}
+		aria-label={`Chat with ${name}`}
+		onKeyDown={(e) => e.key === 'Enter' && onClick()}
+	>
+		<div className="relative w-[48px] h-[48px]">
+			<Image
+				className="rounded-full"
+				src={avatar}
+				alt={name}
+				width={48}
+				height={48}
+			/>
+			<div className="w-[10px] h-[10px] absolute right-0 bottom-0 bg-[#23BD33] rounded-full border-2" />
+		</div>
+		<div className="flex flex-col w-full">
+			<div className="flex justify-between items-center">
+				<div className="text-[#1D2026] text-[14px] font-medium">{name}</div>
+				<div className="text-[#4E5566] text-[14px] font-normal">{time}</div>
 			</div>
-			<div className="flex flex-col w-full">
-				<div className="flex justify-between items-center">
-					<div className="text-[#1D2026] text-[14px] font-medium">{name}</div>
-					<div className="text-[#4E5566] text-[14px] font-normal">{time}</div>
+			<div className="flex justify-between items-center">
+				<div
+					className={`text-[14px] ${hasNotification ? 'font-bold text-[#1D2026]' : 'font-normal text-[#6E7485]'}`}
+				>
+					{message}
 				</div>
-				<div className="flex justify-between items-center">
-					<div
-						className={`text-[14px] ${hasNotification ? 'font-bold text-[#1D2026]' : 'font-normal text-[#6E7485]'}`}
-					>
-						{message}
-					</div>
-					{hasNotification && (
-						<div className="w-[8px] h-[8px] bg-[#FF6636] rounded-full" />
-					)}
-				</div>
+				{hasNotification && (
+					<div className="w-[8px] h-[8px] bg-[#FF6636] rounded-full" />
+				)}
 			</div>
 		</div>
-	);
-};
+	</div>
+);
 
 const CommonInfo = ({
 	title,
@@ -98,9 +96,9 @@ const CommonInfo = ({
 		<div className="flex flex-col w-full mt-4">
 			{messages.map((msg: any) => (
 				<CommonMessageItem
-					key={msg.id}
+					key={msg.name}
 					{...msg}
-					isActive={activeMessage?.id === msg.id}
+					isActive={activeMessage?.name === msg.name}
 					onClick={() => setActiveMessage(msg)}
 				/>
 			))}
@@ -134,6 +132,9 @@ const CommonChat = ({ selectedUser, messagesData }: any) => {
 				<BsThreeDots
 					size={36}
 					className="text-[#1D2026] p-2 hover:bg-[#E9EAF0] transition-colors"
+					role="button"
+					tabIndex={0}
+					aria-label="More Options"
 				/>
 			</div>
 
@@ -161,9 +162,13 @@ const CommonChat = ({ selectedUser, messagesData }: any) => {
 						type="text"
 						placeholder="Type your message"
 						className="w-full pl-4 text-sm text-[#8C94A3] outline-none"
+						aria-label="Type your message"
 					/>
 				</div>
-				<button className="ml-6 flex items-center px-6 py-2 bg-[#FF6636] text-white font-semibold">
+				<button
+					className="ml-6 flex items-center px-6 py-2 bg-[#FF6636] text-white font-semibold"
+					aria-label="Send Message"
+				>
 					Send <VscSend size={24} className="ml-2" />
 				</button>
 			</div>
