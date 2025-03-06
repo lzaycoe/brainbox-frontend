@@ -151,7 +151,7 @@ const CommonChat = ({ selectedUser, messagesData }: any) => {
 				{selectedUser ? (
 					chatMessages.map((msg: any, index: number) => (
 						<div
-							key={`${msg.sender}-${msg.text}-${index}`} // Sửa lỗi key trùng lặp
+							key={`${msg.sender}-${msg.text}-${index}`}
 							className={`px-3 py-2 rounded-md text-sm w-fit max-w-[60%] ${
 								msg.sender === 'You'
 									? 'bg-[#FF6636] text-white self-end'
