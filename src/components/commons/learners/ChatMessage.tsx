@@ -15,13 +15,12 @@ const Header = ({ title }: { title: string }) => (
 		</div>
 		<button
 			className="px-4 py-2 bg-[#EBEBFF] flex justify-center items-center gap-2 cursor-pointer"
-			role="button"
 			aria-label="Compose Message"
 		>
 			<GoPlus size={22} color="#564FFD" />
-			<div className="text-[#564FFD] text-[14px] font-semibold capitalize">
+			<span className="text-[#564FFD] text-[14px] font-semibold capitalize">
 				Compose
-			</div>
+			</span>
 		</button>
 	</div>
 );
@@ -140,21 +139,24 @@ const CommonChat = ({ selectedUser, messagesData }: any) => {
 						<div className="text-sm text-[#4E5566]">Active Now</div>
 					</div>
 				</div>
-				<BsThreeDots
-					size={36}
-					className="text-[#1D2026] p-2 hover:bg-[#E9EAF0] transition-colors"
-					role="button"
-					tabIndex={0}
+				<button
+					className="p-2 hover:bg-[#E9EAF0] transition-colors"
 					aria-label="More Options"
-				/>
+				>
+					<BsThreeDots size={36} className="text-[#1D2026]" />
+				</button>
 			</div>
 
 			<div className="flex flex-col gap-8 py-12 px-6 flex-grow overflow-auto">
 				{selectedUser ? (
 					chatMessages.map((msg: any, index: number) => (
 						<div
-							key={index}
-							className={`px-3 py-2 rounded-md text-sm w-fit max-w-[60%] ${msg.sender === 'You' ? 'bg-[#FF6636] text-white self-end' : 'bg-[#FFEEE8] text-[#1D2026]'}`}
+							key={`${msg.sender}-${msg.text}-${index}`} // Sửa lỗi key trùng lặp
+							className={`px-3 py-2 rounded-md text-sm w-fit max-w-[60%] ${
+								msg.sender === 'You'
+									? 'bg-[#FF6636] text-white self-end'
+									: 'bg-[#FFEEE8] text-[#1D2026]'
+							}`}
 						>
 							{msg.text}
 						</div>
