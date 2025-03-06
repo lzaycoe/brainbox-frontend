@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -11,11 +12,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 const formSchema = z.object({
-	username: z.string().nonempty('Username is required'),
-	password: z.string().nonempty('Password is required'),
+	username: z.string().nonempty('Username is required.'),
+	password: z.string().nonempty('Password is required.'),
 });
 
 const LoginForm = () => {
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -24,12 +27,51 @@ const LoginForm = () => {
 		},
 	});
 
+	const onSubmit = async (data: z.infer<typeof formSchema>) => {
+		try {
+			setIsLoading(true);
+			setErrorMessage(null);
+
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_API_URL}/auth/admin/login`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				},
+			);
+
+			if (!response.ok) {
+				throw new Error('Invalid credentials. Please try again.');
+			}
+
+			const result = await response.json();
+			const accessToken = result.access_token;
+			const adminInfo = {
+				username: data.username,
+			};
+
+			localStorage.setItem('access_token', accessToken);
+			localStorage.setItem('admin_info', JSON.stringify(adminInfo));
+
+			window.location.href = '/admins/dashboard';
+		} catch (error: any) {
+			setErrorMessage(
+				error.message || 'Something went wrong. Please try again.',
+			);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
 	return (
-		<div className="flex p-10 min-h-screen bg-slate-50 max-md:flex-col max-md:p-5 max-sm:p-4">
+		<div className="flex min-h-screen bg-slate-50 max-md:flex-col max-md:p-5 max-sm:p-4">
 			<Image
 				loading="lazy"
 				src={'/app/admin/admin-login-banner.png'}
-				className="object-contain self-stretch my-auto aspect-[0.84] min-w-60 w-[836px] max-md:max-w-full max-h-[850]"
+				className="object-contain self-stretch my-auto aspect-[0.84] min-w-60 w-[836px] max-md:max-w-full max-h-[850] "
 				width={1264}
 				height={1500}
 				alt="Banner"
@@ -41,7 +83,7 @@ const LoginForm = () => {
 					</h1>
 
 					<Form {...form}>
-						<form>
+						<form onSubmit={form.handleSubmit(onSubmit)}>
 							<div className="mb-5">
 								<FormLabel
 									htmlFor="username"
@@ -54,8 +96,13 @@ const LoginForm = () => {
 									id="username"
 									placeholder="Username"
 									className="px-5 py-3 w-full text-base text-black bg-white rounded border border-gray-200 border-solid"
-									required
+									{...form.register('username')}
 								/>
+								{form.formState.errors.username && (
+									<span className="text-sm text-red-500">
+										{form.formState.errors.username.message}
+									</span>
+								)}
 							</div>
 
 							<div className="mb-5">
@@ -70,45 +117,32 @@ const LoginForm = () => {
 									id="password"
 									placeholder="Password"
 									className="px-5 py-3 w-full text-base text-black bg-white rounded border border-gray-200 border-solid"
-									required
+									{...form.register('password')}
 								/>
+								{form.formState.errors.password && (
+									<span className="text-sm text-red-500">
+										{form.formState.errors.password.message}
+									</span>
+								)}
 							</div>
 
-							<div className="flex justify-between items-center mb-6">
-								<FormLabel className="flex gap-2.5 items-center cursor-pointer">
-									<Label
-										htmlFor="remember"
-										className="rounded border border-gray-300 border-solid h-[22px] w-[22px] flex items-center justify-center cursor-pointer peer-checked:bg-orange-500"
-									>
-										<Input
-											type="checkbox"
-											className="peer hidden"
-											id="remember"
-										/>
-										<svg
-											className="w-4 h-4 text-white peer-checked:block hidden"
-											xmlns="http://www.w3.org/2000/svg"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke="currentColor"
-										>
-											<path
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												strokeWidth="2"
-												d="M5 13l4 4L19 7"
-											/>
-										</svg>
-									</Label>
+							{errorMessage && (
+								<div className="mb-4 text-red-500 text-sm">{errorMessage}</div>
+							)}
 
-									<span className="text-sm text-black">Remember me</span>
-								</FormLabel>
-
+							<div className="flex justify-end items-end mb-6">
 								<Button
 									type="submit"
 									className="flex gap-3 justify-center items-center px-6 py-3 text-base font-semibold text-white bg-orange-500 rounded cursor-pointer w-[200px] hover:bg-orange-600 transition-colors"
+									disabled={isLoading}
 								>
-									<span>Sign In</span>
+									{isLoading ? (
+										<div className="flex justify-center items-center">
+											<div className="animate-spin rounded-full h-5 w-5 border-b-4 border-white"></div>
+										</div>
+									) : (
+										<span>Sign In</span>
+									)}
 								</Button>
 							</div>
 						</form>
