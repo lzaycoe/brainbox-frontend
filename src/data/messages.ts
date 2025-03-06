@@ -8,26 +8,32 @@ export interface User {
 
 export const messages: User[] = [
 	{
-		name: 'Jane Cooper',
+		name: 'Mỹ Linh',
 		message: 'Yeah sure, tell me Zafor',
 		time: 'just now',
 		avatar: '/app/teacher/avt1.png',
 	},
 	{
-		name: 'Jenny Wilson',
+		name: 'Quốc Chương',
 		message: 'Thank you so much, sir',
 		time: '2 d',
 		avatar: '/app/teacher/avt2.png',
 		hasNotification: true,
 	},
 	{
-		name: 'Cody Fisher',
+		name: 'Minh Vương',
 		message: 'Are we meeting today?',
 		time: '1 h',
 		avatar: '/app/teacher/avt3.png',
 	},
 	{
-		name: 'Robert Fox',
+		name: 'Trọng Nghĩa',
+		message: 'I will send the files later.',
+		time: '5 h',
+		avatar: '/app/lazyavt.png',
+	},
+	{
+		name: 'Mạnh Hùng',
 		message: 'I will send the files later.',
 		time: '5 h',
 		avatar: '/app/lazyavt.png',
@@ -40,9 +46,9 @@ interface MessagesData {
 }
 
 export const messagesData: MessagesData = {
-	'Jane Cooper': [
+	'Mỹ Linh': [
 		{
-			sender: 'Jane Cooper',
+			sender: 'Mỹ Linh',
 			text: 'Yeah sure, tell me Zafor',
 			time: 'just now',
 		},
@@ -52,16 +58,24 @@ export const messagesData: MessagesData = {
 			time: '2 min ago',
 		},
 	],
-	'Jenny Wilson': [
-		{ sender: 'Jenny Wilson', text: 'Thank you so much, sir', time: '2 d' },
+	'Quốc Chương': [
+		{ sender: 'Quốc Chương', text: 'Thank you so much, sir', time: '2 d' },
 		{ sender: 'You', text: 'Let’s meet at 5 PM', time: '1 d' },
 	],
-	'Cody Fisher': [
-		{ sender: 'Cody Fisher', text: 'Are we meeting today?', time: '1 h' },
+	'Minh Vương': [
+		{ sender: 'Minh Vương', text: 'Are we meeting today?', time: '1 h' },
 		{ sender: 'You', text: 'Yes, at 3 PM', time: '30 min ago' },
 	],
-	'Robert Fox': [
-		{ sender: 'Robert Fox', text: 'I will send the files later.', time: '5 h' },
+	'Trọng Nghĩa': [
+		{
+			sender: 'Trọng Nghĩa',
+			text: 'I will send the files later.',
+			time: '5 h',
+		},
 		{ sender: 'You', text: 'Okay, thanks!', time: '4 h' },
+	],
+	'Mạnh Hùng': [
+		{ sender: 'Mạnh Hùng', text: 'See you later', time: '1 h' },
+		{ sender: 'You', text: 'Okay, thanks!', time: '1 h' },
 	],
 };

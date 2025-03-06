@@ -202,7 +202,6 @@ const Chat: React.FC<{ selectedUser: LocalUser | null }> = ({
 };
 
 const ChatApp = () => {
-	// Đặt tin nhắn đầu tiên làm mặc định
 	const [activeMessage, setActiveMessage] = useState<LocalUser | null>(
 		messages.length > 0 ? messages[0] : null,
 	);
