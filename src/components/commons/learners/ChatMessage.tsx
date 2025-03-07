@@ -131,7 +131,30 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 	</div>
 );
 
-const CommonChat = ({ selectedUser, messagesData }: any) => {
+interface ChatMessage {
+	sender: string;
+	text: string;
+	time: string;
+}
+
+export interface User {
+	name: string;
+	avatar: string;
+}
+
+interface MessagesData {
+	[key: string]: ChatMessage[];
+}
+
+interface CommonChatProps {
+	selectedUser: User | null;
+	messagesData: MessagesData;
+}
+
+const CommonChat: React.FC<CommonChatProps> = ({
+	selectedUser,
+	messagesData,
+}) => {
 	const chatMessages = selectedUser
 		? messagesData[selectedUser.name] || []
 		: [];
@@ -164,7 +187,7 @@ const CommonChat = ({ selectedUser, messagesData }: any) => {
 
 			<div className="flex flex-col gap-8 py-12 px-6 flex-grow overflow-auto">
 				{selectedUser ? (
-					chatMessages.map((msg: any, index: number) => (
+					chatMessages.map((msg, index) => (
 						<div
 							key={`${msg.sender}-${msg.text}-${index}`}
 							className={`px-3 py-2 rounded-md text-sm w-fit max-w-[60%] ${
