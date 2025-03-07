@@ -8,33 +8,6 @@ import { GrSearch } from 'react-icons/gr';
 import { LuPencilLine } from 'react-icons/lu';
 import { VscSend } from 'react-icons/vsc';
 
-interface Message {
-	name: string;
-	message: string;
-	time: string;
-	isActive: boolean;
-	hasNotification: boolean;
-	onClick: () => void;
-	avatar: string;
-}
-
-interface User {
-	name: string;
-	avatar: string;
-}
-
-interface CommonInfoProps {
-	title: string;
-	messages: Message[];
-	activeMessage: Message | null;
-	setActiveMessage: (message: Message) => void;
-}
-
-interface CommonChatProps {
-	selectedUser: User | null;
-	messagesData: Record<string, { sender: string; text: string }[]>;
-}
-
 const Header = ({ title }: { title: string }) => (
 	<div className="w-full flex justify-between items-center">
 		<div className="text-[#1D2026] text-[20px] font-semibold leading-[26px]">
@@ -64,7 +37,7 @@ const SearchBar = () => (
 	</div>
 );
 
-const CommonMessageItem: React.FC<Message> = ({
+const CommonMessageItem = ({
 	name,
 	message,
 	time,
@@ -72,6 +45,14 @@ const CommonMessageItem: React.FC<Message> = ({
 	hasNotification,
 	onClick,
 	avatar,
+}: {
+	name: string;
+	message: string;
+	time: string;
+	isActive: boolean;
+	hasNotification?: boolean;
+	onClick: () => void;
+	avatar: string;
 }) => (
 	<button
 		className={`p-3 flex items-center gap-4 w-full cursor-pointer transition-colors text-left ${
@@ -113,6 +94,21 @@ const CommonMessageItem: React.FC<Message> = ({
 	</button>
 );
 
+export interface User {
+	name: string;
+	message: string;
+	time: string;
+	avatar: string;
+	hasNotification?: boolean;
+}
+
+interface CommonInfoProps {
+	title: string;
+	messages: User[];
+	activeMessage: User | null;
+	setActiveMessage: (msg: User) => void;
+}
+
 const CommonInfo: React.FC<CommonInfoProps> = ({
 	title,
 	messages,
@@ -135,10 +131,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 	</div>
 );
 
-const CommonChat: React.FC<CommonChatProps> = ({
-	selectedUser,
-	messagesData,
-}) => {
+const CommonChat = ({ selectedUser, messagesData }: any) => {
 	const chatMessages = selectedUser
 		? messagesData[selectedUser.name] || []
 		: [];
@@ -168,9 +161,10 @@ const CommonChat: React.FC<CommonChatProps> = ({
 					<BsThreeDots size={24} className="text-[#1D2026]" />
 				</button>
 			</div>
+
 			<div className="flex flex-col gap-8 py-12 px-6 flex-grow overflow-auto">
 				{selectedUser ? (
-					chatMessages.map((msg, index) => (
+					chatMessages.map((msg: any, index: number) => (
 						<div
 							key={`${msg.sender}-${msg.text}-${index}`}
 							className={`px-3 py-2 rounded-md text-sm w-fit max-w-[60%] ${
@@ -187,6 +181,24 @@ const CommonChat: React.FC<CommonChatProps> = ({
 						Select a conversation to start chatting
 					</div>
 				)}
+			</div>
+
+			<div className="flex items-center px-6 py-4 border-t border-[#E9EAF0] bg-white">
+				<div className="flex items-center w-full h-12 px-4 border border-[#E9EAF0]">
+					<LuPencilLine size={24} className="text-[#FF6636]" />
+					<input
+						type="text"
+						placeholder="Type your message"
+						className="w-full pl-4 text-sm text-[#8C94A3] outline-none"
+						aria-label="Type your message"
+					/>
+				</div>
+				<button
+					className="ml-6 flex items-center px-6 py-2 bg-[#FF6636] text-white font-semibold"
+					aria-label="Send Message"
+				>
+					Send <VscSend size={24} className="ml-2" />
+				</button>
 			</div>
 		</div>
 	);
