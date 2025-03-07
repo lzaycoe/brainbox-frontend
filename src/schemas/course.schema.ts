@@ -25,4 +25,8 @@ export type CourseData = z.infer<typeof courseSchema>;
 export interface Course extends CourseData {
 	id: number;
 	teacherId: number;
+	students?: number;
+	status: string;
+	createdAt?: string;
+	updatedAt?: string;
 }

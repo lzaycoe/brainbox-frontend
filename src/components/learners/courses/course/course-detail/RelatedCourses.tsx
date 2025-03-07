@@ -23,7 +23,7 @@ export default function RelatedCourses({ courseId }: RelatedCoursesProps) {
 			try {
 				setLoading(true);
 				// Fetch the current course to get its tag
-				const currentCourse = await getCourse(courseId);
+				const currentCourse = await getCourse(+courseId);
 				const currentTag = currentCourse.tag;
 
 				// Fetch all courses and filter by tag

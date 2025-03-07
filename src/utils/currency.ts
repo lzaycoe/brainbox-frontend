@@ -1,4 +1,8 @@
-export const formatCurrency = (value: number | undefined): string => {
-	if (value === undefined || value === 0) return '';
-	return `${value.toLocaleString('vi-VN')}đ`;
+export const formatCurrency = (value: number | string | undefined): string => {
+	const numberValue = Number(value);
+	if (isNaN(numberValue)) return '';
+	return new Intl.NumberFormat('vi-VN', {
+		style: 'currency',
+		currency: 'VND',
+	}).format(numberValue);
 };

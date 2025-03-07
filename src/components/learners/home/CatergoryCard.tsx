@@ -3,7 +3,7 @@ import React from 'react';
 interface CategoryCardProps {
 	icon: React.ReactElement<{ className?: string; color?: string }>;
 	title: string;
-	courseCount: string;
+	courseCount: number;
 	bgColor: string;
 	iconColor?: string;
 }

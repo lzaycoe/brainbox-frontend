@@ -3,10 +3,10 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
+import CourseCard from '@/components/commons/CourseCard';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import FilterSelects from '@/components/teachers/courses/FilterSelects';
-import TeacherCourseCard from '@/components/teachers/courses/TeacherCourseCard';
 import { type Course as BaseCourse } from '@/schemas/course.schema';
 import { getCourses } from '@/services/api/course';
 
@@ -32,8 +32,8 @@ interface TeacherCourseCardProps {
 	categoryTextColor: string;
 	rating: string;
 	students: string;
-	originPrice: number; // Giữ là number
-	salePrice: number; // Giữ là number
+	originPrice: number;
+	salePrice: number;
 	public: boolean;
 }
 
@@ -85,8 +85,8 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 		category: course.tag,
 		categoryBgColor: getCategoryBgColor(course.tag),
 		categoryTextColor: getCategoryTextColor(course.tag),
-		rating: course.rating ?? 'N/A',
-		students: 'N/A',
+		rating: course.rating ?? '0.0',
+		students: '0',
 		originPrice: Number(course.originPrice), // Trả về number
 		salePrice: Number(course.salePrice), // Trả về number
 		public: course.public,
@@ -202,14 +202,14 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 
 	return (
 		<div className="flex flex-col items-center">
-			<SearchAndFilter onSearch={setSearchQuery}>
-				<FilterSelects
-					onCategoryChange={setSelectedCategory}
-					onRatingChange={setSelectedRating}
-					onPriceChange={setSelectedPricing}
-				/>
-			</SearchAndFilter>
 			<div>
+				<SearchAndFilter onSearch={setSearchQuery}>
+					<FilterSelects
+						onCategoryChange={setSelectedCategory}
+						onRatingChange={setSelectedRating}
+						onPriceChange={setSelectedPricing}
+					/>
+				</SearchAndFilter>
 				<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mb-5">
 					{filteredCourses.length === 0 ? (
 						<div className="col-span-4 mt-10 text-xl text-gray-500">
@@ -223,7 +223,12 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 								onKeyDown={(e) => handleKeyDown(e, course.id)}
 								className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
 							>
-								<TeacherCourseCard {...mapToCardProps(course)} />
+								<CourseCard
+									imageUrl={mapToCardProps(course).thumbnail}
+									hideAddToCartButton
+									price={mapToCardProps(course).salePrice.toString()}
+									{...mapToCardProps(course)}
+								/>
 							</button>
 						))
 					)}
