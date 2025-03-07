@@ -1,6 +1,6 @@
-import { CourseOverview } from '@/components/admins/dashboard/CourseOverview';
-import { ListSummaryCard } from '@/components/admins/dashboard/ListSummaryCard';
-import { RevenueReport } from '@/components/admins/dashboard/RevenueReport';
+import { CourseOverview } from '@/components/teachers/dashboard/CourseOverview';
+import { ListSummaryCard } from '@/components/teachers/dashboard/ListSummaryCard';
+import { RevenueReport } from '@/components/teachers/dashboard/RevenueReport';
 
 export default function Home() {
 	return (
