@@ -32,7 +32,7 @@ export const getPaymentsFromUser = async (
 
 export const createPayment = async (
 	userId: number,
-	courseId: number,
+	courseId: number | null,
 	price: number,
 ) => {
 	try {
@@ -43,9 +43,13 @@ export const createPayment = async (
 				headers: {
 					'Content-Type': 'application/json',
 				},
+				// Coi các status code khác 2xx là hợp lệ, không ném lỗi
+				validateStatus: (status) => {
+					return status < 500; // Status < 500 sẽ không bị ném lỗi
+				},
 			},
 		);
-		return response.data;
+		return response;
 	} catch (error) {
 		console.error('Failed to create payment:', error);
 		throw new Error('Failed to create payment');
