@@ -3,9 +3,11 @@
 import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { User } from '@/schemas/user.schema';
+import { createPayment } from '@/services/api/payment';
 import { getUserByClerkId } from '@/services/api/user';
 
 export default function InstructorSection() {
@@ -13,6 +15,7 @@ export default function InstructorSection() {
 	const [showPopup, setShowPopup] = useState(false);
 	const [userData, setUserData] = useState<User | null>(null);
 	const { user } = useUser();
+	const router = useRouter();
 
 	const fetchUser = async () => {
 		try {
@@ -32,7 +35,7 @@ export default function InstructorSection() {
 		if (user) {
 			fetchUser();
 		}
-	}, [user?.id]);
+	}, [user, fetchUser]);
 
 	const handlePayment = async () => {
 		const paymentData = {
@@ -60,7 +63,7 @@ export default function InstructorSection() {
 			}
 
 			const redirectUrl = await response.text();
-			window.location.href = redirectUrl;
+			router.push(redirectUrl);
 		} catch (error) {
 			console.error('Error during payment:', error);
 		} finally {
