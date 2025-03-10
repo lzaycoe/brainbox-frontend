@@ -107,29 +107,39 @@ export default function FormCreateLecture({
 
 	const handleAttachment = async (data: LectureData) => {
 		if (type === 'file' || (type === 'video' && uploadOption === 'file')) {
-			if (selectedFile) {
-				if (isEdit && initialData?.attachments?.[0]) {
-					await deleteAttachment(initialData.attachments[0]);
-				}
-				const publicUrl = await uploadAttachment(selectedFile);
-				if (!publicUrl) {
-					throw new Error('Failed to upload attachment');
-				}
-				data.attachments = [publicUrl];
-			} else if (previewAttachment) {
-				data.attachments = [previewAttachment];
-			}
+			await handleFileUpload(data);
 		} else if (type === 'video' && uploadOption === 'link') {
-			if (
-				isEdit &&
-				initialData?.attachments?.[0] &&
-				isSupabaseUrl(initialData.attachments[0])
-			) {
-				await deleteAttachment(initialData.attachments[0]);
+			await handleVideoLinkUpload(data);
+		}
+	};
+
+	const handleFileUpload = async (data: LectureData) => {
+		if (selectedFile) {
+			await deleteExistingAttachment();
+			const publicUrl = await uploadAttachment(selectedFile);
+			if (!publicUrl) {
+				throw new Error('Failed to upload attachment');
 			}
-			if (!data.attachments?.[0]) {
-				throw new Error('No video link provided');
-			}
+			data.attachments = [publicUrl];
+		} else if (previewAttachment) {
+			data.attachments = [previewAttachment];
+		}
+	};
+
+	const handleVideoLinkUpload = async (data: LectureData) => {
+		await deleteExistingAttachment();
+		if (!data.attachments?.[0]) {
+			throw new Error('No video link provided');
+		}
+	};
+
+	const deleteExistingAttachment = async () => {
+		if (
+			isEdit &&
+			initialData?.attachments?.[0] &&
+			isSupabaseUrl(initialData.attachments[0])
+		) {
+			await deleteAttachment(initialData.attachments[0]);
 		}
 	};
 
