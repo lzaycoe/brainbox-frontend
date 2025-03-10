@@ -56,10 +56,14 @@ const LoginForm = () => {
 			localStorage.setItem('admin_info', JSON.stringify(adminInfo));
 
 			window.location.href = '/admins/dashboard';
-		} catch (error: any) {
-			setErrorMessage(
-				error.message || 'Something went wrong. Please try again.',
-			);
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				setErrorMessage(
+					error.message || 'Something went wrong. Please try again.',
+				);
+			} else {
+				setErrorMessage('Something went wrong. Please try again.');
+			}
 		} finally {
 			setIsLoading(false);
 		}

@@ -35,7 +35,7 @@ export default function InstructorSection() {
 		if (user) {
 			fetchUser();
 		}
-	}, [user?.id]);
+	}, [user, fetchUser]);
 
 	const handlePayment = async () => {
 		const userId = userData?.id || 0;

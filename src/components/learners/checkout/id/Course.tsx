@@ -71,19 +71,19 @@ export default function CourseList() {
 		if (user) {
 			fetchUser();
 		}
-	}, [user?.id]);
+	}, [fetchUser, user]);
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			fetchCourse();
 		}
-	}, [id]);
+	}, [fetchCourse, id]);
 
 	useEffect(() => {
 		if (course?.teacherId) {
 			fetchTeacher();
 		}
-	}, [course?.teacherId]);
+	}, [fetchTeacher, course?.teacherId]);
 
 	const handlePayment = async () => {
 		if (!course) return;

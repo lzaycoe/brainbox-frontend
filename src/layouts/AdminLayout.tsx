@@ -41,7 +41,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 				? routeConfig[matchedRouteAdmin].title
 				: (adminInfo?.username ?? 'Guest'),
 		);
-	}, [pathnameAdmin]);
+	}, [pathnameAdmin, adminInfo?.username]); // Added adminInfo?.username here
 
 	return (
 		<div className="flex min-h-screen">
