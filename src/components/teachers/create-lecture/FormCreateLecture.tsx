@@ -50,6 +50,8 @@ export default function FormCreateLecture({
 		control,
 		formState: { errors },
 		reset,
+		setValue,
+		watch,
 	} = useForm<LectureData>({
 		resolver: zodResolver(lectureSchema),
 		defaultValues: initialData || {
@@ -65,30 +67,39 @@ export default function FormCreateLecture({
 	const [type, setType] = useState<'video' | 'file' | ''>(
 		initialData?.type || '',
 	);
-	const [uploadOption, setUploadOption] = useState<'link' | 'file'>(
-		initialData?.attachments?.length && initialData.type === 'video'
-			? 'link'
-			: 'file',
-	);
+	const [uploadOption, setUploadOption] = useState<'link' | 'file'>('file');
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [previewAttachment, setPreviewAttachment] = useState<string | null>(
+		null,
+	);
+
+	const isSupabaseUrl = (url: string) => {
+		return url.includes('supabase.co/storage/v1/object/public');
+	};
 
 	useEffect(() => {
 		if (initialData) {
 			reset(initialData);
 			setType(initialData.type || '');
-			setUploadOption(
-				initialData.attachments?.length && initialData.type === 'video'
-					? 'link'
-					: 'file',
-			);
+			if (initialData.type === 'video' && initialData.attachments?.length) {
+				if (isSupabaseUrl(initialData.attachments[0])) {
+					setUploadOption('file');
+					setPreviewAttachment(initialData.attachments[0]);
+				} else {
+					setUploadOption('link');
+				}
+			} else if (initialData.type === 'file') {
+				setUploadOption('file');
+				setPreviewAttachment(initialData.attachments?.[0] || null);
+			}
 		}
 	}, [initialData, reset]);
 
 	const validateFileUpload = (): boolean => {
 		const requiresFile =
 			type === 'file' || (type === 'video' && uploadOption === 'file');
-		if (requiresFile && !selectedFile) {
+		if (requiresFile && !selectedFile && !previewAttachment) {
 			throw new Error('No file selected for upload');
 		}
 		return requiresFile;
@@ -96,18 +107,28 @@ export default function FormCreateLecture({
 
 	const handleAttachment = async (data: LectureData) => {
 		if (type === 'file' || (type === 'video' && uploadOption === 'file')) {
-			if (isEdit && initialData?.attachments?.[0]) {
+			if (selectedFile) {
+				if (isEdit && initialData?.attachments?.[0]) {
+					await deleteAttachment(initialData.attachments[0]);
+				}
+				const publicUrl = await uploadAttachment(selectedFile);
+				if (!publicUrl) {
+					throw new Error('Failed to upload attachment');
+				}
+				data.attachments = [publicUrl];
+			} else if (previewAttachment) {
+				data.attachments = [previewAttachment];
+			}
+		} else if (type === 'video' && uploadOption === 'link') {
+			if (
+				isEdit &&
+				initialData?.attachments?.[0] &&
+				isSupabaseUrl(initialData.attachments[0])
+			) {
 				await deleteAttachment(initialData.attachments[0]);
 			}
-			// Xóa non-null assertion (!) vì selectedFile đã được kiểm tra
-			const publicUrl = await uploadAttachment(selectedFile as File);
-			if (!publicUrl) {
-				throw new Error('Failed to upload attachment');
-			}
-			data.attachments = [publicUrl];
-		} else if (type === 'video' && uploadOption === 'link') {
-			if (!data.attachments?.[0] && initialData?.attachments?.[0]) {
-				data.attachments = initialData.attachments;
+			if (!data.attachments?.[0]) {
+				throw new Error('No video link provided');
 			}
 		}
 	};
@@ -134,7 +155,6 @@ export default function FormCreateLecture({
 	const onSubmit = async (data: LectureData) => {
 		setIsLoading(true);
 		try {
-			// Gộp hai nhánh trùng lặp thành một
 			const requiresAttachment =
 				validateFileUpload() || (type === 'video' && uploadOption === 'link');
 			if (requiresAttachment) {
@@ -156,6 +176,27 @@ export default function FormCreateLecture({
 	};
 
 	const submitButtonText = isEdit ? 'Update Lecture' : 'Create Lecture';
+
+	const videoLink = watch('attachments.0');
+
+	const renderVideoPreview = (url: string) => {
+		if (url.includes('youtube.com') || url.includes('youtu.be')) {
+			const videoId = url.split('v=')[1] || url.split('/').pop();
+			const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+			return (
+				<iframe
+					width="100%"
+					height="600"
+					src={embedUrl}
+					title="YouTube video player"
+					frameBorder="0"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowFullScreen
+				></iframe>
+			);
+		}
+		return null;
+	};
 
 	return (
 		<form
@@ -223,6 +264,9 @@ export default function FormCreateLecture({
 							onValueChange={(value) => {
 								field.onChange(value);
 								setType(value as 'video' | 'file');
+								setUploadOption('file');
+								setSelectedFile(null);
+								setPreviewAttachment(null);
 							}}
 							value={field.value}
 						>
@@ -247,9 +291,10 @@ export default function FormCreateLecture({
 					label="Upload Document"
 					register={register}
 					onFileChange={(file) => {
-						console.log('File selected:', file.name);
 						setSelectedFile(file);
+						setPreviewAttachment(null);
 					}}
+					initialFileUrl={previewAttachment}
 				/>
 			)}
 			{type === 'video' && (
@@ -262,9 +307,19 @@ export default function FormCreateLecture({
 					</label>
 					<RadioGroup
 						value={uploadOption}
-						onValueChange={(value: string) =>
-							setUploadOption(value as 'link' | 'file')
-						}
+						onValueChange={(value: string) => {
+							setUploadOption(value as 'link' | 'file');
+							setSelectedFile(null);
+							if (
+								value === 'link' &&
+								initialData?.attachments?.[0] &&
+								!isSupabaseUrl(initialData.attachments[0])
+							) {
+								setValue('attachments.0', initialData.attachments[0]);
+							} else {
+								setValue('attachments.0', '');
+							}
+						}}
 					>
 						<div className="flex items-center space-x-2">
 							<RadioGroupItem value="link" id="upload-link" />
@@ -298,6 +353,7 @@ export default function FormCreateLecture({
 								{...register('attachments.0')}
 								placeholder="Enter video link"
 							/>
+							{videoLink && renderVideoPreview(videoLink)}
 						</div>
 					)}
 					{uploadOption === 'file' && (
@@ -308,7 +364,9 @@ export default function FormCreateLecture({
 							register={register}
 							onFileChange={(file) => {
 								setSelectedFile(file);
+								setPreviewAttachment(null);
 							}}
+							initialFileUrl={previewAttachment}
 						/>
 					)}
 				</div>
