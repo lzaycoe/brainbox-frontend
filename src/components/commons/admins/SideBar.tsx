@@ -8,43 +8,43 @@ import { usePathname } from 'next/navigation';
 import { adminMenuItems } from '@/config/adminMenuItems';
 
 export const SideBar = () => {
-	const pathname = usePathname();
+	const pathnameAdmin = usePathname();
 
-	const getLinkClasses = (path: string) =>
+	const getLinkClasses = (pathAdmin: string) =>
 		clsx(
-			'flex items-center gap-3 px-6 py-3',
-			pathname.startsWith(path)
-				? 'bg-orange-500 text-white'
-				: 'text-gray-400 hover:text-white',
+			'flex items-center gap-4 px-6 py-3',
+			pathnameAdmin.startsWith(pathAdmin)
+				? 'bg-orange-500 text-white font-semibold'
+				: 'text-gray-400 hover:text-white font-semibold',
 		);
 
 	return (
 		<div className="flex flex-col bg-neutral-800 text-white shadow-sm sm:w-[300px] fixed top-0 left-0 h-full">
 			<div className="px-6 py-5 text-2xl font-semibold">
-				<div className="flex items-center gap-2">
+				<div className="flex items-center gap-3">
 					<Image
 						loading="lazy"
 						src="/app/logo.png"
-						className="object-contain shrink-0 w-10 aspect-square"
-						alt="BrainBox Logo"
-						width={40}
-						height={40}
+						className="object-contain shrink-0 w-11 aspect-square"
+						alt="Logo"
+						width={42}
+						height={42}
 					/>
 					BrainBox
 				</div>
 			</div>
-			<nav className="flex flex-col mt-4 space-y-2">
-				{adminMenuItems.map((item) => (
+			<nav className="flex flex-col mt-5 space-y-2">
+				{adminMenuItems.map((itemMenu) => (
 					<Link
-						key={item.path}
-						href={item.path}
-						className={getLinkClasses(item.path)}
+						key={itemMenu.path}
+						href={itemMenu.path}
+						className={getLinkClasses(itemMenu.path)}
 					>
-						<item.icon className="w-8 h-8" />
-						{item.label}
-						{item.badge && (
-							<div className="text-xs w-6 h-6 flex items-center justify-center bg-orange-500 rounded-full">
-								{item.badge}
+						<itemMenu.icon className="w-8 h-8" />
+						{itemMenu.label}
+						{itemMenu.badge && (
+							<div className="text-xs w-6 h-6 flex items-center justify-center bg-orange-500">
+								{itemMenu.badge}
 							</div>
 						)}
 					</Link>

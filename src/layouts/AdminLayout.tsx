@@ -14,40 +14,40 @@ interface AdminLayoutProps {
 }
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
-	const pathname = usePathname();
-	const [title, setTitle] = useState('Dashboard');
+	const pathnameAdmin = usePathname();
+	const [titleAdmin, setTitleAdmin] = useState('Dashboard');
 	const adminInfo = getAdminInfo();
 
 	useEffect(() => {
-		const matchedRoute = Object.keys(routeConfig).find((route) => {
+		const matchedRouteAdmin = Object.keys(routeConfig).find((route) => {
 			if (routeConfig[route].dynamic) {
-				const routeParts = route.split('/');
-				const pathParts = pathname.split('/');
-				if (routeParts.length !== pathParts.length) {
+				const routePartsAdmin = route.split('/');
+				const pathPartsAdmin = pathnameAdmin.split('/');
+				if (routePartsAdmin.length !== pathPartsAdmin.length) {
 					return false;
 				}
-				return routeParts.every((part, index) => {
+				return routePartsAdmin.every((part, index) => {
 					if (part.startsWith('[') && part.endsWith(']')) {
 						return true;
 					}
-					return part === pathParts[index];
+					return part === pathPartsAdmin[index];
 				});
 			}
-			return pathname.includes(route);
+			return pathnameAdmin.includes(route);
 		});
 
-		setTitle(
-			matchedRoute
-				? routeConfig[matchedRoute].title
+		setTitleAdmin(
+			matchedRouteAdmin
+				? routeConfig[matchedRouteAdmin].title
 				: adminInfo?.username || 'Guest',
 		);
-	}, [pathname]);
+	}, [pathnameAdmin]);
 
 	return (
 		<div className="flex min-h-screen">
 			<SideBar />
 			<div className="flex flex-col flex-grow w-full">
-				<Header title={title} />
+				<Header title={titleAdmin} />
 				<main className="flex-grow bg-[#f5f7fa] ml-64">{children}</main>
 				<Footer />
 			</div>
