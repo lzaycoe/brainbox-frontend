@@ -7,8 +7,11 @@ import { Button } from '@/components/ui/button';
 
 export const Banner = () => {
 	const handleOnclick = () => {
-		window.location.href = '/about';
+		if (typeof window !== 'undefined') {
+			window.location.href = '/about';
+		}
 	};
+
 	return (
 		<div className="max-md:pl-5">
 			<div className="flex gap-5 max-md:flex-col bg-gray-50">

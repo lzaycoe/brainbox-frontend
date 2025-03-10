@@ -1,10 +1,10 @@
-// CourseDetailsPage.tsx
 'use client';
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { HiChevronRight } from 'react-icons/hi';
 
+import Loading from '@/components/commons/Loading';
 import CourseCard from '@/components/learners/courses/course/course-detail/CourseCard';
 import CourseHeader from '@/components/learners/courses/course/course-detail/CourseHeader';
 import CurriculumSection from '@/components/learners/courses/course/course-detail/CurriculumSection';
@@ -13,12 +13,10 @@ import OverviewSection from '@/components/learners/courses/course/course-detail/
 import RelatedCourses from '@/components/learners/courses/course/course-detail/RelatedCourses';
 import ReviewSection from '@/components/learners/courses/course/course-detail/ReviewSection';
 import Tabs from '@/components/learners/courses/course/course-detail/Tabs';
-import VideoSection from '@/components/learners/courses/course/course-detail/VideoSection';
+import ThumbnailSection from '@/components/learners/courses/course/course-detail/ThumbnailSection';
 import { CourseData } from '@/schemas/course.schema';
 import { getCourse } from '@/services/api/course';
-import { getTeacher } from '@/services/api/lecture';
-
-// CourseDetailsPage.tsx
+import { getUserClerk } from '@/services/api/user';
 
 type Instructor = {
 	id: string;
@@ -39,14 +37,7 @@ type CourseInfoType = {
 	creators: string[];
 	rating: number;
 	reviews: number;
-};
-
-type CurriculumSectionType = {
-	id: string;
-	title: string;
-	content: string;
-	lectures: number;
-	duration: string;
+	description: string;
 };
 
 interface CourseDetailsPageProps {
@@ -75,14 +66,13 @@ export default function CourseDetailsPage({
 			try {
 				setLoading(true);
 
-				const course = (await getCourse(courseId)) as ExtendedCourseData;
+				const course = (await getCourse(+courseId)) as ExtendedCourseData;
 
 				let teacherData;
 				if (course.teacherId) {
-					teacherData = await getTeacher(course.teacherId);
+					teacherData = await getUserClerk(course.teacherId);
 				}
 
-				// Tách ternary lồng nhau thành câu lệnh riêng
 				let creatorName = 'Unknown Instructor';
 				if (teacherData) {
 					const lastNamePart = teacherData.lastName
@@ -103,6 +93,7 @@ export default function CourseDetailsPage({
 					creators: [creatorName],
 					rating: 4.8,
 					reviews: 161444,
+					description: course.description || 'No description available',
 				});
 
 				setCoursePrice({
@@ -125,15 +116,6 @@ export default function CourseDetailsPage({
 
 		fetchCourseData();
 	}, [courseId]);
-
-	const whatYouLearn = [
-		'Design beautiful websites using Figma, used by designers at Uber, Airbnb and Microsoft',
-		'Learn secret tips of Freelance Web Designers for successful online freelancing',
-		'Master both Jupyter Notebook and .py files creation',
-		'Build powerful websites with Webflow, used by Dell, NASA and other major organizations',
-		'Learn professional Python programming, covering both Python 2 and 3',
-		'Create GUIs in the Jupyter Notebook system',
-	];
 
 	const instructors: Instructor[] = [
 		{
@@ -190,20 +172,10 @@ export default function CourseDetailsPage({
 		],
 	};
 
-	const curriculumSections: CurriculumSectionType[] = [
-		{
-			id: '1',
-			title: 'Getting Started',
-			content: 'Introduction to web development fundamentals',
-			lectures: 4,
-			duration: '51m',
-		},
-	];
-
 	if (loading) {
 		return (
-			<div className="max-w-7xl mx-auto px-6 py-2">
-				<p className="text-gray-500">Loading course details...</p>
+			<div className="max-w-7xl mx-auto px-6 py-2 flex justify-center">
+				<Loading />
 			</div>
 		);
 	}
@@ -217,7 +189,7 @@ export default function CourseDetailsPage({
 	}
 
 	return (
-		<div className="max-w-7xl mx-auto px-6 py-2">
+		<div className="max-w-7xl mx-auto py-2 mt-10">
 			<nav className="flex items-center gap-2 text-sm text-gray-500 mb-2">
 				{courseInfo.breadcrumbs.map((item, index) => (
 					<React.Fragment key={item}>
@@ -240,7 +212,7 @@ export default function CourseDetailsPage({
 
 			<div className="grid grid-cols-1 lg:grid-cols-[1fr,400px] gap-4 mt-2">
 				<div className="space-y-2">
-					<VideoSection courseId={courseId} />
+					<ThumbnailSection courseId={courseId} />
 
 					<div className="border-t pt-2 mt-8 py-4">
 						<Tabs
@@ -251,15 +223,10 @@ export default function CourseDetailsPage({
 
 						<div className="mt-4">
 							{activeTab === 'overview' && (
-								<OverviewSection
-									learningOutcomes={whatYouLearn.map((desc, i) => ({
-										id: String(i + 1),
-										description: desc,
-									}))}
-								/>
+								<OverviewSection description={courseInfo.description} />
 							)}
 							{activeTab === 'curriculum' && (
-								<CurriculumSection courseSections={curriculumSections} />
+								<CurriculumSection courseId={courseId} />
 							)}
 							{activeTab === 'instructor' && (
 								<InstructorSection instructors={instructors} />

@@ -10,6 +10,7 @@ import {
 } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { FaRegHeart } from 'react-icons/fa';
 import { FiSearch, FiShoppingCart } from 'react-icons/fi';
@@ -34,6 +35,8 @@ import {
 
 export const Header = () => {
 	const { signOut } = useClerk();
+	const router = useRouter();
+	const pathname = usePathname();
 
 	const handleSignOut = () => {
 		signOut().then(() => {
@@ -41,26 +44,30 @@ export const Header = () => {
 		});
 	};
 
+	const navigate = (path: string) => {
+		router.push(path);
+	};
+
 	const menuItems = [
 		{
 			label: 'My Profile',
 			icon: PiUserCircleDuotone,
-			action: () => console.log('Go to Profile'),
+			action: () => navigate('/dashboard'),
 		},
 		{
 			label: 'My Courses',
 			icon: PiStackDuotone,
-			action: () => console.log('Đơn hàng của tôi'),
+			action: () => navigate('/courses'),
 		},
 		{
 			label: 'Payments History',
 			icon: PiCreditCardDuotone,
-			action: () => console.log('Lịch sử thanh toán'),
+			action: () => navigate('/purchase-history'),
 		},
 		{
 			label: 'Setting',
 			icon: PiGearDuotone,
-			action: () => console.log('Settings'),
+			action: () => navigate('/settings'),
 		},
 		{
 			label: 'Sign Out',
@@ -78,32 +85,52 @@ export const Header = () => {
 				<div className="flex flex-wrap gap-2 justify-center items-center self-stretch my-auto font-medium leading-none text-gray-400 min-w-[240px] max-md:max-w-full">
 					<Link
 						href="/"
-						className="gap-2.5 self-stretch p-4 my-auto text-white whitespace-nowrap shadow-sm bg-neutral-800"
-						aria-current="page"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap shadow-sm bg-neutral-800 border-t-4 transition-all duration-100 ease-in-out ${
+							pathname === '/'
+								? 'text-white font-bold border-orange-500'
+								: 'text-gray-400 border-transparent'
+						}`}
+						aria-current={pathname === '/' ? 'page' : undefined}
 					>
 						Home
 					</Link>
 					<Link
-						href="/courses"
-						className="gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800"
+						href="/course-list"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 border-t-4 transition-all duration-500 ease-in-out ${
+							pathname === '/course-list'
+								? 'text-white font-bold border-orange-500'
+								: 'text-gray-400 border-transparent'
+						}`}
 					>
 						Courses
 					</Link>
 					<Link
 						href="/about"
-						className="gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 border-t-4 transition-all duration-500 ease-in-out ${
+							pathname === '/about'
+								? 'text-white font-bold border-orange-500'
+								: 'text-gray-400 border-transparent'
+						}`}
 					>
 						About
 					</Link>
 					<Link
 						href="/contact"
-						className="gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 border-t-4 transition-all duration-500 ease-in-out ${
+							pathname === '/contact'
+								? 'text-white font-bold border-orange-500'
+								: 'text-gray-400 border-transparent'
+						}`}
 					>
 						Contact
 					</Link>
 					<Link
 						href="/become-instructor"
-						className="gap-2.5 self-stretch p-4 my-auto bg-neutral-800"
+						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 border-t-4 transition-all duration-500 ease-in-out ${
+							pathname === '/become-instructor'
+								? 'text-white font-bold border-orange-500'
+								: 'text-gray-400 border-transparent'
+						}`}
 					>
 						Become an Instructor
 					</Link>

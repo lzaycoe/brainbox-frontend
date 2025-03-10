@@ -13,10 +13,10 @@ export const courseSchema = z.object({
 	thumbnail: z.string().nonempty({ message: 'Thumbnail is required' }),
 	originPrice: z
 		.number()
-		.min(0, { message: 'Original price must be a positive number' }),
+		.min(2000, { message: 'Original price must be greater than 2000' }),
 	salePrice: z
 		.number()
-		.min(0, { message: 'Sale price must be a positive number' }),
+		.min(2000, { message: 'Sale price must be greater than 2000' }),
 	public: z.boolean().optional().default(false),
 });
 
@@ -25,4 +25,8 @@ export type CourseData = z.infer<typeof courseSchema>;
 export interface Course extends CourseData {
 	id: number;
 	teacherId: number;
+	students?: number;
+	status: string;
+	createdAt?: string;
+	updatedAt?: string;
 }

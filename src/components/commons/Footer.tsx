@@ -144,7 +144,7 @@ export const Footer = () => {
 					</div>
 					<div className="flex flex-col items-start self-start mt-5 tracking-normal leading-loose text-gray-400">
 						<Link
-							href="#"
+							href="/about"
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							About
@@ -155,7 +155,7 @@ export const Footer = () => {
 							/>
 						</Link>
 						<Link
-							href="#"
+							href="/become-instructor"
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Become Instructor
@@ -166,7 +166,7 @@ export const Footer = () => {
 							/>
 						</Link>
 						<Link
-							href="#"
+							href="/contact"
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Contact
@@ -177,7 +177,7 @@ export const Footer = () => {
 							/>
 						</Link>
 						<Link
-							href="#"
+							href="career"
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Career
@@ -209,7 +209,7 @@ export const Footer = () => {
 							/>
 						</Link>
 						<Link
-							href="#"
+							href="/FAQs"
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							FAQs
@@ -220,7 +220,7 @@ export const Footer = () => {
 							/>
 						</Link>
 						<Link
-							href="#"
+							href="/FAQs"
 							className="relative gap-3 self-stretch py-1.5 pr-8 bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
 							Terms & Condition

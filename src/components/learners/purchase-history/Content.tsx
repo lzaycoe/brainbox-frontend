@@ -4,10 +4,11 @@ import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import { User } from '@/schemas/user.schema';
 import { getCourse } from '@/services/api/course';
-import { getPaymentsByUserId } from '@/services/api/payment';
+import { getPaymentsFromUser } from '@/services/api/payment';
 import { getUserByClerkId, getUserClerk } from '@/services/api/user';
 import { formatPrice } from '@/utils/formatPrice';
 
@@ -78,7 +79,7 @@ const PaymentList = () => {
 
 	const fetchPayments = async () => {
 		try {
-			const response = await getPaymentsByUserId(userData?.id || 0);
+			const response = await getPaymentsFromUser(userData?.id || 0);
 
 			if (!response) {
 				throw new Error('Failed to fetch payments');
@@ -159,7 +160,7 @@ const PaymentList = () => {
 	}, [userData?.id]);
 
 	if (loading) {
-		return <div>Loading payments...</div>;
+		return <Loading />;
 	}
 
 	if (error) {
@@ -209,7 +210,7 @@ const PaymentList = () => {
 							<div className="text-left">
 								<span className="text-orange-500 text-xl font-medium">
 									{formatPrice(
-										payment.courseDetails?.salePrice || payment.price,
+										payment.courseDetails?.salePrice ?? payment.price,
 									)}
 								</span>
 								{payment.courseDetails?.originPrice && (

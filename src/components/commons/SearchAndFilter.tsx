@@ -27,7 +27,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
 				</div>
 			)}
 			<div className="flex justify-between items-end gap-6 w-full">
-				<div className="flex flex-col justify-start items-start gap-2 w-[500px]">
+				<div className="flex flex-col justify-start items-start gap-2 w-[450px]">
 					<div className="text-[#6e7484] text-xs font-normal leading-none">
 						Search:
 					</div>
@@ -35,8 +35,8 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
 						<FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
 						<Input
 							type="text"
-							placeholder="Search in your courses..."
-							className="h-12 pl-12 pr-72 py-3 bg-white border border-[#e8eaef] justify-start items-center inline-flex overflow-hidden"
+							placeholder="Search in my courses..."
+							className="h-12 pl-12 py-3 bg-white border border-[#e8eaef] justify-start items-center inline-flex overflow-hidden"
 							onChange={(e) => onSearch?.(e.target.value)}
 						/>
 					</div>
