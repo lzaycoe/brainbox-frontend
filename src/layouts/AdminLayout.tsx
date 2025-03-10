@@ -39,7 +39,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 		setTitleAdmin(
 			matchedRouteAdmin
 				? routeConfig[matchedRouteAdmin].title
-				: adminInfo?.username || 'Guest',
+				: (adminInfo?.username ?? 'Guest'),
 		);
 	}, [pathnameAdmin]);
 
