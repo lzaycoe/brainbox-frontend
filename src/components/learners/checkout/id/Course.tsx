@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import { Course } from '@/schemas/course.schema';
 import { User } from '@/schemas/user.schema';
 import { getCourse } from '@/services/api/course';
@@ -119,7 +120,7 @@ export default function CourseList() {
 	};
 
 	if (loading) {
-		return <div>Loading course...</div>;
+		return <Loading />;
 	}
 
 	if (!course) {
