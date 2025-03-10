@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import FormCreateLecture from '@/components/teachers/create-lecture/FormCreateLecture';
 import { useToast } from '@/hooks/use-toast';
 import { Lecture } from '@/schemas/lecture.schema';
@@ -49,7 +50,7 @@ const EditLecture = () => {
 	}, [courseId, sectionId, lectureId, router, toast]);
 
 	if (isLoading || !initialData) {
-		return <div>Loading...</div>;
+		return <Loading />;
 	}
 
 	return (
