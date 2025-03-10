@@ -38,22 +38,32 @@ export default function InstructorSection() {
 	}, [user, fetchUser]);
 
 	const handlePayment = async () => {
-		const userId = userData?.id || 0;
-		const courseId = null;
-		const price = 50000;
+		const paymentData = {
+			userId: userData?.id,
+			courseId: null,
+			price: 50000,
+		};
 
 		setIsSubmitting(true);
 		try {
-			const response = await createPayment(userId, courseId, price);
-
-			console.log('response', response);
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_API_URL}` + `/users/become-a-teacher`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(paymentData),
+				},
+			);
 
 			if (response.status === 409) {
 				setShowPopup(true);
 				return;
 			}
 
-			router.push(response.data);
+			const redirectUrl = await response.text();
+			router.push(redirectUrl);
 		} catch (error) {
 			console.error('Error during payment:', error);
 		} finally {
