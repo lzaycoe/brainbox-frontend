@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { User } from '@/schemas/user.schema';
-import { createPayment } from '@/services/api/payment';
 import { getUserByClerkId } from '@/services/api/user';
 
 export default function InstructorSection() {
@@ -17,31 +16,28 @@ export default function InstructorSection() {
 	const { user } = useUser();
 	const router = useRouter();
 
-	const fetchUser = async () => {
-		try {
-			if (!user) {
-				throw new Error('User is undefined');
-			}
-
-			const userData = await getUserByClerkId(user?.id);
-			setUserData(userData);
-		} catch (error) {
-			console.error('Failed to fetch user metadata:', error);
-			setUserData(null);
-		}
-	};
-
 	useEffect(() => {
-		if (user) {
-			fetchUser();
-		}
-	}, [user, fetchUser]);
+		const fetchUser = async () => {
+			try {
+				if (!user) {
+					throw new Error('User is undefined');
+				}
+
+				const userData = await getUserByClerkId(user?.id);
+				setUserData(userData);
+			} catch (error) {
+				console.error('Failed to fetch user metadata:', error);
+				setUserData(null);
+			}
+		};
+		fetchUser();
+	}, [user?.id]);
 
 	const handlePayment = async () => {
 		const paymentData = {
 			userId: userData?.id,
 			courseId: null,
-			price: 50000,
+			price: 5000,
 		};
 
 		setIsSubmitting(true);
