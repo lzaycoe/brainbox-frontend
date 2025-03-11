@@ -71,19 +71,19 @@ export default function CourseList() {
 		if (user) {
 			fetchUser();
 		}
-	}, [user?.id]);
+	}, [fetchUser, user]);
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			fetchCourse();
 		}
-	}, [id]);
+	}, [fetchCourse, id]);
 
 	useEffect(() => {
 		if (course?.teacherId) {
 			fetchTeacher();
 		}
-	}, [course?.teacherId]);
+	}, [fetchTeacher, course?.teacherId]);
 
 	const handlePayment = async () => {
 		if (!course) return;
@@ -91,8 +91,6 @@ export default function CourseList() {
 		const userId = userData?.id || 0;
 		const courseId = course.id;
 		const price = +course.salePrice;
-
-		console.log('paymentData', userId, courseId, price);
 
 		setIsSubmitting(true);
 		try {
@@ -104,7 +102,7 @@ export default function CourseList() {
 				setShowPopup(true);
 				return;
 			}
-			router.push(response);
+			router.push(response.data);
 		} catch (error) {
 			console.error('Error during payment:', error);
 		} finally {
