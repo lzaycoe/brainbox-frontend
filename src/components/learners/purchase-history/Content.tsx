@@ -151,13 +151,13 @@ const PaymentList = () => {
 		if (user) {
 			fetchUser();
 		}
-	}, [user?.id]);
+	}, [user, fetchUser]);
 
 	useEffect(() => {
 		if (userData) {
 			fetchPayments();
 		}
-	}, [userData?.id]);
+	}, [userData, fetchPayments]);
 
 	if (loading) {
 		return <Loading />;
