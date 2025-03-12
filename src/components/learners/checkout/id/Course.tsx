@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import { Course } from '@/schemas/course.schema';
 import { User } from '@/schemas/user.schema';
 import { getCourse } from '@/services/api/course';
@@ -71,19 +72,19 @@ export default function CourseList() {
 		if (user) {
 			fetchUser();
 		}
-	}, [user?.id]);
+	}, [fetchUser, user]);
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			fetchCourse();
 		}
-	}, [id]);
+	}, [fetchCourse, id]);
 
 	useEffect(() => {
 		if (course?.teacherId) {
 			fetchTeacher();
 		}
-	}, [course?.teacherId]);
+	}, [fetchTeacher, course?.teacherId]);
 
 	const handlePayment = async () => {
 		if (!course) return;
@@ -91,8 +92,6 @@ export default function CourseList() {
 		const userId = userData?.id || 0;
 		const courseId = course.id;
 		const price = +course.salePrice;
-
-		console.log('paymentData', userId, courseId, price);
 
 		setIsSubmitting(true);
 		try {
@@ -104,7 +103,7 @@ export default function CourseList() {
 				setShowPopup(true);
 				return;
 			}
-			router.push(response);
+			router.push(response.data);
 		} catch (error) {
 			console.error('Error during payment:', error);
 		} finally {
@@ -119,7 +118,7 @@ export default function CourseList() {
 	};
 
 	if (loading) {
-		return <div>Loading course...</div>;
+		return <Loading />;
 	}
 
 	if (!course) {
