@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -73,14 +74,10 @@ const CourseList: React.FC<{ userClerkId: string }> = ({ userClerkId }) => {
 
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-	const handleCourseClick = (courseId: number) => {
-		router.push(`/watch-course/${courseId}`);
-	};
-
 	const handleKeyDown = (event: React.KeyboardEvent, courseId: number) => {
 		if (event.key === 'Enter' || event.key === ' ') {
 			event.preventDefault();
-			handleCourseClick(courseId);
+			router.push(`/watch-course/${courseId}`);
 		}
 	};
 
@@ -118,19 +115,16 @@ const CourseList: React.FC<{ userClerkId: string }> = ({ userClerkId }) => {
 						</div>
 					) : (
 						<>
-							<div className="grid grid-cols-4 gap-6 mt-10 mb-5">
+							<div className="grid grid-cols-4 gap-6 mt-10 mb-5 max-md:grid-cols-1">
 								{currentCourses.map((course) => (
-									<div
+									<Link
 										key={course.id}
-										role="button"
-										tabIndex={0}
-										onClick={() => handleCourseClick(course.id)}
+										href={`/watch-course/${course.id}`}
 										onKeyDown={(e) => handleKeyDown(e, course.id)}
-										className="cursor-pointer bg-transparent border-none p-0"
-										aria-pressed="false"
+										className="cursor-pointer bg-transparent border-none p-0 block"
 									>
 										<CourseCard {...course} />
-									</div>
+									</Link>
 								))}
 							</div>
 							<PaginationCustom
