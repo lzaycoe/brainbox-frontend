@@ -127,6 +127,7 @@ const CourseList: React.FC<{ userClerkId: string }> = ({ userClerkId }) => {
 										onClick={() => handleCourseClick(course.id)}
 										onKeyDown={(e) => handleKeyDown(e, course.id)}
 										className="cursor-pointer bg-transparent border-none p-0"
+										aria-pressed="false"
 									>
 										<CourseCard {...course} />
 									</div>
