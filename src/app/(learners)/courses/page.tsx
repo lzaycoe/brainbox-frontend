@@ -10,7 +10,11 @@ export default function Courses() {
 	const { userId } = useAuth();
 
 	if (!userId) {
-		return <div>Please log in to view your courses.</div>;
+		return (
+			<div className="flex justify-center mt-10">
+				Please log in to view your courses.
+			</div>
+		);
 	}
 
 	return (
