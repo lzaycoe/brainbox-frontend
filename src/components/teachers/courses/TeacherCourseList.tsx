@@ -99,13 +99,16 @@ const TeacherCourseList: React.FC = () => {
 
 	return (
 		<div className="flex flex-col items-center">
-			<SearchAndFilter onSearch={setSearchQuery}>
-				<FilterSelects
-					onCategoryChange={setSelectedCategory}
-					onRatingChange={() => {}}
-					onStatusChange={setSelectedStatus}
-				/>
-			</SearchAndFilter>
+			<div className="max-w-[1100px] w-full">
+				<SearchAndFilter onSearch={setSearchQuery}>
+					<FilterSelects
+						onCategoryChange={setSelectedCategory}
+						onRatingChange={() => {}}
+						onStatusChange={setSelectedStatus}
+					/>
+				</SearchAndFilter>
+			</div>
+
 			{filteredCourses.length === 0 ? (
 				<div className="mt-10 text-xl text-gray-500">
 					No courses found for your search.
