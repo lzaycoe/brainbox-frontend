@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import CourseCard from '@/components/commons/CourseCard';
+import Loading from '@/components/commons/Loading';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import FilterSelects from '@/components/teachers/courses/FilterSelects';
@@ -187,7 +188,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 	if (loading) {
 		return (
 			<div className="flex justify-center items-center h-screen">
-				<div className="text-xl text-gray-500">Loading courses...</div>
+				<Loading />
 			</div>
 		);
 	}

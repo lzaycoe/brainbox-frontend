@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import CreateSectionDialog from '@/components/teachers/create-section/CreateSectionDialog';
 import SectionTab from '@/components/teachers/create-section/SectionTab';
 import { Section } from '@/schemas/section.schema';
@@ -47,7 +48,7 @@ export default function CourseSections() {
 	}, [courseId]);
 
 	if (loading) {
-		return <div className="px-40 flex justify-center mt-10">Loading...</div>;
+		return <Loading />;
 	}
 
 	return (

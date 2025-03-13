@@ -47,17 +47,23 @@ const FormAdvanceInfo: React.FC<FormAdvanceInfoProps> = ({
 		const originPrice = control._formValues.originPrice;
 		const salePrice = control._formValues.salePrice;
 
-		if (originPrice !== undefined && displayOriginPrice === '') {
-			setDisplayOriginPrice(formatCurrency(originPrice));
-		}
-		if (salePrice !== undefined && displaySalePrice === '') {
-			setDisplaySalePrice(formatCurrency(salePrice));
+		if (isEdit) {
+			if (originPrice !== undefined && displayOriginPrice === '') {
+				setValue('originPrice', Number(originPrice), { shouldValidate: true });
+				setDisplayOriginPrice(formatCurrency(originPrice));
+			}
+			if (salePrice !== undefined && displaySalePrice === '') {
+				setValue('salePrice', Number(salePrice), { shouldValidate: true });
+				setDisplaySalePrice(formatCurrency(salePrice));
+			}
 		}
 	}, [
 		control._formValues.originPrice,
 		control._formValues.salePrice,
 		displayOriginPrice,
 		displaySalePrice,
+		isEdit,
+		setValue,
 	]);
 
 	useEffect(() => {

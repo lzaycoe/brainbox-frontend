@@ -54,36 +54,46 @@ const ListCourseCard: React.FC = () => {
 		router.push(`/courses/${id}`);
 	};
 
-	if (error) return <p className="text-red-500">{error}</p>;
+	let content;
+
+	if (loading) {
+		content = <Loading />;
+	} else if (error) {
+		content = (
+			<div className="flex justify-center">
+				<p className="text-red-500">{error}</p>
+			</div>
+		);
+	} else {
+		content = (
+			<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
+				{courses.map((course) => {
+					const { bgColor, textColor } = getCategoryColors(course.tag);
+					return (
+						<CourseCard
+							key={course.id}
+							imageUrl={course.thumbnail}
+							category={course.tag}
+							categoryBgColor={bgColor}
+							categoryTextColor={textColor}
+							price={`${course.salePrice}`}
+							title={course.title}
+							rating={0.0}
+							students={course.students ?? 0}
+							onClick={() => handleCourseClick(course.id)}
+						/>
+					);
+				})}
+			</div>
+		);
+	}
 
 	return (
 		<section className="flex flex-col items-center bg-[#F5F7FA] py-10">
 			<h2 className="text-3xl font-semibold text-center mb-8">
 				Best Selling Courses
 			</h2>
-			{loading ? (
-				<Loading />
-			) : (
-				<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
-					{courses.map((course) => {
-						const { bgColor, textColor } = getCategoryColors(course.tag);
-						return (
-							<CourseCard
-								key={course.id}
-								imageUrl={course.thumbnail}
-								category={course.tag}
-								categoryBgColor={bgColor}
-								categoryTextColor={textColor}
-								price={`${course.salePrice}`}
-								title={course.title}
-								rating={0.0}
-								students={course.students ?? 0}
-								onClick={() => handleCourseClick(course.id)}
-							/>
-						);
-					})}
-				</div>
-			)}
+			{content}
 		</section>
 	);
 };
