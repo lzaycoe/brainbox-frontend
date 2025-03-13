@@ -122,6 +122,8 @@ const CourseList: React.FC<{ userClerkId: string }> = ({ userClerkId }) => {
 								{currentCourses.map((course) => (
 									<div
 										key={course.id}
+										role="button"
+										tabIndex={0}
 										onClick={() => handleCourseClick(course.id)}
 										onKeyDown={(e) => handleKeyDown(e, course.id)}
 										className="cursor-pointer bg-transparent border-none p-0"
