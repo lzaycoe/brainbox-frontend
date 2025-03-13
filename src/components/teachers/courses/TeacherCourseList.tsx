@@ -16,8 +16,7 @@ const TeacherCourseList: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [selectedRating, setSelectedRating] = useState('all');
+	const [selectedStatus, setSelectedStatus] = useState('all');
 	const coursesPerPage = 12;
 	const { user, loading: userLoading } = useUserContext();
 	const [courses, setCourses] = useState<Course[]>([]);
@@ -76,8 +75,9 @@ const TeacherCourseList: React.FC = () => {
 			.includes(searchQuery.toLowerCase());
 		const matchesCategory =
 			selectedCategory === 'all' || course.tag === selectedCategory;
-		const matchesRating = true;
-		return matchesSearchQuery && matchesCategory && matchesRating;
+		const matchesStatus =
+			selectedStatus === 'all' || course.status === selectedStatus;
+		return matchesSearchQuery && matchesCategory && matchesStatus;
 	});
 
 	const currentCourses = filteredCourses.slice(
@@ -102,7 +102,8 @@ const TeacherCourseList: React.FC = () => {
 			<SearchAndFilter onSearch={setSearchQuery}>
 				<FilterSelects
 					onCategoryChange={setSelectedCategory}
-					onRatingChange={setSelectedRating}
+					onRatingChange={() => {}}
+					onStatusChange={setSelectedStatus}
 				/>
 			</SearchAndFilter>
 			{filteredCourses.length === 0 ? (
