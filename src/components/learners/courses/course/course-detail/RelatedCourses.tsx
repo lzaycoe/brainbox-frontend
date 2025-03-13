@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 
 import CourseCard from '@/components/commons/CourseCard';
+import Loading from '@/components/commons/Loading';
 import { Course } from '@/schemas/course.schema';
 import { getCourse, getCourses } from '@/services/api/course';
 
@@ -67,7 +68,7 @@ export default function RelatedCourses({ courseId }: RelatedCoursesProps) {
 	if (loading) {
 		return (
 			<section className="mt-12 mb-8">
-				<p className="text-gray-500">Loading related courses...</p>
+				<Loading />
 			</section>
 		);
 	}

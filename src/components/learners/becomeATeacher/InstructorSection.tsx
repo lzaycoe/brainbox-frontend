@@ -3,6 +3,7 @@
 import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { User } from '@/schemas/user.schema';
@@ -13,32 +14,30 @@ export default function InstructorSection() {
 	const [showPopup, setShowPopup] = useState(false);
 	const [userData, setUserData] = useState<User | null>(null);
 	const { user } = useUser();
-
-	const fetchUser = async () => {
-		try {
-			if (!user) {
-				throw new Error('User is undefined');
-			}
-
-			const userData = await getUserByClerkId(user?.id);
-			setUserData(userData);
-		} catch (error) {
-			console.error('Failed to fetch user metadata:', error);
-			setUserData(null);
-		}
-	};
+	const router = useRouter();
 
 	useEffect(() => {
-		if (user) {
-			fetchUser();
-		}
+		const fetchUser = async () => {
+			try {
+				if (!user) {
+					throw new Error('User is undefined');
+				}
+
+				const userData = await getUserByClerkId(user?.id);
+				setUserData(userData);
+			} catch (error) {
+				console.error('Failed to fetch user metadata:', error);
+				setUserData(null);
+			}
+		};
+		fetchUser();
 	}, [user?.id]);
 
 	const handlePayment = async () => {
 		const paymentData = {
 			userId: userData?.id,
 			courseId: null,
-			price: 50000,
+			price: 5000,
 		};
 
 		setIsSubmitting(true);
@@ -60,7 +59,7 @@ export default function InstructorSection() {
 			}
 
 			const redirectUrl = await response.text();
-			window.location.href = redirectUrl;
+			router.push(redirectUrl);
 		} catch (error) {
 			console.error('Error during payment:', error);
 		} finally {

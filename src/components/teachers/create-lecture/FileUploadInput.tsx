@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
 import { Input } from '@/components/ui/input';
@@ -11,6 +11,7 @@ interface FileUploadInputProps<T extends FieldValues> {
 	label: string;
 	register: UseFormRegister<T>;
 	onFileChange: (file: File) => void;
+	initialFileUrl?: string | null;
 }
 
 export default function FileUploadInput<T extends FieldValues>({
@@ -19,9 +20,26 @@ export default function FileUploadInput<T extends FieldValues>({
 	label,
 	register,
 	onFileChange,
+	initialFileUrl,
 }: Readonly<FileUploadInputProps<T>>) {
 	const [fileName, setFileName] = useState<string | null>(null);
 	const [fileUrl, setFileUrl] = useState<string | null>(null);
+
+	const extractFileNameFromUrl = (url: string): string => {
+		const parts = url.split('/');
+		return parts[parts.length - 1] || 'Unknown file';
+	};
+
+	useEffect(() => {
+		if (initialFileUrl) {
+			setFileName(extractFileNameFromUrl(initialFileUrl));
+			if (accept.startsWith('video/')) {
+				setFileUrl(initialFileUrl);
+			} else {
+				setFileUrl(null);
+			}
+		}
+	}, [initialFileUrl, accept]);
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];

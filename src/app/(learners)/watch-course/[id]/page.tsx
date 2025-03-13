@@ -3,6 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import CourseMenu from '@/components/learners/watch-course/CourseMenu';
 import CourseNavigation from '@/components/learners/watch-course/CourseNavigation';
 import CourseVideo from '@/components/learners/watch-course/CourseVideo';
@@ -202,7 +203,7 @@ export default function WatchCourse() {
 	};
 
 	if (loading || userLoading) {
-		return <div className="px-40 flex justify-center mt-10">Loading...</div>;
+		return <Loading />;
 	}
 
 	if (error) {
@@ -210,7 +211,11 @@ export default function WatchCourse() {
 	}
 
 	if (!course || !progress || sectionsMenu.length === 0) {
-		return <div>Course, progress, or sections not found</div>;
+		return (
+			<div className="flex justify-center w-full mt-10">
+				Course, progress, or sections not found
+			</div>
+		);
 	}
 
 	const activeLecture = sectionsMenu

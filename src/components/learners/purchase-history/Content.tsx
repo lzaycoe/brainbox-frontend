@@ -4,6 +4,7 @@ import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import { User } from '@/schemas/user.schema';
 import { getCourse } from '@/services/api/course';
@@ -150,16 +151,16 @@ const PaymentList = () => {
 		if (user) {
 			fetchUser();
 		}
-	}, [user?.id]);
+	}, [user, fetchUser]);
 
 	useEffect(() => {
 		if (userData) {
 			fetchPayments();
 		}
-	}, [userData?.id]);
+	}, [userData, fetchPayments]);
 
 	if (loading) {
-		return <div>Loading payments...</div>;
+		return <Loading />;
 	}
 
 	if (error) {

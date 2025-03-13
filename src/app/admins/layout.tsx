@@ -1,7 +1,13 @@
-import type { Metadata } from 'next';
+'use client';
+
 import { Geist, Geist_Mono } from 'next/font/google';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import '@/app/globals.css';
+import Loading from '@/components/commons/Loading';
+import AdminLayout from '@/layouts/AdminLayout';
+import { getAdminInfo } from '@/utils/adminInfo';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -13,23 +19,50 @@ const geistMono = Geist_Mono({
 	subsets: ['latin'],
 });
 
-export const metadata: Metadata = {
-	title: 'BrainBox | Admin Dashboard',
-	description: 'An e-learning platform built with Next.js and Shadcn UI',
-};
-
 export default function AdminPageLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const pathname = usePathname();
+	const isLoginRoute = pathname === '/admins/login';
+
+	const [isLoading, setIsLoading] = useState(true);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+	useEffect(() => {
+		const checkAdminInfo = () => {
+			const adminInfo = getAdminInfo();
+			if (adminInfo?.username) {
+				setIsAuthenticated(true);
+			}
+			setIsLoading(false); // Kết thúc loading
+		};
+
+		checkAdminInfo();
+	}, []);
+
+	if (isLoading) {
+		return (
+			<div className="flex items-center justify-center h-screen mt-20">
+				<Loading />
+			</div>
+		);
+	}
+
+	if (!isAuthenticated && !isLoginRoute) {
+		if (typeof window !== 'undefined') {
+			window.location.href = '/admins/login';
+		}
+		return null;
+	}
+
 	return (
 		<html lang="en">
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
 			>
-				{/* <AdminLayout>{children}</AdminLayout> */}
-				{children}
+				{isLoginRoute ? children : <AdminLayout>{children}</AdminLayout>}
 			</body>
 		</html>
 	);

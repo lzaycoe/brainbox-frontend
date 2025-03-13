@@ -37,16 +37,25 @@ const prices = [
 	{ value: '1', label: '1 - 20$' },
 ];
 
+const statuses = [
+	{ value: 'all', label: 'All Status' },
+	{ value: 'pending', label: 'Pending' },
+	{ value: 'approved', label: 'Approved' },
+	{ value: 'rejected', label: 'Rejected' },
+];
+
 interface FilterSelectsProps {
 	onCategoryChange: (category: string) => void;
 	onRatingChange: (rating: string) => void;
 	onPriceChange?: (price: string) => void;
+	onStatusChange?: (status: string) => void;
 }
 
 const FilterSelects: React.FC<FilterSelectsProps> = ({
 	onCategoryChange,
 	onRatingChange,
 	onPriceChange,
+	onStatusChange,
 }) => {
 	return (
 		<div className="flex gap-6">
@@ -100,6 +109,25 @@ const FilterSelects: React.FC<FilterSelectsProps> = ({
 							{prices.map((prices) => (
 								<SelectItem key={prices.value} value={prices.value}>
 									{prices.label}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+				</div>
+			)}
+			{onStatusChange && (
+				<div className="w-60 flex flex-col justify-start items-start gap-2">
+					<div className="text-[#6e7484] text-xs font-normal leading-none">
+						Status:
+					</div>
+					<Select onValueChange={onStatusChange}>
+						<SelectTrigger className="h-12 pl-[18px] pr-4 py-3 bg-white border border-[#e8eaef] items-center gap-[103px] inline-flex overflow-hidden justify-between">
+							<SelectValue placeholder="All Status" />
+						</SelectTrigger>
+						<SelectContent>
+							{statuses.map((status) => (
+								<SelectItem key={status.value} value={status.value}>
+									{status.label}
 								</SelectItem>
 							))}
 						</SelectContent>
