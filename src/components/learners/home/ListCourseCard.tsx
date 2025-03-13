@@ -54,8 +54,6 @@ const ListCourseCard: React.FC = () => {
 		router.push(`/courses/${id}`);
 	};
 
-	if (error) return <p className="text-red-500">{error}</p>;
-
 	return (
 		<section className="flex flex-col items-center bg-[#F5F7FA] py-10">
 			<h2 className="text-3xl font-semibold text-center mb-8">
@@ -63,6 +61,10 @@ const ListCourseCard: React.FC = () => {
 			</h2>
 			{loading ? (
 				<Loading />
+			) : error ? (
+				<div className="flex justify-center">
+					<p className="text-red-500">{error}</p>
+				</div>
 			) : (
 				<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1">
 					{courses.map((course) => {
