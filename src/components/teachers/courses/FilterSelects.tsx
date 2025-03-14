@@ -30,23 +30,32 @@ const ratings = [
 ];
 
 const prices = [
-	{ value: '5', label: 'over 80$' },
-	{ value: '4', label: '61 - 80$' },
-	{ value: '3', label: '41 - 60$' },
-	{ value: '2', label: '21 - 40$' },
-	{ value: '1', label: '1 - 20$' },
+	{ value: 'under-500k', label: 'Under 500.000đ' },
+	{ value: '500k-1m', label: '500.000đ - 1.000.000đ' },
+	{ value: '1m-2m', label: '1.000.000đ - 2.000.000đ' },
+	{ value: '2m-5m', label: '2.000.000đ - 5.000.000đ' },
+	{ value: 'over-5m', label: 'Over 5.000.000đ' },
+];
+
+const statuses = [
+	{ value: 'all', label: 'All Status' },
+	{ value: 'pending', label: 'Pending' },
+	{ value: 'approved', label: 'Approved' },
+	{ value: 'rejected', label: 'Rejected' },
 ];
 
 interface FilterSelectsProps {
 	onCategoryChange: (category: string) => void;
 	onRatingChange: (rating: string) => void;
 	onPriceChange?: (price: string) => void;
+	onStatusChange?: (status: string) => void;
 }
 
 const FilterSelects: React.FC<FilterSelectsProps> = ({
 	onCategoryChange,
 	onRatingChange,
 	onPriceChange,
+	onStatusChange,
 }) => {
 	return (
 		<div className="flex gap-6">
@@ -97,9 +106,28 @@ const FilterSelects: React.FC<FilterSelectsProps> = ({
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="all">All Price</SelectItem>
-							{prices.map((prices) => (
-								<SelectItem key={prices.value} value={prices.value}>
-									{prices.label}
+							{prices.map((price) => (
+								<SelectItem key={price.value} value={price.value}>
+									{price.label}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+				</div>
+			)}
+			{onStatusChange && (
+				<div className="w-60 flex flex-col justify-start items-start gap-2">
+					<div className="text-[#6e7484] text-xs font-normal leading-none">
+						Status:
+					</div>
+					<Select onValueChange={onStatusChange}>
+						<SelectTrigger className="h-12 pl-[18px] pr-4 py-3 bg-white border border-[#e8eaef] items-center gap-[103px] inline-flex overflow-hidden justify-between">
+							<SelectValue placeholder="All Status" />
+						</SelectTrigger>
+						<SelectContent>
+							{statuses.map((status) => (
+								<SelectItem key={status.value} value={status.value}>
+									{status.label}
 								</SelectItem>
 							))}
 						</SelectContent>
