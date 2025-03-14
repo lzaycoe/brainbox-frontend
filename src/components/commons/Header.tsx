@@ -7,6 +7,7 @@ import {
 	SignedOut,
 	UserButton,
 	useClerk,
+	useUser,
 } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -37,6 +38,7 @@ export const Header = () => {
 	const { signOut } = useClerk();
 	const router = useRouter();
 	const pathname = usePathname();
+	const { user } = useUser();
 
 	const handleSignOut = () => {
 		signOut().then(() => {
@@ -125,15 +127,28 @@ export const Header = () => {
 						Contact
 					</Link>
 					<Link
-						href="/become-instructor"
+						href="/become-teacher"
 						className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 border-t-4 transition-all duration-500 ease-in-out ${
-							pathname === '/become-instructor'
+							pathname === '/become-teacher'
 								? 'text-white font-bold border-orange-500'
 								: 'text-gray-400 border-transparent'
 						}`}
 					>
-						Become an Instructor
+						Become a teacher
 					</Link>
+
+					{!user ? (
+						<Link
+							href="/admins"
+							className={`gap-2.5 self-stretch p-4 my-auto whitespace-nowrap bg-neutral-800 border-t-4 transition-all duration-500 ease-in-out ${
+								pathname === '/admins'
+									? 'text-white font-bold border-orange-500'
+									: 'text-gray-400 border-transparent'
+							}`}
+						>
+							Admin Portals
+						</Link>
+					) : null}
 				</div>
 				<div className="flex gap-6 items-start self-stretch my-auto leading-loose text-gray-400 whitespace-nowrap">
 					<DropdownMenu>
