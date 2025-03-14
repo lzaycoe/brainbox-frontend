@@ -13,14 +13,14 @@ export default function SectionSix() {
 								Start teaching with us and inspire others
 							</h2>
 							<p className="mt-6 text-base leading-6 text-neutral-300">
-								Become an instructor & start teaching with 26k certified
-								instructors. Create a success story with 67.1k Students — Grow
-								yourself with 71 countries.
+								Become an teacher & start teaching with 26k certified teachers.
+								Create a success story with 67.1k Students — Grow yourself with
+								71 countries.
 							</p>
 						</div>
 						<button
 							className="gap-3 self-start px-10 mt-10 text-xl font-semibold tracking-normal text-white capitalize bg-orange-500 leading-[64px] max-md:px-5"
-							aria-label="Register as an instructor"
+							aria-label="Register as an teacher"
 						>
 							Register now
 						</button>
@@ -31,7 +31,7 @@ export default function SectionSix() {
 					<div className="md:w-1/2 flex justify-end">
 						<Image
 							src="/app/become_a_teacher/become_a_teacher_6.png"
-							alt="Instructor teaching students"
+							alt="teacher teaching students"
 							className="object-contain w-full h-auto"
 							width={500}
 							height={400}

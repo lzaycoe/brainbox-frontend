@@ -29,7 +29,7 @@ export default clerkMiddleware(async (auth, req) => {
 	}
 
 	if (req.nextUrl.pathname.startsWith('/teachers') && role !== 'teacher') {
-		return NextResponse.redirect(new URL('/become-instructor', req.url));
+		return NextResponse.redirect(new URL('/become-teacher', req.url));
 	}
 
 	return NextResponse.next();
