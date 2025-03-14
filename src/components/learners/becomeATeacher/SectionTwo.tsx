@@ -9,13 +9,13 @@ export default function SectionTwo() {
 	return (
 		<section
 			className="flex flex-col justify-center items-center px-72 py-20 bg-slate-100 max-md:px-5"
-			aria-labelledby="instructor-steps-title"
+			aria-labelledby="teacher-steps-title"
 		>
 			<h2
-				id="instructor-steps-title"
+				id="teacher-steps-title"
 				className="text-4xl font-semibold tracking-tight leading-10 text-center text-neutral-800 w-[518px] max-md:max-w-full"
 			>
-				How You Will Become a Successful Instructor
+				How You Will Become a Successful teacher
 			</h2>
 			<ul className="flex justify-center gap-6 items-start mt-10 max-md:flex-wrap max-md:max-w-full">
 				<li className="flex flex-col justify-center items-center p-6 bg-white w-[312px] max-md:px-5">
@@ -27,10 +27,10 @@ export default function SectionTwo() {
 					</div>
 					<div className="flex flex-col justify-center items-center mt-6 max-w-full text-center w-[264px]">
 						<h3 className="text-lg font-medium leading-none text-neutral-800">
-							1. Apply to Become an Instructor
+							1. Apply to Become an teacher
 						</h3>
 						<p className="mt-3 text-sm tracking-normal leading-6 text-gray-500">
-							Begin by applying to become an instructor on our platform. Once
+							Begin by applying to become an teacher on our platform. Once
 							approved, you can get started with teaching.
 						</p>
 					</div>

@@ -37,7 +37,7 @@ const CourseVideo: React.FC<CourseVideoProps> = ({
 					{isYouTube ? (
 						<iframe
 							width="100%"
-							height="450"
+							height="650"
 							src={`https://www.youtube.com/embed/${youtubeId}?enablejsapi=1`}
 							title={title}
 							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

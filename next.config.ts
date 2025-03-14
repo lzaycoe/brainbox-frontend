@@ -54,6 +54,11 @@ const nextConfig: NextConfig = {
 				destination: '/teachers/dashboard',
 				permanent: false,
 			},
+			{
+				source: '/admins',
+				destination: '/admins/dashboard',
+				permanent: false,
+			},
 		];
 	},
 };

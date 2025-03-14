@@ -155,10 +155,10 @@ export const Footer = () => {
 							/>
 						</Link>
 						<Link
-							href="/become-instructor"
+							href="/become-teacher"
 							className="relative gap-3 self-stretch py-1.5 pr-8 whitespace-nowrap bg-neutral-800 hover:bg-transparent hover:text-white group"
 						>
-							Become Instructor
+							Become Teacher
 							<div className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></div>
 							<FaArrowRightLong
 								className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"

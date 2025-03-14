@@ -31,7 +31,7 @@ const stats = [
 	{
 		id: 4,
 		value: 241,
-		label: 'Course Instructors',
+		label: 'Course Teachers',
 		bgColor: 'bg-orange-50',
 		icon: <FaUsersViewfinder />,
 	},

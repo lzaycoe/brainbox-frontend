@@ -14,7 +14,7 @@ export default function Profile() {
 		if (user?.role === 'teacher') {
 			router.push('/teachers');
 		} else {
-			router.push('/become-instructor');
+			router.push('/become-teacher');
 		}
 	};
 
@@ -42,7 +42,7 @@ export default function Profile() {
 						>
 							{user?.role === 'teacher'
 								? 'Go to Teacher Dashboard'
-								: 'Become Instructor'}
+								: 'Become Teacher'}
 							<PiArrowCircleRightDuotone className="w-8 h-8" />
 						</button>
 					</header>

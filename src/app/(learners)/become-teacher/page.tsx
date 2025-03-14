@@ -10,7 +10,7 @@ import SectionTwo from '@/components/learners/becomeATeacher/SectionTwo';
 import Statistic from '@/components/learners/becomeATeacher/Statistic';
 
 export const metadata: Metadata = {
-	title: 'BrainBox | Become Instructor',
+	title: 'BrainBox | Become Teacher',
 };
 
 export default function Home() {
