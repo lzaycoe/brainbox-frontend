@@ -10,7 +10,7 @@ const BecomeTeacherSteps: React.FC = () => {
 	const router = useRouter();
 
 	const navigate = () => {
-		router.push('/become-instructor');
+		router.push('/become-teacher');
 	};
 
 	return (
