@@ -13,21 +13,20 @@ export default function Home() {
 	const [userId, setUserId] = useState<number | null>(null);
 	const { user } = useUser();
 
-	const fetchUser = async () => {
-		try {
-			if (!user) {
-				throw new Error('User is undefined');
-			}
-
-			const response = await getUserByClerkId(user?.id);
-			setUserId(response.id);
-		} catch (error) {
-			console.error('Failed to fetch user metadata:', error);
-			setUserId(null);
-		}
-	};
-
 	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				if (!user) {
+					throw new Error('User is undefined');
+				}
+
+				const response = await getUserByClerkId(user?.id);
+				setUserId(response.id);
+			} catch (error) {
+				console.error('Failed to fetch user metadata:', error);
+				setUserId(null);
+			}
+		};
 		if (!userId) {
 			fetchUser();
 		}
