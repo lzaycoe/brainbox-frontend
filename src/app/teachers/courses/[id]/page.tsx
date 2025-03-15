@@ -3,10 +3,19 @@
 import { toNumber } from 'lodash';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import {
+	PiCardsDuotone,
+	PiChatCircleDotsDuotone,
+	PiStarDuotone,
+} from 'react-icons/pi';
 
 import Loading from '@/components/commons/Loading';
+import { RecentActivity } from '@/components/commons/teachers/RecentActivity';
+import { RevenueChartCard } from '@/components/commons/teachers/RevenueChartCard';
 import CourseDetailCard from '@/components/teachers/course-detail/CourseDetailCard';
 import { ListSummaryCard } from '@/components/teachers/course-detail/ListSummaryCard';
+import { CourseOverview } from '@/components/teachers/dashboard/CourseOverview';
+import { ListSummaryCardDashboard } from '@/components/teachers/dashboard/ListSummaryCardDashboard';
 import { Course } from '@/schemas/course.schema';
 import { User } from '@/schemas/user.schema';
 import { getCourse } from '@/services/api/course';
@@ -27,6 +36,53 @@ const CourseDetail: React.FC = () => {
 	const [sections, setSections] = useState(0);
 	const [lectures, setLectures] = useState(0);
 	const [loading, setLoading] = useState<boolean>(true);
+
+	const chartData = [
+		{ month: 'January', desktop: 186 },
+		{ month: 'February', desktop: 305 },
+		{ month: 'March', desktop: 237 },
+		{ month: 'April', desktop: 73 },
+		{ month: 'May', desktop: 209 },
+		{ month: 'June', desktop: 214 },
+	];
+
+	const chartConfig = {
+		desktop: {
+			label: 'LazyCode',
+			color: 'hsl(var(--chart-1))',
+		},
+	};
+
+	const activities = [
+		{
+			icon: <PiChatCircleDotsDuotone className="text-white" />,
+			user: 'Kevin',
+			action: 'comments on your lecture',
+			target: '“What is ux” in “2021 ui/ux design with figma”',
+			time: 'Just now',
+		},
+		{
+			icon: <PiStarDuotone className="text-white" />,
+			user: 'John',
+			action: 'give a 5 star rating on your course',
+			target: '“2021 ui/ux design with figma”',
+			time: '5 mins ago',
+		},
+		{
+			icon: <PiCardsDuotone className="text-white" />,
+			user: 'Sraboni',
+			action: 'purchase your course',
+			target: '“2021 ui/ux design with figma”',
+			time: '6 mins ago',
+		},
+		{
+			icon: <PiCardsDuotone className="text-white" />,
+			user: 'Arif',
+			action: 'purchase your course',
+			target: '“2021 ui/ux design with figma”',
+			time: '10 mins ago',
+		},
+	];
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -103,6 +159,26 @@ const CourseDetail: React.FC = () => {
 						public={false}
 						status={course?.status ?? 'pending'}
 					/>
+					<div className="mt-10">
+						<ListSummaryCardDashboard />
+						<CourseOverview />
+						<section className="flex flex-wrap gap-6 items-start mb-6 max-lg:flex-col">
+							<div className="flex overflow-hidden flex-col min-w-[240px] w-[420px] max-md:w-full h-full">
+								<RecentActivity
+									title="Recent Activity"
+									activities={activities}
+								/>
+							</div>
+
+							<div className="flex overflow-hidden flex-col min-w-[240px] w-[870px] max-md:w-full h-full">
+								<RevenueChartCard
+									title="Revenue"
+									chartData={chartData}
+									chartConfig={chartConfig}
+								/>
+							</div>
+						</section>
+					</div>
 				</div>
 			)}
 		</div>
