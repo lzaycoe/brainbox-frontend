@@ -5,7 +5,7 @@ import { ListSummaryCard } from '@/components/teachers/dashboard/ListSummaryCard
 import { RevenueReport } from '@/components/teachers/dashboard/RevenueReport';
 
 export const metadata: Metadata = {
-	title: 'BrainBox | Admin Dashboard',
+	title: 'BrainBox | Admin | Dashboard',
 };
 
 export default function Home() {
