@@ -38,12 +38,12 @@ const CourseDetail: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 
 	const chartData = [
-		{ month: 'January', desktop: 186 },
-		{ month: 'February', desktop: 305 },
-		{ month: 'March', desktop: 237 },
-		{ month: 'April', desktop: 73 },
-		{ month: 'May', desktop: 209 },
-		{ month: 'June', desktop: 214 },
+		{ month: 'January', desktop: 100 },
+		{ month: 'February', desktop: 200 },
+		{ month: 'March', desktop: 300 },
+		{ month: 'April', desktop: 400 },
+		{ month: 'May', desktop: 500 },
+		{ month: 'June', desktop: 600 },
 	];
 
 	const chartConfig = {
@@ -56,21 +56,21 @@ const CourseDetail: React.FC = () => {
 	const activities = [
 		{
 			icon: <PiChatCircleDotsDuotone className="text-white" />,
-			user: 'Kevin',
+			user: 'John',
 			action: 'comments on your lecture',
 			target: '“What is ux” in “2021 ui/ux design with figma”',
 			time: 'Just now',
 		},
 		{
 			icon: <PiStarDuotone className="text-white" />,
-			user: 'John',
+			user: 'Joy',
 			action: 'give a 5 star rating on your course',
 			target: '“2021 ui/ux design with figma”',
 			time: '5 mins ago',
 		},
 		{
 			icon: <PiCardsDuotone className="text-white" />,
-			user: 'Sraboni',
+			user: 'Jennifer',
 			action: 'purchase your course',
 			target: '“2021 ui/ux design with figma”',
 			time: '6 mins ago',
