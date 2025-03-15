@@ -46,13 +46,6 @@ const CourseDetail: React.FC = () => {
 		{ month: 'June', desktop: 600 },
 	];
 
-	const chartConfigCourse = {
-		desktop: {
-			label: 'LazyCode',
-			color: 'hsl(var(--chart-1))',
-		},
-	};
-
 	const activitiesCourse = [
 		{
 			icon: <PiChatCircleDotsDuotone className="text-white" />,
@@ -83,6 +76,13 @@ const CourseDetail: React.FC = () => {
 			time: '10 mins ago',
 		},
 	];
+
+	const chartConfigCourse = {
+		desktop: {
+			label: 'LazyCode',
+			color: 'hsl(var(--chart-1))',
+		},
+	};
 
 	useEffect(() => {
 		const fetchData = async () => {
