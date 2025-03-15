@@ -1,8 +1,13 @@
 'use client';
 
+import { Metadata } from 'next';
 import { useParams } from 'next/navigation';
 
 import CourseDetailsPage from '@/components/learners/courses/course/course-detail/CourseDetail';
+
+export const metadata: Metadata = {
+	title: 'BrainBox | Course Details',
+};
 
 export default function CoursePage() {
 	const params = useParams<{ id: string }>();
