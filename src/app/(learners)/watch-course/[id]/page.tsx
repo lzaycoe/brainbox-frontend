@@ -1,5 +1,6 @@
 'use client';
 
+import { Metadata } from 'next';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -23,6 +24,10 @@ import {
 	updateNextLecture,
 } from '@/services/custom/course/watchCourseServices';
 import { formatDate } from '@/utils/date';
+
+export const metadata: Metadata = {
+	title: 'BrainBox | Watch Course',
+};
 
 interface LectureDetail {
 	id: number;
