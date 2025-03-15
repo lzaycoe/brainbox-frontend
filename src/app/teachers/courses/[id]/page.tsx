@@ -37,7 +37,7 @@ const CourseDetail: React.FC = () => {
 	const [lectures, setLectures] = useState(0);
 	const [loading, setLoading] = useState<boolean>(true);
 
-	const chartData = [
+	const chartDataCourse = [
 		{ month: 'January', desktop: 100 },
 		{ month: 'February', desktop: 200 },
 		{ month: 'March', desktop: 300 },
@@ -46,25 +46,25 @@ const CourseDetail: React.FC = () => {
 		{ month: 'June', desktop: 600 },
 	];
 
-	const chartConfig = {
+	const chartConfigCourse = {
 		desktop: {
 			label: 'LazyCode',
 			color: 'hsl(var(--chart-1))',
 		},
 	};
 
-	const activities = [
+	const activitiesCourse = [
 		{
 			icon: <PiChatCircleDotsDuotone className="text-white" />,
 			user: 'John',
 			action: 'comments on your lecture',
-			target: '“What is ux” in “2021 ui/ux design with figma”',
+			target: '“What is ux” in “2021 ui/ux design with figmaa”',
 			time: 'Just now',
 		},
 		{
 			icon: <PiStarDuotone className="text-white" />,
 			user: 'Joy',
-			action: 'give a 5 star rating on your course',
+			action: 'give a 5 star rating on your coursea',
 			target: '“2021 ui/ux design with figma”',
 			time: '5 mins ago',
 		},
@@ -72,14 +72,14 @@ const CourseDetail: React.FC = () => {
 			icon: <PiCardsDuotone className="text-white" />,
 			user: 'Jennifer',
 			action: 'purchase your course',
-			target: '“2021 ui/ux design with figma”',
+			target: '“2021 ui/ux design with figmaa”',
 			time: '6 mins ago',
 		},
 		{
 			icon: <PiCardsDuotone className="text-white" />,
 			user: 'Arif',
 			action: 'purchase your course',
-			target: '“2021 ui/ux design with figma”',
+			target: '“2021 ui/ux design with figmaa”',
 			time: '10 mins ago',
 		},
 	];
@@ -162,19 +162,19 @@ const CourseDetail: React.FC = () => {
 					<div className="mt-10">
 						<ListSummaryCardDashboard />
 						<CourseOverview />
-						<section className="flex flex-wrap gap-6 items-start mb-6 max-lg:flex-col">
+						<section className="flex flex-wrap gap-6 items-start mb-6 max-lg:flex-col mt-6">
 							<div className="flex overflow-hidden flex-col min-w-[240px] w-[420px] max-md:w-full h-full">
 								<RecentActivity
 									title="Recent Activity"
-									activities={activities}
+									activities={activitiesCourse}
 								/>
 							</div>
 
 							<div className="flex overflow-hidden flex-col min-w-[240px] w-[870px] max-md:w-full h-full">
 								<RevenueChartCard
 									title="Revenue"
-									chartData={chartData}
-									chartConfig={chartConfig}
+									chartData={chartDataCourse}
+									chartConfig={chartConfigCourse}
 								/>
 							</div>
 						</section>
