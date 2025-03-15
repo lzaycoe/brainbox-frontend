@@ -99,7 +99,10 @@ const TeacherCourseList: React.FC = () => {
 
 	return (
 		<div className="flex flex-col items-center">
-			<SearchAndFilter onSearch={setSearchQuery}>
+			<SearchAndFilter
+				onSearch={setSearchQuery}
+				inputPlaceholder="Search for your courses..."
+			>
 				<FilterSelects
 					onCategoryChange={setSelectedCategory}
 					onRatingChange={setSelectedRating}

@@ -204,7 +204,11 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 	return (
 		<div className="flex flex-col items-center">
 			<div>
-				<SearchAndFilter onSearch={setSearchQuery}>
+				<SearchAndFilter
+					totalLabel="Courses"
+					inputPlaceholder="Search for courses..."
+					onSearch={setSearchQuery}
+				>
 					<FilterSelects
 						onCategoryChange={setSelectedCategory}
 						onRatingChange={setSelectedRating}
