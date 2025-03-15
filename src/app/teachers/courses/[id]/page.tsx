@@ -50,36 +50,36 @@ const CourseDetail: React.FC = () => {
 		{
 			icon: <PiChatCircleDotsDuotone className="text-white" />,
 			user: 'John',
-			action: 'comments on your lecture',
+			action: 'comments on your lecture 55',
 			target: '“What is ux” in “2021 ui/ux design with figmaa”',
-			time: 'Just now',
+			time: 'Just  now',
 		},
 		{
 			icon: <PiStarDuotone className="text-white" />,
 			user: 'Joy',
 			action: 'give a 5 star rating on your coursea',
-			target: '“2021 ui/ux design with figma”',
-			time: '5 mins ago',
+			target: '“2021 ui/ux design with figma 5”',
+			time: '2 mins ago',
 		},
 		{
 			icon: <PiCardsDuotone className="text-white" />,
 			user: 'Jennifer',
-			action: 'purchase your course',
-			target: '“2021 ui/ux design with figmaa”',
-			time: '6 mins ago',
+			action: 'purchase your coursee',
+			target: '“2021 ui/ux design with figmaa 5”',
+			time: '3 mins ago',
 		},
 		{
 			icon: <PiCardsDuotone className="text-white" />,
 			user: 'Arif',
-			action: 'purchase your course',
-			target: '“2021 ui/ux design with figmaa”',
-			time: '10 mins ago',
+			action: 'purchase your coursee',
+			target: '“2021 ui/ux design with figmaa 5”',
+			time: '4 mins ago',
 		},
 	];
 
 	const chartConfigCourse = {
 		desktop: {
-			label: 'LazyCode',
+			label: ' LazyCode',
 			color: 'hsl(var(--chart-1))',
 		},
 	};
