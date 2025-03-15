@@ -1,6 +1,12 @@
 'use client';
 
+import { Metadata } from 'next';
+
 import CourseRequestTable from '@/components/admins/check-courses/CourseRequestTable';
+
+export const metadata: Metadata = {
+	title: 'BrainBox | Admin Check Courses',
+};
 
 export default function CheckCoursesPage() {
 	return (
