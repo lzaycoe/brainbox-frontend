@@ -1,5 +1,6 @@
 'use client';
 
+import { Metadata } from 'next';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -8,6 +9,10 @@ import FormCreateLecture from '@/components/teachers/create-lecture/FormCreateLe
 import { useToast } from '@/hooks/use-toast';
 import { Lecture } from '@/schemas/lecture.schema';
 import { getLecture } from '@/services/api/lecture';
+
+export const metadata: Metadata = {
+	title: 'BrainBox | Teacher | Edit Lecture',
+};
 
 const EditLecture = () => {
 	const router = useRouter();
