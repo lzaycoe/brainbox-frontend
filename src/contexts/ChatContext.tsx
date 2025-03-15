@@ -1,9 +1,13 @@
+'use client';
+
 import { createContext, useContext } from 'react';
 
 import { useChatSocket } from '@/hooks/useChatSocket';
+import { ConversationData } from '@/schemas/conversation.schema';
 import { MessageData } from '@/schemas/message.schema';
 
 interface ChatContextType {
+	conversations: ConversationData[];
 	messages: MessageData[];
 	sendMessage: (
 		receiveId: number,
@@ -22,4 +26,10 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 	);
 };
 
-export const useChat = () => useContext(ChatContext);
+export const useChat = (): ChatContextType => {
+	const context = useContext(ChatContext);
+	if (!context) {
+		throw new Error('useChat must be used within a ChatProvider');
+	}
+	return context;
+};
