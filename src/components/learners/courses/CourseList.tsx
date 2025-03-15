@@ -73,10 +73,12 @@ const CourseList: React.FC<{ userId: number }> = ({ userId }) => {
 	};
 
 	return (
-		<div className="flex flex-col items-center py-5">
+		<div className="bg-white p-6 rounded-lg max-w-7xl mt-10">
 			<SearchAndFilter
-				totalCourses={filteredCourses.length}
+				totalItems={filteredCourses.length}
 				onSearch={setSearchQuery}
+				totalLabel="Courses"
+				inputPlaceholder="Search for courses..."
 			>
 				<div className="w-60 flex flex-col justify-start items-start gap-2">
 					<div className="text-[#6e7484] text-xs font-normal leading-none">
