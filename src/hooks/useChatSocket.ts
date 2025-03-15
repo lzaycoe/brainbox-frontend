@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 
@@ -10,31 +12,36 @@ export const useChatSocket = () => {
 	const [conversations, setConversations] = useState<ConversationData[]>([]);
 
 	useEffect(() => {
-		const newSocket = io(process.env.NEXT_PUBLIC_API_URL);
+		const newSocket = io(process.env.NEXT_PUBLIC_API_URL!);
 
-		newSocket.on('connect', () => {
-			console.log('Connected to WebSocket server');
-		});
+		newSocket.on('connect', () => console.log('Connected to WebSocket server'));
 
-		newSocket.on('conversationCreated', (data) => {
+		newSocket.on('createConversation', (data: ConversationData) => {
 			setConversations((prev) => [...prev, data]);
 		});
 
-		newSocket.on('newMessage', (data) => {
+		newSocket.on('getConversations', (data: ConversationData[]) => {
+			setConversations(data);
+		});
+
+		newSocket.on('sendMessage', (data: MessageData) => {
 			setMessages((prev) => [...prev, data]);
 		});
 
-		newSocket.on('messages', (data) => {
+		newSocket.on('getMessages', (data: MessageData[]) => {
 			setMessages(data);
 		});
 
-		newSocket.on('messageStatusUpdated', (data) => {
-			setMessages((prev) =>
-				prev.map((msg) =>
-					msg.senderId === data.id ? { ...msg, status: data.status } : msg,
-				),
-			);
-		});
+		newSocket.on(
+			'updateMessageStatus',
+			(data: { id: number; status: 'received' | 'sent' | 'seen' }) => {
+				setMessages((prev) =>
+					prev.map((msg) =>
+						msg.senderId === data.id ? { ...msg, status: data.status } : msg,
+					),
+				);
+			},
+		);
 
 		setSocket(newSocket);
 
@@ -42,6 +49,18 @@ export const useChatSocket = () => {
 			newSocket.disconnect();
 		};
 	}, []);
+
+	const createConversation = (senderId: number, receiveId: number) => {
+		if (socket) {
+			socket.emit('createConversation', { senderId, receiveId });
+		}
+	};
+
+	const getConversations = (userId: number) => {
+		if (socket) {
+			socket.emit('getConversations', userId);
+		}
+	};
 
 	const sendMessage = (
 		receiveId: number,
@@ -52,15 +71,34 @@ export const useChatSocket = () => {
 		if (socket) {
 			socket.emit('sendMessage', {
 				id: receiveId,
-				dto: {
-					senderId,
-					conversationId,
-					content,
-					messageType: 'text',
-				},
+				dto: { senderId, conversationId, content, messageType: 'text' },
 			});
 		}
 	};
 
-	return { socket, messages, conversations, sendMessage };
+	const getMessages = (conversationId: number) => {
+		if (socket) {
+			socket.emit('getMessages', conversationId);
+		}
+	};
+
+	const updateMessageStatus = (
+		id: number,
+		status: 'received' | 'sent' | 'seen',
+	) => {
+		if (socket) {
+			socket.emit('updateMessageStatus', { id, dto: { status } });
+		}
+	};
+
+	return {
+		socket,
+		messages,
+		conversations,
+		createConversation,
+		getConversations,
+		sendMessage,
+		getMessages,
+		updateMessageStatus,
+	};
 };
