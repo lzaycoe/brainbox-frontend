@@ -1,9 +1,14 @@
 import { auth } from '@clerk/nextjs/server';
+import { Metadata } from 'next';
 
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
 import CoursesSection from '@/components/learners/dashboard/CoursesSection';
 import StatsSection from '@/components/learners/dashboard/StatsSection';
+
+export const metadata: Metadata = {
+	title: 'BrainBox | Learner Dashboard',
+};
 
 export default async function Home() {
 	const authData = await auth(); // Dùng await để lấy dữ liệu từ Promise
