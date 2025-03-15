@@ -55,11 +55,32 @@ const CourseDetail: React.FC = () => {
 
 	const activitiesCourse = [
 		{
-			icon: <PiChatCircleDotsDuotone className="text-white" />,
+			icon: <PiStarDuotone className="text-white" />,
 			user: 'John',
 			action: 'comments on your lecture',
 			target: '“What is ux” in “2021 ui/ux design with figmaa”',
 			time: 'Just now',
+		},
+		{
+			icon: <PiStarDuotone className="text-white" />,
+			user: 'Joy',
+			action: 'give a 5 star rating on your coursea',
+			target: '“2021 ui/ux design with figma”',
+			time: '5 mins ago',
+		},
+		{
+			icon: <PiStarDuotone className="text-white" />,
+			user: 'Jennifer',
+			action: 'purchase your course',
+			target: '“2021 ui/ux design with figmaa”',
+			time: '6 mins ago',
+		},
+		{
+			icon: <PiStarDuotone className="text-white" />,
+			user: 'Arif',
+			action: 'purchase your course',
+			target: '“2021 ui/ux design with figmaa”',
+			time: '10 mins ago',
 		},
 		{
 			icon: <PiStarDuotone className="text-white" />,
@@ -159,18 +180,18 @@ const CourseDetail: React.FC = () => {
 						public={false}
 						status={course?.status ?? 'pending'}
 					/>
-					<div className="mt-10">
+					<div className="mt-9">
 						<ListSummaryCardDashboard />
 						<CourseOverview />
 						<section className="flex flex-wrap gap-6 items-start mb-6 max-lg:flex-col mt-6">
-							<div className="flex overflow-hidden flex-col min-w-[240px] w-[420px] max-md:w-full h-full">
+							<div className="flex overflow-hidden flex-col min-w-[240px] w-[420px] max-md:w-full h-full mt-2">
 								<RecentActivity
 									title="Recent Activity"
 									activities={activitiesCourse}
 								/>
 							</div>
 
-							<div className="flex overflow-hidden flex-col min-w-[240px] w-[870px] max-md:w-full h-full">
+							<div className="flex overflow-hidden flex-col min-w-[240px] w-[870px] max-md:w-full h-full mt-2">
 								<RevenueChartCard
 									title="Revenue"
 									chartData={chartDataCourse}
