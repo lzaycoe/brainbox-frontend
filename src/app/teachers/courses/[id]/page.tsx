@@ -55,32 +55,11 @@ const CourseDetail: React.FC = () => {
 
 	const activitiesCourse = [
 		{
-			icon: <PiStarDuotone className="text-white" />,
+			icon: <PiChatCircleDotsDuotone className="text-white" />,
 			user: 'John',
 			action: 'comments on your lecture',
 			target: '“What is ux” in “2021 ui/ux design with figmaa”',
 			time: 'Just now',
-		},
-		{
-			icon: <PiStarDuotone className="text-white" />,
-			user: 'Joy',
-			action: 'give a 5 star rating on your coursea',
-			target: '“2021 ui/ux design with figma”',
-			time: '5 mins ago',
-		},
-		{
-			icon: <PiStarDuotone className="text-white" />,
-			user: 'Jennifer',
-			action: 'purchase your course',
-			target: '“2021 ui/ux design with figmaa”',
-			time: '6 mins ago',
-		},
-		{
-			icon: <PiStarDuotone className="text-white" />,
-			user: 'Arif',
-			action: 'purchase your course',
-			target: '“2021 ui/ux design with figmaa”',
-			time: '10 mins ago',
 		},
 		{
 			icon: <PiStarDuotone className="text-white" />,
