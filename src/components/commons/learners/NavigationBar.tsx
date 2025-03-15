@@ -9,7 +9,7 @@ export default function NavigationBar() {
 	const navItems = [
 		{ label: 'Dashboard', path: '/dashboard' },
 		{ label: 'Courses', path: '/courses' },
-		{ label: 'Teachers', path: '/teachers' },
+		{ label: 'Teachers', path: '/teacher' },
 		{ label: 'Message', path: '/message' },
 		{ label: 'Wishlist', path: '/wishlist' },
 		{ label: 'Purchase History', path: '/purchase-history' },
