@@ -24,7 +24,7 @@ export const CustomBankCard = ({ bankAccount, banks }: CustomBankCardProps) => {
 
 	const selectedBank = banks.find((bank) => bank.shortName === bank_name);
 	const bankLogo = selectedBank?.logo;
-	const bankDisplayName = selectedBank?.name || bank_name;
+	const bankDisplayName = selectedBank?.name ?? bank_name;
 
 	const maskedAccountNumber = showAccountNumber
 		? account_number

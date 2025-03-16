@@ -36,7 +36,7 @@ export const ListSummaryCard = () => {
 
 	useEffect(() => {
 		if (userLoading) return;
-		if (!user || !user.id) {
+		if (!user?.id) {
 			setError('Teacher ID not found');
 			setLoading(false);
 			return;

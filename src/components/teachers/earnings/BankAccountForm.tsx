@@ -30,8 +30,11 @@ import {
 } from '@/components/ui/popover';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
-import { BankAccountData, bankAccountSchema } from '@/schemas/bank.schema';
-import { Bank } from '@/schemas/bank.schema';
+import {
+	Bank,
+	BankAccountData,
+	bankAccountSchema,
+} from '@/schemas/bank.schema';
 
 interface BankAccountFormProps {
 	onSubmit: (data: BankAccountData) => void;
@@ -70,6 +73,7 @@ export const BankAccountForm = ({
 										<Button
 											variant="outline"
 											role="combobox"
+											aria-expanded={!!field.value}
 											className="w-full justify-between"
 										>
 											{field.value
