@@ -44,6 +44,11 @@ const nextConfig: NextConfig = {
 				hostname: 'cdn.builder.io',
 				pathname: '/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'api.vietqr.io',
+				pathname: '/**',
+			},
 		],
 		dangerouslyAllowSVG: true,
 	},
