@@ -30,11 +30,8 @@ import {
 } from '@/components/ui/popover';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
-import {
-	Bank,
-	BankAccountData,
-	bankAccountSchema,
-} from '@/schemas/bank.schema';
+import { BankAccountData, bankAccountSchema } from '@/schemas/bank.schema';
+import { Bank } from '@/schemas/bank.schema';
 
 interface BankAccountFormProps {
 	onSubmit: (data: BankAccountData) => void;
@@ -58,6 +55,8 @@ export const BankAccountForm = ({
 		},
 	});
 
+	const [open, setOpen] = React.useState(false);
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -67,13 +66,15 @@ export const BankAccountForm = ({
 					render={({ field }) => (
 						<FormItem className="flex flex-col">
 							<FormLabel>Bank Name</FormLabel>
-							<Popover>
+							<Popover open={open} onOpenChange={setOpen}>
 								<PopoverTrigger asChild>
 									<FormControl>
 										<Button
 											variant="outline"
 											role="combobox"
-											aria-expanded={!!field.value}
+											aria-expanded={open}
+											aria-controls="bank-list"
+											aria-label="Select a bank"
 											className="w-full justify-between"
 										>
 											{field.value
@@ -90,7 +91,7 @@ export const BankAccountForm = ({
 											placeholder="Search bank..."
 											className="h-9"
 										/>
-										<CommandList>
+										<CommandList id="bank-list">
 											<CommandEmpty>No bank found.</CommandEmpty>
 											<CommandGroup>
 												{banks.map((bank) => (
@@ -99,6 +100,7 @@ export const BankAccountForm = ({
 														value={`${bank.name} ${bank.shortName}`}
 														onSelect={() => {
 															field.onChange(bank.shortName);
+															setOpen(false);
 														}}
 													>
 														{bank.name}
