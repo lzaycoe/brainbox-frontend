@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import {
 	CommonChat,
 	CommonInfo,
@@ -16,6 +17,7 @@ const ChatApp = () => {
 	const { conversations, getConversations } = useChatSocket();
 	const [friends, setFriends] = useState<User[]>([]);
 	const [activeMessage, setActiveMessage] = useState<User | null>(null);
+	const [isLoading, setIsLoading] = useState(true); // Thêm state loading
 
 	const { userMetadata } = useUserMetadata();
 	const userId = userMetadata?.id || 0;
@@ -48,6 +50,8 @@ const ChatApp = () => {
 					setActiveMessage(formattedFriends[0]);
 				} catch (error) {
 					console.error('Failed to fetch friends:', error);
+				} finally {
+					setIsLoading(false);
 				}
 			};
 
@@ -67,19 +71,40 @@ const ChatApp = () => {
 
 			if (friendIds.length > 0) {
 				fetchFriends(friendIds);
+			} else {
+				setIsLoading(false);
 			}
 		}
 	}, [conversations]);
 
+	if (isLoading) {
+		return (
+			<div className="mt-6">
+				<Loading />
+			</div>
+		);
+	}
+
 	return (
 		<div className="flex gap-4 mt-8 w-full max-w-7xl mx-auto px-4">
-			<CommonInfo
-				title="Message"
-				messages={friends}
-				activeMessage={activeMessage}
-				setActiveMessage={setActiveMessage}
-			/>
-			<CommonChat selectedUser={activeMessage} messagesData={messagesData} />
+			{isLoading ? (
+				<div className="flex justify-center items-center w-full h-96">
+					<p className="text-gray-500">Loading chat...</p>
+				</div>
+			) : (
+				<>
+					<CommonInfo
+						title="Message"
+						messages={friends}
+						activeMessage={activeMessage}
+						setActiveMessage={setActiveMessage}
+					/>
+					<CommonChat
+						selectedUser={activeMessage}
+						messagesData={messagesData}
+					/>
+				</>
+			)}
 		</div>
 	);
 };
