@@ -1,14 +1,41 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import CourseDetailsPage from '@/components/learners/courses/course/course-detail/CourseDetail';
+import { isCourseViewableByLearners } from '@/services/api/course';
 
 export default function CoursePage() {
 	const params = useParams<{ id: string }>();
+	const router = useRouter();
+	const [isLoading, setIsLoading] = useState(true);
 
-	if (!params?.id) {
-		return <p className="text-red-500">Invalid course ID</p>;
+	useEffect(() => {
+		async function checkCourseAccess() {
+			if (!params?.id) {
+				router.push('/not-found');
+				return;
+			}
+
+			const isViewable = await isCourseViewableByLearners(params.id);
+			if (!isViewable) {
+				router.push('/not-found');
+				return;
+			}
+
+			setIsLoading(false);
+		}
+
+		checkCourseAccess();
+	}, [params?.id, router]);
+
+	if (isLoading) {
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<p>Loading...</p>
+			</div>
+		);
 	}
 
 	return <CourseDetailsPage courseId={params.id} />;
