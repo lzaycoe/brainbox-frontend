@@ -14,14 +14,14 @@ import { useUserMetadata } from '@/hooks/useUserMetadata';
 import { getUserClerk } from '@/services/api/user';
 
 const ChatApp = () => {
-	const { conversations, getConversations } = useChatSocket();
+	const { messages, conversations, getConversations, getMessages } =
+		useChatSocket();
 	const [friends, setFriends] = useState<User[]>([]);
 	const [activeMessage, setActiveMessage] = useState<User | null>(null);
-	const [isLoading, setIsLoading] = useState(true); // Thêm state loading
+	const [isLoading, setIsLoading] = useState(true);
 
 	const { userMetadata } = useUserMetadata();
 	const userId = userMetadata?.id || 0;
-	console.log('userId:', userId);
 
 	useEffect(() => {
 		console.log('Getting conversations...');
@@ -32,13 +32,20 @@ const ChatApp = () => {
 		if (conversations.length > 0) {
 			const fetchFriends = async (userIds: number[]) => {
 				try {
+					console.log('Fetched conversations:', conversations);
+					const messagesList = await Promise.all(
+						conversations.map((conv) => getMessages(conv.id)),
+					);
+					console.log('Fetched messagesList:', messagesList);
+					console.log('Fetched messages:', messages);
+
 					const users = await Promise.all(
 						userIds.map((id) => getUserClerk(id)),
 					);
 					const formattedFriends = users.map(
 						({ imageUrl, firstName, lastName }) => ({
 							name: `${firstName || ''} ${lastName || ''}`.trim(),
-							avatar: imageUrl || '/default-avatar.png',
+							avatar: imageUrl || '',
 							message: 'Hello!',
 							time: 'Just now',
 							hasNotification: false,

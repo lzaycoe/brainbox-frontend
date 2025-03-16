@@ -3,13 +3,13 @@
 import { useEffect, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 
-import { ConversationData } from '@/schemas/conversation.schema';
+import { Conversation } from '@/schemas/conversation.schema';
 import { MessageData } from '@/schemas/message.schema';
 
 export const useChatSocket = () => {
 	const [socket, setSocket] = useState<Socket | null>(null);
 	const [messages, setMessages] = useState<MessageData[]>([]);
-	const [conversations, setConversations] = useState<ConversationData[]>([]);
+	const [conversations, setConversations] = useState<Conversation[]>([]);
 
 	const userId = 1;
 
@@ -22,11 +22,11 @@ export const useChatSocket = () => {
 
 		newSocket.on('connect', () => console.log('Connected to WebSocket server'));
 
-		const handleCreateConversation = (data: ConversationData) => {
+		const handleCreateConversation = (data: Conversation) => {
 			setConversations((prev) => [...prev, data]);
 		};
 
-		const handleGetConversations = (data: ConversationData[]) => {
+		const handleGetConversations = (data: Conversation[]) => {
 			console.log('Get Conversations:', data);
 			setConversations(data);
 		};
@@ -104,8 +104,9 @@ export const useChatSocket = () => {
 
 	const getMessages = (conversationId: number) => {
 		if (socket) {
-			console.log('getMessages:', conversationId);
-			socket.emit('getMessages', conversationId);
+			const payload = JSON.stringify({ id: conversationId });
+			console.log('getMessages:', payload);
+			socket.emit('getMessages', payload);
 		}
 	};
 

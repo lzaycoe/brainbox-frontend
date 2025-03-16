@@ -12,3 +12,7 @@ export const conversationSchema = z.object({
 });
 
 export type ConversationData = z.infer<typeof conversationSchema>;
+
+export interface Conversation extends ConversationData {
+	id: number;
+}
