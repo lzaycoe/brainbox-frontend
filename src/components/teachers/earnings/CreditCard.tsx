@@ -1,25 +1,95 @@
 'use client';
 
-import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CiCirclePlus } from 'react-icons/ci';
+import { IoIosArrowDown } from 'react-icons/io';
+
+import Loading from '@/components/commons/Loading';
 import {
-	IoIosArrowBack,
-	IoIosArrowDown,
-	IoIosArrowForward,
-} from 'react-icons/io';
+	Sheet,
+	SheetContent,
+	SheetTitle,
+	SheetTrigger,
+} from '@/components/ui/sheet';
+import { useUserContext } from '@/contexts/UserContext';
+import { useToast } from '@/hooks/use-toast';
+import { Bank, BankAccountData } from '@/schemas/bank.schema';
+import { getAllBanks } from '@/services/api/bank';
+import { createBankAccount, updateBankAccount } from '@/services/api/user';
+
+import { BankAccountForm } from './BankAccountForm';
+import { CustomBankCard } from './CustomBankCard';
 
 export const CreditCard = () => {
-	const [currentIndex, setCurrentIndex] = useState(0);
-	const images = ['/app/teacher/Card.png'];
+	const { user, loading } = useUserContext();
+	const { toast } = useToast();
+	const [isSheetOpen, setIsSheetOpen] = useState(false);
+	const [banks, setBanks] = useState<Bank[]>([]);
+	const [bankAccount, setBankAccount] = useState<BankAccountData | null>(null);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const nextCard = () => {
-		setCurrentIndex((prev) => (prev + 1) % images.length);
+	useEffect(() => {
+		console.log('user:', user);
+		const fetchData = async () => {
+			const bankList = await getAllBanks();
+			setBanks(bankList);
+
+			if (user?.id && user.clerkUser?.publicMetadata?.bank_account) {
+				const bankData = user.clerkUser.publicMetadata.bank_account;
+				const selectedBank = bankList.find(
+					(bank) => bank.name === bankData.bank_name,
+				);
+				setBankAccount({
+					bank_name: selectedBank ? selectedBank.shortName : bankData.bank_name,
+					account_number: bankData.account_number,
+					account_holder: bankData.account_holder,
+				});
+			}
+		};
+		fetchData();
+	}, [user]);
+
+	const handleSubmit = async (data: BankAccountData) => {
+		if (!user?.id) return;
+
+		setIsSubmitting(true);
+		try {
+			if (bankAccount) {
+				await updateBankAccount(user.id, data);
+				toast({
+					title: 'Success',
+					description: 'Bank account updated successfully!',
+					variant: 'success',
+				});
+			} else {
+				await createBankAccount(user.id, data);
+				toast({
+					title: 'Success',
+					description: 'Bank account created successfully!',
+					variant: 'success',
+				});
+			}
+			setBankAccount(data);
+			setIsSheetOpen(false);
+		} catch (error) {
+			const errorMessage =
+				error instanceof Error
+					? error.message
+					: 'Failed to process bank account';
+			console.error('Error submitting bank account:', error);
+			toast({
+				title: 'Error',
+				description: errorMessage,
+				variant: 'destructive',
+			});
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
-	const prevCard = () => {
-		setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-	};
+	if (loading) {
+		return <Loading content="Loading card" />;
+	}
 
 	return (
 		<section className="overflow-hidden max-w-[600px] h-auto flex flex-col items-center">
@@ -32,43 +102,31 @@ export const CreditCard = () => {
 					</div>
 				</header>
 
-				<figure className="mt-3 w-full">
-					<Image
-						src={images[currentIndex]}
-						alt="Card preview"
-						width={800}
-						height={280}
-						className="object-contain w-full shadow-[0px_8px_32px_rgba(69,63,202,0.24)]"
-					/>
+				<figure className="mt-3 w-full flex justify-center">
+					<CustomBankCard bankAccount={bankAccount} banks={banks} />
 				</figure>
 
-				<div className="flex gap-10 justify-between items-center mt-6 w-full max-w-sm">
-					<div className="flex gap-1.5">
-						<span className="w-2.5 h-2.5 bg-orange-500 rounded-full"></span>
-						<span className="w-2.5 h-2.5 bg-rose-200 rounded-full"></span>
-					</div>
-					<div className="flex gap-2">
-						<button
-							className="w-6 h-6"
-							aria-label="Previous card"
-							onClick={prevCard}
-						>
-							<IoIosArrowBack className="w-6 h-6" />
+				<Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+					<SheetTrigger asChild>
+						<button className="flex gap-2 justify-center items-center px-12 py-6 mt-6 w-full max-w-sm text-base font-medium bg-white border border-dashed border-[#E9EAF0] text-neutral-800">
+							<CiCirclePlus className="w-8 h-8 text-orange-500" />
+							<span>
+								{bankAccount ? 'Update Bank Account' : 'Add new card'}
+							</span>
 						</button>
-						<button
-							className="w-6 h-6"
-							aria-label="Next card"
-							onClick={nextCard}
-						>
-							<IoIosArrowForward className="w-6 h-6" />
-						</button>
-					</div>
-				</div>
-
-				<button className="flex gap-2 justify-center items-center px-12 py-6 mt-6 w-full max-w-sm text-base font-medium bg-white border border-dashed border-[#E9EAF0] text-neutral-800">
-					<CiCirclePlus className="w-8 h-8 text-orange-500" />
-					<span>Add new card</span>
-				</button>
+					</SheetTrigger>
+					<SheetContent>
+						<SheetTitle>
+							{bankAccount ? 'Update Bank Account' : 'Add Bank Account'}
+						</SheetTitle>
+						<BankAccountForm
+							onSubmit={handleSubmit}
+							initialData={bankAccount || undefined}
+							banks={banks}
+							isSubmitting={isSubmitting}
+						/>
+					</SheetContent>
+				</Sheet>
 			</div>
 		</section>
 	);
