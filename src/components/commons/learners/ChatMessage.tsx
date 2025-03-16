@@ -1,12 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { GoPlus } from 'react-icons/go';
 import { GrSearch } from 'react-icons/gr';
 import { LuPencilLine } from 'react-icons/lu';
 import { VscSend } from 'react-icons/vsc';
+
+import { useChat } from '@/contexts/ChatContext';
 
 const Header = ({ title }: { title: string }) => (
 	<div className="w-full flex justify-between items-center">
@@ -155,9 +157,24 @@ const CommonChat: React.FC<CommonChatProps> = ({
 	selectedUser,
 	messagesData,
 }) => {
+	const { sendMessage } = useChat();
+	const [message, setMessage] = useState('');
+
 	const chatMessages = selectedUser
 		? messagesData[selectedUser.name] || []
 		: [];
+
+	const handleSendMessage = () => {
+		if (selectedUser && message.trim()) {
+			sendMessage(
+				/* receiveId */ 1, // Replace with actual receiver ID
+				/* conversationId */ 1, // Replace with actual conversation ID
+				/* senderId */ 1, // Replace with actual sender ID
+				message,
+			);
+			setMessage('');
+		}
+	};
 
 	return (
 		<div className="w-[900px] h-[578px] bg-white border border-[#E9EAF0] flex flex-col justify-between flex-grow">
@@ -214,11 +231,14 @@ const CommonChat: React.FC<CommonChatProps> = ({
 						placeholder="Type your message"
 						className="w-full pl-4 text-sm text-[#8C94A3] outline-none"
 						aria-label="Type your message"
+						value={message}
+						onChange={(e) => setMessage(e.target.value)}
 					/>
 				</div>
 				<button
 					className="ml-6 flex items-center px-6 py-2 bg-[#FF6636] text-white font-semibold"
 					aria-label="Send Message"
+					onClick={handleSendMessage}
 				>
 					Send <VscSend size={24} className="ml-2" />
 				</button>
