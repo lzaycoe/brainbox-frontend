@@ -82,3 +82,23 @@ export const updateCourse = async (
 		throw new Error('Failed to update course');
 	}
 };
+export const updateCourseStatus = async (
+	courseId: string | number,
+	status: string,
+): Promise<Course> => {
+	try {
+		const response = await axios.put(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}`,
+			{ status },
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to update course status:', error);
+		throw new Error('Failed to update course status');
+	}
+};
