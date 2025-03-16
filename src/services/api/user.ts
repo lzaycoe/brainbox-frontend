@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { BankAccount, BankAccountData } from '@/schemas/bank.schema';
 import { User } from '@/schemas/user.schema';
 
 export const getUserByClerkId = async (clerkId: string): Promise<User> => {
@@ -53,5 +54,37 @@ export const getTopTeachers = async (top: number): Promise<User[]> => {
 	} catch (error) {
 		console.error('Failed to fetch top teachers:', error);
 		throw new Error('Failed to fetch top teachers');
+	}
+};
+
+export const createBankAccount = async (
+	teacherId: number,
+	data: BankAccountData,
+): Promise<BankAccount> => {
+	try {
+		const response = await axios.post(
+			`${process.env.NEXT_PUBLIC_API_URL}/users/teachers/${teacherId}/create-bank-account`,
+			data,
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to create bank account:', error);
+		throw new Error('Failed to create bank account');
+	}
+};
+
+export const updateBankAccount = async (
+	teacherId: number,
+	data: BankAccountData,
+): Promise<BankAccount> => {
+	try {
+		const response = await axios.put(
+			`${process.env.NEXT_PUBLIC_API_URL}/users/teachers/${teacherId}/update-bank-account`,
+			data,
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to update bank account:', error);
+		throw new Error('Failed to update bank account');
 	}
 };
