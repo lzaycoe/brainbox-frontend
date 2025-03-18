@@ -3,6 +3,7 @@
 import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import NavigationBar from '@/components/commons/learners/NavigationBar';
@@ -27,6 +28,7 @@ const ListTeacherCard: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState('');
 	const teachersPerPage = 15;
+	const [loading, setLoading] = useState(true);
 
 	const [userId, setUserId] = useState<number | null>(null);
 	const { user } = useUser();
@@ -46,10 +48,12 @@ const ListTeacherCard: React.FC = () => {
 	};
 
 	const fetchTeachersData = async () => {
+		setLoading(true);
 		try {
 			if (!userId) {
-				throw new Error('User ID is undefined');
+				return;
 			}
+
 			const progressData = await getProgressByUserId(userId);
 
 			if (progressData.length > 0) {
@@ -74,7 +78,7 @@ const ListTeacherCard: React.FC = () => {
 							id: teacherInfo.id,
 							imageUrl: teacherInfo.imageUrl ?? '',
 							title: teacherInfo.firstName + ' ' + teacherInfo.lastName,
-							major: 'Software Engineering',
+							major: 'BrainBox Teacher',
 							rating: 0,
 							students: totalStudents,
 						};
@@ -89,13 +93,17 @@ const ListTeacherCard: React.FC = () => {
 			}
 		} catch (error) {
 			console.error('Error fetching teachers data:', error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	useEffect(() => {
 		if (!userId) {
 			fetchUser();
-		} else fetchTeachersData();
+		} else {
+			fetchTeachersData();
+		}
 	}, [userId]);
 
 	const indexOfLastTeacher = currentPage * teachersPerPage;
@@ -117,12 +125,16 @@ const ListTeacherCard: React.FC = () => {
 
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+	if (loading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
 			<Profile />
 			<NavigationBar />
 			<div className="flex flex-col justify-center items-center w-full px-6">
-				<div className="w-full max-w-[1245px] mb-6">
+				<div className="w-full max-w-[1245px] mb-6 mt-10">
 					<SearchAndFilter
 						totalItems={filteredTeacher.length}
 						onSearch={setSearchQuery}
@@ -136,20 +148,16 @@ const ListTeacherCard: React.FC = () => {
 					) : (
 						<>
 							<div className="w-full max-w-[1245px] mb-6 grid grid-cols-5 gap-6 max-md:grid-cols-1 mt-10">
-								{teachersData.length > 0 ? (
-									currentTeacher.map((teacherData) => (
-										<TeacherCard
-											key={teacherData.id}
-											avatarUrl={teacherData.imageUrl}
-											name={teacherData.title}
-											major={teacherData.major}
-											rating={teacherData.rating}
-											students={teacherData.students}
-										/>
-									))
-								) : (
-									<p>Loading teachers information...</p>
-								)}
+								{currentTeacher.map((teacherData) => (
+									<TeacherCard
+										key={teacherData.id}
+										avatarUrl={teacherData.imageUrl}
+										name={teacherData.title}
+										major={teacherData.major}
+										rating={teacherData.rating}
+										students={teacherData.students}
+									/>
+								))}
 							</div>
 							<PaginationCustom
 								currentPage={currentPage}

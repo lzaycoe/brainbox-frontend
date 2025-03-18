@@ -3,6 +3,7 @@
 import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
 import CourseList from '@/components/learners/courses/CourseList';
@@ -33,7 +34,7 @@ export default function Courses() {
 	}, [userId]);
 
 	if (!userId) {
-		return <div>Please log in to view your courses.</div>;
+		return <Loading />;
 	}
 
 	return (

@@ -3,6 +3,7 @@
 import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
 import CoursesSection from '@/components/learners/dashboard/CoursesSection';
@@ -17,7 +18,7 @@ export default function Home() {
 		const fetchUser = async () => {
 			try {
 				if (!user) {
-					throw new Error('User is undefined');
+					return;
 				}
 
 				const response = await getUserByClerkId(user?.id);
@@ -33,7 +34,11 @@ export default function Home() {
 	}, [userId]);
 
 	if (!userId) {
-		return <div>Please log in to view your dashboard.</div>;
+		return (
+			<div>
+				<Loading />
+			</div>
+		);
 	}
 
 	return (
