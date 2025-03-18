@@ -63,8 +63,8 @@ export const ListSummaryCard = () => {
 				/>
 				<SummaryCard
 					icon={<PiReceiptDuotone className="w-8 h-8 text-violet-500" />}
-					value={formatCurrency(revenue.netRevenue)}
-					label="Current Balance"
+					value={formatCurrency(revenue.serviceFee)}
+					label="Service Fee"
 					bgColor="bg-violet-100"
 				/>
 				<SummaryCard
@@ -76,7 +76,7 @@ export const ListSummaryCard = () => {
 				<SummaryCard
 					icon={<PiCrownSimpleDuotone className="w-8 h-8 text-green-500" />}
 					value={formatCurrency(revenue.availableForWithdraw)}
-					label="Available For Withdraw"
+					label="Current Balance"
 					bgColor="bg-green-100"
 				/>
 			</div>
