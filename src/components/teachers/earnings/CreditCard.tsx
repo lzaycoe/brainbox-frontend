@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { CiCirclePlus } from 'react-icons/ci';
+import { FiEdit } from 'react-icons/fi';
 import { IoIosArrowDown } from 'react-icons/io';
 
 import Loading from '@/components/commons/Loading';
@@ -101,18 +102,26 @@ export const CreditCard = () => {
 						<IoIosArrowDown className="w-4 h-4" />
 					</div>
 				</header>
-
-				<figure className="mt-3 w-full flex justify-center">
-					<CustomBankCard bankAccount={bankAccount} banks={banks} />
-				</figure>
+				{bankAccount && (
+					<figure className="mt-3 w-full flex justify-center">
+						<CustomBankCard bankAccount={bankAccount} banks={banks} />
+					</figure>
+				)}
 
 				<Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
 					<SheetTrigger asChild>
 						<button className="flex gap-2 justify-center items-center px-12 py-6 mt-6 w-full max-w-sm text-base font-medium bg-white border border-dashed border-[#E9EAF0] text-neutral-800">
-							<CiCirclePlus className="w-8 h-8 text-orange-500" />
-							<span>
-								{bankAccount ? 'Update Bank Account' : 'Add new card'}
-							</span>
+							{bankAccount ? (
+								<>
+									<FiEdit className="w-8 h-8 text-orange-500" />
+									<span>Update Bank Account</span>
+								</>
+							) : (
+								<>
+									<CiCirclePlus className="w-8 h-8 text-orange-500" />
+									<span>Add new card</span>
+								</>
+							)}
 						</button>
 					</SheetTrigger>
 					<SheetContent>
