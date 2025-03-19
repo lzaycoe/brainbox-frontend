@@ -1,7 +1,6 @@
 'use client';
 
 import { toNumber } from 'lodash';
-import { Metadata } from 'next';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -18,10 +17,6 @@ import {
 } from '@/services/api/payment';
 import { getAllSections } from '@/services/api/section';
 import { getUserClerk } from '@/services/api/user';
-
-export const metadata: Metadata = {
-	title: 'BrainBox | Teacher | Course Details',
-};
 
 const CourseDetail: React.FC = () => {
 	const { id } = useParams<{ id: string }>();

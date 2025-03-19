@@ -1,6 +1,5 @@
 'use client';
 
-import { Metadata } from 'next';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -9,10 +8,6 @@ import CreateSectionDialog from '@/components/teachers/create-section/CreateSect
 import SectionTab from '@/components/teachers/create-section/SectionTab';
 import { Section } from '@/schemas/section.schema';
 import { getAllSections } from '@/services/api/section';
-
-export const metadata: Metadata = {
-	title: 'BrainBox | Teacher | Sections of Course',
-};
 
 export default function CourseSections() {
 	const params = useParams();

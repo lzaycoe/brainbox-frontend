@@ -1,15 +1,9 @@
 'use client';
 
-import { Metadata } from 'next';
-
 import FormChangePass from '@/components/teachers/setting/FormChangePass';
 import FormInfo from '@/components/teachers/setting/FormInfo';
 import FormNoti from '@/components/teachers/setting/FormNoti';
 import FormSocial from '@/components/teachers/setting/FormSocial';
-
-export const metadata: Metadata = {
-	title: 'BrainBox | Teacher | Setting',
-};
 
 export default function Setting() {
 	return (

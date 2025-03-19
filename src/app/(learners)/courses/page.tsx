@@ -1,15 +1,10 @@
 'use client';
 
 import { useAuth } from '@clerk/nextjs';
-import { Metadata } from 'next';
 
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
 import CourseList from '@/components/learners/courses/CourseList';
-
-export const metadata: Metadata = {
-	title: 'BrainBox | Learner Courses',
-};
 
 export default function Courses() {
 	const { userId } = useAuth();
