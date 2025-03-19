@@ -125,15 +125,52 @@ const ListTeacherCard: React.FC = () => {
 
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-	if (loading) {
-		return <Loading />;
-	}
-
 	return (
 		<>
 			<Profile />
 			<NavigationBar />
-			<div className="flex flex-col justify-center items-center w-full px-6">
+			{loading ? (
+				<Loading />
+			) : (
+				<div className="flex flex-col justify-center items-center w-full px-6">
+					<div className="w-full max-w-[1245px] mb-6 mt-10">
+						<SearchAndFilter
+							totalItems={filteredTeacher.length}
+							onSearch={setSearchQuery}
+							totalLabel="Teachers"
+							inputPlaceholder="Search for teachers..."
+						></SearchAndFilter>
+						{filteredTeacher.length === 0 ? (
+							<div className="mt-10 text-xl text-gray-500">
+								No teachers found for your search.
+							</div>
+						) : (
+							<>
+								<div className="w-full max-w-[1245px] mb-6 grid grid-cols-5 gap-6 max-md:grid-cols-1 mt-10">
+									{currentTeacher.map((teacherData) => (
+										<TeacherCard
+											key={teacherData.id}
+											avatarUrl={teacherData.imageUrl}
+											name={teacherData.title}
+											major={teacherData.major}
+											rating={teacherData.rating}
+											students={teacherData.students}
+										/>
+									))}
+								</div>
+								<PaginationCustom
+									currentPage={currentPage}
+									totalPages={totalPages}
+									onPageChange={paginate}
+									activeClassName="bg-[#FF6636] text-white"
+									hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
+								/>
+							</>
+						)}
+					</div>
+				</div>
+			)}
+			{/* <div className="flex flex-col justify-center items-center w-full px-6">
 				<div className="w-full max-w-[1245px] mb-6 mt-10">
 					<SearchAndFilter
 						totalItems={filteredTeacher.length}
@@ -169,7 +206,7 @@ const ListTeacherCard: React.FC = () => {
 						</>
 					)}
 				</div>
-			</div>
+			</div> */}
 		</>
 	);
 };

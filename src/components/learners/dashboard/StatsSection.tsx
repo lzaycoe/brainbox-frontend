@@ -2,7 +2,6 @@
 
 import { useUser } from '@clerk/nextjs';
 import React, { useEffect, useState } from 'react';
-import { FaUsersViewfinder } from 'react-icons/fa6';
 import { MdOutlineSlowMotionVideo } from 'react-icons/md';
 import { TiTickOutline } from 'react-icons/ti';
 import { VscVm, VscVmActive } from 'react-icons/vsc';

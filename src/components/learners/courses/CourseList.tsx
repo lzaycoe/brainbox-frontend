@@ -37,7 +37,6 @@ const CourseList: React.FC<{ userId: number }> = ({ userId }) => {
 					(a, b) => parseFloat(a.completed) - parseFloat(b.completed),
 				);
 				setCourses(sortedCourses);
-				// setCourses(fetchedCourses || []);
 			} catch (error) {
 				console.error('Error loading courses:', error);
 				setCourses([]);
@@ -83,11 +82,7 @@ const CourseList: React.FC<{ userId: number }> = ({ userId }) => {
 	};
 
 	if (loading) {
-		return (
-			<div className="flex justify-center items-center min-h-screen">
-				<Loading />
-			</div>
-		);
+		return <Loading />;
 	}
 
 	return (

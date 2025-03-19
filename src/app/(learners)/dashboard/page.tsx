@@ -3,7 +3,6 @@
 import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 
-import Loading from '@/components/commons/Loading';
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
 import CoursesSection from '@/components/learners/dashboard/CoursesSection';
@@ -33,14 +32,6 @@ export default function Home() {
 		}
 	}, [userId]);
 
-	if (!userId) {
-		return (
-			<div>
-				<Loading />
-			</div>
-		);
-	}
-
 	return (
 		<div>
 			<Profile />
@@ -50,7 +41,7 @@ export default function Home() {
 					<StatsSection />
 				</div>
 				<div className="w-full max-w-[1245px]">
-					<CoursesSection userId={userId} />
+					{userId !== null && <CoursesSection userId={userId} />}
 				</div>
 			</div>
 		</div>
