@@ -13,9 +13,6 @@ const CategoryPage = () => {
 				<ListCourseCard />
 			</div>
 			<div>
-				<h2 className="text-3xl font-semibold text-center mb-8">
-					Top Teachers in Software Engineering
-				</h2>
 				<ListTeacherByCategory />
 			</div>
 			<div>
