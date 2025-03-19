@@ -42,6 +42,54 @@ export const mapLecturesDetails = (
 		isActive: sectionIndex === 0 && lectureIndex === 0,
 	}));
 
+export const mapLecturesDetailsWithoutProgress = (
+	lectures: Lecture[],
+	// progressData: Progress,
+	sectionIndex: number,
+): LectureDetail[] =>
+	lectures.map((lecture, lectureIndex) => ({
+		id: lecture.id,
+		title: lecture.title,
+		type: lecture.type,
+		attachments: lecture.attachments || [],
+		description: lecture.description,
+		content: lecture.content,
+		note: lecture.note,
+		updateAt: lecture.updatedAt,
+		isDone: false,
+		isActive: sectionIndex === 0 && lectureIndex === 0,
+	}));
+
+export const createSectionsForMenuWithoutProgress = (
+	sectionsData: RawSection[],
+	lecturesData: Lecture[],
+	// progressData: Progress,
+): Section[] => {
+	// const sectionProgressMap: Record<number, number> = JSON.parse(
+	// 	typeof progressData.sectionProgress === 'string'
+	// 		? progressData.sectionProgress
+	// 		: '{}',
+	// );
+
+	return sectionsData.map((section, sectionIndex) => {
+		const sectionLectures = lecturesData.filter(
+			(lecture) => lecture.sectionId === section.id,
+		);
+		return {
+			id: section.id,
+			title: section.title,
+			lecturesCount: sectionLectures.length,
+			progress: 0,
+			isExpanded: sectionIndex === 0,
+			lecturesDetails: mapLecturesDetailsWithoutProgress(
+				sectionLectures,
+				// progressData,
+				sectionIndex,
+			),
+		};
+	});
+};
+
 export const updateLectureActive = (
 	prevSections: Section[],
 	sectionId: number,
@@ -152,6 +200,32 @@ export const createSectionsForMenu = (
 		};
 	});
 };
+
+// export const createSectionsForMenuWithoutProgress = (
+// 	sectionsData: RawSection[],
+// 	lecturesData: Lecture[],
+// ): Section[] => {
+// 	return sectionsData.map((section, sectionIndex) => {
+// 		const sectionLectures = lecturesData.filter(
+// 			(lecture) => lecture.sectionId === section.id,
+// 		);
+// 		return {
+// 			id: section.id,
+// 			title: section.title,
+// 			lecturesCount: sectionLectures.length,
+// 			progress: 0, // Không tính toán progress
+// 			isExpanded: sectionIndex === 0,
+// 			lecturesDetails: sectionLectures.map((lecture) => ({
+// 				id: lecture.id,
+// 				title: lecture.title,
+// 				type: lecture.type,
+// 				updateAt: lecture.updatedAt,
+// 				isDone: false, // Mặc định là chưa hoàn thành
+// 				isActive: false, // Mặc định là không active
+// 			})),
+// 		};
+// 	});
+// };
 
 export const resetToFirstLecture = (prevSections: Section[]): Section[] =>
 	prevSections.map((section, index) =>
