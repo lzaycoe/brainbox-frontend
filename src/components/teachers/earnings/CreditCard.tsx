@@ -30,7 +30,6 @@ export const CreditCard = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	useEffect(() => {
-		console.log('user:', user);
 		const fetchData = async () => {
 			const bankList = await getAllBanks();
 			setBanks(bankList);
