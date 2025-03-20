@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 import '@/app/globals.css';
 import Loading from '@/components/commons/Loading';
+import { Toaster } from '@/components/ui/toaster';
 import AdminLayout from '@/layouts/AdminLayout';
 import { getAdminInfo } from '@/utils/adminInfo';
 
@@ -36,7 +37,7 @@ export default function AdminPageLayout({
 			if (adminInfo?.username) {
 				setIsAuthenticated(true);
 			}
-			setIsLoading(false); // Kết thúc loading
+			setIsLoading(false);
 		};
 
 		checkAdminInfo();
@@ -63,6 +64,7 @@ export default function AdminPageLayout({
 				className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
 			>
 				{isLoginRoute ? children : <AdminLayout>{children}</AdminLayout>}
+				<Toaster />
 			</body>
 		</html>
 	);
