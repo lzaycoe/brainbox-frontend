@@ -8,10 +8,8 @@ import Loading from '@/components/commons/Loading';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import FilterSelects from '@/components/teachers/courses/FilterSelects';
-import { getCategoryColors } from '@/config/categoryColors';
-import { Course as BaseCourse } from '@/schemas/course.schema';
+import { type Course as BaseCourse } from '@/schemas/course.schema';
 import { getCourses } from '@/services/api/course';
-import { fetchPaidStudentsCount } from '@/services/api/payment';
 
 interface Course extends BaseCourse {
 	id: number;
@@ -19,12 +17,29 @@ interface Course extends BaseCourse {
 	teacherId: number;
 	createdAt: string;
 	updatedAt: string;
-	students?: number;
 	rating?: string;
 }
 
+interface TeacherCourseCardProps {
+	id: number;
+	teacherId: number;
+	title: string;
+	subtitle: string;
+	tag: string;
+	description: string;
+	thumbnail: string;
+	category: string;
+	categoryBgColor: string;
+	categoryTextColor: string;
+	rating: string;
+	students: string;
+	originPrice: number;
+	salePrice: number;
+	public: boolean;
+}
+
 interface CourseComponentProps {
-	initialCourses?: Course[] | null;
+	initialCourses: Course[] | null;
 }
 
 const CourseComponent: React.FC<CourseComponentProps> = ({
@@ -37,7 +52,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 	const [selectedRating, setSelectedRating] = useState('all');
 	const [selectedPricing, setSelectedPricing] = useState('all');
 	const [courses, setCourses] = useState<Course[]>(initialCourses || []);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const coursesPerPage = 12;
 
@@ -45,25 +60,8 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 		const fetchCourses = async () => {
 			try {
 				setLoading(true);
-				const data = await getCourses();
-
-				const approvedCourses = data.filter(
-					(course) => course.status === 'approved',
-				);
-
-				const formattedData: Course[] = await Promise.all(
-					approvedCourses.map(async (course) => {
-						const students = await fetchPaidStudentsCount(course.id);
-						return {
-							...course,
-							students: students ?? 0,
-							createdAt: course.createdAt ?? '',
-							updatedAt: course.updatedAt ?? '',
-						};
-					}),
-				);
-
-				setCourses(formattedData);
+				const fetchedCourses = (await getCourses()) as unknown as Course[];
+				setCourses(fetchedCourses || []);
 			} catch {
 				setError('Failed to load courses. Please try again later.');
 				setCourses([]);
@@ -74,24 +72,56 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 
 		if (!initialCourses || initialCourses.length === 0) {
 			fetchCourses();
-		} else {
-			const updateCoursesWithStudents = async () => {
-				setLoading(true);
-				const updatedCourses = await Promise.all(
-					initialCourses.map(async (course) => {
-						if (course.students === undefined) {
-							const students = await fetchPaidStudentsCount(course.id);
-							return { ...course, students: students ?? 0 };
-						}
-						return course;
-					}),
-				);
-				setCourses(updatedCourses);
-				setLoading(false);
-			};
-			updateCoursesWithStudents();
 		}
 	}, [initialCourses]);
+
+	const mapToCardProps = (course: Course): TeacherCourseCardProps => ({
+		id: course.id,
+		teacherId: course.teacherId,
+		title: course.title,
+		subtitle: course.subtitle || 'No subtitle available',
+		tag: course.tag,
+		description: course.description || 'No description available',
+		thumbnail: course.thumbnail,
+		category: course.tag,
+		categoryBgColor: getCategoryBgColor(course.tag),
+		categoryTextColor: getCategoryTextColor(course.tag),
+		rating: course.rating ?? '0.0',
+		students: '0',
+		originPrice: Number(course.originPrice), // Trả về number
+		salePrice: Number(course.salePrice), // Trả về number
+		public: course.public,
+	});
+
+	const getCategoryBgColor = (tag: string): string => {
+		switch (tag.toLowerCase()) {
+			case 'it & software':
+				return 'bg-rose-50';
+			case 'business':
+				return 'bg-green-100';
+			case 'personal development':
+				return 'bg-rose-100';
+			case 'office-productivity':
+				return 'bg-slate-100';
+			default:
+				return 'bg-gray-100';
+		}
+	};
+
+	const getCategoryTextColor = (tag: string): string => {
+		switch (tag.toLowerCase()) {
+			case 'it & software':
+				return 'text-[#E34444]';
+			case 'business':
+				return 'text-[#22C55E]';
+			case 'personal development':
+				return 'text-[#E34444]';
+			case 'office-productivity':
+				return 'text-[#000000]';
+			default:
+				return 'text-gray-800';
+		}
+	};
 
 	const handleCourseClick = (id: number) => {
 		router.push(`/courses/${id}`);
@@ -100,29 +130,30 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 	const indexOfLastCourse = currentPage * coursesPerPage;
 	const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
 
-	const filteredCourses = courses.filter((course) => {
+	const filteredCourses = (courses || []).filter((course) => {
 		const matchesSearchQuery = course.title
 			.toLowerCase()
 			.includes(searchQuery.toLowerCase());
 		const matchesCategory =
-			selectedCategory === 'all' || course.tag === selectedCategory;
+			selectedCategory === 'all' ||
+			course.tag.toLowerCase().replace(/ /g, '-') === selectedCategory;
 		const matchesRating =
 			selectedRating === 'all' ||
 			(course.rating &&
-				parseFloat(course.rating) >= parseFloat(selectedRating));
+				parseFloat(course.rating) >= parseFloat(selectedRating.split('-')[0]));
 		const matchesPricing = (() => {
-			const price = Number(course.salePrice);
+			const price = Number(course.originPrice); // Đã đúng với originPrice
 			switch (selectedPricing) {
-				case 'under-500k':
-					return price >= 0 && price <= 500000;
-				case '500k-1m':
-					return price > 500000 && price <= 1000000;
-				case '1m-2m':
-					return price > 1000000 && price <= 2000000;
-				case '2m-5m':
-					return price > 2000000 && price <= 5000000;
-				case 'over-5m':
-					return price > 5000000;
+				case '1':
+					return price >= 1 && price <= 20;
+				case '2':
+					return price >= 21 && price <= 40;
+				case '3':
+					return price >= 41 && price <= 60;
+				case '4':
+					return price >= 61 && price <= 80;
+				case '5':
+					return price > 80;
 				case 'all':
 					return true;
 				default:
@@ -139,9 +170,20 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 		indexOfFirstCourse,
 		indexOfLastCourse,
 	);
+
 	const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
 
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+	const handleKeyDown = (
+		event: React.KeyboardEvent<HTMLButtonElement>,
+		id: number,
+	) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			handleCourseClick(id);
+		}
+	};
 
 	if (loading) {
 		return (
@@ -160,48 +202,51 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 	}
 
 	return (
-		<div className="flex flex-col items-center py-5 px-32">
-			<SearchAndFilter onSearch={setSearchQuery}>
-				<FilterSelects
-					onCategoryChange={setSelectedCategory}
-					onRatingChange={setSelectedRating}
-					onPriceChange={setSelectedPricing}
-				/>
-			</SearchAndFilter>
-			{filteredCourses.length === 0 ? (
-				<div className="mt-10 text-xl text-gray-500">
-					No courses found for your search.
-				</div>
-			) : (
-				<>
-					<div className="grid grid-cols-4 gap-6 mt-10 mb-5 max-md:grid-cols-1">
-						{currentCourses.map((course) => {
-							const { bgColor, textColor } = getCategoryColors(course.tag);
-							return (
-								<CourseCard
-									key={course.id}
-									imageUrl={course.thumbnail}
-									category={course.tag}
-									categoryBgColor={bgColor}
-									categoryTextColor={textColor}
-									price={`${course.salePrice}`}
-									title={course.title}
-									rating={course.rating ? parseFloat(course.rating) : 0.0}
-									students={course.students ?? 0}
-									onClick={() => handleCourseClick(course.id)}
-									maxWidth="max-w-[300px]"
-								/>
-							);
-						})}
-					</div>
-					<PaginationCustom
-						currentPage={currentPage}
-						totalPages={totalPages}
-						onPageChange={paginate}
-						activeClassName="bg-[#FF6636] text-white"
-						hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
+		<div className="flex flex-col items-center">
+			<div>
+				<SearchAndFilter
+					totalLabel="Courses"
+					inputPlaceholder="Search for courses..."
+					onSearch={setSearchQuery}
+				>
+					<FilterSelects
+						onCategoryChange={setSelectedCategory}
+						onRatingChange={setSelectedRating}
+						onPriceChange={setSelectedPricing}
 					/>
-				</>
+				</SearchAndFilter>
+				<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mb-5">
+					{filteredCourses.length === 0 ? (
+						<div className="col-span-4 mt-10 text-xl text-gray-500">
+							No courses found for your search.
+						</div>
+					) : (
+						currentCourses.map((course) => (
+							<button
+								key={course.id}
+								onClick={() => handleCourseClick(course.id)}
+								onKeyDown={(e) => handleKeyDown(e, course.id)}
+								className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
+							>
+								<CourseCard
+									imageUrl={mapToCardProps(course).thumbnail}
+									hideAddToCartButton
+									price={mapToCardProps(course).salePrice.toString()}
+									{...mapToCardProps(course)}
+								/>
+							</button>
+						))
+					)}
+				</div>
+			</div>
+			{filteredCourses.length > 0 && (
+				<PaginationCustom
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={paginate}
+					activeClassName="bg-[#FF6636] text-white"
+					hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
+				/>
 			)}
 		</div>
 	);
