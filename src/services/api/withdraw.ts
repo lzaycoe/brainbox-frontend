@@ -44,3 +44,24 @@ export const getAllWithdrawals = async (): Promise<WithdrawHistory[]> => {
 		throw error;
 	}
 };
+
+export const updateWithdrawStatus = async (
+	withdrawId: number,
+	status: 'approved' | 'rejected',
+): Promise<WithdrawHistory> => {
+	try {
+		const response = await axios.put(
+			`${process.env.NEXT_PUBLIC_API_URL}/withdrawals/${withdrawId}`,
+			{ status },
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+		return response.data as WithdrawHistory;
+	} catch (error) {
+		console.error('Error updating withdraw status:', error);
+		throw error;
+	}
+};
