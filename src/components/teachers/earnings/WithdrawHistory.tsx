@@ -35,7 +35,12 @@ const WithdrawHistory = () => {
 			setError(null);
 			try {
 				const data = await getWithdrawHistory(user.id);
-				setWithdrawals(data);
+				const sortedData = [...data].sort((a, b) => {
+					return (
+						new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+					);
+				});
+				setWithdrawals(sortedData);
 				setCurrentPage(1);
 			} catch (error) {
 				const errorMessage =
@@ -59,7 +64,10 @@ const WithdrawHistory = () => {
 		setError(null);
 		try {
 			const data = await getWithdrawHistory(user.id);
-			setWithdrawals(data);
+			const sortedData = [...data].sort((a, b) => {
+				return new Date(b.createAt).getTime() - new Date(a.createAt).getTime();
+			});
+			setWithdrawals(sortedData);
 			setCurrentPage(1);
 		} catch (error) {
 			const errorMessage =
