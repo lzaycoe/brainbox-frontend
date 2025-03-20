@@ -106,6 +106,62 @@ const WithdrawHistory = () => {
 		return <div className="text-red-500">{error}</div>;
 	}
 
+	const renderContent = () => {
+		if (loading) {
+			return (
+				<div className="flex justify-center items-center py-4">
+					<Loading content="Loading withdraw history" />
+				</div>
+			);
+		}
+
+		if (withdrawals.length === 0) {
+			return (
+				<div className="text-center py-4 text-gray-500">
+					No withdraw history available.
+				</div>
+			);
+		}
+
+		return (
+			<>
+				{currentWithdrawals.map((withdrawal) => (
+					<div
+						key={withdrawal.id}
+						className="flex flex-wrap gap-3 justify-center items-center px-5 py-3 text-sm tracking-normal leading-loose text-gray-600"
+					>
+						<div className="self-stretch my-auto w-[200px]">
+							{formatDateWithdraw(withdrawal.createAt)}
+						</div>
+						<div className="self-stretch my-auto w-[200px]">
+							{formatCurrency(withdrawal.amount)}
+						</div>
+						<div
+							className={`self-stretch my-auto font-medium leading-none w-[88px] ${getStatusColor(
+								withdrawal.status || '',
+							)}`}
+						>
+							{withdrawal.status}
+						</div>
+						<button
+							className="flex shrink-0 self-stretch my-auto w-6 h-6"
+							aria-label="More options"
+						></button>
+					</div>
+				))}
+				{totalPages > 1 && (
+					<PaginationCustom
+						currentPage={currentPage}
+						totalPages={totalPages}
+						onPageChange={paginate}
+						activeClassName="bg-[#FF6636] text-white"
+						hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
+					/>
+				)}
+			</>
+		);
+	};
+
 	return (
 		<section className="px-3 bg-white max-w-[784px]">
 			<header className="flex flex-wrap gap-10 justify-between items-center px-5 py-4 w-full bg-white shadow-sm max-md:max-w-full">
@@ -130,51 +186,7 @@ const WithdrawHistory = () => {
 				<div className="self-stretch my-auto w-[124px]">Status</div>
 			</div>
 
-			{loading ? (
-				<div className="flex justify-center items-center py-4">
-					<Loading content="Loading withdraw history" />
-				</div>
-			) : withdrawals.length === 0 ? (
-				<div className="text-center py-4 text-gray-500">
-					No withdraw history available.
-				</div>
-			) : (
-				<>
-					{currentWithdrawals.map((withdrawal) => (
-						<div
-							key={withdrawal.id}
-							className="flex flex-wrap gap-3 justify-center items-center px-5 py-3 text-sm tracking-normal leading-loose text-gray-600"
-						>
-							<div className="self-stretch my-auto w-[200px]">
-								{formatDateWithdraw(withdrawal.createAt)}
-							</div>
-							<div className="self-stretch my-auto w-[200px]">
-								{formatCurrency(withdrawal.amount)}
-							</div>
-							<div
-								className={`self-stretch my-auto font-medium leading-none w-[88px] ${getStatusColor(
-									withdrawal.status || '',
-								)}`}
-							>
-								{withdrawal.status}
-							</div>
-							<button
-								className="flex shrink-0 self-stretch my-auto w-6 h-6"
-								aria-label="More options"
-							></button>
-						</div>
-					))}
-					{totalPages > 1 && (
-						<PaginationCustom
-							currentPage={currentPage}
-							totalPages={totalPages}
-							onPageChange={paginate}
-							activeClassName="bg-[#FF6636] text-white"
-							hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
-						/>
-					)}
-				</>
-			)}
+			{renderContent()}
 		</section>
 	);
 };

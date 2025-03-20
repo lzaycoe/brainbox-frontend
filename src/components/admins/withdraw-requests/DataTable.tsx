@@ -275,7 +275,7 @@ export function WithdrawRequestTable() {
 			const enrichedData = withdrawals.map((withdraw) => {
 				const teacher = users.find((user) => user.id === withdraw.teacherId);
 				const teacherName = teacher?.clerkUser
-					? `${teacher.clerkUser.firstName || ''} ${teacher.clerkUser.lastName || ''}`.trim()
+					? `${teacher.clerkUser.firstName ?? ''} ${teacher.clerkUser.lastName ?? ''}`.trim()
 					: 'Unknown Teacher';
 
 				return {
