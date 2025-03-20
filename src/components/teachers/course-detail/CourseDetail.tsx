@@ -71,7 +71,6 @@ export default function CourseDetail() {
 				);
 
 				setCourse(courseData);
-
 				setSectionsMenu(sectionsForMenu);
 			} catch (error) {
 				console.error('Failed to load course page:', error);
@@ -86,8 +85,14 @@ export default function CourseDetail() {
 		loadCoursePage();
 	}, [id, user, userLoading, router]);
 
+	const updateSectionsMenu = (
+		updateFn: (prevSections: Section[]) => Section[],
+	) => {
+		setSectionsMenu((prevSections) => updateFn(prevSections));
+	};
+
 	const toggleSection = (sectionId: number) => {
-		setSectionsMenu((prevSections) =>
+		updateSectionsMenu((prevSections) =>
 			prevSections.map((section) => ({
 				...section,
 				isExpanded: section.id === sectionId ? !section.isExpanded : false,
@@ -96,7 +101,7 @@ export default function CourseDetail() {
 	};
 
 	const toggleLectureActive = (sectionId: number, lectureId: number) => {
-		setSectionsMenu((prevSections) =>
+		updateSectionsMenu((prevSections) =>
 			updateLectureActive(prevSections, sectionId, lectureId),
 		);
 	};
