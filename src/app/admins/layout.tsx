@@ -59,13 +59,13 @@ export default function AdminPageLayout({
 	}
 
 	return (
-		<html lang="en">
-			<body
+		<div>
+			<div
 				className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen`}
 			>
 				{isLoginRoute ? children : <AdminLayout>{children}</AdminLayout>}
 				<Toaster />
-			</body>
-		</html>
+			</div>
+		</div>
 	);
 }
