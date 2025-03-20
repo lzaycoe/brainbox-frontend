@@ -88,3 +88,21 @@ export const updateBankAccount = async (
 		throw new Error('Failed to update bank account');
 	}
 };
+
+export const getAllClerkUsers = async () => {
+	try {
+		const response = await axios.get<User[]>(
+			`${process.env.NEXT_PUBLIC_API_URL}/users`,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch users:', error);
+		throw new Error('Failed to fetch users');
+	}
+};
