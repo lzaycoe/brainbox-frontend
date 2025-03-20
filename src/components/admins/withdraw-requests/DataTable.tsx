@@ -162,15 +162,15 @@ export const createColumns = (
 		cell: ({ row }) => {
 			const withdraw = row.original as WithdrawRequest;
 
-			const handleApprove = async () => {
+			const handleUpdateStatus = async (status: 'approved' | 'rejected') => {
 				try {
 					const updatedWithdraw = await updateWithdrawStatus(
 						withdraw.id,
-						'approved',
+						status,
 					);
 					toast({
 						title: 'Success',
-						description: `Withdraw request approved.`,
+						description: `Withdraw request ${status}.`,
 						variant: 'success',
 						duration: 3000,
 					});
@@ -185,44 +185,19 @@ export const createColumns = (
 				} catch (error) {
 					toast({
 						title: 'Error',
-						description: 'Failed to approve withdraw request.',
+						description: `Failed to ${status === 'approved' ? 'approve' : 'reject'} withdraw request.`,
 						variant: 'destructive',
 						duration: 3000,
 					});
-					console.error('Error approving withdraw:', error);
+					console.error(
+						`Error ${status === 'approved' ? 'approving' : 'rejecting'} withdraw:`,
+						error,
+					);
 				}
 			};
 
-			const handleReject = async () => {
-				try {
-					const updatedWithdraw = await updateWithdrawStatus(
-						withdraw.id,
-						'rejected',
-					);
-					toast({
-						title: 'Success',
-						description: `Withdraw request rejected.`,
-						variant: 'success',
-						duration: 3000,
-					});
-
-					setData((prevData) =>
-						prevData.map((item) =>
-							item.id === updatedWithdraw.id
-								? { ...item, status: updatedWithdraw.status }
-								: item,
-						),
-					);
-				} catch (error) {
-					toast({
-						title: 'Error',
-						description: 'Failed to reject withdraw request.',
-						variant: 'destructive',
-						duration: 3000,
-					});
-					console.error('Error rejecting withdraw:', error);
-				}
-			};
+			const handleApprove = () => handleUpdateStatus('approved');
+			const handleReject = () => handleUpdateStatus('rejected');
 
 			return (
 				<DropdownMenu>
