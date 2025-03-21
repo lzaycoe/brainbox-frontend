@@ -8,14 +8,58 @@ import {
 	CommonInfo,
 	User,
 } from '@/components/commons/learners/ChatMessage';
-import { messagesData } from '@/data/messages';
 import { useChatSocket } from '@/hooks/useChatSocket';
 import { useUserMetadata } from '@/hooks/useUserMetadata';
+import { Conversation } from '@/schemas/conversation.schema';
+import { Message } from '@/schemas/message.schema';
 import { getUserClerk } from '@/services/api/user';
 
+function getRelativeTime(timestamp: string): string {
+	const now = new Date();
+	const messageTime = new Date(timestamp);
+	const diff = Math.floor((now.getTime() - messageTime.getTime()) / 1000);
+
+	if (diff < 60) return 'Just now';
+	if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+	if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+	return `${Math.floor(diff / 86400)}d ago`;
+}
+
+function formatMessages(
+	conversations: Conversation[],
+	formattedFriends: User[],
+	userId: number,
+) {
+	const messagesData: Record<string, Message[]> = {};
+
+	conversations.forEach((conv) => {
+		const partnerId = conv.userAId === userId ? conv.userBId : conv.userAId;
+		const partner = formattedFriends.find((friend) => friend.id === partnerId);
+		const partnerName = partner ? partner.name : `User ${partnerId}`;
+
+		if (!messagesData[partnerName]) {
+			messagesData[partnerName] = [];
+		}
+
+		conv.messages.forEach((msg: Message) => {
+			messagesData[partnerName].push({
+				id: msg.id,
+				createAt: msg.createAt ? getRelativeTime(msg.createAt) : '',
+				senderId: msg.senderId,
+				content: msg.content || '',
+				status: msg.status,
+				conversationId: msg.conversationId,
+				messageType: msg.messageType,
+				attachments: msg.attachments,
+			});
+		});
+	});
+
+	return messagesData;
+}
+
 const ChatApp = () => {
-	const { messages, conversations, getConversations, getMessages } =
-		useChatSocket();
+	const { conversations, getConversations } = useChatSocket();
 	const [friends, setFriends] = useState<User[]>([]);
 	const [activeMessage, setActiveMessage] = useState<User | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +68,6 @@ const ChatApp = () => {
 	const userId = userMetadata?.id || 0;
 
 	useEffect(() => {
-		console.log('Getting conversations...');
 		getConversations(userId);
 	}, [userId]);
 
@@ -32,26 +75,38 @@ const ChatApp = () => {
 		if (conversations.length > 0) {
 			const fetchFriends = async (userIds: number[]) => {
 				try {
-					console.log('Fetched conversations:', conversations);
-					const messagesList = await Promise.all(
-						conversations.map((conv) => getMessages(conv.id)),
-					);
-					console.log('Fetched messagesList:', messagesList);
-					console.log('Fetched messages:', messages);
-
 					const users = await Promise.all(
-						userIds.map((id) => getUserClerk(id)),
+						userIds.map((id) =>
+							getUserClerk(id).then((user) => ({ ...user, id })),
+						),
 					);
+
 					const formattedFriends = users.map(
-						({ imageUrl, firstName, lastName }) => ({
-							name: `${firstName || ''} ${lastName || ''}`.trim(),
-							avatar: imageUrl || '',
-							message: 'Hello!',
-							time: 'Just now',
-							hasNotification: false,
-						}),
+						({ id, imageUrl, firstName, lastName }) => {
+							const conversation = conversations.find(
+								(conv) => conv.userAId === id || conv.userBId === id,
+							);
+							const latestMessage =
+								conversation?.messages?.[conversation.messages.length - 1];
+							const isOwnMessage = latestMessage?.senderId === userId;
+							const messageText = latestMessage
+								? isOwnMessage
+									? `You: ${latestMessage.content}`
+									: latestMessage.content
+								: 'No messages yet';
+
+							return {
+								id,
+								name: `${firstName || ''} ${lastName || ''}`.trim(),
+								avatar: imageUrl || '',
+								message: messageText || '',
+								time: latestMessage?.createAt
+									? getRelativeTime(latestMessage.createAt)
+									: '',
+								hasNotification: false,
+							};
+						},
 					);
-					console.log('formattedFriends:', formattedFriends);
 
 					setFriends(formattedFriends);
 					setActiveMessage(formattedFriends[0]);
@@ -64,15 +119,9 @@ const ChatApp = () => {
 
 			const friendIds = Array.from(
 				new Set(
-					conversations
-						.map((conv) =>
-							conv.userAId === userId
-								? conv.userBId
-								: conv.userBId === userId
-									? conv.userAId
-									: null,
-						)
-						.filter((id) => id !== null),
+					conversations.map((conv) =>
+						conv.userAId === userId ? conv.userBId : conv.userAId,
+					),
 				),
 			);
 
@@ -83,6 +132,14 @@ const ChatApp = () => {
 			}
 		}
 	}, [conversations]);
+
+	const selectedConversation = conversations.find(
+		(conv) =>
+			(conv.userAId === activeMessage?.id && conv.userBId === userId) ||
+			(conv.userBId === activeMessage?.id && conv.userAId === userId),
+	);
+
+	const messagesData = formatMessages(conversations, friends, userId);
 
 	if (isLoading) {
 		return (
@@ -106,10 +163,13 @@ const ChatApp = () => {
 						activeMessage={activeMessage}
 						setActiveMessage={setActiveMessage}
 					/>
-					<CommonChat
-						selectedUser={activeMessage}
-						messagesData={messagesData}
-					/>
+					{selectedConversation && (
+						<CommonChat
+							selectedUser={activeMessage}
+							messagesData={messagesData}
+							conversation={selectedConversation} // Truyền cuộc trò chuyện hiện tại
+						/>
+					)}
 				</>
 			)}
 		</div>

@@ -8,7 +8,10 @@ import { GrSearch } from 'react-icons/gr';
 import { LuPencilLine } from 'react-icons/lu';
 import { VscSend } from 'react-icons/vsc';
 
-import { useChat } from '@/contexts/ChatContext';
+import { useChatSocket } from '@/hooks/useChatSocket';
+import { useUserMetadata } from '@/hooks/useUserMetadata';
+import { Conversation } from '@/schemas/conversation.schema';
+import { Message } from '@/schemas/message.schema';
 
 const Header = ({ title }: { title: string }) => (
 	<div className="w-full flex justify-between items-center">
@@ -97,6 +100,7 @@ const CommonMessageItem = ({
 );
 
 export interface User {
+	id?: number;
 	name: string;
 	message: string;
 	time: string;
@@ -133,7 +137,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 	</div>
 );
 
-interface ChatMessage {
+export interface ChatMessage {
 	sender: string;
 	text: string;
 	time: string;
@@ -144,33 +148,49 @@ export interface User {
 	avatar: string;
 }
 
-interface MessagesData {
-	[key: string]: ChatMessage[];
+export interface MessagesData {
+	[key: string]: Message[];
 }
 
 interface CommonChatProps {
 	selectedUser: User | null;
 	messagesData: MessagesData;
+	conversation: Conversation;
 }
 
 const CommonChat: React.FC<CommonChatProps> = ({
 	selectedUser,
 	messagesData,
+	conversation,
 }) => {
-	const { sendMessage } = useChat();
+	const { sendMessage } = useChatSocket();
 	const [message, setMessage] = useState('');
+	const { userMetadata } = useUserMetadata();
+	const userId = userMetadata?.id || 0;
+
+	console.log('messagesData: ', messagesData);
 
 	const chatMessages = selectedUser
 		? messagesData[selectedUser.name] || []
 		: [];
 
 	const handleSendMessage = () => {
-		if (selectedUser && message.trim()) {
+		if (selectedUser && message.trim() !== '') {
+			const newMessage: Message = {
+				conversationId:
+					messagesData[selectedUser.name]?.[0]?.conversationId || 0,
+				senderId: userId,
+				content: message,
+				attachments: [],
+				messageType: 'text',
+				status: 'sent',
+			};
+
 			sendMessage(
-				/* receiveId */ 1, // Replace with actual receiver ID
-				/* conversationId */ 1, // Replace with actual conversation ID
-				/* senderId */ 1, // Replace with actual sender ID
-				message,
+				selectedUser.id || 0,
+				conversation.id,
+				newMessage.senderId,
+				newMessage.content || '',
 			);
 			setMessage('');
 		}
@@ -204,16 +224,38 @@ const CommonChat: React.FC<CommonChatProps> = ({
 
 			<div className="flex flex-col gap-8 py-12 px-6 flex-grow overflow-auto">
 				{selectedUser ? (
-					chatMessages.map((msg, index) => (
+					chatMessages.map((msg) => (
 						<div
-							key={`${msg.sender}-${msg.text}-${index}`}
-							className={`px-3 py-2 rounded-md text-sm w-fit max-w-[60%] ${
-								msg.sender === 'You'
-									? 'bg-[#FF6636] text-white self-end'
-									: 'bg-[#FFEEE8] text-[#1D2026]'
-							}`}
+							key={msg.id}
+							className={`flex w-full ${msg.senderId === userId ? 'justify-end' : 'justify-start'}`}
 						>
-							{msg.text}
+							{msg.senderId !== userId && (
+								<div className="flex items-center mr-2">
+									<Image
+										className="rounded-full"
+										src={selectedUser.avatar}
+										alt="Avatar"
+										width={32}
+										height={32}
+									/>
+								</div>
+							)}
+							<div
+								className={`flex items-start gap-3 px-3 py-2 rounded-md text-sm w-fit max-w-[60%] bg-[#ffe3d8] text-[#1D2026] ${
+									msg.senderId === userId ? 'self-end' : ''
+								}`}
+							>
+								<div className="flex flex-col">
+									<span>{msg.content}</span>
+									<span
+										className={`text-[#7c8190] text-xs mt-3 ${
+											msg.senderId === userId ? 'self-end' : 'self-start'
+										}`}
+									>
+										{msg.createAt}
+									</span>
+								</div>
+							</div>
 						</div>
 					))
 				) : (
@@ -229,7 +271,7 @@ const CommonChat: React.FC<CommonChatProps> = ({
 					<input
 						type="text"
 						placeholder="Type your message"
-						className="w-full pl-4 text-sm text-[#8C94A3] outline-none"
+						className="w-full pl-4 text-sm text-[#000000] outline-none"
 						aria-label="Type your message"
 						value={message}
 						onChange={(e) => setMessage(e.target.value)}

@@ -27,7 +27,6 @@ export const useChatSocket = () => {
 		};
 
 		const handleGetConversations = (data: Conversation[]) => {
-			console.log('Get Conversations:', data);
 			setConversations(data);
 		};
 

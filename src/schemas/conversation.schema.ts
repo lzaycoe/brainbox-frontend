@@ -1,5 +1,7 @@
 import * as z from 'zod';
 
+import { Message } from '@/schemas/message.schema';
+
 export const conversationSchema = z.object({
 	userAId: z
 		.number()
@@ -15,4 +17,5 @@ export type ConversationData = z.infer<typeof conversationSchema>;
 
 export interface Conversation extends ConversationData {
 	id: number;
+	messages: Message[];
 }
