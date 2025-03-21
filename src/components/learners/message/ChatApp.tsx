@@ -10,11 +10,10 @@ import {
 } from '@/components/commons/learners/ChatMessage';
 import { useChatSocket } from '@/hooks/useChatSocket';
 import { useUserMetadata } from '@/hooks/useUserMetadata';
-import { Conversation } from '@/schemas/conversation.schema';
 import { Message } from '@/schemas/message.schema';
 import { getUserClerk } from '@/services/api/user';
 
-function getRelativeTime(timestamp: string): string {
+export function getRelativeTime(timestamp: string): string {
 	const now = new Date();
 	const messageTime = new Date(timestamp);
 	const diff = Math.floor((now.getTime() - messageTime.getTime()) / 1000);
@@ -25,33 +24,23 @@ function getRelativeTime(timestamp: string): string {
 	return `${Math.floor(diff / 86400)}d ago`;
 }
 
-function formatMessages(
-	conversations: Conversation[],
-	formattedFriends: User[],
-	userId: number,
-) {
+function formatMessages(messages: Message[], partnerName: string) {
 	const messagesData: Record<string, Message[]> = {};
 
-	conversations.forEach((conv) => {
-		const partnerId = conv.userAId === userId ? conv.userBId : conv.userAId;
-		const partner = formattedFriends.find((friend) => friend.id === partnerId);
-		const partnerName = partner ? partner.name : `User ${partnerId}`;
-
+	messages.forEach((msg: Message) => {
 		if (!messagesData[partnerName]) {
 			messagesData[partnerName] = [];
 		}
 
-		conv.messages.forEach((msg: Message) => {
-			messagesData[partnerName].push({
-				id: msg.id,
-				createAt: msg.createAt ? getRelativeTime(msg.createAt) : '',
-				senderId: msg.senderId,
-				content: msg.content || '',
-				status: msg.status,
-				conversationId: msg.conversationId,
-				messageType: msg.messageType,
-				attachments: msg.attachments,
-			});
+		messagesData[partnerName].push({
+			id: msg.id,
+			createAt: msg.createAt ? getRelativeTime(msg.createAt) : '',
+			senderId: msg.senderId,
+			content: msg.content || '',
+			status: msg.status,
+			conversationId: msg.conversationId,
+			messageType: msg.messageType,
+			attachments: msg.attachments,
 		});
 	});
 
@@ -59,7 +48,8 @@ function formatMessages(
 }
 
 const ChatApp = () => {
-	const { conversations, getConversations } = useChatSocket();
+	const { messages, getMessages, conversations, getConversations } =
+		useChatSocket();
 	const [friends, setFriends] = useState<User[]>([]);
 	const [activeMessage, setActiveMessage] = useState<User | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
@@ -139,7 +129,13 @@ const ChatApp = () => {
 			(conv.userBId === activeMessage?.id && conv.userAId === userId),
 	);
 
-	const messagesData = formatMessages(conversations, friends, userId);
+	useEffect(() => {
+		getMessages(selectedConversation?.id || 0);
+	}, [selectedConversation?.id || 0]);
+
+	console.log('messages: ', messages);
+
+	const messagesData = formatMessages(messages, activeMessage?.name || '');
 
 	if (isLoading) {
 		return (

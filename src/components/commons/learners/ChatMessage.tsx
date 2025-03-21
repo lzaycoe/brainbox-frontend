@@ -1,13 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { GoPlus } from 'react-icons/go';
 import { GrSearch } from 'react-icons/gr';
 import { LuPencilLine } from 'react-icons/lu';
 import { VscSend } from 'react-icons/vsc';
 
+import { getRelativeTime } from '@/components/learners/message/ChatApp';
 import { useChatSocket } from '@/hooks/useChatSocket';
 import { useUserMetadata } from '@/hooks/useUserMetadata';
 import { Conversation } from '@/schemas/conversation.schema';
@@ -120,22 +121,55 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 	messages,
 	activeMessage,
 	setActiveMessage,
-}) => (
-	<div className="w-[400px] border border-[#E9EAF0] bg-white p-4 flex-shrink-0">
-		<Header title={title} />
-		<SearchBar />
-		<div className="flex flex-col w-full mt-4">
-			{messages.map((msg) => (
-				<CommonMessageItem
-					key={msg.name}
-					{...msg}
-					isActive={activeMessage?.name === msg.name}
-					onClick={() => setActiveMessage(msg)}
-				/>
-			))}
+}) => {
+	const { socket } = useChatSocket();
+	const [latestMessages, setLatestMessages] = useState<
+		Record<string, { message: string; time: string }>
+	>({});
+
+	useEffect(() => {
+		if (!socket) return;
+
+		const handleNewMessage = (newMessage: Message) => {
+			setLatestMessages((prev) => ({
+				...prev,
+				[newMessage.conversationId]: {
+					message: newMessage.content,
+					time: getRelativeTime(newMessage.createAt || '') || '',
+				},
+			}));
+		};
+
+		socket.on('New Message', handleNewMessage);
+
+		return () => {
+			socket.off('New Message', handleNewMessage);
+		};
+	}, []);
+
+	return (
+		<div className="w-[400px] border border-[#E9EAF0] bg-white p-4 flex-shrink-0">
+			<Header title={title} />
+			<SearchBar />
+			<div className="flex flex-col w-full mt-4">
+				{messages.map((msg) => (
+					<CommonMessageItem
+						key={msg.name}
+						{...msg}
+						message={
+							msg.id
+								? latestMessages[msg.id]?.message || msg.message
+								: msg.message
+						}
+						time={msg.id ? latestMessages[msg.id]?.time || msg.time : msg.time}
+						isActive={activeMessage?.name === msg.name}
+						onClick={() => setActiveMessage(msg)}
+					/>
+				))}
+			</div>
 		</div>
-	</div>
-);
+	);
+};
 
 export interface ChatMessage {
 	sender: string;
@@ -163,29 +197,69 @@ const CommonChat: React.FC<CommonChatProps> = ({
 	messagesData,
 	conversation,
 }) => {
-	const { sendMessage } = useChatSocket();
+	const { socket, sendMessage } = useChatSocket();
 	const [message, setMessage] = useState('');
 	const { userMetadata } = useUserMetadata();
 	const userId = userMetadata?.id || 0;
+	const [chatMessages, setChatMessages] = useState<Message[]>([]);
+	const chatContainerRef = useRef<HTMLDivElement | null>(null);
+	const [isAtBottom, setIsAtBottom] = useState(true);
 
-	console.log('messagesData: ', messagesData);
+	// Kiểm tra xem người dùng có đang ở cuối danh sách tin nhắn không
+	const handleScroll = () => {
+		if (!chatContainerRef.current) return;
+		const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+		setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 10);
+	};
 
-	const chatMessages = selectedUser
-		? messagesData[selectedUser.name] || []
-		: [];
+	// Load tin nhắn khi chọn user mới
+	useEffect(() => {
+		if (selectedUser) {
+			setChatMessages(messagesData[selectedUser.name] || []);
+		}
+	}, [selectedUser, messagesData]);
 
+	// Lắng nghe tin nhắn mới từ socket
+	useEffect(() => {
+		if (!socket) return;
+
+		const handleNewMessage = (newMessage: Message) => {
+			if (selectedUser && newMessage.conversationId === conversation.id) {
+				setChatMessages((prevMessages) => [...prevMessages, newMessage]);
+
+				// Nếu đang ở cuối thì cuộn xuống
+				if (isAtBottom) {
+					setTimeout(() => {
+						chatContainerRef.current?.scrollTo({
+							top: chatContainerRef.current.scrollHeight,
+							behavior: 'smooth',
+						});
+					}, 100);
+				}
+			}
+		};
+
+		socket.on('New Message', handleNewMessage);
+
+		return () => {
+			socket.off('New Message', handleNewMessage);
+		};
+	}, [selectedUser, conversation.id, socket, isAtBottom]);
+
+	// Gửi tin nhắn
 	const handleSendMessage = () => {
 		if (selectedUser && message.trim() !== '') {
 			const newMessage: Message = {
-				conversationId:
-					messagesData[selectedUser.name]?.[0]?.conversationId || 0,
+				conversationId: conversation.id,
 				senderId: userId,
 				content: message,
 				attachments: [],
 				messageType: 'text',
 				status: 'sent',
+				createAt: getRelativeTime(new Date().toISOString()) || '',
 			};
 
+			setChatMessages((prevMessages) => [...prevMessages, newMessage]);
 			sendMessage(
 				selectedUser.id || 0,
 				conversation.id,
@@ -193,6 +267,14 @@ const CommonChat: React.FC<CommonChatProps> = ({
 				newMessage.content || '',
 			);
 			setMessage('');
+
+			// Cuộn xuống khi gửi tin nhắn
+			setTimeout(() => {
+				chatContainerRef.current?.scrollTo({
+					top: chatContainerRef.current.scrollHeight,
+					behavior: 'smooth',
+				});
+			}, 100);
 		}
 	};
 
@@ -222,7 +304,12 @@ const CommonChat: React.FC<CommonChatProps> = ({
 				</button>
 			</div>
 
-			<div className="flex flex-col gap-8 py-12 px-6 flex-grow overflow-auto">
+			{/* Chat messages container */}
+			<div
+				ref={chatContainerRef}
+				className="flex flex-col gap-8 py-12 px-6 flex-grow overflow-auto"
+				onScroll={handleScroll}
+			>
 				{selectedUser ? (
 					chatMessages.map((msg) => (
 						<div

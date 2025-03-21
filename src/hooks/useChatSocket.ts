@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 
 import { Conversation } from '@/schemas/conversation.schema';
-import { MessageData } from '@/schemas/message.schema';
+import { Message, MessageData } from '@/schemas/message.schema';
 
 export const useChatSocket = () => {
 	const [socket, setSocket] = useState<Socket | null>(null);
@@ -34,7 +34,7 @@ export const useChatSocket = () => {
 			setMessages((prev) => [...prev, data]);
 		};
 
-		const handleGetMessages = (data: MessageData[]) => {
+		const handleGetMessages = (data: Message[]) => {
 			setMessages(data);
 		};
 
