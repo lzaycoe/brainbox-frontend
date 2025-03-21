@@ -1,58 +1,19 @@
-import axios from 'axios';
-
 import { toast } from '@/hooks/use-toast';
-import { Course } from '@/schemas/course.schema';
 import { Payment } from '@/schemas/payment.schema';
+import { getCourse } from '@/services/api/course';
+import { getProgressInCourse } from '@/services/api/progress';
 import { getPaidPaymentsForUser } from '@/services/custom/course/checkPayment';
 
-export interface CourseProgress {
-	id: number;
-	userId: number;
-	courseId: number;
-	completedLectures: number[];
-	sectionProgress: string;
-	courseProgress: number;
-	createdAt: string;
-	updatedAt: string;
-}
-
-export interface CourseData {
+export interface CourseProgressCardData {
 	id: number;
 	title: string;
 	thumbnail: string;
 	completed: string;
 }
 
-const getCourseProgress = async (
-	courseId: number,
-	userId: number,
-): Promise<CourseProgress | null> => {
-	try {
-		const response = await axios.get(
-			`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/user/${userId}/progress`,
-		);
-		return response.data;
-	} catch (error) {
-		console.error(`Failed to fetch progress for course ${courseId}:`, error);
-		return null;
-	}
-};
-
-const getCourse = async (id: number): Promise<Course | null> => {
-	try {
-		const response = await axios.get(
-			`${process.env.NEXT_PUBLIC_API_URL}/courses/${id}`,
-		);
-		return response.data;
-	} catch (error) {
-		console.error(`Failed to fetch course ${id}:`, error);
-		return null;
-	}
-};
-
 export const fetchPaidCoursesProgress = async (
 	userId: number,
-): Promise<CourseData[] | null> => {
+): Promise<CourseProgressCardData[] | null> => {
 	try {
 		const paidPayments = await getPaidPaymentsForUser(userId);
 		if (!paidPayments || paidPayments.length === 0) {
@@ -65,7 +26,10 @@ export const fetchPaidCoursesProgress = async (
 		}
 
 		const courseDataPromises = paidPayments.map(async (payment: Payment) => {
-			const progress = await getCourseProgress(payment.courseId, userId);
+			const progress = await getProgressInCourse(
+				payment.courseId.toString(),
+				userId,
+			);
 			const course = await getCourse(payment.courseId);
 			if (progress && course) {
 				return {
@@ -79,7 +43,7 @@ export const fetchPaidCoursesProgress = async (
 		});
 
 		const courseData = (await Promise.all(courseDataPromises)).filter(
-			(item): item is CourseData => item !== null,
+			(item): item is CourseProgressCardData => item !== null,
 		);
 		return courseData;
 	} catch (error) {

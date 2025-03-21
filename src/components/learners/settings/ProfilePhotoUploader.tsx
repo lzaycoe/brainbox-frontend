@@ -1,11 +1,13 @@
+import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 
 export default function ProfilePhotoUploader() {
+	const { user } = useUser();
 	return (
 		<div className="bg-white p-4 rounded-lg text-center">
 			<div className="relative aspect-square mb-4">
 				<Image
-					src="/app/lazyavt.png"
+					src={user?.imageUrl ?? '/images/placeholder.png'}
 					alt="Profile"
 					width={150}
 					height={150}

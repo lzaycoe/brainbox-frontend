@@ -211,7 +211,11 @@ export default function WatchCourse() {
 	}
 
 	if (!course || !progress || sectionsMenu.length === 0) {
-		return <div>Course, progress, or sections not found</div>;
+		return (
+			<div className="flex justify-center w-full mt-10">
+				Course, progress, or sections not found
+			</div>
+		);
 	}
 
 	const activeLecture = sectionsMenu

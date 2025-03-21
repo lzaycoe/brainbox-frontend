@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PiFileText } from 'react-icons/pi';
 
-import CommentSection from '@/components/learners/watch-course/CommentSection';
 import { fetchFileMetadata, formatFileSize } from '@/utils/file';
 
 interface CourseNavigationProps {
@@ -123,22 +122,6 @@ export default function CourseNavigation({
 								</span>
 							</a>
 						</li>
-						<li>
-							<a
-								href="#comments"
-								className={`gap-2.5 self-stretch py-5 text-base leading-none text-center whitespace-nowrap w-[155px] inline-block no-underline ${
-									activeTab === 'comments'
-										? 'bg-white shadow-sm text-neutral-800 border-b-2 border-orange-500'
-										: 'text-gray-600'
-								}`}
-								onClick={(e) => {
-									e.preventDefault();
-									handleTabClick('comments');
-								}}
-							>
-								Comments
-							</a>
-						</li>
 					</ul>
 				</nav>
 				<hr
@@ -233,11 +216,6 @@ export default function CourseNavigation({
 								No files attached.
 							</p>
 						)}
-					</div>
-				)}
-				{(activeTab === null || activeTab === 'comments') && (
-					<div className="mt-10">
-						<CommentSection />
 					</div>
 				)}
 			</div>

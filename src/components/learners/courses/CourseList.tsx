@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import SearchAndFilter from '@/components/commons/SearchAndFilter';
 import CourseCard from '@/components/learners/dashboard/CourseCard';
@@ -23,16 +24,24 @@ const CourseList: React.FC<{ userId: number }> = ({ userId }) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [statusFilter, setStatusFilter] = useState('all');
 	const [courses, setCourses] = useState<CourseData[]>([]);
+	const [loading, setLoading] = useState(true);
 	const coursesPerPage = 12;
 	const router = useRouter();
 
 	useEffect(() => {
 		const loadCourses = async () => {
-			const fetchedCourses = await fetchPaidCoursesProgress(userId);
-			if (fetchedCourses) {
-				setCourses(fetchedCourses);
-			} else {
+			setLoading(true);
+			try {
+				const fetchedCourses = await fetchPaidCoursesProgress(userId);
+				const sortedCourses = (fetchedCourses || []).sort(
+					(a, b) => parseFloat(a.completed) - parseFloat(b.completed),
+				);
+				setCourses(sortedCourses);
+			} catch (error) {
+				console.error('Error loading courses:', error);
 				setCourses([]);
+			} finally {
+				setLoading(false);
 			}
 		};
 
@@ -67,16 +76,22 @@ const CourseList: React.FC<{ userId: number }> = ({ userId }) => {
 
 	const handleKeyDown = (event: React.KeyboardEvent, courseId: number) => {
 		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault(); // Ngăn hành vi mặc định của Space (scroll)
+			event.preventDefault();
 			handleCourseClick(courseId);
 		}
 	};
 
+	if (loading) {
+		return <Loading />;
+	}
+
 	return (
-		<div className="flex flex-col items-center py-5">
+		<div className="bg-white p-6 rounded-lg max-w-7xl mt-10">
 			<SearchAndFilter
-				totalCourses={filteredCourses.length}
+				totalItems={filteredCourses.length}
 				onSearch={setSearchQuery}
+				totalLabel="Courses"
+				inputPlaceholder="Search for courses..."
 			>
 				<div className="w-60 flex flex-col justify-start items-start gap-2">
 					<div className="text-[#6e7484] text-xs font-normal leading-none">
