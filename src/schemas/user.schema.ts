@@ -26,4 +26,5 @@ export interface User {
 	lastName?: string;
 	students?: number;
 	clerkUser?: ClerkUser;
+	publicMetadata?: PublicMetadata;
 }
