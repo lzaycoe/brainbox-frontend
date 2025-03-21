@@ -13,9 +13,7 @@ export const getTeacherBankAccount = async (
 			return null;
 		}
 
-		const bankAccount = teacher.publicMetadata?.bank_account as
-			| BankAccountData
-			| undefined;
+		const bankAccount = teacher.publicMetadata?.bank_account;
 
 		console.log('bankAccount', bankAccount);
 

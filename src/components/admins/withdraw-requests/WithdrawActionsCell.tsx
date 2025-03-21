@@ -33,7 +33,7 @@ export function WithdrawActionsCell({
 	setData,
 	toast,
 	banks,
-}: WithdrawActionsCellProps) {
+}: Readonly<WithdrawActionsCellProps>) {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [bankAccount, setBankAccount] = useState<BankAccountData | null>(null);
 	const [isLoadingBankAccount, setIsLoadingBankAccount] = useState(false);
@@ -80,6 +80,22 @@ export function WithdrawActionsCell({
 		}
 	};
 
+	const renderBankAccountContent = () => {
+		if (isLoadingBankAccount) {
+			return <Loading content="Loading bank account details" />;
+		}
+
+		if (bankAccount) {
+			return <CustomBankCard bankAccount={bankAccount} banks={banks} />;
+		}
+
+		return (
+			<div className="text-center text-gray-500">
+				No bank account details available.
+			</div>
+		);
+	};
+
 	return (
 		<>
 			<Button
@@ -103,15 +119,7 @@ export function WithdrawActionsCell({
 						</DrawerDescription>
 					</DrawerHeader>
 					<div className="p-4 flex justify-center">
-						{isLoadingBankAccount ? (
-							<Loading content="Loading bank account details" />
-						) : bankAccount ? (
-							<CustomBankCard bankAccount={bankAccount} banks={banks} />
-						) : (
-							<div className="text-center text-gray-500">
-								No bank account details available.
-							</div>
-						)}
+						{renderBankAccountContent()}
 					</div>
 					<DrawerFooter>
 						<div className="flex space-x-2 justify-center">
