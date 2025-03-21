@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { JSX, useEffect, useState } from 'react';
 import { PiArrowRight } from 'react-icons/pi';
 
@@ -11,6 +12,7 @@ import { getCourses } from '@/services/api/course';
 import CategoryCard from './CatergoryCard';
 
 export const BrowseCategories = () => {
+	const router = useRouter();
 	const [categories, setCategories] = useState<
 		{
 			id: number;
@@ -102,6 +104,7 @@ export const BrowseCategories = () => {
 				<Button
 					className="flex gap-2 justify-center items-center self-stretch py-1 my-auto font-medium leading-none text-orange-500 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500"
 					aria-label="Browse all categories"
+					onClick={() => router.push('/category')}
 				>
 					<span className="self-stretch my-auto">Browse All</span>
 					<PiArrowRight
