@@ -61,7 +61,10 @@ export const CustomBankCard = ({ bankAccount, banks }: CustomBankCardProps) => {
 						/>
 					</div>
 				)}
-				<div className="text-lg font-semibold truncate" title={bankDisplayName}>
+				<div
+					className="text-lg font-semibold line-clamp-2"
+					title={bankDisplayName}
+				>
 					{bankDisplayName}
 				</div>
 			</div>
