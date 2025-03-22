@@ -216,7 +216,7 @@ const CommonChat: React.FC<CommonChatProps> = ({
 	const [isAtBottom, setIsAtBottom] = useState(true);
 	const hasScrolledToBottom = useRef(false);
 
-	const generateTempId = () => `temp-${Date.now()}-${Math.random()}`;
+	const generateTempId = () => `temp-${crypto.randomUUID()}`;
 
 	const handleScroll = () => {
 		if (!chatContainerRef.current) return;
