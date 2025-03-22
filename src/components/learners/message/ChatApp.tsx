@@ -79,11 +79,12 @@ const ChatApp = () => {
 							const latestMessage =
 								conversation?.messages?.[conversation.messages.length - 1];
 							const isOwnMessage = latestMessage?.senderId === userId;
-							const messageText = latestMessage
-								? isOwnMessage
-									? `You: ${latestMessage.content}`
-									: latestMessage.content
-								: 'No messages yet';
+							let messageText = 'No messages yet';
+							if (latestMessage) {
+								messageText = isOwnMessage
+									? `You: ${latestMessage.content || ''}`
+									: latestMessage.content || '';
+							}
 
 							return {
 								id,

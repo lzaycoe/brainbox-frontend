@@ -37,7 +37,7 @@ const TeacherCard: React.FC<TeacherCardProps> = ({
 	const handleSendMessage = async () => {
 		if (userId !== 0) {
 			setIsLoading(true);
-			await createConversation(userId, teacherId);
+			createConversation(userId, teacherId);
 			window.location.href = '/message';
 		}
 	};
