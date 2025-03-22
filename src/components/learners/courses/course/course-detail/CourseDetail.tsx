@@ -1,6 +1,7 @@
 'use client';
 
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { HiChevronRight } from 'react-icons/hi';
 
@@ -42,15 +43,19 @@ type CourseInfoType = {
 
 interface CourseDetailsPageProps {
 	readonly courseId: string;
+	readonly isAdminView?: boolean;
 }
 
 interface ExtendedCourseData extends CourseData {
 	teacherId?: number;
+	status?: string;
 }
 
 export default function CourseDetailsPage({
 	courseId,
+	isAdminView = false,
 }: CourseDetailsPageProps) {
+	const router = useRouter();
 	const [activeTab, setActiveTab] = useState('overview');
 	const [courseInfo, setCourseInfo] = useState<CourseInfoType | null>(null);
 	const [coursePrice, setCoursePrice] = useState<{
@@ -68,6 +73,15 @@ export default function CourseDetailsPage({
 
 				const course = (await getCourse(+courseId)) as ExtendedCourseData;
 
+				// Redirect learners (non-admins) to 404 if course is pending or rejected
+				if (
+					!isAdminView &&
+					(course.status === 'pending' || course.status === 'rejected')
+				) {
+					router.push('/not-found');
+					return;
+				}
+
 				let teacherData;
 				if (course.teacherId) {
 					teacherData = await getUserClerk(course.teacherId);
@@ -82,12 +96,14 @@ export default function CourseDetailsPage({
 				}
 
 				setCourseInfo({
-					breadcrumbs: [
-						'Home',
-						'Development',
-						'Web Development',
-						course.tag || 'Unknown',
-					],
+					breadcrumbs: isAdminView
+						? ['Admin Dashboard', 'Course Management', course.tag || 'Unknown']
+						: [
+								'Home',
+								'Development',
+								'Web Development',
+								course.tag || 'Unknown',
+							],
 					title: course.title,
 					subtitle: course.subtitle || 'No subtitle available',
 					creators: [creatorName],
@@ -115,7 +131,7 @@ export default function CourseDetailsPage({
 		};
 
 		fetchCourseData();
-	}, [courseId]);
+	}, [courseId, isAdminView, router]);
 
 	const instructors: Instructor[] = [
 		{

@@ -71,7 +71,7 @@ export default function InstructorSection() {
 		<>
 			<div className="box-border flex flex-col justify-center items-center px-72 py-10 w-full bg-slate-100 max-md:px-24 max-md:py-8 max-sm:p-5 max-sm:text-center">
 				<h1 className="m-0 text-2xl font-semibold tracking-tight leading-none text-center text-neutral-800 max-sm:text-xl">
-					Become an Instructor
+					Become an teacher
 				</h1>
 				<div className="flex gap-2 justify-center items-center mt-4 text-sm tracking-normal leading-loose text-gray-500 max-sm:flex-wrap max-sm:justify-center">
 					<Link
@@ -82,7 +82,7 @@ export default function InstructorSection() {
 						Home
 					</Link>
 					<span className="text-gray-500">/</span>
-					<span className="text-neutral-800">Become an instructor</span>
+					<span className="text-neutral-800">Become an teacher</span>
 				</div>
 			</div>
 
@@ -93,17 +93,17 @@ export default function InstructorSection() {
 						<div className="flex flex-col self-stretch my-auto min-w-[240px] w-[648px] max-md:max-w-full">
 							<div className="flex flex-col max-w-full w-[648px]">
 								<h2 className="text-6xl font-semibold tracking-tighter leading-none text-neutral-800 max-md:max-w-full max-md:text-4xl">
-									Become an Instuctor
+									Become an Teacher
 								</h2>
 								<p className="mt-8 text-2xl leading-8 text-gray-600 max-md:max-w-full">
-									Become an instructor & start teaching with 26k certified
-									instructors. Create a success story with 67.1k Students — Grow
+									Become an teacher & start teaching with 26k certified
+									teachers. Create a success story with 67.1k Students — Grow
 									yourself with 71 countries.
 								</p>
 							</div>
 							<button
 								className="gap-3 self-start px-10 mt-10 text-xl font-semibold tracking-normal text-white capitalize bg-orange-500 leading-[64px] max-md:px-5"
-								aria-label="Get Started as an Instructor"
+								aria-label="Get Started as an teacher"
 								onClick={handlePayment}
 								disabled={isSubmitting}
 							>
@@ -134,7 +134,7 @@ export default function InstructorSection() {
 							<Image
 								loading="lazy"
 								src="/app/become_a_teacher/become_a_teacher_1.png"
-								alt="Instructor Illustration"
+								alt="teacher Illustration"
 								className="object-cover max-w-full h-auto rounded-md shadow-lg"
 								width={600}
 								height={600}

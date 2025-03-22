@@ -33,18 +33,24 @@ interface Section {
 }
 
 interface CourseMenuProps {
-	progress: number;
-	sections: Section[];
-	onToggleSection: (sectionId: number) => void;
-	onToggleLectureActive: (sectionId: number, lectureId: number) => void;
-	onCheckboxChange: (sectionId: number, lectureId: number) => Promise<void>;
-	hideCourseProgress?: boolean;
-	hideCheckbox?: boolean;
-	hideSectionProgress?: boolean;
+	readonly progress?: number;
+	readonly sections: Section[];
+	readonly onToggleSection: (sectionId: number) => void;
+	readonly onToggleLectureActive: (
+		sectionId: number,
+		lectureId: number,
+	) => void;
+	readonly onCheckboxChange?: (
+		sectionId: number,
+		lectureId: number,
+	) => Promise<void>;
+	readonly hideCourseProgress?: boolean;
+	readonly hideCheckbox?: boolean;
+	readonly hideSectionProgress?: boolean;
 }
 
 const CourseMenu: React.FC<CourseMenuProps> = ({
-	progress,
+	progress = 0,
 	sections,
 	onToggleSection,
 	onToggleLectureActive,
@@ -54,17 +60,23 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	hideSectionProgress = false,
 }) => {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	const [loadingLectureId, setLoadingLectureId] = useState<number | null>(null); // Theo dõi lecture đang loading
-	const [isLoading, setIsLoading] = useState(false); // Trạng thái loading toàn cục
+	const [loadingLectureId, setLoadingLectureId] = useState<number | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
+	const pathname = window.location.pathname;
+	const isTeachersPath = pathname.includes('teachers');
+	const isAdminPath = pathname.includes('admins');
+	const shouldHidePercentage = isTeachersPath || isAdminPath;
 
 	const debouncedCheckboxChange = useMemo(
 		() =>
 			debounce(async (sectionId: number, lectureId: number) => {
-				try {
-					await onCheckboxChange(sectionId, lectureId);
-				} finally {
-					setLoadingLectureId(null);
-					setIsLoading(false); // Tắt loading toàn cục sau khi hoàn tất
+				if (onCheckboxChange) {
+					try {
+						await onCheckboxChange(sectionId, lectureId);
+					} finally {
+						setLoadingLectureId(null);
+						setIsLoading(false);
+					}
 				}
 			}, 500),
 		[onCheckboxChange],
@@ -78,8 +90,10 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 
 	const handleCheckboxChangeWrapper = useCallback(
 		async (sectionId: number, lectureId: number) => {
+			if (!onCheckboxChange) return;
+
 			setLoadingLectureId(lectureId);
-			setIsLoading(true); // Bật loading toàn cục
+			setIsLoading(true);
 
 			const updatedSections = sections.map((section) =>
 				section.id === sectionId
@@ -100,7 +114,7 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 
 			debouncedCheckboxChange(sectionId, lectureId);
 		},
-		[sections, debouncedCheckboxChange],
+		[sections, debouncedCheckboxChange, onCheckboxChange],
 	);
 
 	return (
@@ -113,27 +127,40 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 						<h2 className="self-stretch my-auto text-2xl tracking-tight leading-none text-neutral-800">
 							Course Contents
 						</h2>
-						<div
-							className="self-stretch my-auto text-base leading-none text-right text-green-600"
-							aria-live="polite"
-						>
-							{progress.toFixed(1)}% Completed
-						</div>
-					</div>
-					<div className="flex flex-col mt-4 w-full max-md:max-w-full">
-						<div className="relative w-full h-2 bg-gray-200 rounded-md overflow-hidden">
-							<progress
-								className="absolute top-0 left-0 w-full h-4 appearance-none"
-								value={progress}
-								max={100}
-							>
-								{progress}%
-							</progress>
+						{!shouldHidePercentage && (
 							<div
-								className="absolute top-0 left-0 h-4 bg-green-600"
-								style={{ width: `${progress}%` }}
-							/>
+								className="self-stretch my-auto text-base leading-none text-right text-green-600"
+								aria-live="polite"
+							>
+								{progress.toFixed(1)}% Completed
+							</div>
+						)}
+					</div>
+					{!shouldHidePercentage && (
+						<div className="flex flex-col mt-4 w-full max-md:max-w-full">
+							<div className="relative w-full h-2 bg-gray-200 rounded-md overflow-hidden">
+								<progress
+									className="absolute top-0 left-0 w-full h-4 appearance-none"
+									value={progress}
+									max={100}
+								>
+									{progress}%
+								</progress>
+								<div
+									className="absolute top-0 left-0 h-4 bg-green-600"
+									style={{ width: `${progress}%` }}
+								/>
+							</div>
 						</div>
+					)}
+				</div>
+			)}
+			{hideCourseProgress && (
+				<div>
+					<div className="flex flex-wrap gap-10 justify-between items-center w-full font-semibold max-md:max-w-full">
+						<h2 className="self-stretch my-auto text-2xl tracking-tight leading-none text-neutral-800">
+							Course Contents
+						</h2>
 					</div>
 				</div>
 			)}
@@ -177,7 +204,7 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 									/>
 									<span>{section.lecturesCount} lectures</span>
 								</span>
-								{!hideSectionProgress && (
+								{!hideSectionProgress && !shouldHidePercentage && (
 									<span className="flex gap-1 items-center">
 										<PiChecks
 											className="object-contain w-4 h-4"
@@ -210,6 +237,7 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 											}`}
 										>
 											{!hideCheckbox &&
+												onCheckboxChange &&
 												(loadingLectureId === lecture.id ? (
 													<Loader2 className="h-[18px] w-[18px] animate-spin text-orange-500" />
 												) : (

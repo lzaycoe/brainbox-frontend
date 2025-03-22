@@ -37,7 +37,7 @@ const PaymentList = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const paymentsPerPage = 5;
 	const [payments, setPayments] = useState<Payment[]>([]);
-	const [userData, setUserData] = useState<User | null>(null);
+	const [userId, setUserId] = useState<number | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const { user } = useUser();
@@ -67,11 +67,10 @@ const PaymentList = () => {
 			if (!user) {
 				throw new Error('User is undefined');
 			}
-			const userData = await getUserByClerkId(user?.id);
-			setUserData(userData);
+			const response = await getUserByClerkId(user.id);
+			setUserId(response.id);
 		} catch (error) {
 			console.error('Failed to fetch user metadata:', error);
-			setUserData(null);
 		} finally {
 			setLoading(false);
 		}
@@ -79,8 +78,10 @@ const PaymentList = () => {
 
 	const fetchPayments = async () => {
 		try {
-			const response = await getPaymentsFromUser(userData?.id || 0);
-
+			if (!userId) {
+				throw new Error('User data is undefined');
+			}
+			const response = await getPaymentsFromUser(userId);
 			if (!response) {
 				throw new Error('Failed to fetch payments');
 			}
@@ -148,16 +149,10 @@ const PaymentList = () => {
 		}
 	};
 	useEffect(() => {
-		if (user) {
+		if (!userId) {
 			fetchUser();
-		}
-	}, [user, fetchUser]);
-
-	useEffect(() => {
-		if (userData) {
-			fetchPayments();
-		}
-	}, [userData, fetchPayments]);
+		} else fetchPayments();
+	}, [userId]);
 
 	if (loading) {
 		return <Loading />;

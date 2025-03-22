@@ -42,6 +42,45 @@ export const mapLecturesDetails = (
 		isActive: sectionIndex === 0 && lectureIndex === 0,
 	}));
 
+export const mapLecturesDetailsWithoutProgress = (
+	lectures: Lecture[],
+	sectionIndex: number,
+): LectureDetail[] =>
+	lectures.map((lecture, lectureIndex) => ({
+		id: lecture.id,
+		title: lecture.title,
+		type: lecture.type,
+		attachments: lecture.attachments || [],
+		description: lecture.description,
+		content: lecture.content,
+		note: lecture.note,
+		updateAt: lecture.updatedAt,
+		isDone: false,
+		isActive: sectionIndex === 0 && lectureIndex === 0,
+	}));
+
+export const createSectionsForMenuWithoutProgress = (
+	sectionsData: RawSection[],
+	lecturesData: Lecture[],
+): Section[] => {
+	return sectionsData.map((section, sectionIndex) => {
+		const sectionLectures = lecturesData.filter(
+			(lecture) => lecture.sectionId === section.id,
+		);
+		return {
+			id: section.id,
+			title: section.title,
+			lecturesCount: sectionLectures.length,
+			progress: 0,
+			isExpanded: sectionIndex === 0,
+			lecturesDetails: mapLecturesDetailsWithoutProgress(
+				sectionLectures,
+				sectionIndex,
+			),
+		};
+	});
+};
+
 export const updateLectureActive = (
 	prevSections: Section[],
 	sectionId: number,

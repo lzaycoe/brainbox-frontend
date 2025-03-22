@@ -30,11 +30,11 @@ const ratings = [
 ];
 
 const prices = [
-	{ value: '5', label: 'over 80$' },
-	{ value: '4', label: '61 - 80$' },
-	{ value: '3', label: '41 - 60$' },
-	{ value: '2', label: '21 - 40$' },
-	{ value: '1', label: '1 - 20$' },
+	{ value: 'under-500k', label: 'Under 500.000đ' },
+	{ value: '500k-1m', label: '500.000đ - 1.000.000đ' },
+	{ value: '1m-2m', label: '1.000.000đ - 2.000.000đ' },
+	{ value: '2m-5m', label: '2.000.000đ - 5.000.000đ' },
+	{ value: 'over-5m', label: 'Over 5.000.000đ' },
 ];
 
 const statuses = [
@@ -106,9 +106,9 @@ const FilterSelects: React.FC<FilterSelectsProps> = ({
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="all">All Price</SelectItem>
-							{prices.map((prices) => (
-								<SelectItem key={prices.value} value={prices.value}>
-									{prices.label}
+							{prices.map((price) => (
+								<SelectItem key={price.value} value={price.value}>
+									{price.label}
 								</SelectItem>
 							))}
 						</SelectContent>

@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: 'https',
+				hostname: 'llrrvktctkrzjjzyguls.supabase.co',
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
 				hostname: 'd3f1iyfxxz8i1e.cloudfront.net',
 				pathname: '/**',
 			},
@@ -34,8 +39,8 @@ const nextConfig: NextConfig = {
 				hostname: 'd2ms8rpfqc4h24.cloudfront.net',
 				pathname: '/**',
 			},
-      {
-        protocol: 'https',
+			{
+				protocol: 'https',
 				hostname: 'cdn.builder.io',
 				pathname: '/**',
 			},
@@ -47,6 +52,11 @@ const nextConfig: NextConfig = {
 			{
 				source: '/teachers',
 				destination: '/teachers/dashboard',
+				permanent: false,
+			},
+			{
+				source: '/admins',
+				destination: '/admins/dashboard',
 				permanent: false,
 			},
 		];
