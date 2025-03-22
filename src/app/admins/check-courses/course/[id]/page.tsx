@@ -111,8 +111,9 @@ export default function AdminCourseDetailsPage() {
 
 	return (
 		<div className="relative">
-			<div className="bg-white shadow-md p-4 ml-12 mb-4 flex justify-start gap-4 sticky top-0 z-10">
-				{renderStatusButton()}
+			<div className="bg-white shadow-md p-4 ml-12 mb-4 flex justify-between items-center sticky top-0 z-10">
+				<h1 className="text-xl font-semibold">Course Review</h1>
+				<div className="flex gap-4">{renderStatusButton()}</div>
 			</div>
 
 			{updateError && (
@@ -139,23 +140,15 @@ export default function AdminCourseDetailsPage() {
 								thumbnail={course?.thumbnail ?? ''}
 								originPrice={toNumber(course?.originPrice) || 0}
 								salePrice={toNumber(course?.salePrice) || 0}
-								createdAt={
-									course?.createdAt
-										? new Date(course.createdAt).toISOString().split('T')[0]
-										: ''
-								}
-								updatedAt={
-									course?.updatedAt
-										? new Date(course.updatedAt).toISOString().split('T')[0]
-										: ''
-								}
+								createdAt={course?.createdAt ?? ''}
+								updatedAt={course?.updatedAt ?? ''}
 								public={false}
 								status={course?.status ?? 'pending'}
 								isAdminView={true}
 							/>
 						</div>
 						<div className="flex justify-center w-full">
-							<CourseDetail />
+							<CourseDetail isAdminView={true} />
 						</div>
 					</>
 				)}
