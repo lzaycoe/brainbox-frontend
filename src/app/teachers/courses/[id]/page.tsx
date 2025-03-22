@@ -82,14 +82,14 @@ const CourseDetailPage: React.FC = () => {
 						/>
 						<CourseDetailCard
 							creators={`${creators?.firstName ?? ''} ${creators?.lastName ?? ''}`.trim()}
-							avatarImages={creators?.imageUrl || ''}
+							avatarImages={creators?.imageUrl ?? ''}
 							id={+id}
-							teacherId={course?.teacherId || 0}
-							title={course?.title || ''}
-							subtitle={course?.subtitle || ''}
-							tag={course?.tag || ''}
-							description={course?.description || ''}
-							thumbnail={course?.thumbnail || ''}
+							teacherId={course?.teacherId ?? 0}
+							title={course?.title ?? ''}
+							subtitle={course?.subtitle ?? ''}
+							tag={course?.tag ?? ''}
+							description={course?.description ?? ''}
+							thumbnail={course?.thumbnail ?? ''}
 							originPrice={toNumber(course?.originPrice) || 0}
 							salePrice={toNumber(course?.salePrice) || 0}
 							createdAt={
