@@ -38,7 +38,13 @@ interface Section {
 	lecturesDetails: LectureDetail[];
 }
 
-export default function CourseDetail() {
+interface CourseDetailProps {
+	isAdminView?: boolean;
+}
+
+export default function CourseDetail({
+	isAdminView = false,
+}: CourseDetailProps) {
 	const { id } = useParams<{ id: string }>();
 	const [course, setCourse] = useState<Course | null>(null);
 	const [sectionsMenu, setSectionsMenu] = useState<Section[]>([]);
@@ -153,6 +159,8 @@ export default function CourseDetail() {
 					sections={sectionsMenu}
 					onToggleSection={toggleSection}
 					onToggleLectureActive={toggleLectureActive}
+					hideCourseProgress={isAdminView}
+					hideSectionProgress={true}
 				/>
 			</div>
 		</div>
