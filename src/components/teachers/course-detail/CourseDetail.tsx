@@ -39,7 +39,7 @@ interface Section {
 }
 
 interface CourseDetailProps {
-	isAdminView?: boolean;
+	readonly isAdminView?: boolean;
 }
 
 export default function CourseDetail({
