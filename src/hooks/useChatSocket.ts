@@ -23,6 +23,7 @@ export const useChatSocket = () => {
 		newSocket.on('connect', () => console.log('Connected to WebSocket server'));
 
 		const handleCreateConversation = (data: Conversation) => {
+			console.log('handleCreateConversation:', data);
 			setConversations((prev) => [...prev, data]);
 		};
 
@@ -71,8 +72,8 @@ export const useChatSocket = () => {
 
 	const createConversation = (senderId: number, receiveId: number) => {
 		if (socket) {
-			console.log('createConversation:', senderId, receiveId);
-			socket.emit('createConversation', { senderId, receiveId });
+			const payload = JSON.stringify({ userAId: senderId, userBId: receiveId });
+			socket.emit('createConversation', payload);
 		}
 	};
 

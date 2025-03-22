@@ -1,12 +1,15 @@
-import { useUser } from '@clerk/nextjs';
+'use client';
+
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Spinner } from '@/components/ui/spinner';
 import { useChatSocket } from '@/hooks/useChatSocket';
+import { useUserMetadata } from '@/hooks/useUserMetadata';
 
 interface TeacherCardProps {
 	avatarUrl: string;
@@ -25,13 +28,16 @@ const TeacherCard: React.FC<TeacherCardProps> = ({
 	students,
 	teacherId,
 }) => {
-	const { user } = useUser();
 	const { createConversation } = useChatSocket();
 	console.log('TeacherCard:', teacherId);
+	const [isLoading, setIsLoading] = useState(false);
+	const { userMetadata } = useUserMetadata();
+	const userId = userMetadata?.id || 0;
 
 	const handleSendMessage = async () => {
-		if (user) {
-			await createConversation(Number(user.id), teacherId);
+		if (userId !== 0) {
+			setIsLoading(true);
+			await createConversation(userId, teacherId);
 			window.location.href = '/message';
 		}
 	};
@@ -72,13 +78,21 @@ const TeacherCard: React.FC<TeacherCardProps> = ({
 					</div>
 				</div>
 			</CardContent>
-			{user && (
+			{userId !== 0 && (
 				<CardContent className="px-3.5 pb-3">
 					<Button
 						className="w-full bg-[#ffeee8] text-[#ff6636] font-bold hover:bg-[#ffccbb]"
 						onClick={handleSendMessage}
+						disabled={isLoading}
 					>
-						Send Message
+						{isLoading ? (
+							<div className="flex items-center space-x-2">
+								<Spinner size="small" />
+								<span>Creating Conversation</span>
+							</div>
+						) : (
+							'Send Message'
+						)}
 					</Button>
 				</CardContent>
 			)}

@@ -120,6 +120,8 @@ const ChatApp = () => {
 			} else {
 				setIsLoading(false);
 			}
+		} else {
+			setIsLoading(false);
 		}
 	}, [conversations]);
 
@@ -130,9 +132,10 @@ const ChatApp = () => {
 	);
 
 	useEffect(() => {
-		if (selectedConversation?.id) {
-			getMessages(selectedConversation.id);
+		if (!selectedConversation?.id) {
+			return;
 		}
+		getMessages(selectedConversation.id);
 	}, [selectedConversation?.id, getMessages]);
 
 	console.log('messages: ', messages);

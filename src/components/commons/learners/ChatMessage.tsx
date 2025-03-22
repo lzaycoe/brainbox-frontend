@@ -153,20 +153,28 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 			<Header title={title} />
 			<SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 			<div className="flex flex-col w-full mt-4">
-				{filteredMessages.map((msg) => (
-					<CommonMessageItem
-						key={msg.name}
-						{...msg}
-						message={
-							msg.id
-								? latestMessages[msg.id]?.message || msg.message
-								: msg.message
-						}
-						time={msg.id ? latestMessages[msg.id]?.time || msg.time : msg.time}
-						isActive={activeMessage?.name === msg.name}
-						onClick={() => setActiveMessage(msg)}
-					/>
-				))}
+				{filteredMessages.length > 0 ? (
+					filteredMessages.map((msg) => (
+						<CommonMessageItem
+							key={msg.name}
+							{...msg}
+							message={
+								msg.id
+									? latestMessages[msg.id]?.message || msg.message
+									: msg.message
+							}
+							time={
+								msg.id ? latestMessages[msg.id]?.time || msg.time : msg.time
+							}
+							isActive={activeMessage?.name === msg.name}
+							onClick={() => setActiveMessage(msg)}
+						/>
+					))
+				) : (
+					<div className="text-gray-500 text-center mt-4">
+						No conversations yet
+					</div>
+				)}
 			</div>
 		</div>
 	);
@@ -352,42 +360,48 @@ const CommonChat: React.FC<CommonChatProps> = ({
 				onScroll={handleScroll}
 			>
 				{selectedUser ? (
-					chatMessages.map((msg) => (
-						<div
-							key={msg.tempId}
-							className={`flex w-full ${msg.senderId === userId ? 'justify-end' : 'justify-start'}`}
-						>
-							{msg.senderId !== userId && (
-								<div className="flex items-center mr-2">
-									<Image
-										className="rounded-full"
-										src={selectedUser.avatar}
-										alt="Avatar"
-										width={32}
-										height={32}
-									/>
-								</div>
-							)}
+					chatMessages.length > 0 ? (
+						chatMessages.map((msg) => (
 							<div
-								className={`flex items-start gap-3 px-3 py-2 rounded-md text-sm w-fit max-w-[60%] bg-[#ffe3d8] text-[#1D2026] ${
-									msg.senderId === userId ? 'self-end' : ''
-								}`}
+								key={msg.tempId}
+								className={`flex w-full ${msg.senderId === userId ? 'justify-end' : 'justify-start'}`}
 							>
-								<div className="flex flex-col">
-									<span className="whitespace-pre-wrap [overflow-wrap:anywhere]">
-										{msg.content}
-									</span>
-									<span
-										className={`text-[#7c8190] text-xs mt-3 ${
-											msg.senderId === userId ? 'self-end' : 'self-start'
-										}`}
-									>
-										{msg.createAt}
-									</span>
+								{msg.senderId !== userId && (
+									<div className="flex items-center mr-2">
+										<Image
+											className="rounded-full"
+											src={selectedUser.avatar}
+											alt="Avatar"
+											width={32}
+											height={32}
+										/>
+									</div>
+								)}
+								<div
+									className={`flex items-start gap-3 px-3 py-2 rounded-md text-sm w-fit max-w-[60%] bg-[#ffe3d8] text-[#1D2026] ${
+										msg.senderId === userId ? 'self-end' : ''
+									}`}
+								>
+									<div className="flex flex-col">
+										<span className="whitespace-pre-wrap [overflow-wrap:anywhere]">
+											{msg.content}
+										</span>
+										<span
+											className={`text-[#7c8190] text-xs mt-3 ${
+												msg.senderId === userId ? 'self-end' : 'self-start'
+											}`}
+										>
+											{msg.createAt}
+										</span>
+									</div>
 								</div>
 							</div>
+						))
+					) : (
+						<div className="text-[#6E7485] text-center mt-20">
+							Not messages yet
 						</div>
-					))
+					)
 				) : (
 					<div className="text-[#6E7485] text-center mt-20">
 						Select a conversation to start chatting
