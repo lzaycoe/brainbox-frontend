@@ -11,6 +11,7 @@ import { formatCurrency } from '@/utils/currency';
 interface CourseDetailCardProps extends Course {
 	creators: string;
 	avatarImages: string;
+	isAdminView?: boolean;
 }
 
 const CourseDetailCard: React.FC<CourseDetailCardProps> = ({
@@ -27,6 +28,7 @@ const CourseDetailCard: React.FC<CourseDetailCardProps> = ({
 	status,
 	createdAt,
 	updatedAt,
+	isAdminView = false,
 }) => {
 	console.log('CourseDetailCard:', {
 		title,
@@ -109,20 +111,22 @@ const CourseDetailCard: React.FC<CourseDetailCardProps> = ({
 						<div>
 							Last Updated: <span className="text-[#4d5565]">{updatedAt}</span>
 						</div>
-						<div className="ml-auto">
-							<Link
-								href={'/teachers/courses/[id]/edit'}
-								as={`/teachers/courses/${id}/edit`}
-							>
-								<Button
-									className="gap-3 px-6 py-4 text-xm tracking-normal text-white capitalize bg-orange-500 leading-[56px] max-md:px-5 max-md:py-3 max-md:text-lg"
-									tabIndex={0}
-									aria-label="Edit Course"
+						{!isAdminView && (
+							<div className="ml-auto">
+								<Link
+									href={'/teachers/courses/[id]/edit'}
+									as={`/teachers/courses/${id}/edit`}
 								>
-									Edit Course
-								</Button>
-							</Link>
-						</div>
+									<Button
+										className="gap-3 px-6 py-4 text-xm tracking-normal text-white capitalize bg-orange-500 leading-[56px] max-md:px-5 max-md:py-3 max-md:text-lg"
+										tabIndex={0}
+										aria-label="Edit Course"
+									>
+										Edit Course
+									</Button>
+								</Link>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
