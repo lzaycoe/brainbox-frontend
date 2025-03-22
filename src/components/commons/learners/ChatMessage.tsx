@@ -144,9 +144,13 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 	}, [socket]);
 
 	// Lọc danh sách tin nhắn theo từ khóa tìm kiếm
-	const filteredMessages = messages.filter((msg) =>
-		msg.name.toLowerCase().includes(searchTerm.toLowerCase()),
-	);
+	const filteredMessages = messages
+		.filter((msg) => msg.name.toLowerCase().includes(searchTerm.toLowerCase()))
+		.sort((a, b) => {
+			const timeA = a.id ? latestMessages[a.id]?.time || a.time : a.time;
+			const timeB = b.id ? latestMessages[b.id]?.time || b.time : b.time;
+			return new Date(timeA).getTime() - new Date(timeB).getTime();
+		});
 
 	return (
 		<div className="w-[400px] border border-[#E9EAF0] bg-white p-4 flex-shrink-0">
