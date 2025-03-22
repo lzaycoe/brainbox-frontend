@@ -2,8 +2,6 @@
 
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import { BsThreeDots } from 'react-icons/bs';
-import { GoPlus } from 'react-icons/go';
 import { GrSearch } from 'react-icons/gr';
 import { LuPencilLine } from 'react-icons/lu';
 import { VscSend } from 'react-icons/vsc';
@@ -19,19 +17,16 @@ const Header = ({ title }: { title: string }) => (
 		<div className="text-[#1D2026] text-[20px] font-semibold leading-[26px]">
 			{title}
 		</div>
-		<button
-			className="px-4 py-2 bg-[#EBEBFF] flex justify-center items-center gap-2 cursor-pointer"
-			aria-label="Compose Message"
-		>
-			<GoPlus size={22} color="#564FFD" />
-			<span className="text-[#564FFD] text-[14px] font-semibold capitalize">
-				Compose
-			</span>
-		</button>
 	</div>
 );
 
-const SearchBar = () => (
+const SearchBar = ({
+	searchTerm,
+	setSearchTerm,
+}: {
+	searchTerm: string;
+	setSearchTerm: (term: string) => void;
+}) => (
 	<div className="w-full h-[48px] flex items-center border border-[#E9EAF0] rounded-md px-4 mt-4">
 		<GrSearch size={22} color="#1D2026" />
 		<input
@@ -39,6 +34,8 @@ const SearchBar = () => (
 			placeholder="Search"
 			className="ml-3 text-[#8C94A3] text-[16px] font-normal outline-none w-full"
 			aria-label="Search Messages"
+			value={searchTerm}
+			onChange={(e) => setSearchTerm(e.target.value)}
 		/>
 	</div>
 );
@@ -75,7 +72,6 @@ const CommonMessageItem = ({
 				width={48}
 				height={48}
 			/>
-			<div className="w-[10px] h-[10px] absolute right-0 bottom-0 bg-[#23BD33] rounded-full border-2 border-white" />
 		</div>
 		<div className="flex flex-col flex-1 min-w-0">
 			<div className="flex justify-between items-center">
@@ -126,6 +122,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 	const [latestMessages, setLatestMessages] = useState<
 		Record<string, { message: string; time: string }>
 	>({});
+	const [searchTerm, setSearchTerm] = useState('');
 
 	useEffect(() => {
 		if (!socket) return;
@@ -141,18 +138,22 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 		};
 
 		socket.on('New Message', handleNewMessage);
-
 		return () => {
 			socket.off('New Message', handleNewMessage);
 		};
 	}, [socket]);
 
+	// Lọc danh sách tin nhắn theo từ khóa tìm kiếm
+	const filteredMessages = messages.filter((msg) =>
+		msg.name.toLowerCase().includes(searchTerm.toLowerCase()),
+	);
+
 	return (
 		<div className="w-[400px] border border-[#E9EAF0] bg-white p-4 flex-shrink-0">
 			<Header title={title} />
-			<SearchBar />
+			<SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 			<div className="flex flex-col w-full mt-4">
-				{messages.map((msg) => (
+				{filteredMessages.map((msg) => (
 					<CommonMessageItem
 						key={msg.name}
 						{...msg}
@@ -342,15 +343,8 @@ const CommonChat: React.FC<CommonChatProps> = ({
 						<div className="text-lg font-medium text-[#1D2026]">
 							{selectedUser?.name || 'Select a chat'}
 						</div>
-						<div className="text-sm text-[#4E5566]">Active Now</div>
 					</div>
 				</div>
-				<button
-					className="p-2 hover:bg-[#E9EAF0] transition-colors"
-					aria-label="More Options"
-				>
-					<BsThreeDots size={24} className="text-[#1D2026]" />
-				</button>
 			</div>
 			<div
 				ref={chatContainerRef}

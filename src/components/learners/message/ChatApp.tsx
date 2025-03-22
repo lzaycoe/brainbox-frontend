@@ -130,8 +130,10 @@ const ChatApp = () => {
 	);
 
 	useEffect(() => {
-		getMessages(selectedConversation?.id || 0);
-	}, [getMessages]);
+		if (selectedConversation?.id) {
+			getMessages(selectedConversation.id);
+		}
+	}, [selectedConversation?.id, getMessages]);
 
 	console.log('messages: ', messages);
 
@@ -148,8 +150,8 @@ const ChatApp = () => {
 	return (
 		<div className="flex gap-4 mt-8 w-full max-w-7xl mx-auto px-4">
 			{isLoading ? (
-				<div className="flex justify-center items-center w-full h-96">
-					<p className="text-gray-500">Loading chat...</p>
+				<div className="mt-6">
+					<Loading />
 				</div>
 			) : (
 				<>
@@ -163,7 +165,7 @@ const ChatApp = () => {
 						<CommonChat
 							selectedUser={activeMessage}
 							messagesData={messagesData}
-							conversation={selectedConversation} // Truyền cuộc trò chuyện hiện tại
+							conversation={selectedConversation}
 						/>
 					)}
 				</>
