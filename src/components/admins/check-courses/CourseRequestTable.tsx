@@ -123,7 +123,7 @@ export default function CourseRequestTable() {
 	};
 
 	const handleViewDetails = (courseId: number) => {
-		router.push(`/admins/course/${courseId}`);
+		router.push(`/admins/check-courses/course/${courseId}`);
 	};
 
 	const getDropdownPosition = (index: number) => {
