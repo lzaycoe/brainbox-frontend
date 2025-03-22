@@ -33,14 +33,20 @@ interface Section {
 }
 
 interface CourseMenuProps {
-	progress?: number;
-	sections: Section[];
-	onToggleSection: (sectionId: number) => void;
-	onToggleLectureActive: (sectionId: number, lectureId: number) => void;
-	onCheckboxChange?: (sectionId: number, lectureId: number) => Promise<void>;
-	hideCourseProgress?: boolean;
-	hideCheckbox?: boolean;
-	hideSectionProgress?: boolean;
+	readonly progress?: number;
+	readonly sections: Section[];
+	readonly onToggleSection: (sectionId: number) => void;
+	readonly onToggleLectureActive: (
+		sectionId: number,
+		lectureId: number,
+	) => void;
+	readonly onCheckboxChange?: (
+		sectionId: number,
+		lectureId: number,
+	) => Promise<void>;
+	readonly hideCourseProgress?: boolean;
+	readonly hideCheckbox?: boolean;
+	readonly hideSectionProgress?: boolean;
 }
 
 const CourseMenu: React.FC<CourseMenuProps> = ({
