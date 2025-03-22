@@ -14,7 +14,7 @@ export const useChatSocket = () => {
 	const userId = 1;
 
 	useEffect(() => {
-		const newSocket = io(process.env.NEXT_PUBLIC_API_URL!, {
+		const newSocket = io(process.env.NEXT_PUBLIC_API_URL ?? '', {
 			query: { userId: String(userId) },
 		});
 

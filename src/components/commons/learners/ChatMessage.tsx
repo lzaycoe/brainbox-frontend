@@ -132,7 +132,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 				...prev,
 				[newMessage.conversationId]: {
 					message: newMessage.content,
-					time: getRelativeTime(newMessage.createAt || '') || '',
+					time: getRelativeTime(newMessage.createAt ?? '') ?? '',
 				},
 			}));
 		};
@@ -261,7 +261,7 @@ const CommonChat: React.FC<CommonChatProps> = ({
 			if (selectedUser && newMessage.conversationId === conversation.id) {
 				const updatedMessage = {
 					...newMessage,
-					tempId: newMessage.tempId || generateTempId(),
+					tempId: newMessage.tempId ?? generateTempId(),
 				};
 
 				setChatMessages((prevMessages) => {
