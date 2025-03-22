@@ -69,7 +69,7 @@ export const updateCourse = async (
 	try {
 		const response = await axios.put(
 			`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}`,
-			{ ...courseData, teacherId },
+			{ ...courseData, teacherId, status: 'pending' },
 			{
 				headers: {
 					'Content-Type': 'application/json',
