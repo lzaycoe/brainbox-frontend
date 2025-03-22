@@ -84,7 +84,7 @@ const CommonMessageItem = ({
 			</div>
 			<div className="flex justify-between items-center">
 				<span
-					className={`text-[14px] max-w-full whitespace-pre-wrap [overflow-wrap:anywhere] line-clamp-2 ${
+					className={`text-[14px] max-w-full whitespace-pre-wrap [overflow-wrap:anywhere] line-clamp-1 ${
 						hasNotification
 							? 'font-bold text-[#1D2026]'
 							: 'font-normal text-[#6E7485]'
