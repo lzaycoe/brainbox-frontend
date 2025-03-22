@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import Loading from '@/components/commons/Loading';
+import CourseDetail from '@/components/teachers/course-detail/CourseDetail';
 import CourseDetailCard from '@/components/teachers/course-detail/CourseDetailCard';
 import { ListSummaryCard } from '@/components/teachers/course-detail/ListSummaryCard';
 import { Course } from '@/schemas/course.schema';
@@ -18,7 +19,7 @@ import {
 import { getAllSections } from '@/services/api/section';
 import { getUserClerk } from '@/services/api/user';
 
-const CourseDetail: React.FC = () => {
+const CourseDetailPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
 	const [course, setCourse] = useState<Course | null>(null);
 	const [creators, setCreators] = useState<User | null>(null);
@@ -71,42 +72,47 @@ const CourseDetail: React.FC = () => {
 			{loading ? (
 				<Loading />
 			) : (
-				<div className="flex flex-wrap justify-center p-4">
-					<ListSummaryCard
-						revenue={revenue}
-						studentsEnrolled={studentsEnrolled}
-						sections={sections}
-						lectures={lectures}
-					/>
-					<CourseDetailCard
-						creators={`${creators?.firstName ?? ''} ${creators?.lastName ?? ''}`.trim()}
-						avatarImages={creators?.imageUrl || ''}
-						id={+id}
-						teacherId={course?.teacherId || 0}
-						title={course?.title || ''}
-						subtitle={course?.subtitle || ''}
-						tag={course?.tag || ''}
-						description={course?.description || ''}
-						thumbnail={course?.thumbnail || ''}
-						originPrice={toNumber(course?.originPrice) || 0}
-						salePrice={toNumber(course?.salePrice) || 0}
-						createdAt={
-							course?.createdAt
-								? new Date(course.createdAt).toISOString().split('T')[0]
-								: ''
-						}
-						updatedAt={
-							course?.updatedAt
-								? new Date(course.updatedAt).toISOString().split('T')[0]
-								: ''
-						}
-						public={false}
-						status={course?.status ?? 'pending'}
-					/>
-				</div>
+				<>
+					<div className="flex flex-wrap justify-center p-4">
+						<ListSummaryCard
+							revenue={revenue}
+							studentsEnrolled={studentsEnrolled}
+							sections={sections}
+							lectures={lectures}
+						/>
+						<CourseDetailCard
+							creators={`${creators?.firstName ?? ''} ${creators?.lastName ?? ''}`.trim()}
+							avatarImages={creators?.imageUrl || ''}
+							id={+id}
+							teacherId={course?.teacherId || 0}
+							title={course?.title || ''}
+							subtitle={course?.subtitle || ''}
+							tag={course?.tag || ''}
+							description={course?.description || ''}
+							thumbnail={course?.thumbnail || ''}
+							originPrice={toNumber(course?.originPrice) || 0}
+							salePrice={toNumber(course?.salePrice) || 0}
+							createdAt={
+								course?.createdAt
+									? new Date(course.createdAt).toISOString().split('T')[0]
+									: ''
+							}
+							updatedAt={
+								course?.updatedAt
+									? new Date(course.updatedAt).toISOString().split('T')[0]
+									: ''
+							}
+							public={false}
+							status={course?.status ?? 'pending'}
+						/>
+					</div>
+					<div className="flex justify-center w-full">
+						<CourseDetail />
+					</div>
+				</>
 			)}
 		</div>
 	);
 };
 
-export default CourseDetail;
+export default CourseDetailPage;

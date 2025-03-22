@@ -28,7 +28,6 @@ export const menuItems: MenuItem[] = [
 		path: '/teachers/messages',
 		label: 'Messages',
 		icon: PiChatCircleDots,
-		badge: '3',
 	},
 	{ path: '/teachers/settings', label: 'Settings', icon: PiGear },
 ];

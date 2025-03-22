@@ -1,9 +1,15 @@
-import { Separator } from '../../ui/separator';
+'use client';
+
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Spinner } from '@/components/ui/spinner';
+import { useChatSocket } from '@/hooks/useChatSocket';
+import { useUserMetadata } from '@/hooks/useUserMetadata';
 
 interface TeacherCardProps {
 	avatarUrl: string;
@@ -11,6 +17,7 @@ interface TeacherCardProps {
 	major: string;
 	rating: number;
 	students: number;
+	teacherId: number;
 }
 
 const TeacherCard: React.FC<TeacherCardProps> = ({
@@ -19,7 +26,22 @@ const TeacherCard: React.FC<TeacherCardProps> = ({
 	major,
 	rating,
 	students,
+	teacherId,
 }) => {
+	const { createConversation } = useChatSocket();
+	console.log('TeacherCard:', teacherId);
+	const [isLoading, setIsLoading] = useState(false);
+	const { userMetadata } = useUserMetadata();
+	const userId = userMetadata?.id || 0;
+
+	const handleSendMessage = async () => {
+		if (userId !== 0) {
+			setIsLoading(true);
+			createConversation(userId, teacherId);
+			window.location.href = '/message';
+		}
+	};
+
 	return (
 		<Card className="flex flex-col justify-center bg-white max-w-[244px] transition-transform transform hover:scale-105 cursor-pointer group hover:shadow-2xl">
 			<Image
@@ -56,6 +78,24 @@ const TeacherCard: React.FC<TeacherCardProps> = ({
 					</div>
 				</div>
 			</CardContent>
+			{userId !== 0 && (
+				<CardContent className="px-3.5 pb-3">
+					<Button
+						className="w-full bg-[#ffeee8] text-[#ff6636] font-bold hover:bg-[#ffccbb]"
+						onClick={handleSendMessage}
+						disabled={isLoading}
+					>
+						{isLoading ? (
+							<div className="flex items-center space-x-2">
+								<Spinner size="small" />
+								<span>Creating Conversation</span>
+							</div>
+						) : (
+							'Send Message'
+						)}
+					</Button>
+				</CardContent>
+			)}
 		</Card>
 	);
 };

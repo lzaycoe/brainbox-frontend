@@ -11,7 +11,7 @@ import {
 
 import { SummaryCard } from '@/components/commons/SummaryCard';
 
-export const ListSummaryCard = () => {
+export const ListSummaryCardDashboard = () => {
 	return (
 		<div className="flex flex-col gap-6 justify-center items-center mb-6">
 			{/* Hàng đầu tiên */}

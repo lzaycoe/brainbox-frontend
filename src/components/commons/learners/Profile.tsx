@@ -1,5 +1,6 @@
 'use client';
 
+import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { PiArrowCircleRightDuotone } from 'react-icons/pi';
@@ -9,6 +10,7 @@ import { useUserContext } from '@/contexts/UserContext';
 export default function Profile() {
 	const router = useRouter();
 	const { user } = useUserContext();
+	const { user: userInfo } = useUser();
 
 	const navigate = () => {
 		if (user?.role === 'teacher') {
@@ -24,17 +26,16 @@ export default function Profile() {
 				<div className="border border-[#FFDCD4] bg-white">
 					<header className="flex items-center gap-4 p-6">
 						<Image
-							src="/app/lazyavt.png"
+							src={userInfo?.imageUrl ?? '/images/placeholder.png'}
 							alt="Lazy Code Logo"
 							width={80}
 							height={80}
 							className="rounded-lg"
 						/>
 						<div>
-							<h1 className="text-xl font-medium">Lazy Code</h1>
-							<p className="text-gray-500 text-sm">
-								Web Designer & Best-Selling Instructor
-							</p>
+							<h1 className="text-xl font-medium">
+								{userInfo?.lastName ?? ''} {userInfo?.firstName ?? ''}
+							</h1>
 						</div>
 						<button
 							className="ml-auto bg-[#FFF1EC] text-[#FF6636] px-6 py-2.5 rounded-lg hover:bg-[#FFE4DB] transition-colors flex items-center gap-2"

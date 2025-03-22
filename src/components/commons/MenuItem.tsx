@@ -28,7 +28,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, icon: Icon, action }) => {
 	return (
 		<DropdownMenuItem
 			onClick={handleClick}
-			className="text-base flex items-center gap-2"
+			className="text-base flex items-center gap-2 hover:cursor-pointer"
 			disabled={isLoading}
 		>
 			<Icon

@@ -1,3 +1,4 @@
+import { useUser } from '@clerk/nextjs';
 import { ZodError, z } from 'zod';
 
 // Schema validation using Zod
@@ -10,6 +11,8 @@ const profileSchema = z.object({
 });
 
 export default function ProfileForm() {
+	const { user } = useUser();
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -49,6 +52,7 @@ export default function ProfileForm() {
 					<input
 						id="firstName"
 						name="firstName"
+						value={user?.firstName || ''}
 						type="text"
 						placeholder="First name"
 						className="w-full p-3 border border-gray-200 rounded-lg"
@@ -65,6 +69,7 @@ export default function ProfileForm() {
 					<input
 						id="lastName"
 						name="lastName"
+						value={user?.lastName || ''}
 						type="text"
 						placeholder="Last name"
 						className="w-full p-3 border border-gray-200 rounded-lg"
@@ -80,6 +85,7 @@ export default function ProfileForm() {
 				<input
 					id="username"
 					name="username"
+					value={user?.username || ''}
 					type="text"
 					placeholder="Enter your username"
 					className="w-full p-3 border border-gray-200 rounded-lg"
@@ -94,6 +100,7 @@ export default function ProfileForm() {
 				<input
 					id="email"
 					name="email"
+					value={user?.emailAddresses.toString() || ''}
 					type="email"
 					placeholder="Email address"
 					className="w-full p-3 border border-gray-200 rounded-lg"

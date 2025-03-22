@@ -1,71 +1,237 @@
-import Image from 'next/image';
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import Loading from '@/components/commons/Loading';
+import { Button } from '@/components/ui/button';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
+import { useUserContext } from '@/contexts/UserContext';
+import { useToast } from '@/hooks/use-toast';
+import { Revenue } from '@/schemas/revenue.schema';
+import { WithdrawData, withdrawSchema } from '@/schemas/withdraw.schema';
+import { getTeacherRevenue } from '@/services/api/revenue';
+import { createWithdrawRequest } from '@/services/api/withdraw';
+import { formatCurrency } from '@/utils/currency';
 
 const WithdrawMoney = () => {
+	const { user, loading: userLoading } = useUserContext();
+	const { toast } = useToast();
+	const [currentBalance, setCurrentBalance] = useState<number>(0);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [revenueLoading, setRevenueLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+	const [displayAmount, setDisplayAmount] = useState<string>('');
+
+	const hasBankAccount =
+		user?.clerkUser?.publicMetadata?.bank_account?.account_number &&
+		user.clerkUser.publicMetadata.bank_account.account_number !== '';
+
+	useEffect(() => {
+		const fetchRevenue = async () => {
+			if (!user?.id || userLoading) return;
+
+			setRevenueLoading(true);
+			setError(null);
+			try {
+				const revenue: Revenue = await getTeacherRevenue(user.id);
+				setCurrentBalance(revenue.availableForWithdraw);
+			} catch (error) {
+				const errorMessage =
+					error instanceof Error ? error.message : 'Failed to fetch revenue';
+				setError(errorMessage);
+				console.error('Error fetching revenue:', error);
+			} finally {
+				setRevenueLoading(false);
+			}
+		};
+
+		fetchRevenue();
+	}, [user, userLoading]);
+
+	const form = useForm<WithdrawData>({
+		resolver: zodResolver(withdrawSchema),
+		defaultValues: {
+			teacherId: user?.id || 0,
+			amount: undefined,
+			status: 'pending',
+			reason: '',
+		},
+	});
+
+	const handleNumberChange = (value: string) => {
+		const numericValue = value.replace(/\D/g, '');
+		const parsedValue =
+			numericValue === '' ? undefined : parseFloat(numericValue);
+		form.setValue('amount', parsedValue ?? 0, { shouldValidate: true });
+		setDisplayAmount(numericValue);
+	};
+
+	const handleBlur = (value: string) => {
+		const numericValue = value.replace(/\D/g, '');
+		const parsedValue =
+			numericValue === '' ? undefined : parseFloat(numericValue);
+		form.setValue('amount', parsedValue ?? 0, { shouldValidate: true });
+		setDisplayAmount(formatCurrency(parsedValue));
+	};
+
+	const onSubmit = async (data: WithdrawData) => {
+		if (!hasBankAccount) {
+			toast({
+				title: 'Error',
+				description: 'Please add a bank account before withdrawing.',
+				variant: 'destructive',
+			});
+			return;
+		}
+
+		setIsSubmitting(true);
+		try {
+			await createWithdrawRequest(data);
+			toast({
+				title: 'Success',
+				description: 'Withdrawal request submitted successfully!',
+				variant: 'success',
+			});
+			form.reset({
+				teacherId: user?.id || 0,
+				amount: undefined,
+				status: 'pending',
+				reason: '',
+			});
+			setDisplayAmount('');
+		} catch (error) {
+			const errorMessage =
+				error instanceof Error ? error.message : 'Failed to submit withdrawal';
+			console.error('Error submitting withdrawal:', error);
+			toast({
+				title: 'Error',
+				description: errorMessage,
+				variant: 'destructive',
+			});
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
+
+	const amount = form.watch('amount');
+	const isAmountValid =
+		amount !== undefined && amount <= currentBalance && amount >= 1000;
+
+	if (userLoading || revenueLoading) {
+		return <Loading content="Loading withdrawal data" className="w-[536px]" />;
+	}
+
+	if (error) {
+		return <div className="text-red-500">{error}</div>;
+	}
+
 	return (
-		<main className="flex flex-col justify-center items-center bg-white max-w-[536px] mr-4">
-			<header className="flex flex-wrap gap-10 justify-between items-center px-5 py-4 w-full bg-white shadow-sm max-md:max-w-full">
+		<main className="flex flex-col justify-center items-center bg-white w-[536px] mr-4 px-10">
+			<header className="flex flex-wrap gap-10 justify-between items-center py-4 w-full bg-white shadow-sm max-md:max-w-full">
 				<h1 className="self-stretch my-auto text-base font-medium leading-none text-neutral-800">
 					Withdraw your money
 				</h1>
 			</header>
 
-			<section className="mt-8 text-sm leading-loose max-md:max-w-full">
-				<p className="tracking-normal text-gray-400 max-md:max-w-full">
-					Payment method:
-				</p>
-
-				<div className="flex overflow-hidden flex-wrap gap-4 justify-center items-center px-5 py-2 mt-3 tracking-normal bg-white border border-solid border-green-500 text-neutral-800 max-md:max-w-full">
-					<Image
-						src="/app/teacher/visa1.png"
-						alt="Credit card"
-						width={32}
-						height={32}
-						className="object-contain shrink-0 self-stretch my-auto w-8 aspect-square"
-					/>
-					<span className="self-stretch my-auto w-40">4855 **** **** ****</span>
-					<span className="self-stretch my-auto w-16">04/24</span>
-					<span className="self-stretch my-auto w-[116px]">Lazy Code</span>
-				</div>
-
-				<div className="flex overflow-hidden flex-wrap gap-4 justify-center items-center px-5 py-2 mt-3 tracking-normal text-gray-600 bg-white border border-solid border-gray-100 max-md:max-w-full">
-					<Image
-						src="/app/teacher/visa2.png"
-						alt="Credit card"
-						width={32}
-						height={32}
-						className="object-contain shrink-0 self-stretch my-auto w-8 aspect-square"
-					/>
-					<span className="self-stretch my-auto w-40">2855 **** **** ****</span>
-					<span className="self-stretch my-auto w-16">04/24</span>
-					<span className="self-stretch my-auto w-[116px]">Lazy Code</span>
-				</div>
-
-				<div className="flex overflow-hidden flex-wrap gap-4 justify-center items-center px-5 py-3 mt-3 text-xs leading-none text-gray-400 bg-white border border-solid border-gray-100 max-md:max-w-full">
-					<Image
-						src="/app/teacher/visa3.png"
-						alt="PayPal"
-						width={24}
-						height={24}
-						className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
-					/>
-					<p className="self-stretch my-auto w-[420px]">
-						You will be redirected to the PayPal site after reviewing your
-						order.
-					</p>
-				</div>
+			<section className="mt-8 text-sm leading-loose max-md:max-w-full w-full">
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+						<FormField
+							control={form.control}
+							name="amount"
+							render={() => (
+								<FormItem>
+									<FormLabel>Amount (VND)</FormLabel>
+									<FormControl>
+										<Input
+											type="text"
+											className="h-14 text-lg"
+											placeholder="Enter amount"
+											value={displayAmount}
+											onChange={(e) => handleNumberChange(e.target.value)}
+											onBlur={(e) => handleBlur(e.target.value)}
+										/>
+									</FormControl>
+									{form.formState.errors.amount && (
+										<FormMessage>
+											{form.formState.errors.amount.message}
+										</FormMessage>
+									)}
+									{!isAmountValid &&
+										amount !== undefined &&
+										amount > currentBalance && (
+											<p className="text-red-500 text-sm">
+												Amount cannot exceed current balance of{' '}
+												{formatCurrency(currentBalance)}.
+											</p>
+										)}
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="reason"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Reason (Optional)</FormLabel>
+									<FormControl>
+										<Input
+											type="text"
+											className="h-14 text-lg"
+											placeholder="Enter reason"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</form>
+				</Form>
 			</section>
 
-			<footer className="flex flex-wrap gap-7 justify-between items-center p-5 mt-8 w-full bg-white shadow-sm max-md:max-w-full">
+			<footer className="flex gap-7 justify-between items-center p-5 mt-8 w-full bg-white shadow-sm max-md:max-w-full">
 				<div className="flex flex-col justify-center self-stretch my-auto min-w-60 w-[292px]">
-					<p className="text-2xl leading-none text-neutral-800">$16,593.00</p>
+					<p className="text-2xl leading-none text-neutral-800">
+						{formatCurrency(currentBalance)}
+					</p>
 					<p className="mt-1.5 text-sm tracking-normal leading-loose text-gray-600">
 						Current Balance
 					</p>
 				</div>
-				<button className="gap-3 self-stretch px-6 my-auto text-base font-semibold tracking-normal leading-10 text-white capitalize bg-orange-500 max-md:px-5">
-					Withdraw money
-				</button>
+				<Button
+					type="submit"
+					variant="outline"
+					className="text-lg h-14 px-6 bg-orange-500 text-white disabled:opacity-70"
+					disabled={isSubmitting || !hasBankAccount || !isAmountValid}
+					onClick={form.handleSubmit(onSubmit)}
+				>
+					{isSubmitting ? (
+						<div className="flex items-center space-x-2">
+							<Spinner size="small" />
+							<span>Withdrawing...</span>
+						</div>
+					) : (
+						'Withdraw money'
+					)}
+				</Button>
 			</footer>
+			{!hasBankAccount && (
+				<div className="mt-4 text-red-500 text-sm">
+					Please add a bank account before withdrawing.
+				</div>
+			)}
 		</main>
 	);
 };

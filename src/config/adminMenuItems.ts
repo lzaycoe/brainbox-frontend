@@ -10,5 +10,9 @@ export interface AdminMenuItem {
 export const adminMenuItems: AdminMenuItem[] = [
 	{ path: '/admins/dashboard', label: 'Dashboard', icon: PiChartBarLight },
 	{ path: '/admins/check-courses', label: 'Check Courses', icon: PiStack },
-	{ path: '/admins/earnings', label: 'Earnings', icon: PiCreditCard },
+	{
+		path: '/admins/withdraw-requests',
+		label: 'Withdraw Requests',
+		icon: PiCreditCard,
+	},
 ];

@@ -60,35 +60,37 @@ const CourseVideo: React.FC<CourseVideoProps> = ({
 			<h2 className="text-3xl font-semibold tracking-tight leading-none text-neutral-800">
 				{title}
 			</h2>
-			<div className="flex flex-wrap gap-10 justify-between items-end mt-5 w-full">
-				<div className="flex gap-3 items-center">
-					<div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-						<Image
-							src={teacherAvatarUrl}
-							alt="Teacher avatar"
-							width={48}
-							height={48}
-							className="object-cover w-full h-full"
-						/>
-					</div>
-					<div className="flex flex-col">
-						<div className="text-sm font-semibold tracking-normal leading-none text-neutral-800">
-							{teacherName}
+			{teacherName !== 'Unknown Teacher' && (
+				<div className="flex flex-wrap gap-10 justify-between items-end mt-5 w-full">
+					<div className="flex gap-3 items-center">
+						<div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+							<Image
+								src={teacherAvatarUrl}
+								alt="Teacher avatar"
+								width={48}
+								height={48}
+								className="object-cover w-full h-full"
+							/>
 						</div>
-						<div className="text-xs leading-none text-gray-500">Teacher</div>
+						<div className="flex flex-col">
+							<div className="text-sm font-semibold tracking-normal leading-none text-neutral-800">
+								{teacherName}
+							</div>
+							<div className="text-xs leading-none text-gray-500">Teacher</div>
+						</div>
+					</div>
+					<div className="flex gap-6 items-start text-sm tracking-normal leading-loose min-w-[240px]">
+						<div className="flex items-center">
+							<span className="text-gray-500">Last updated:</span>
+							<span className="ml-2 text-neutral-800">{lastUpdated}</span>
+						</div>
+						<div className="flex items-center">
+							<span className="text-gray-500">Comments:</span>
+							<span className="ml-2 text-neutral-800">{comments}</span>
+						</div>
 					</div>
 				</div>
-				<div className="flex gap-6 items-start text-sm tracking-normal leading-loose min-w-[240px]">
-					<div className="flex items-center">
-						<span className="text-gray-500">Last updated:</span>
-						<span className="ml-2 text-neutral-800">{lastUpdated}</span>
-					</div>
-					<div className="flex items-center">
-						<span className="text-gray-500">Comments:</span>
-						<span className="ml-2 text-neutral-800">{comments}</span>
-					</div>
-				</div>
-			</div>
+			)}
 		</div>
 	);
 };
