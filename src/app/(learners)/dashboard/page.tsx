@@ -1,24 +1,36 @@
-import { auth } from '@clerk/nextjs/server';
-import { Metadata } from 'next';
+'use client';
+
+import { useUser } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
 
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
 import CoursesSection from '@/components/learners/dashboard/CoursesSection';
 import StatsSection from '@/components/learners/dashboard/StatsSection';
+import { getUserByClerkId } from '@/services/api/user';
 
-export const metadata: Metadata = {
-	title: 'BrainBox | Learner Dashboard',
-};
+export default function Home() {
+	const [userId, setUserId] = useState<number | null>(null);
+	const { user } = useUser();
 
-export default async function Home() {
-	const authData = await auth(); // Dùng await để lấy dữ liệu từ Promise
-	const userId = authData.userId; // Lấy userId từ authData
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				if (!user) {
+					return;
+				}
 
-	if (!userId) {
-		return <div>Please log in to view your dashboard.</div>;
-	}
-
-	const parsedUserId = parseInt(userId, 10) || 1;
+				const response = await getUserByClerkId(user?.id);
+				setUserId(response.id);
+			} catch (error) {
+				console.error('Failed to fetch user metadata:', error);
+				setUserId(null);
+			}
+		};
+		if (!userId) {
+			fetchUser();
+		}
+	}, [userId]);
 
 	return (
 		<div>
@@ -29,7 +41,7 @@ export default async function Home() {
 					<StatsSection />
 				</div>
 				<div className="w-full max-w-[1245px]">
-					<CoursesSection userId={parsedUserId} />
+					{userId !== null && <CoursesSection userId={userId} />}
 				</div>
 			</div>
 		</div>
