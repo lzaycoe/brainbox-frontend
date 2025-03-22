@@ -77,14 +77,14 @@ const CommonMessageItem = ({
 			/>
 			<div className="w-[10px] h-[10px] absolute right-0 bottom-0 bg-[#23BD33] rounded-full border-2 border-white" />
 		</div>
-		<div className="flex flex-col w-full">
+		<div className="flex flex-col flex-1 min-w-0">
 			<div className="flex justify-between items-center">
 				<span className="text-[#1D2026] text-[14px] font-medium">{name}</span>
 				<span className="text-[#4E5566] text-[14px] font-normal">{time}</span>
 			</div>
 			<div className="flex justify-between items-center">
 				<span
-					className={`text-[14px] ${
+					className={`text-[14px] max-w-full whitespace-pre-wrap [overflow-wrap:anywhere] line-clamp-2 ${
 						hasNotification
 							? 'font-bold text-[#1D2026]'
 							: 'font-normal text-[#6E7485]'
@@ -145,7 +145,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 		return () => {
 			socket.off('New Message', handleNewMessage);
 		};
-	}, []);
+	}, [socket]);
 
 	return (
 		<div className="w-[400px] border border-[#E9EAF0] bg-white p-4 flex-shrink-0">
@@ -177,11 +177,6 @@ export interface ChatMessage {
 	time: string;
 }
 
-export interface User {
-	name: string;
-	avatar: string;
-}
-
 export interface MessagesData {
 	[key: string]: Message[];
 }
@@ -202,32 +197,74 @@ const CommonChat: React.FC<CommonChatProps> = ({
 	const { userMetadata } = useUserMetadata();
 	const userId = userMetadata?.id || 0;
 	const [chatMessages, setChatMessages] = useState<Message[]>([]);
-	const chatContainerRef = useRef<HTMLDivElement | null>(null);
-	const [isAtBottom, setIsAtBottom] = useState(true);
 
-	// Kiểm tra xem người dùng có đang ở cuối danh sách tin nhắn không
+	const chatContainerRef = useRef<HTMLDivElement | null>(null);
+	const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+	const [isAtBottom, setIsAtBottom] = useState(true);
+	const hasScrolledToBottom = useRef(false);
+
+	const generateTempId = () => `temp-${Date.now()}-${Math.random()}`;
+
 	const handleScroll = () => {
 		if (!chatContainerRef.current) return;
 		const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
 		setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 10);
 	};
 
-	// Load tin nhắn khi chọn user mới
+	useEffect(() => {
+		const textarea = textareaRef.current;
+		if (textarea) {
+			textarea.style.height = 'auto';
+			textarea.style.height = `${textarea.scrollHeight}px`;
+		}
+	}, [message]);
+
 	useEffect(() => {
 		if (selectedUser) {
-			setChatMessages(messagesData[selectedUser.name] || []);
+			const messages = (messagesData[selectedUser.name] || []).map((msg) => ({
+				...msg,
+				tempId: msg.tempId || generateTempId(),
+			}));
+			setChatMessages(messages);
 		}
 	}, [selectedUser, messagesData]);
 
-	// Lắng nghe tin nhắn mới từ socket
+	useEffect(() => {
+		if (chatMessages.length > 0 && !hasScrolledToBottom.current) {
+			setTimeout(() => {
+				chatContainerRef.current?.scrollTo({
+					top: chatContainerRef.current.scrollHeight,
+					behavior: 'smooth',
+				});
+				hasScrolledToBottom.current = true;
+			}, 100);
+		}
+	}, [chatMessages]);
+
 	useEffect(() => {
 		if (!socket) return;
 
 		const handleNewMessage = (newMessage: Message) => {
 			if (selectedUser && newMessage.conversationId === conversation.id) {
-				setChatMessages((prevMessages) => [...prevMessages, newMessage]);
+				const updatedMessage = {
+					...newMessage,
+					tempId: newMessage.tempId || generateTempId(),
+				};
 
-				// Nếu đang ở cuối thì cuộn xuống
+				setChatMessages((prevMessages) => {
+					const existingMessageIndex = prevMessages.findIndex(
+						(msg) => msg.tempId === updatedMessage.tempId,
+					);
+
+					if (existingMessageIndex !== -1) {
+						const updatedMessages = [...prevMessages];
+						updatedMessages[existingMessageIndex] = updatedMessage;
+						return updatedMessages;
+					}
+
+					return [...prevMessages, updatedMessage];
+				});
+
 				if (isAtBottom) {
 					setTimeout(() => {
 						chatContainerRef.current?.scrollTo({
@@ -246,9 +283,10 @@ const CommonChat: React.FC<CommonChatProps> = ({
 		};
 	}, [selectedUser, conversation.id, socket, isAtBottom]);
 
-	// Gửi tin nhắn
 	const handleSendMessage = () => {
 		if (selectedUser && message.trim() !== '') {
+			const tempId = generateTempId();
+
 			const newMessage: Message = {
 				conversationId: conversation.id,
 				senderId: userId,
@@ -257,6 +295,7 @@ const CommonChat: React.FC<CommonChatProps> = ({
 				messageType: 'text',
 				status: 'sent',
 				createAt: getRelativeTime(new Date().toISOString()) || '',
+				tempId,
 			};
 
 			setChatMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -268,13 +307,23 @@ const CommonChat: React.FC<CommonChatProps> = ({
 			);
 			setMessage('');
 
-			// Cuộn xuống khi gửi tin nhắn
 			setTimeout(() => {
 				chatContainerRef.current?.scrollTo({
 					top: chatContainerRef.current.scrollHeight,
 					behavior: 'smooth',
 				});
 			}, 100);
+		}
+	};
+
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+		if (e.key === 'Enter') {
+			if (e.shiftKey || e.altKey || e.ctrlKey) {
+				setMessage((prev) => prev + '\n');
+			} else {
+				e.preventDefault();
+				handleSendMessage();
+			}
 		}
 	};
 
@@ -303,8 +352,6 @@ const CommonChat: React.FC<CommonChatProps> = ({
 					<BsThreeDots size={24} className="text-[#1D2026]" />
 				</button>
 			</div>
-
-			{/* Chat messages container */}
 			<div
 				ref={chatContainerRef}
 				className="flex flex-col gap-8 py-12 px-6 flex-grow overflow-auto"
@@ -313,7 +360,7 @@ const CommonChat: React.FC<CommonChatProps> = ({
 				{selectedUser ? (
 					chatMessages.map((msg) => (
 						<div
-							key={msg.id}
+							key={msg.tempId}
 							className={`flex w-full ${msg.senderId === userId ? 'justify-end' : 'justify-start'}`}
 						>
 							{msg.senderId !== userId && (
@@ -333,7 +380,9 @@ const CommonChat: React.FC<CommonChatProps> = ({
 								}`}
 							>
 								<div className="flex flex-col">
-									<span>{msg.content}</span>
+									<span className="whitespace-pre-wrap [overflow-wrap:anywhere]">
+										{msg.content}
+									</span>
 									<span
 										className={`text-[#7c8190] text-xs mt-3 ${
 											msg.senderId === userId ? 'self-end' : 'self-start'
@@ -353,15 +402,18 @@ const CommonChat: React.FC<CommonChatProps> = ({
 			</div>
 
 			<div className="flex items-center px-6 py-4 border-t border-[#E9EAF0] bg-white">
-				<div className="flex items-center w-full h-12 px-4 border border-[#E9EAF0]">
+				<div className="flex items-center w-full min-h-[48px] px-4 border border-[#E9EAF0]">
 					<LuPencilLine size={24} className="text-[#FF6636]" />
-					<input
-						type="text"
+					<textarea
+						ref={textareaRef}
 						placeholder="Type your message"
-						className="w-full pl-4 text-sm text-[#000000] outline-none"
+						className="w-full pl-4 text-sm text-[#000000] outline-none resize-none overflow-auto"
+						style={{ lineHeight: '20px', maxHeight: '80px' }}
 						aria-label="Type your message"
 						value={message}
 						onChange={(e) => setMessage(e.target.value)}
+						onKeyDown={handleKeyDown}
+						rows={1}
 					/>
 				</div>
 				<button

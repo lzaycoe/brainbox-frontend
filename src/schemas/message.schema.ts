@@ -20,4 +20,5 @@ export type MessageData = z.infer<typeof messageSchema>;
 export interface Message extends MessageData {
 	id?: number;
 	createAt?: string;
+	tempId?: string;
 }

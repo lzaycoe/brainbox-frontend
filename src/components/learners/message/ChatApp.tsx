@@ -131,7 +131,7 @@ const ChatApp = () => {
 
 	useEffect(() => {
 		getMessages(selectedConversation?.id || 0);
-	}, [selectedConversation?.id || 0]);
+	}, [getMessages]);
 
 	console.log('messages: ', messages);
 
