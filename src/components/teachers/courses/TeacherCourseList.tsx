@@ -16,7 +16,6 @@ const TeacherCourseList: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
-	const [selectedRating, setSelectedRating] = useState('all');
 	const coursesPerPage = 12;
 	const { user, loading: userLoading } = useUserContext();
 	const [courses, setCourses] = useState<Course[]>([]);
@@ -47,8 +46,6 @@ const TeacherCourseList: React.FC = () => {
 
 		fetchCourses();
 	}, [userLoading, user]);
-
-	console.log('selectedRating:', selectedRating);
 
 	useEffect(() => {
 		const fetchPaymentsForCourses = async () => {
