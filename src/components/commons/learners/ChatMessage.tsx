@@ -360,6 +360,7 @@ const CommonChat: React.FC<CommonChatProps> = ({
 				className="flex flex-col gap-8 py-12 px-6 flex-grow overflow-auto"
 				onScroll={handleScroll}
 			>
+				{/* Determine the message content */}
 				{!selectedUser ? (
 					<div className="text-[#6E7485] text-center mt-20">
 						Select a conversation to start chatting
@@ -391,7 +392,6 @@ const CommonChat: React.FC<CommonChatProps> = ({
 										/>
 									</div>
 								)}
-
 								{/* Message Bubble */}
 								<div
 									className={`flex items-start gap-3 px-3 py-2 rounded-md text-sm w-fit max-w-[60%] bg-[#ffe3d8] text-[#1D2026] ${isOwnMessage ? 'self-end' : ''}`}
