@@ -76,7 +76,9 @@ const CommonMessageItem = ({
 		<div className="flex flex-col flex-1 min-w-0">
 			<div className="flex justify-between items-center">
 				<span className="text-[#1D2026] text-[14px] font-medium">{name}</span>
-				<span className="text-[#4E5566] text-[14px] font-normal">{time}</span>
+				<span className="text-[#4E5566] text-[14px] font-normal">
+					{getRelativeTime(time) || time}
+				</span>
 			</div>
 			<div className="flex justify-between items-center">
 				<span
@@ -120,7 +122,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 }) => {
 	const { socket } = useChatSocket();
 	const [latestMessages, setLatestMessages] = useState<
-		Record<string, { message: string; time: string }>
+		Record<string, { message: string; time: string; absoluteTime: string }>
 	>({});
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -133,6 +135,7 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 				[newMessage.conversationId]: {
 					message: newMessage.content,
 					time: getRelativeTime(newMessage.createAt ?? '') ?? '',
+					absoluteTime: newMessage.createAt ?? new Date().toISOString(),
 				},
 			}));
 		};
@@ -143,13 +146,23 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 		};
 	}, [socket]);
 
-	// Lọc danh sách tin nhắn theo từ khóa tìm kiếm
 	const filteredMessages = messages
 		.filter((msg) => msg.name.toLowerCase().includes(searchTerm.toLowerCase()))
 		.sort((a, b) => {
-			const timeA = a.id ? latestMessages[a.id]?.time || a.time : a.time;
-			const timeB = b.id ? latestMessages[b.id]?.time || b.time : b.time;
-			return new Date(timeA).getTime() - new Date(timeB).getTime();
+			const timeA = a.id
+				? latestMessages[a.id]?.absoluteTime || a.time
+				: a.time;
+			const timeB = b.id
+				? latestMessages[b.id]?.absoluteTime || b.time
+				: b.time;
+
+			const dateA = new Date(timeA);
+			const dateB = new Date(timeB);
+
+			const timestampA = isNaN(dateA.getTime()) ? 0 : dateA.getTime();
+			const timestampB = isNaN(dateB.getTime()) ? 0 : dateB.getTime();
+
+			return timestampB - timestampA;
 		});
 
 	return (
@@ -168,7 +181,9 @@ const CommonInfo: React.FC<CommonInfoProps> = ({
 									: msg.message
 							}
 							time={
-								msg.id ? latestMessages[msg.id]?.time || msg.time : msg.time
+								msg.id
+									? latestMessages[msg.id]?.absoluteTime || msg.time
+									: msg.time
 							}
 							isActive={activeMessage?.name === msg.name}
 							onClick={() => setActiveMessage(msg)}
@@ -214,7 +229,6 @@ const CommonChat: React.FC<CommonChatProps> = ({
 	const chatContainerRef = useRef<HTMLDivElement | null>(null);
 	const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 	const [isAtBottom, setIsAtBottom] = useState(true);
-	const hasScrolledToBottom = useRef(false);
 
 	const generateTempId = () => `temp-${crypto.randomUUID()}`;
 
@@ -222,6 +236,15 @@ const CommonChat: React.FC<CommonChatProps> = ({
 		if (!chatContainerRef.current) return;
 		const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
 		setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 10);
+	};
+
+	const scrollToBottom = () => {
+		setTimeout(() => {
+			chatContainerRef.current?.scrollTo({
+				top: chatContainerRef.current.scrollHeight,
+				behavior: 'smooth',
+			});
+		}, 100);
 	};
 
 	useEffect(() => {
@@ -239,20 +262,16 @@ const CommonChat: React.FC<CommonChatProps> = ({
 				tempId: msg.tempId || generateTempId(),
 			}));
 			setChatMessages(messages);
+
+			scrollToBottom();
 		}
 	}, [selectedUser, messagesData]);
 
 	useEffect(() => {
-		if (chatMessages.length > 0 && !hasScrolledToBottom.current) {
-			setTimeout(() => {
-				chatContainerRef.current?.scrollTo({
-					top: chatContainerRef.current.scrollHeight,
-					behavior: 'smooth',
-				});
-				hasScrolledToBottom.current = true;
-			}, 100);
+		if (chatMessages.length > 0 && isAtBottom) {
+			scrollToBottom();
 		}
-	}, [chatMessages]);
+	}, [chatMessages, isAtBottom]);
 
 	useEffect(() => {
 		if (!socket) return;
@@ -277,15 +296,6 @@ const CommonChat: React.FC<CommonChatProps> = ({
 
 					return [...prevMessages, updatedMessage];
 				});
-
-				if (isAtBottom) {
-					setTimeout(() => {
-						chatContainerRef.current?.scrollTo({
-							top: chatContainerRef.current.scrollHeight,
-							behavior: 'smooth',
-						});
-					}, 100);
-				}
 			}
 		};
 
@@ -294,7 +304,7 @@ const CommonChat: React.FC<CommonChatProps> = ({
 		return () => {
 			socket.off('New Message', handleNewMessage);
 		};
-	}, [selectedUser, conversation.id, socket, isAtBottom]);
+	}, [selectedUser, conversation.id, socket]);
 
 	const handleSendMessage = () => {
 		if (selectedUser && message.trim() !== '') {
@@ -307,7 +317,7 @@ const CommonChat: React.FC<CommonChatProps> = ({
 				attachments: [],
 				messageType: 'text',
 				status: 'sent',
-				createAt: getRelativeTime(new Date().toISOString()) || '',
+				createAt: new Date().toISOString(),
 				tempId,
 			};
 
@@ -320,12 +330,7 @@ const CommonChat: React.FC<CommonChatProps> = ({
 			);
 			setMessage('');
 
-			setTimeout(() => {
-				chatContainerRef.current?.scrollTo({
-					top: chatContainerRef.current.scrollHeight,
-					behavior: 'smooth',
-				});
-			}, 100);
+			scrollToBottom();
 		}
 	};
 
@@ -395,7 +400,7 @@ const CommonChat: React.FC<CommonChatProps> = ({
 												msg.senderId === userId ? 'self-end' : 'self-start'
 											}`}
 										>
-											{msg.createAt}
+											{getRelativeTime(msg.createAt ?? '') || msg.createAt}
 										</span>
 									</div>
 								</div>

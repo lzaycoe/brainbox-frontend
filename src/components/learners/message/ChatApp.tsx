@@ -34,7 +34,7 @@ function formatMessages(messages: Message[], partnerName: string) {
 
 		messagesData[partnerName].push({
 			id: msg.id,
-			createAt: msg.createAt ? getRelativeTime(msg.createAt) : '',
+			createAt: msg.createAt || '',
 			senderId: msg.senderId,
 			content: msg.content || '',
 			status: msg.status,
@@ -48,7 +48,7 @@ function formatMessages(messages: Message[], partnerName: string) {
 }
 
 const ChatApp = () => {
-	const { messages, getMessages, conversations, getConversations } =
+	const { messages, getMessages, conversations, getConversations, socket } =
 		useChatSocket();
 	const [friends, setFriends] = useState<User[]>([]);
 	const [activeMessage, setActiveMessage] = useState<User | null>(null);
@@ -91,9 +91,7 @@ const ChatApp = () => {
 								name: `${firstName || ''} ${lastName || ''}`.trim(),
 								avatar: imageUrl || '',
 								message: messageText || '',
-								time: latestMessage?.createAt
-									? getRelativeTime(latestMessage.createAt)
-									: '',
+								time: latestMessage?.createAt || '',
 								hasNotification: false,
 							};
 						},
@@ -124,7 +122,56 @@ const ChatApp = () => {
 		} else {
 			setIsLoading(false);
 		}
-	}, [conversations]);
+	}, [conversations, userId]);
+
+	useEffect(() => {
+		if (!socket) return;
+
+		const handleNewMessage = (newMessage: Message) => {
+			const conversation = conversations.find(
+				(conv) => conv.id === newMessage.conversationId,
+			);
+			if (!conversation) return;
+
+			const friendId =
+				conversation.userAId === userId
+					? conversation.userBId
+					: conversation.userAId;
+			const isOwnMessage = newMessage.senderId === userId;
+
+			setFriends((prevFriends) => {
+				const updatedFriends = [...prevFriends];
+				const friendIndex = updatedFriends.findIndex(
+					(friend) => friend.id === friendId,
+				);
+
+				if (friendIndex !== -1) {
+					updatedFriends[friendIndex] = {
+						...updatedFriends[friendIndex],
+						message: isOwnMessage
+							? `You: ${newMessage.content || ''}`
+							: newMessage.content || '',
+						time: newMessage.createAt || '',
+						hasNotification: !isOwnMessage,
+					};
+				}
+
+				return updatedFriends.sort((a, b) => {
+					const dateA = new Date(a.time);
+					const dateB = new Date(b.time);
+					const timestampA = isNaN(dateA.getTime()) ? 0 : dateA.getTime();
+					const timestampB = isNaN(dateB.getTime()) ? 0 : dateB.getTime();
+					return timestampB - timestampA;
+				});
+			});
+		};
+
+		socket.on('New Message', handleNewMessage);
+
+		return () => {
+			socket.off('New Message', handleNewMessage);
+		};
+	}, [socket, conversations, userId]);
 
 	const selectedConversation = conversations.find(
 		(conv) =>
@@ -138,8 +185,6 @@ const ChatApp = () => {
 		}
 		getMessages(selectedConversation.id);
 	}, [selectedConversation?.id, getMessages]);
-
-	console.log('messages: ', messages);
 
 	const messagesData = formatMessages(messages, activeMessage?.name || '');
 
