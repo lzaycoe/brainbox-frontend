@@ -360,14 +360,27 @@ const CommonChat: React.FC<CommonChatProps> = ({
 				className="flex flex-col gap-8 py-12 px-6 flex-grow overflow-auto"
 				onScroll={handleScroll}
 			>
-				{selectedUser ? (
-					chatMessages.length > 0 ? (
-						chatMessages.map((msg) => (
+				{!selectedUser ? (
+					<div className="text-[#6E7485] text-center mt-20">
+						Select a conversation to start chatting
+					</div>
+				) : chatMessages.length === 0 ? (
+					<div className="text-[#6E7485] text-center mt-20">
+						No messages yet
+					</div>
+				) : (
+					chatMessages.map((msg) => {
+						const isOwnMessage = msg.senderId === userId;
+						const messageTime =
+							getRelativeTime(msg.createAt ?? '') || msg.createAt;
+
+						return (
 							<div
 								key={msg.tempId}
-								className={`flex w-full ${msg.senderId === userId ? 'justify-end' : 'justify-start'}`}
+								className={`flex w-full ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
 							>
-								{msg.senderId !== userId && (
+								{/* Avatar for received messages */}
+								{!isOwnMessage && (
 									<div className="flex items-center mr-2">
 										<Image
 											className="rounded-full"
@@ -378,31 +391,25 @@ const CommonChat: React.FC<CommonChatProps> = ({
 										/>
 									</div>
 								)}
+
+								{/* Message Bubble */}
 								<div
-									className={`flex items-start gap-3 px-3 py-2 rounded-md text-sm w-fit max-w-[60%] bg-[#ffe3d8] text-[#1D2026] ${msg.senderId === userId ? 'self-end' : ''}`}
+									className={`flex items-start gap-3 px-3 py-2 rounded-md text-sm w-fit max-w-[60%] bg-[#ffe3d8] text-[#1D2026] ${isOwnMessage ? 'self-end' : ''}`}
 								>
 									<div className="flex flex-col">
 										<span className="whitespace-pre-wrap [overflow-wrap:anywhere]">
 											{msg.content}
 										</span>
 										<span
-											className={`text-[#7c8190] text-xs mt-3 ${msg.senderId === userId ? 'self-end' : 'self-start'}`}
+											className={`text-[#7c8190] text-xs mt-3 ${isOwnMessage ? 'self-end' : 'self-start'}`}
 										>
-											{getRelativeTime(msg.createAt ?? '') || msg.createAt}
+											{messageTime}
 										</span>
 									</div>
 								</div>
 							</div>
-						))
-					) : (
-						<div className="text-[#6E7485] text-center mt-20">
-							No messages yet
-						</div>
-					)
-				) : (
-					<div className="text-[#6E7485] text-center mt-20">
-						Select a conversation to start chatting
-					</div>
+						);
+					})
 				)}
 			</div>
 
