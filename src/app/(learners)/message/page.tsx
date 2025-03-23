@@ -1,6 +1,12 @@
+import { Metadata } from 'next';
+
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
 import ChatApp from '@/components/learners/message/ChatApp';
+
+export const metadata: Metadata = {
+	title: 'BrainBox | Learner Messages',
+};
 
 export default function Home() {
 	return (

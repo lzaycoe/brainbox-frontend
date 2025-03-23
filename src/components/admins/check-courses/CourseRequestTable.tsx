@@ -20,6 +20,8 @@ interface Teacher {
 
 interface Course extends ApiCourse {
 	teacher?: Teacher;
+	createAt?: string;
+	updateAt?: string;
 }
 
 export default function CourseRequestTable() {
@@ -34,6 +36,7 @@ export default function CourseRequestTable() {
 		const fetchData = async () => {
 			try {
 				const coursesData = await getCourses();
+				console.log('Raw courses data:', coursesData);
 
 				const coursesWithTeacherDetails = await Promise.all(
 					coursesData.map(async (course) => {
@@ -72,9 +75,20 @@ export default function CourseRequestTable() {
 		fetchData();
 	}, []);
 
-	const filteredCourses = courses.filter((course) =>
-		statusFilter === 'all' ? true : course.status === statusFilter,
-	);
+	const filteredCourses = courses
+		.filter((course) =>
+			statusFilter === 'all' ? true : course.status === statusFilter,
+		)
+		.sort((a, b) => {
+			// Helper function to get timestamp value for sorting
+			const getTimestampValue = (course: Course) => {
+				if (course.createAt) return new Date(course.createAt).getTime();
+				if (course.updateAt) return new Date(course.updateAt).getTime();
+				return course.id;
+			};
+
+			return getTimestampValue(b) - getTimestampValue(a); // Sort in descending order
+		});
 
 	const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
 	const startIndex = (currentPage - 1) * itemsPerPage;
@@ -109,7 +123,7 @@ export default function CourseRequestTable() {
 	};
 
 	const handleViewDetails = (courseId: number) => {
-		router.push(`/courses/${courseId}`);
+		router.push(`/admins/check-courses/course/${courseId}`);
 	};
 
 	const getDropdownPosition = (index: number) => {
@@ -190,9 +204,16 @@ export default function CourseRequestTable() {
 									<StatusBadge status={course.status} />
 								</td>
 								<td className="px-6 py-4 text-sm text-gray-500">
-									{course.createdAt
-										? new Date(course.createdAt).toLocaleDateString()
-										: '-'}
+									{(() => {
+										if (course.createAt)
+											return new Date(course.createAt).toLocaleDateString();
+										if (course.updateAt)
+											return (
+												new Date(course.updateAt).toLocaleDateString() +
+												' (updated)'
+											);
+										return '-';
+									})()}
 								</td>
 								<td className="px-6 py-4">
 									<CourseActionsDropdown

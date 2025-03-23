@@ -1,6 +1,12 @@
+import { Metadata } from 'next';
+
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
 import CoursesList from '@/components/learners/wishlist/CoursesList';
+
+export const metadata: Metadata = {
+	title: 'BrainBox | Learner Wishlist',
+};
 
 export default function Home() {
 	return (
