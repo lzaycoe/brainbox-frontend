@@ -34,14 +34,9 @@ function formatMessages(messages: Message[], partnerName: string) {
 		}
 
 		messagesData[partnerName].push({
-			id: msg.id,
+			...msg,
 			createAt: msg.createAt ?? '',
-			senderId: msg.senderId,
 			content: msg.content ?? '',
-			status: msg.status,
-			conversationId: msg.conversationId,
-			messageType: msg.messageType,
-			attachments: msg.attachments,
 		});
 	});
 
@@ -102,6 +97,42 @@ const ChatApp = () => {
 		}
 	};
 
+	const updateFriendsList = (newMessage: Message) => {
+		const conversation = conversations.find(
+			(conv) => conv.id === newMessage.conversationId,
+		);
+		if (!conversation) return;
+
+		const friendId =
+			conversation.userAId === userId
+				? conversation.userBId
+				: conversation.userAId;
+		const isOwnMessage = newMessage.senderId === userId;
+
+		setFriends((prevFriends) =>
+			prevFriends
+				.map((friend) =>
+					friend.id === friendId
+						? {
+								...friend,
+								message: isOwnMessage
+									? `You: ${newMessage.content ?? ''}`
+									: (newMessage.content ?? ''),
+								time: newMessage.createAt ?? '',
+								hasNotification: !isOwnMessage,
+							}
+						: friend,
+				)
+				.sort(
+					(a, b) => new Date(b.time).getTime() - new Date(a.time).getTime(),
+				),
+		);
+	};
+
+	const handleNewMessage = (newMessage: Message) => {
+		updateFriendsList(newMessage);
+	};
+
 	useEffect(() => {
 		getConversations(userId);
 	}, [userId]);
@@ -129,39 +160,6 @@ const ChatApp = () => {
 
 	useEffect(() => {
 		if (!socket) return;
-
-		const handleNewMessage = (newMessage: Message) => {
-			const conversation = conversations.find(
-				(conv) => conv.id === newMessage.conversationId,
-			);
-			if (!conversation) return;
-
-			const friendId =
-				conversation.userAId === userId
-					? conversation.userBId
-					: conversation.userAId;
-			const isOwnMessage = newMessage.senderId === userId;
-
-			setFriends((prevFriends) =>
-				prevFriends
-					.map((friend) =>
-						friend.id === friendId
-							? {
-									...friend,
-									message: isOwnMessage
-										? `You: ${newMessage.content ?? ''}`
-										: (newMessage.content ?? ''),
-									time: newMessage.createAt ?? '',
-									hasNotification: !isOwnMessage,
-								}
-							: friend,
-					)
-					.sort(
-						(a, b) => new Date(b.time).getTime() - new Date(a.time).getTime(),
-					),
-			);
-		};
-
 		socket.on('New Message', handleNewMessage);
 		return () => {
 			socket.off('New Message', handleNewMessage);
