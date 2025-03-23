@@ -15,7 +15,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import {
-	CourseData,
+	CourseProgressCardData,
 	fetchPaidCoursesProgress,
 } from '@/services/custom/course/checkProgress';
 
@@ -23,7 +23,7 @@ const CourseList: React.FC<{ userId: number }> = ({ userId }) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [statusFilter, setStatusFilter] = useState('all');
-	const [courses, setCourses] = useState<CourseData[]>([]);
+	const [courses, setCourses] = useState<CourseProgressCardData[]>([]);
 	const [loading, setLoading] = useState(true);
 	const coursesPerPage = 12;
 	const router = useRouter();
