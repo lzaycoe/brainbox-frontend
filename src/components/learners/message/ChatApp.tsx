@@ -13,7 +13,8 @@ import { useUserMetadata } from '@/hooks/useUserMetadata';
 import { Message } from '@/schemas/message.schema';
 import { getUserClerk } from '@/services/api/user';
 
-export function getRelativeTime(timestamp: string): string {
+export function getRelativeTime(timestamp: string | undefined): string {
+	if (!timestamp) return ' ';
 	const now = new Date();
 	const messageTime = new Date(timestamp);
 	const diff = Math.floor((now.getTime() - messageTime.getTime()) / 1000);
@@ -27,16 +28,16 @@ export function getRelativeTime(timestamp: string): string {
 function formatMessages(messages: Message[], partnerName: string) {
 	const messagesData: Record<string, Message[]> = {};
 
-	messages.forEach((msg: Message) => {
+	messages.forEach((msg) => {
 		if (!messagesData[partnerName]) {
 			messagesData[partnerName] = [];
 		}
 
 		messagesData[partnerName].push({
 			id: msg.id,
-			createAt: msg.createAt || '',
+			createAt: msg.createAt ?? '',
 			senderId: msg.senderId,
-			content: msg.content || '',
+			content: msg.content ?? '',
 			status: msg.status,
 			conversationId: msg.conversationId,
 			messageType: msg.messageType,
@@ -55,70 +56,72 @@ const ChatApp = () => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const { userMetadata } = useUserMetadata();
-	const userId = userMetadata?.id || 0;
+	const userId = userMetadata?.id ?? 0;
+
+	const fetchFriends = async (userIds: number[]) => {
+		try {
+			const users = await Promise.all(
+				userIds.map(async (id) => {
+					const user = await getUserClerk(id);
+					return { ...user, id };
+				}),
+			);
+
+			const formattedFriends = users.map(
+				({ id, imageUrl, firstName, lastName }) => {
+					const conversation = conversations.find(
+						(conv) => conv.userAId === id || conv.userBId === id,
+					);
+					const latestMessage = conversation?.messages?.at(-1);
+					const isOwnMessage = latestMessage?.senderId === userId;
+					let messageText = 'No messages yet';
+
+					if (latestMessage) {
+						messageText = isOwnMessage
+							? `You: ${latestMessage.content || ''}`
+							: latestMessage.content || '';
+					}
+
+					return {
+						id,
+						name: `${firstName ?? ''} ${lastName ?? ''}`.trim(),
+						avatar: imageUrl ?? '',
+						message: messageText,
+						time: latestMessage?.createAt ?? '',
+						hasNotification: false,
+					};
+				},
+			);
+
+			setFriends(formattedFriends);
+			setActiveMessage(formattedFriends[0] ?? null);
+		} catch (error) {
+			console.error('Failed to fetch friends:', error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	useEffect(() => {
 		getConversations(userId);
 	}, [userId]);
 
 	useEffect(() => {
-		if (conversations.length > 0) {
-			const fetchFriends = async (userIds: number[]) => {
-				try {
-					const users = await Promise.all(
-						userIds.map((id) =>
-							getUserClerk(id).then((user) => ({ ...user, id })),
-						),
-					);
+		if (conversations.length === 0) {
+			setIsLoading(false);
+			return;
+		}
 
-					const formattedFriends = users.map(
-						({ id, imageUrl, firstName, lastName }) => {
-							const conversation = conversations.find(
-								(conv) => conv.userAId === id || conv.userBId === id,
-							);
-							const latestMessage =
-								conversation?.messages?.[conversation.messages.length - 1];
-							const isOwnMessage = latestMessage?.senderId === userId;
-							let messageText = 'No messages yet';
-							if (latestMessage) {
-								messageText = isOwnMessage
-									? `You: ${latestMessage.content || ''}`
-									: latestMessage.content || '';
-							}
-
-							return {
-								id,
-								name: `${firstName || ''} ${lastName || ''}`.trim(),
-								avatar: imageUrl || '',
-								message: messageText || '',
-								time: latestMessage?.createAt || '',
-								hasNotification: false,
-							};
-						},
-					);
-
-					setFriends(formattedFriends);
-					setActiveMessage(formattedFriends[0]);
-				} catch (error) {
-					console.error('Failed to fetch friends:', error);
-				} finally {
-					setIsLoading(false);
-				}
-			};
-
-			const friendIds = Array.from(
-				new Set(
-					conversations.map((conv) =>
-						conv.userAId === userId ? conv.userBId : conv.userAId,
-					),
+		const friendIds = Array.from(
+			new Set(
+				conversations.map((conv) =>
+					conv.userAId === userId ? conv.userBId : conv.userAId,
 				),
-			);
+			),
+		);
 
-			if (friendIds.length > 0) {
-				fetchFriends(friendIds);
-			} else {
-				setIsLoading(false);
-			}
+		if (friendIds.length > 0) {
+			fetchFriends(friendIds);
 		} else {
 			setIsLoading(false);
 		}
@@ -139,35 +142,27 @@ const ChatApp = () => {
 					: conversation.userAId;
 			const isOwnMessage = newMessage.senderId === userId;
 
-			setFriends((prevFriends) => {
-				const updatedFriends = [...prevFriends];
-				const friendIndex = updatedFriends.findIndex(
-					(friend) => friend.id === friendId,
-				);
-
-				if (friendIndex !== -1) {
-					updatedFriends[friendIndex] = {
-						...updatedFriends[friendIndex],
-						message: isOwnMessage
-							? `You: ${newMessage.content || ''}`
-							: newMessage.content || '',
-						time: newMessage.createAt || '',
-						hasNotification: !isOwnMessage,
-					};
-				}
-
-				return updatedFriends.sort((a, b) => {
-					const dateA = new Date(a.time);
-					const dateB = new Date(b.time);
-					const timestampA = isNaN(dateA.getTime()) ? 0 : dateA.getTime();
-					const timestampB = isNaN(dateB.getTime()) ? 0 : dateB.getTime();
-					return timestampB - timestampA;
-				});
-			});
+			setFriends((prevFriends) =>
+				prevFriends
+					.map((friend) =>
+						friend.id === friendId
+							? {
+									...friend,
+									message: isOwnMessage
+										? `You: ${newMessage.content ?? ''}`
+										: (newMessage.content ?? ''),
+									time: newMessage.createAt ?? '',
+									hasNotification: !isOwnMessage,
+								}
+							: friend,
+					)
+					.sort(
+						(a, b) => new Date(b.time).getTime() - new Date(a.time).getTime(),
+					),
+			);
 		};
 
 		socket.on('New Message', handleNewMessage);
-
 		return () => {
 			socket.off('New Message', handleNewMessage);
 		};
@@ -180,13 +175,12 @@ const ChatApp = () => {
 	);
 
 	useEffect(() => {
-		if (!selectedConversation?.id) {
-			return;
+		if (selectedConversation?.id) {
+			getMessages(selectedConversation.id);
 		}
-		getMessages(selectedConversation.id);
 	}, [selectedConversation?.id, getMessages]);
 
-	const messagesData = formatMessages(messages, activeMessage?.name || '');
+	const messagesData = formatMessages(messages, activeMessage?.name ?? '');
 
 	if (isLoading) {
 		return (
