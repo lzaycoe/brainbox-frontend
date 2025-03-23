@@ -5,14 +5,14 @@ import React, { useEffect, useState } from 'react';
 
 import Loading from '@/components/commons/Loading';
 import {
-	CourseData,
+	CourseProgressCardData,
 	fetchPaidCoursesProgress,
 } from '@/services/custom/course/checkProgress';
 
 import CourseCard from './CourseCard';
 
 const CoursesSection = ({ userId }: { userId: number }) => {
-	const [courses, setCourses] = useState<CourseData[]>([]);
+	const [courses, setCourses] = useState<CourseProgressCardData[]>([]);
 	const [loading, setLoading] = useState(true);
 	const router = useRouter();
 
