@@ -155,6 +155,7 @@ const ListTeacherCard: React.FC = () => {
 											major={teacherData.major}
 											rating={teacherData.rating}
 											students={teacherData.students}
+											teacherId={teacherData.id}
 										/>
 									))}
 								</div>

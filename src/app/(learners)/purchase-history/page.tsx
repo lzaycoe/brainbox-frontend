@@ -1,6 +1,12 @@
+import { Metadata } from 'next';
+
 import NavigationBar from '@/components/commons/learners/NavigationBar';
 import Profile from '@/components/commons/learners/Profile';
 import Content from '@/components/learners/purchase-history/Content';
+
+export const metadata: Metadata = {
+	title: 'BrainBox | Learner Purchase History',
+};
 
 export default function Home() {
 	return (

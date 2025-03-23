@@ -134,7 +134,7 @@ export const Header = () => {
 								: 'text-gray-400 border-transparent'
 						}`}
 					>
-						Become a teacher
+						Become Teacher
 					</Link>
 
 					{!user ? (

@@ -94,9 +94,7 @@ const Content = () => (
 					<br /> (+84) 763 707 144
 				</InfoBlock>
 				<hr className="border-gray-300 w-full" />
-				<InfoBlock label="Email address">
-					help.lazycode@gmail.com <br /> career.lazycode@gmail.com
-				</InfoBlock>
+				<InfoBlock label="Email address">brainbox.platform@gmail.com</InfoBlock>
 			</div>
 			<ContactForm />
 		</div>
