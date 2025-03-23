@@ -1,4 +1,10 @@
+import { Metadata } from 'next';
+
 import ChatApp from '@/components/learners/message/ChatApp';
+
+export const metadata: Metadata = {
+	title: 'BrainBox | Teacher | Messages',
+};
 
 export default function Home() {
 	return (
