@@ -16,7 +16,7 @@ const TeacherCourseList: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
-	const [selectedStatus, setSelectedStatus] = useState('all');
+	const [selectedRating, setSelectedRating] = useState('all');
 	const coursesPerPage = 12;
 	const { user, loading: userLoading } = useUserContext();
 	const [courses, setCourses] = useState<Course[]>([]);
@@ -48,6 +48,8 @@ const TeacherCourseList: React.FC = () => {
 		fetchCourses();
 	}, [userLoading, user]);
 
+	console.log('selectedRating:', selectedRating);
+
 	useEffect(() => {
 		const fetchPaymentsForCourses = async () => {
 			if (courses.length === 0) return;
@@ -75,9 +77,8 @@ const TeacherCourseList: React.FC = () => {
 			.includes(searchQuery.toLowerCase());
 		const matchesCategory =
 			selectedCategory === 'all' || course.tag === selectedCategory;
-		const matchesStatus =
-			selectedStatus === 'all' || course.status === selectedStatus;
-		return matchesSearchQuery && matchesCategory && matchesStatus;
+		const matchesRating = true;
+		return matchesSearchQuery && matchesCategory && matchesRating;
 	});
 
 	const currentCourses = filteredCourses.slice(
@@ -99,16 +100,15 @@ const TeacherCourseList: React.FC = () => {
 
 	return (
 		<div className="flex flex-col items-center">
-			<div className="max-w-[1100px] w-full">
-				<SearchAndFilter onSearch={setSearchQuery}>
-					<FilterSelects
-						onCategoryChange={setSelectedCategory}
-						onRatingChange={() => {}}
-						onStatusChange={setSelectedStatus}
-					/>
-				</SearchAndFilter>
-			</div>
-
+			<SearchAndFilter
+				onSearch={setSearchQuery}
+				inputPlaceholder="Search for your courses..."
+			>
+				<FilterSelects
+					onCategoryChange={setSelectedCategory}
+					onRatingChange={setSelectedRating}
+				/>
+			</SearchAndFilter>
 			{filteredCourses.length === 0 ? (
 				<div className="mt-10 text-xl text-gray-500">
 					No courses found for your search.

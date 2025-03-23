@@ -101,6 +101,7 @@ const ListTeacherCard: React.FC = () => {
 					major={cardProps.major}
 					rating={cardProps.rating}
 					students={cardProps.students}
+					teacherId={teacher.id}
 				/>
 			);
 		});

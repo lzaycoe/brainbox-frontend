@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import '@/app/globals.css';
+import { ChatProvider } from '@/contexts/ChatContext';
 import { UserProvider } from '@/contexts/UserContext';
 
 const geistSans = Geist({
@@ -29,7 +30,9 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang="en">
 				<body className={`${geistSans.variable} ${geistMono.variable}`}>
-					<UserProvider>{children}</UserProvider>
+					<UserProvider>
+						<ChatProvider>{children}</ChatProvider>
+					</UserProvider>
 				</body>
 			</html>
 		</ClerkProvider>

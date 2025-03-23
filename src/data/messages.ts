@@ -41,7 +41,7 @@ export const messages: User[] = [
 	},
 ];
 
-interface MessagesData {
+export interface MessagesData {
 	[key: string]: { sender: string; text: string; time: string }[];
 }
 
