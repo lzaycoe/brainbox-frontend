@@ -33,14 +33,20 @@ interface Section {
 }
 
 interface CourseMenuProps {
-	progress?: number;
-	sections: Section[];
-	onToggleSection: (sectionId: number) => void;
-	onToggleLectureActive: (sectionId: number, lectureId: number) => void;
-	onCheckboxChange?: (sectionId: number, lectureId: number) => Promise<void>;
-	hideCourseProgress?: boolean;
-	hideCheckbox?: boolean;
-	hideSectionProgress?: boolean;
+	readonly progress?: number;
+	readonly sections: Section[];
+	readonly onToggleSection: (sectionId: number) => void;
+	readonly onToggleLectureActive: (
+		sectionId: number,
+		lectureId: number,
+	) => void;
+	readonly onCheckboxChange?: (
+		sectionId: number,
+		lectureId: number,
+	) => Promise<void>;
+	readonly hideCourseProgress?: boolean;
+	readonly hideCheckbox?: boolean;
+	readonly hideSectionProgress?: boolean;
 }
 
 const CourseMenu: React.FC<CourseMenuProps> = ({
@@ -56,7 +62,10 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [loadingLectureId, setLoadingLectureId] = useState<number | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
-	const isTeachersPath = window.location.pathname.includes('teachers');
+	const pathname = window.location.pathname;
+	const isTeachersPath = pathname.includes('teachers');
+	const isAdminPath = pathname.includes('admins');
+	const shouldHidePercentage = isTeachersPath || isAdminPath;
 
 	const debouncedCheckboxChange = useMemo(
 		() =>
@@ -118,7 +127,7 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 						<h2 className="self-stretch my-auto text-2xl tracking-tight leading-none text-neutral-800">
 							Course Contents
 						</h2>
-						{!isTeachersPath && ( // Hiển thị nếu path chứa "teachers"
+						{!shouldHidePercentage && (
 							<div
 								className="self-stretch my-auto text-base leading-none text-right text-green-600"
 								aria-live="polite"
@@ -127,7 +136,7 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 							</div>
 						)}
 					</div>
-					{!isTeachersPath && (
+					{!shouldHidePercentage && (
 						<div className="flex flex-col mt-4 w-full max-md:max-w-full">
 							<div className="relative w-full h-2 bg-gray-200 rounded-md overflow-hidden">
 								<progress
@@ -144,6 +153,15 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 							</div>
 						</div>
 					)}
+				</div>
+			)}
+			{hideCourseProgress && (
+				<div>
+					<div className="flex flex-wrap gap-10 justify-between items-center w-full font-semibold max-md:max-w-full">
+						<h2 className="self-stretch my-auto text-2xl tracking-tight leading-none text-neutral-800">
+							Course Contents
+						</h2>
+					</div>
 				</div>
 			)}
 			<div className="flex flex-col bg-white border border-gray-200 max-w-[603px] mt-4">
@@ -186,7 +204,7 @@ const CourseMenu: React.FC<CourseMenuProps> = ({
 									/>
 									<span>{section.lecturesCount} lectures</span>
 								</span>
-								{!hideSectionProgress && (
+								{!hideSectionProgress && !shouldHidePercentage && (
 									<span className="flex gap-1 items-center">
 										<PiChecks
 											className="object-contain w-4 h-4"

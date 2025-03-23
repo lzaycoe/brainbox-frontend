@@ -77,8 +77,7 @@ const TeacherCourseList: React.FC = () => {
 			.includes(searchQuery.toLowerCase());
 		const matchesCategory =
 			selectedCategory === 'all' || course.tag === selectedCategory;
-		const matchesRating = true;
-		return matchesSearchQuery && matchesCategory && matchesRating;
+		return matchesSearchQuery && matchesCategory;
 	});
 
 	const currentCourses = filteredCourses.slice(
@@ -106,7 +105,7 @@ const TeacherCourseList: React.FC = () => {
 			>
 				<FilterSelects
 					onCategoryChange={setSelectedCategory}
-					onRatingChange={setSelectedRating}
+					onRatingChange={() => {}}
 				/>
 			</SearchAndFilter>
 			{filteredCourses.length === 0 ? (

@@ -69,7 +69,7 @@ export const updateCourse = async (
 	try {
 		const response = await axios.put(
 			`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}`,
-			{ ...courseData, teacherId },
+			{ ...courseData, teacherId, status: 'pending' },
 			{
 				headers: {
 					'Content-Type': 'application/json',
@@ -80,5 +80,39 @@ export const updateCourse = async (
 	} catch (error) {
 		console.error('Failed to update course:', error);
 		throw new Error('Failed to update course');
+	}
+};
+
+export const updateCourseStatus = async (
+	courseId: string | number,
+	status: string,
+): Promise<Course> => {
+	try {
+		const response = await axios.put(
+			`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}`,
+			{ status },
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			},
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to update course status:', error);
+		throw new Error('Failed to update course status');
+	}
+};
+
+export const isCourseViewableByLearners = async (
+	courseId: number | string,
+): Promise<boolean> => {
+	try {
+		const course = await getCourse(+courseId);
+		// Only approved courses are viewable by learners
+		return course.status === 'approved';
+	} catch (error) {
+		console.error('Failed to check course status:', error);
+		return false;
 	}
 };

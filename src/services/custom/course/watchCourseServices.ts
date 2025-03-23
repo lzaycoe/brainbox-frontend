@@ -44,7 +44,6 @@ export const mapLecturesDetails = (
 
 export const mapLecturesDetailsWithoutProgress = (
 	lectures: Lecture[],
-	// progressData: Progress,
 	sectionIndex: number,
 ): LectureDetail[] =>
 	lectures.map((lecture, lectureIndex) => ({
