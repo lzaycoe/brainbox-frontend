@@ -37,7 +37,7 @@ export default function InstructorSection() {
 		const paymentData = {
 			userId: userData?.id,
 			courseId: null,
-			price: 5000,
+			price: 50000,
 		};
 
 		setIsSubmitting(true);
