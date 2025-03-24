@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BsFilter } from 'react-icons/bs';
 
+import Loading from '@/components/commons/Loading';
 import PaginationCustom from '@/components/commons/PaginationCustom';
 import { Course as ApiCourse } from '@/schemas/course.schema';
 import { getCourses } from '@/services/api/course';
@@ -30,13 +31,12 @@ export default function CourseRequestTable() {
 	const [courses, setCourses] = useState<Course[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [statusFilter, setStatusFilter] = useState<string>('all');
-	const itemsPerPage = 5;
+	const itemsPerPage = 10;
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const coursesData = await getCourses();
-				console.log('Raw courses data:', coursesData);
 
 				const coursesWithTeacherDetails = await Promise.all(
 					coursesData.map(async (course) => {
@@ -55,10 +55,6 @@ export default function CourseRequestTable() {
 							}
 							return course as Course;
 						} catch (error) {
-							console.error(
-								`Failed to fetch teacher details for course ${course.id}:`,
-								error,
-							);
 							return course as Course;
 						}
 					}),
@@ -80,14 +76,13 @@ export default function CourseRequestTable() {
 			statusFilter === 'all' ? true : course.status === statusFilter,
 		)
 		.sort((a, b) => {
-			// Helper function to get timestamp value for sorting
 			const getTimestampValue = (course: Course) => {
 				if (course.createAt) return new Date(course.createAt).getTime();
 				if (course.updateAt) return new Date(course.updateAt).getTime();
 				return course.id;
 			};
 
-			return getTimestampValue(b) - getTimestampValue(a); // Sort in descending order
+			return getTimestampValue(b) - getTimestampValue(a);
 		});
 
 	const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
@@ -134,9 +129,7 @@ export default function CourseRequestTable() {
 	};
 
 	if (loading) {
-		return (
-			<div className="flex justify-center items-center py-8">Loading...</div>
-		);
+		return <Loading />;
 	}
 
 	return (
