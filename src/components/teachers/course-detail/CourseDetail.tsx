@@ -9,15 +9,15 @@ import CourseNavigation from '@/components/learners/watch-course/CourseNavigatio
 import CourseVideo from '@/components/learners/watch-course/CourseVideo';
 import { useUserContext } from '@/contexts/UserContext';
 import { Course } from '@/schemas/course.schema';
-import { Section as CourseSection } from '@/schemas/section.schema';
 import { Lecture as CourseLecture } from '@/schemas/lecture.schema';
+import { Section as CourseSection } from '@/schemas/section.schema';
 import { fetchCourseData } from '@/services/custom/course/fetchCourseData';
 import {
 	createSectionsForMenuWithoutProgress,
 	updateLectureActive,
 } from '@/services/custom/course/watchCourseServices';
-import { formatDate } from '@/utils/date';
 import { getAccessToken, getAdminInfo } from '@/utils/adminInfo';
+import { formatDate } from '@/utils/date';
 
 // Define the type for fetchCourseData response and function
 interface CourseDataResponse {
@@ -89,11 +89,14 @@ export default function CourseDetail({
 		const loadCoursePage = async () => {
 			try {
 				let response;
-				
+
 				if (isAdminView) {
 					const adminToken = getAccessToken();
 					// Use type assertion with proper interface instead of any
-					response = await (fetchCourseData as FetchCourseDataFn)(id, adminToken);
+					response = await (fetchCourseData as FetchCourseDataFn)(
+						id,
+						adminToken,
+					);
 				} else {
 					response = await fetchCourseData(id);
 				}
