@@ -14,6 +14,7 @@ import {
 	createSectionsForMenuWithoutProgress,
 	updateLectureActive,
 } from '@/services/custom/course/watchCourseServices';
+import { getAccessToken, getAdminInfo } from '@/utils/adminInfo';
 import { formatDate } from '@/utils/date';
 
 interface LectureDetail {
@@ -55,21 +56,54 @@ export default function CourseDetail({
 	const router = useRouter();
 
 	useEffect(() => {
-		if (!id || !user || userLoading) {
+		if (!id) {
+			setLoading(false);
+			return;
+		}
+
+		// Check for admin info or user based on isAdminView
+		if (isAdminView) {
+			const adminInfo = getAdminInfo();
+			if (!adminInfo) {
+				router.push('/admin/login');
+				return;
+			}
+		} else if (!user && !userLoading) {
 			setLoading(false);
 			return;
 		}
 
 		const loadCoursePage = async () => {
 			try {
+				let response;
+
+				if (isAdminView) {
+					// Use admin token for API calls
+					const adminToken = getAccessToken();
+					console.log(
+						'Admin token:',
+						adminToken ? 'Available' : 'Not available',
+					);
+
+					// Call API with admin token in headers
+					response = await fetchCourseData(id, adminToken);
+				} else {
+					// Use regular user context
+					response = await fetchCourseData(id);
+				}
+
 				const {
 					course: courseData,
 					sections: sectionsData,
 					lectures: lecturesData,
-				} = await fetchCourseData(id);
+				} = response;
+
 				if (!courseData) {
 					throw new Error('Course not found');
 				}
+
+				console.log('Sections data:', sectionsData);
+				console.log('Lectures data:', lecturesData);
 
 				const sectionsForMenu = createSectionsForMenuWithoutProgress(
 					sectionsData,
@@ -89,7 +123,7 @@ export default function CourseDetail({
 		};
 
 		loadCoursePage();
-	}, [id, user, userLoading, router]);
+	}, [id, user, userLoading, router, isAdminView]);
 
 	const updateSectionsMenu = (
 		updateFn: (prevSections: Section[]) => Section[],
