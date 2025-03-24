@@ -17,7 +17,10 @@ interface Course extends BaseCourse {
 export default async function CourseListPage() {
 	let initialCourses: Course[] = [];
 	try {
-		initialCourses = (await getCourses()) as unknown as Course[];
+		const allCourses = (await getCourses()) as unknown as Course[];
+		initialCourses = allCourses.filter(
+			(course) => course.status === 'approved' && course.public,
+		);
 	} catch (error) {
 		console.error('Error fetching courses:', error);
 		initialCourses = [];
