@@ -54,7 +54,7 @@ export default function CourseRequestTable() {
 								} as Course;
 							}
 							return course as Course;
-						} catch (error) {
+						} catch {
 							return course as Course;
 						}
 					}),
@@ -112,8 +112,8 @@ export default function CourseRequestTable() {
 					course.id === courseId ? { ...course, status: newStatus } : course,
 				),
 			);
-		} catch (error) {
-			console.error('Failed to update course status:', error);
+		} catch {
+			console.error('Failed to update course status');
 		}
 	};
 
