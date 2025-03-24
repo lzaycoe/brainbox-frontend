@@ -81,9 +81,18 @@ const LoginForm = () => {
 			/>
 			<div className="flex flex-1 justify-center items-center max-md:p-5">
 				<div className="w-full max-w-md max-md:max-w-full">
-					<h1 className="mb-10 text-4xl font-semibold text-black max-sm:text-3xl text-center">
-						Admin Login
-					</h1>
+					<div className="flex items-center justify-center mb-10">
+						<Image
+							src="/app/logo.png"
+							alt="Logo"
+							width={50}
+							height={50}
+							className="mr-3"
+						/>
+						<h1 className="text-4xl font-semibold text-black max-sm:text-3xl text-center">
+							Admin Login
+						</h1>
+					</div>
 
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)}>
@@ -133,7 +142,14 @@ const LoginForm = () => {
 								<div className="mb-4 text-red-500 text-sm">{errorMessage}</div>
 							)}
 
-							<div className="flex justify-end items-end mb-6">
+							<div className="flex justify-between items-end mb-6">
+								<Button
+									type="button"
+									className="flex gap-3 justify-center items-center px-6 py-3 text-base font-semibold text-white bg-gray-800 rounded cursor-pointer w-[200px] hover:bg-gray-600 transition-colors"
+									onClick={() => (window.location.href = '/')}
+								>
+									<span>Back</span>
+								</Button>
 								<Button
 									type="submit"
 									className="flex gap-3 justify-center items-center px-6 py-3 text-base font-semibold text-white bg-orange-500 rounded cursor-pointer w-[200px] hover:bg-orange-600 transition-colors"
