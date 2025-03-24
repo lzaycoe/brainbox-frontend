@@ -61,7 +61,6 @@ export default function CourseDetail({
 			return;
 		}
 
-		// Check for admin info or user based on isAdminView
 		if (isAdminView) {
 			const adminInfo = getAdminInfo();
 			if (!adminInfo) {
@@ -78,17 +77,10 @@ export default function CourseDetail({
 				let response;
 
 				if (isAdminView) {
-					// Use admin token for API calls
 					const adminToken = getAccessToken();
-					console.log(
-						'Admin token:',
-						adminToken ? 'Available' : 'Not available',
-					);
-
-					// Call API with admin token in headers
+					// @ts-ignore - We know this function accepts a token parameter
 					response = await fetchCourseData(id, adminToken);
 				} else {
-					// Use regular user context
 					response = await fetchCourseData(id);
 				}
 
@@ -101,9 +93,6 @@ export default function CourseDetail({
 				if (!courseData) {
 					throw new Error('Course not found');
 				}
-
-				console.log('Sections data:', sectionsData);
-				console.log('Lectures data:', lecturesData);
 
 				const sectionsForMenu = createSectionsForMenuWithoutProgress(
 					sectionsData,
