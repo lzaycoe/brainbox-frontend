@@ -361,13 +361,15 @@ export default function CourseRequestTable() {
 								{visibleColumns.createdAt && (
 									<td className="px-6 py-4 text-sm text-gray-500">
 										{(() => {
-											if (course.createAt)
+											if (course.createAt) {
 												return new Date(course.createAt).toLocaleDateString();
-											if (course.updateAt)
+											}
+											if (course.updateAt) {
 												return (
 													new Date(course.updateAt).toLocaleDateString() +
 													' (updated)'
 												);
+											}
 											return '-';
 										})()}
 									</td>
