@@ -9,3 +9,16 @@ export interface Revenue {
 	createAt: string;
 	updateAt: string;
 }
+
+export interface SystemReport {
+	totalRevenue: number;
+	systemRevenue: number;
+	totalServiceFee: number;
+	totalBecomeTeacherFee: number;
+	totalLearners: number;
+	totalTeachers: number;
+	totalCourses: number;
+	totalCoursesActive: number;
+	totalCoursesSold: number;
+	totalCoursesCompleted: number;
+}
