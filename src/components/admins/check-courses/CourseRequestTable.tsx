@@ -33,15 +33,6 @@ export default function CourseRequestTable() {
 	const [loading, setLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 	const [statusFilter, setStatusFilter] = useState<string>('all');
-	const [showColumnsDropdown, setShowColumnsDropdown] = useState(false);
-	const [visibleColumns, setVisibleColumns] = useState({
-		teacher: true,
-		courseName: true,
-		description: true,
-		status: true,
-		createdAt: true,
-		actions: true,
-	});
 	const itemsPerPage = 10;
 
 	const fetchData = async () => {
@@ -149,32 +140,6 @@ export default function CourseRequestTable() {
 		return 'top';
 	};
 
-	const toggleColumnsDropdown = () => {
-		setShowColumnsDropdown(!showColumnsDropdown);
-	};
-
-	const toggleColumnVisibility = (column: keyof typeof visibleColumns) => {
-		setVisibleColumns({
-			...visibleColumns,
-			[column]: !visibleColumns[column],
-		});
-	};
-
-	// Close dropdown when clicking outside
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			const target = event.target as HTMLElement;
-			if (!target.closest('.columns-dropdown-container')) {
-				setShowColumnsDropdown(false);
-			}
-		};
-
-		document.addEventListener('mousedown', handleClickOutside);
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, []);
-
 	if (loading) {
 		return <Loading />;
 	}
@@ -211,94 +176,6 @@ export default function CourseRequestTable() {
 							/>
 							Refresh
 						</button>
-
-						<div className="relative inline-block text-left columns-dropdown-container">
-							<button
-								type="button"
-								onClick={toggleColumnsDropdown}
-								className="flex items-center justify-center gap-2 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded focus:outline-none hover:bg-gray-50 transition-colors duration-200"
-							>
-								Columns
-								<svg
-									className="w-5 h-5"
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 20 20"
-									fill="currentColor"
-								>
-									<path
-										fillRule="evenodd"
-										d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-										clipRule="evenodd"
-									/>
-								</svg>
-							</button>
-
-							{showColumnsDropdown && (
-								<div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-									<div className="py-1">
-										<div className="px-4 py-2 text-xs font-medium text-gray-700 border-b">
-											Toggle Columns
-										</div>
-										<div className="px-2 py-2 space-y-1">
-											<label className="flex items-center px-2 py-1 text-sm hover:bg-gray-100 rounded cursor-pointer">
-												<input
-													type="checkbox"
-													checked={visibleColumns.teacher}
-													onChange={() => toggleColumnVisibility('teacher')}
-													className="mr-2"
-												/>
-												Teacher
-											</label>
-											<label className="flex items-center px-2 py-1 text-sm hover:bg-gray-100 rounded cursor-pointer">
-												<input
-													type="checkbox"
-													checked={visibleColumns.courseName}
-													onChange={() => toggleColumnVisibility('courseName')}
-													className="mr-2"
-												/>
-												Course Name
-											</label>
-											<label className="flex items-center px-2 py-1 text-sm hover:bg-gray-100 rounded cursor-pointer">
-												<input
-													type="checkbox"
-													checked={visibleColumns.description}
-													onChange={() => toggleColumnVisibility('description')}
-													className="mr-2"
-												/>
-												Description
-											</label>
-											<label className="flex items-center px-2 py-1 text-sm hover:bg-gray-100 rounded cursor-pointer">
-												<input
-													type="checkbox"
-													checked={visibleColumns.status}
-													onChange={() => toggleColumnVisibility('status')}
-													className="mr-2"
-												/>
-												Status
-											</label>
-											<label className="flex items-center px-2 py-1 text-sm hover:bg-gray-100 rounded cursor-pointer">
-												<input
-													type="checkbox"
-													checked={visibleColumns.createdAt}
-													onChange={() => toggleColumnVisibility('createdAt')}
-													className="mr-2"
-												/>
-												Created At
-											</label>
-											<label className="flex items-center px-2 py-1 text-sm hover:bg-gray-100 rounded cursor-pointer">
-												<input
-													type="checkbox"
-													checked={visibleColumns.actions}
-													onChange={() => toggleColumnVisibility('actions')}
-													className="mr-2"
-												/>
-												Actions
-											</label>
-										</div>
-									</div>
-								</div>
-							)}
-						</div>
 					</div>
 				</div>
 			</div>
@@ -307,92 +184,68 @@ export default function CourseRequestTable() {
 				<table className="w-full">
 					<thead className="bg-gray-50 border-b border-gray-200">
 						<tr>
-							{visibleColumns.teacher && (
-								<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
-									Teacher
-								</th>
-							)}
-							{visibleColumns.courseName && (
-								<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
-									Course Name
-								</th>
-							)}
-							{visibleColumns.description && (
-								<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
-									Description
-								</th>
-							)}
-							{visibleColumns.status && (
-								<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
-									Status
-								</th>
-							)}
-							{visibleColumns.createdAt && (
-								<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
-									Created At
-								</th>
-							)}
-							{visibleColumns.actions && (
-								<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
-									Actions
-								</th>
-							)}
+							<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+								Teacher
+							</th>
+							<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+								Course Name
+							</th>
+							<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+								Description
+							</th>
+							<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+								Status
+							</th>
+							<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+								Created At
+							</th>
+							<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+								Actions
+							</th>
 						</tr>
 					</thead>
 					<tbody className="bg-white">
 						{currentItems.map((course, index) => (
 							<tr key={course.id} className="border-b border-gray-100">
-								{visibleColumns.teacher && (
-									<td className="px-6 py-4 text-sm text-gray-900">
-										{course.teacher?.firstName || course.teacher?.lastName
-											? [course.teacher.firstName, course.teacher.lastName]
-													.filter(Boolean)
-													.join(' ')
-											: (course.teacher?.name ?? 'Unknown Teacher')}
-									</td>
-								)}
-								{visibleColumns.courseName && (
-									<td className="px-6 py-4 text-sm text-gray-900">
-										{course.title}
-									</td>
-								)}
-								{visibleColumns.description && (
-									<td className="px-6 py-4 text-sm text-gray-500 max-w-[300px] truncate">
-										{course.description}
-									</td>
-								)}
-								{visibleColumns.status && (
-									<td className="px-6 py-4">
-										<StatusBadge status={course.status} />
-									</td>
-								)}
-								{visibleColumns.createdAt && (
-									<td className="px-6 py-4 text-sm text-gray-500">
-										{(() => {
-											if (course.createAt) {
-												return new Date(course.createAt).toLocaleDateString();
-											}
-											if (course.updateAt) {
-												return (
-													new Date(course.updateAt).toLocaleDateString() +
-													' (updated)'
-												);
-											}
-											return '-';
-										})()}
-									</td>
-								)}
-								{visibleColumns.actions && (
-									<td className="px-6 py-4">
-										<CourseActionsDropdown
-											courseId={course.id}
-											status={course.status}
-											onStatusUpdate={handleStatusUpdate}
-											onViewDetails={handleViewDetails}
-											position={getDropdownPosition(index)}
-										/>
-									</td>
-								)}
+								<td className="px-6 py-4 text-sm text-gray-900">
+									{course.teacher?.firstName || course.teacher?.lastName
+										? [course.teacher.firstName, course.teacher.lastName]
+												.filter(Boolean)
+												.join(' ')
+										: (course.teacher?.name ?? 'Unknown Teacher')}
+								</td>
+								<td className="px-6 py-4 text-sm text-gray-900">
+									{course.title}
+								</td>
+								<td className="px-6 py-4 text-sm text-gray-500 max-w-[300px] truncate">
+									{course.description}
+								</td>
+								<td className="px-6 py-4">
+									<StatusBadge status={course.status} />
+								</td>
+								<td className="px-6 py-4 text-sm text-gray-500">
+									{(() => {
+										if (course.createAt) {
+											return new Date(course.createAt).toLocaleDateString();
+										}
+										if (course.updateAt) {
+											return (
+												new Date(course.updateAt).toLocaleDateString() +
+												' (updated)'
+											);
+										}
+										return '-';
+									})()}
+								</td>
+								<td className="px-6 py-4">
+									<CourseActionsDropdown
+										courseId={course.id}
+										status={course.status}
+										onStatusUpdate={handleStatusUpdate}
+										onViewDetails={handleViewDetails}
+										position={getDropdownPosition(index)}
+									/>
+								</td>
 							</tr>
 						))}
 					</tbody>
