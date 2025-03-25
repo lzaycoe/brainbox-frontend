@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import {
 	PiArrowCircleRightDuotone,
 	PiBell,
+	PiHouseDuotone,
 	PiMagnifyingGlass,
 } from 'react-icons/pi';
 
@@ -46,7 +47,16 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 		});
 	};
 
+	const navigate = (path: string) => {
+		router.push(path);
+	};
+
 	const menuItems = [
+		{
+			label: 'Back to Home',
+			icon: PiHouseDuotone,
+			action: () => navigate('/'),
+		},
 		{
 			label: 'Sign Out',
 			icon: PiArrowCircleRightDuotone,

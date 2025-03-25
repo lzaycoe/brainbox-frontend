@@ -22,7 +22,7 @@ const ListCourseCard: React.FC = () => {
 				const data = await getCourses();
 
 				const approvedCourses = data.filter(
-					(course) => course.status === 'approved',
+					(course) => course.status === 'approved' && course.public,
 				);
 
 				const formattedData: Course[] = await Promise.all(

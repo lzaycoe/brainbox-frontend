@@ -70,7 +70,7 @@ const ListTeacherCard: React.FC = () => {
 			id: teacher.id,
 			imageUrl,
 			title: fullName,
-			major: 'Software Engineering',
+			major: 'BrainBox Potential Teacher',
 			rating: 0.0,
 			students: teacher.students ?? 0,
 		};

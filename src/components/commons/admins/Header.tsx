@@ -33,7 +33,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 		localStorage.removeItem('access_token');
 		localStorage.removeItem('admin_info');
 
-		router.push('/admins/login');
+		router.push('/');
 
 		setIsLoading(true);
 	};

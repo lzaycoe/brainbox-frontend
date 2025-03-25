@@ -19,6 +19,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import {
 	PiArrowCircleRightDuotone,
 	PiBell,
+	PiChalkboardTeacherDuotone,
 	PiCreditCardDuotone,
 	PiGearDuotone,
 	PiStackDuotone,
@@ -62,10 +63,19 @@ export const Header = () => {
 			action: () => navigate('/courses'),
 		},
 		{
-			label: 'Payments History',
+			label: 'Purchase History',
 			icon: PiCreditCardDuotone,
 			action: () => navigate('/purchase-history'),
 		},
+		...(user?.publicMetadata.role === 'teacher'
+			? [
+					{
+						label: 'Teacher Portals',
+						icon: PiChalkboardTeacherDuotone,
+						action: () => navigate('/teachers'),
+					},
+				]
+			: []),
 		{
 			label: 'Setting',
 			icon: PiGearDuotone,

@@ -1,44 +1,49 @@
+'use client';
+
 import {
-	PiCheckSquareOffsetDuotone,
+	PiCheckCircleDuotone,
 	PiCreditCardDuotone,
-	PiNotepadDuotone,
-	PiPlayCircleDuotone,
+	PiCrownSimpleDuotone,
+	PiGraduationCapDuotone,
+	PiHourglassDuotone,
+	PiNotebookDuotone,
+	PiReceiptDuotone,
 	PiStackDuotone,
-	PiTrophyDuotone,
-	PiUserCircleDuotone,
-	PiUsersDuotone,
 } from 'react-icons/pi';
 
 import { SummaryCard } from '@/components/commons/SummaryCard';
+import { TeacherReport } from '@/schemas/revenue.schema';
 
-export const ListSummaryCardDashboard = () => {
+export const ListSummaryCardDashboard = ({
+	report,
+}: {
+	report: TeacherReport;
+}) => {
 	return (
 		<div className="flex flex-col gap-6 justify-center items-center mb-6">
 			{/* Hàng đầu tiên */}
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 				<SummaryCard
-					icon={<PiPlayCircleDuotone className="w-8 h-8 text-rose-500" />}
-					value={957}
-					label="Enrolled Courses"
-					bgColor="bg-rose-100"
+					icon={<PiNotebookDuotone className="w-8 h-8 text-blue-500" />}
+					value={report.totalCourses}
+					label="Total Courses"
+					bgColor="bg-blue-100"
 				/>
 				<SummaryCard
-					icon={
-						<PiCheckSquareOffsetDuotone className="w-8 h-8 text-violet-500" />
-					}
-					value={19}
-					label="Active Courses"
-					bgColor="bg-violet-100"
+					icon={<PiHourglassDuotone className="w-8 h-8 text-yellow-500" />}
+					value={report.totalCoursesPending}
+					label="Pending Courses"
+					bgColor="bg-yellow-100"
 				/>
 				<SummaryCard
-					icon={<PiUsersDuotone className="w-8 h-8 text-orange-500" />}
-					value={241}
-					label="Course Instructors"
-					bgColor="bg-orange-50"
+					icon={<PiGraduationCapDuotone className="w-8 h-8 text-orange-500" />}
+					value={report.totalCoursesSold}
+					label="Courses Sold"
+					bgColor="bg-orange-100"
 				/>
 				<SummaryCard
-					icon={<PiTrophyDuotone className="w-8 h-8 text-green-500" />}
-					value={951}
+					icon={<PiCheckCircleDuotone className="w-8 h-8 text-green-500" />}
+					value={report.totalCoursesCompleted}
 					label="Completed Courses"
 					bgColor="bg-green-100"
 				/>
@@ -47,28 +52,40 @@ export const ListSummaryCardDashboard = () => {
 			{/* Hàng thứ hai */}
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 				<SummaryCard
-					icon={<PiUserCircleDuotone className="w-8 h-8 text-red-500" />}
-					value="1,674,767"
-					label="Learners"
-					bgColor="bg-red-50"
+					icon={<PiStackDuotone className="w-8 h-8 text-orange-500" />}
+					value={new Intl.NumberFormat('vi-VN', {
+						style: 'currency',
+						currency: 'VND',
+					}).format(report.revenues.totalRevenue)}
+					label="Total Revenue"
+					bgColor="bg-orange-100"
 				/>
 				<SummaryCard
-					icon={<PiNotepadDuotone className="w-8 h-8 text-green-500" />}
-					value={3}
-					label="Online Courses"
-					bgColor="bg-green-100"
-				/>
-				<SummaryCard
-					icon={<PiCreditCardDuotone className="w-8 h-8 text-gray-500" />}
-					value="$7,461,767"
-					label="USD Total Earning"
-					bgColor="bg-gray-100"
-				/>
-				<SummaryCard
-					icon={<PiStackDuotone className="w-8 h-8 text-violet-500" />}
-					value="56,489"
-					label="Course Sold"
+					icon={<PiReceiptDuotone className="w-8 h-8 text-violet-500" />}
+					value={new Intl.NumberFormat('vi-VN', {
+						style: 'currency',
+						currency: 'VND',
+					}).format(report.revenues.serviceFee)}
+					label="Service Fee"
 					bgColor="bg-violet-100"
+				/>
+				<SummaryCard
+					icon={<PiCreditCardDuotone className="w-8 h-8 text-rose-500" />}
+					value={new Intl.NumberFormat('vi-VN', {
+						style: 'currency',
+						currency: 'VND',
+					}).format(report.revenues.totalWithdrawn)}
+					label="Total Withdrawals"
+					bgColor="bg-rose-50"
+				/>
+				<SummaryCard
+					icon={<PiCrownSimpleDuotone className="w-8 h-8 text-green-500" />}
+					value={new Intl.NumberFormat('vi-VN', {
+						style: 'currency',
+						currency: 'VND',
+					}).format(report.revenues.availableForWithdraw)}
+					label="Current Balance"
+					bgColor="bg-green-100"
 				/>
 			</div>
 		</div>
