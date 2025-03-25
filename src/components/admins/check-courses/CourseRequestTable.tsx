@@ -85,13 +85,17 @@ export default function CourseRequestTable() {
 	}, []);
 
 	const filteredCourses = courses
-		.filter((course) =>
-			statusFilter === 'all' ? true : course.status === statusFilter,
-		)
+		.filter((course) => {
+			return statusFilter === 'all' ? true : course.status === statusFilter;
+		})
 		.sort((a, b) => {
 			const getTimestampValue = (course: Course) => {
-				if (course.createAt) return new Date(course.createAt).getTime();
-				if (course.updateAt) return new Date(course.updateAt).getTime();
+				if (course.createAt) {
+					return new Date(course.createAt).getTime();
+				}
+				if (course.updateAt) {
+					return new Date(course.updateAt).getTime();
+				}
 				return course.id;
 			};
 
@@ -108,7 +112,9 @@ export default function CourseRequestTable() {
 	const handleStatusUpdate = async (courseId: number, newStatus: string) => {
 		try {
 			const courseToUpdate = courses.find((c) => c.id === courseId);
-			if (!courseToUpdate) return;
+			if (!courseToUpdate) {
+				return;
+			}
 
 			await axios.put(
 				`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}`,
@@ -120,11 +126,13 @@ export default function CourseRequestTable() {
 				},
 			);
 
-			setCourses((prevCourses) =>
-				prevCourses.map((course) =>
-					course.id === courseId ? { ...course, status: newStatus } : course,
-				),
-			);
+			setCourses((prevCourses) => {
+				return prevCourses.map((course) => {
+					return course.id === courseId
+						? { ...course, status: newStatus }
+						: course;
+				});
+			});
 		} catch {
 			console.error('Failed to update course status');
 		}
