@@ -9,12 +9,27 @@ import CourseNavigation from '@/components/learners/watch-course/CourseNavigatio
 import CourseVideo from '@/components/learners/watch-course/CourseVideo';
 import { useUserContext } from '@/contexts/UserContext';
 import { Course } from '@/schemas/course.schema';
+import { Lecture as CourseLecture } from '@/schemas/lecture.schema';
+import { Section as CourseSection } from '@/schemas/section.schema';
 import { fetchCourseData } from '@/services/custom/course/fetchCourseData';
 import {
 	createSectionsForMenuWithoutProgress,
 	updateLectureActive,
 } from '@/services/custom/course/watchCourseServices';
+import { getAccessToken, getAdminInfo } from '@/utils/adminInfo';
 import { formatDate } from '@/utils/date';
+
+// Define the type for fetchCourseData response and function
+interface CourseDataResponse {
+	course: Course;
+	sections: CourseSection[];
+	lectures: CourseLecture[];
+}
+
+interface FetchCourseDataFn {
+	(courseId: string): Promise<CourseDataResponse>;
+	(courseId: string, token?: string | null): Promise<CourseDataResponse>;
+}
 
 interface LectureDetail {
 	id: number;
@@ -55,18 +70,43 @@ export default function CourseDetail({
 	const router = useRouter();
 
 	useEffect(() => {
-		if (!id || !user || userLoading) {
+		if (!id) {
+			setLoading(false);
+			return;
+		}
+
+		if (isAdminView) {
+			const adminInfo = getAdminInfo();
+			if (!adminInfo) {
+				router.push('/admin/login');
+				return;
+			}
+		} else if (!user && !userLoading) {
 			setLoading(false);
 			return;
 		}
 
 		const loadCoursePage = async () => {
 			try {
+				let response;
+
+				if (isAdminView) {
+					const adminToken = getAccessToken();
+					// Use type assertion with proper interface instead of any
+					response = await (fetchCourseData as FetchCourseDataFn)(
+						id,
+						adminToken,
+					);
+				} else {
+					response = await fetchCourseData(id);
+				}
+
 				const {
 					course: courseData,
 					sections: sectionsData,
 					lectures: lecturesData,
-				} = await fetchCourseData(id);
+				} = response;
+
 				if (!courseData) {
 					throw new Error('Course not found');
 				}
@@ -89,7 +129,7 @@ export default function CourseDetail({
 		};
 
 		loadCoursePage();
-	}, [id, user, userLoading, router]);
+	}, [id, user, userLoading, router, isAdminView]);
 
 	const updateSectionsMenu = (
 		updateFn: (prevSections: Section[]) => Section[],
