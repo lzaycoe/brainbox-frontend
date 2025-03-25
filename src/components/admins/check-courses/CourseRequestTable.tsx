@@ -244,7 +244,7 @@ export default function CourseRequestTable() {
 			</div>
 
 			<div className="flex items-center justify-between px-6 py-4 bg-white border-t border-gray-200">
-				<div className="text-sm text-gray-500">
+				<div className="text-sm text-gray-500 whitespace-nowrap">
 					Showing {startIndex + 1} to{' '}
 					{Math.min(startIndex + itemsPerPage, filteredCourses.length)} of{' '}
 					{filteredCourses.length} entries
