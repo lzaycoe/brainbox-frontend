@@ -81,11 +81,11 @@ export default function CourseRequestTable() {
 		})
 		.sort((a, b) => {
 			const getTimestampValue = (course: Course) => {
-				if (course.createAt) {
-					return new Date(course.createAt).getTime();
-				}
 				if (course.updateAt) {
 					return new Date(course.updateAt).getTime();
+				}
+				if (course.createAt) {
+					return new Date(course.createAt).getTime();
 				}
 				return course.id;
 			};
@@ -141,7 +141,7 @@ export default function CourseRequestTable() {
 	};
 
 	if (loading) {
-		return <Loading />;
+		return <Loading className="py-10" />;
 	}
 
 	return (
@@ -191,13 +191,10 @@ export default function CourseRequestTable() {
 								Course Name
 							</th>
 							<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
-								Description
-							</th>
-							<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
 								Status
 							</th>
 							<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
-								Created At
+								Updated At
 							</th>
 							<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
 								Actions
@@ -217,22 +214,16 @@ export default function CourseRequestTable() {
 								<td className="px-6 py-4 text-sm text-gray-900">
 									{course.title}
 								</td>
-								<td className="px-6 py-4 text-sm text-gray-500 max-w-[300px] truncate">
-									{course.description}
-								</td>
 								<td className="px-6 py-4">
 									<StatusBadge status={course.status} />
 								</td>
 								<td className="px-6 py-4 text-sm text-gray-500">
 									{(() => {
-										if (course.createAt) {
-											return new Date(course.createAt).toLocaleDateString();
-										}
 										if (course.updateAt) {
-											return (
-												new Date(course.updateAt).toLocaleDateString() +
-												' (updated)'
-											);
+											return new Date(course.updateAt).toLocaleString();
+										}
+										if (course.createAt) {
+											return new Date(course.createAt).toLocaleString();
 										}
 										return '-';
 									})()}
