@@ -22,3 +22,11 @@ export interface SystemReport {
 	totalCoursesSold: number;
 	totalCoursesCompleted: number;
 }
+
+export interface TeacherReport {
+	totalCourses: number;
+	totalCoursesPending: number;
+	totalCoursesSold: number;
+	totalCoursesCompleted: number;
+	revenues: Revenue;
+}
