@@ -44,6 +44,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
 	children,
 	onClick,
 }) => {
+	const displayRating = +rating === 0.0 ? '5.0' : rating;
+
 	return (
 		<Card
 			className={`flex flex-col justify-between bg-white ${maxWidth} min-h-[300px] max-h-[450px] transition-transform transform hover:scale-105 cursor-pointer group hover:shadow-2xl`}
@@ -109,7 +111,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 						className="flex shrink-0 self-stretch my-auto w-4 h-4 text-yellow-400"
 						aria-hidden="true"
 					/>
-					<div className="self-stretch my-auto">{rating}</div>
+					<div className="self-stretch my-auto">{displayRating}</div>
 				</div>
 				<div className="flex justify-center self-stretch my-auto">
 					<PiUser className="self-stretch my-auto leading-none text-[#564FFD]" />

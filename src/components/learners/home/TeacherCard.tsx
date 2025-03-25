@@ -34,6 +34,8 @@ const TeacherCard: React.FC<TeacherCardProps> = ({
 	const { userMetadata } = useUserMetadata();
 	const userId = userMetadata?.id || 0;
 
+	const displayRating = +rating === 0.0 ? '5.0' : rating;
+
 	const handleSendMessage = async () => {
 		if (userId !== 0) {
 			setIsLoading(true);
@@ -56,7 +58,7 @@ const TeacherCard: React.FC<TeacherCardProps> = ({
 				<CardTitle className="text-base font-medium leading-none text-neutral-800 group-hover:text-orange-500 line-clamp-1 text-center">
 					{name}
 				</CardTitle>
-				<p className="mt-1 text-sm tracking-normal leading-loose text-gray-400 text-center">
+				<p className="mt-1 text-sm tracking-normal leading-loose text-orange-600 text-center">
 					{major}
 				</p>
 			</CardContent>
@@ -67,7 +69,7 @@ const TeacherCard: React.FC<TeacherCardProps> = ({
 						className="flex shrink-0 self-stretch my-auto w-4 h-4 text-yellow-400"
 						aria-hidden="true"
 					/>
-					<span aria-label="Instructor rating">{rating}</span>
+					<span aria-label="Instructor rating">{displayRating}</span>
 				</div>
 				<div className="flex justify-center self-stretch my-auto">
 					<div className="self-stretch my-auto leading-none text-gray-600 font-medium">

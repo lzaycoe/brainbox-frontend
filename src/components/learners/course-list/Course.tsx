@@ -54,7 +54,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 	const [courses, setCourses] = useState<Course[]>(initialCourses || []);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const coursesPerPage = 12;
+	const coursesPerPage = 20;
 
 	useEffect(() => {
 		const fetchCourses = async () => {
@@ -135,8 +135,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 			.toLowerCase()
 			.includes(searchQuery.toLowerCase());
 		const matchesCategory =
-			selectedCategory === 'all' ||
-			course.tag.toLowerCase().replace(/ /g, '-') === selectedCategory;
+			selectedCategory === 'all' || course.tag === selectedCategory;
 		const matchesRating =
 			selectedRating === 'all' ||
 			(course.rating &&
@@ -203,7 +202,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 
 	return (
 		<div className="flex flex-col items-center">
-			<div>
+			<div className="mt-10">
 				<SearchAndFilter
 					totalLabel="Courses"
 					inputPlaceholder="Search for courses..."
@@ -215,7 +214,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 						onPriceChange={setSelectedPricing}
 					/>
 				</SearchAndFilter>
-				<div className="grid grid-cols-4 gap-6 max-md:grid-cols-1 mb-5">
+				<div className="grid grid-cols-5 gap-6 max-md:grid-cols-1 mb-5">
 					{filteredCourses.length === 0 ? (
 						<div className="col-span-4 mt-10 text-xl text-gray-500">
 							No courses found for your search.
@@ -229,6 +228,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({
 								className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500"
 							>
 								<CourseCard
+									// maxWidth = 'max-w-[544px]'
 									imageUrl={mapToCardProps(course).thumbnail}
 									hideAddToCartButton
 									price={mapToCardProps(course).salePrice.toString()}
