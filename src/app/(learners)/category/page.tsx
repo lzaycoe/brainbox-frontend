@@ -19,7 +19,7 @@ const CategoryPage = () => {
 				<h2 className="text-3xl font-semibold text-center mb-8">
 					All Courses in Software Engineering
 				</h2>
-				<CourseComponent initialCourses={null} />
+				<CourseComponent />
 			</div>
 		</main>
 	);
