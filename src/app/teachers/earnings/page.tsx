@@ -14,7 +14,7 @@ export default function Earning() {
 		<div className="flex flex-wrap justify-center p-4">
 			<ListSummaryCard />
 			<RevenueReport />
-			<WithdrawMoney />
+			<WithdrawMoney key="withdraw-money" />
 			<WithdrawHistory />
 		</div>
 	);
