@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { GoMail } from 'react-icons/go';
 
@@ -38,7 +40,7 @@ interface BranchCardProps {
 }
 
 const BranchCard = ({ image, location, address }: BranchCardProps) => (
-	<div className="flex relative flex-col px-6 pt-60 pb-6 aspect-[0.857] min-w-60 w-[312px] px-6 max-md:px-5 max-md:pt-24">
+	<div className="flex relative flex-col px-6 pt-60 pb-6 aspect-[0.857] min-w-60 w-[312px] max-md:px-5 max-md:pt-24">
 		<Image
 			src={image}
 			alt={`${location} branch`}
