@@ -75,10 +75,10 @@ export default function SectionFour() {
 									Email us, anytime anywhere
 								</span>
 								<a
-									href="mailto:help.brainbox@gamil.com"
+									href="mailto:brainbox.platform@gmail.com"
 									className="mt-2 text-lg leading-none text-neutral-800 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
 								>
-									help.brainbox@gamil.com
+									brainbox.platform@gmail.com
 								</a>
 							</div>
 						</footer>
