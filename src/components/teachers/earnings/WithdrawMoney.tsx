@@ -87,7 +87,7 @@ const WithdrawMoney = () => {
 		fetchRevenue();
 	}, [user, userLoading]);
 
-	const handleNumberChange = (value: string) => {
+	const handleAmountChange = (value: string) => {
 		const numericValue = value.replace(/\D/g, '');
 		const parsedValue =
 			numericValue === '' ? undefined : parseFloat(numericValue);
@@ -101,14 +101,6 @@ const WithdrawMoney = () => {
 			numericValue === '' ? undefined : parseFloat(numericValue);
 		form.setValue('amount', parsedValue ?? 0, { shouldValidate: true });
 		setDisplayAmount(formatCurrency(parsedValue));
-	};
-
-	const handleInput = (value: string) => {
-		const numericValue = value.replace(/\D/g, '');
-		const parsedValue =
-			numericValue === '' ? undefined : parseFloat(numericValue);
-		form.setValue('amount', parsedValue ?? 0, { shouldValidate: true });
-		setDisplayAmount(numericValue);
 	};
 
 	const onSubmit = async (data: WithdrawData) => {
@@ -185,9 +177,9 @@ const WithdrawMoney = () => {
 											className="h-14 text-lg"
 											placeholder="Enter amount"
 											value={displayAmount}
-											onChange={(e) => handleNumberChange(e.target.value)}
+											onChange={(e) => handleAmountChange(e.target.value)}
 											onBlur={(e) => handleBlur(e.target.value)}
-											onInput={(e) => handleInput(e.currentTarget.value)}
+											onInput={(e) => handleAmountChange(e.currentTarget.value)}
 										/>
 									</FormControl>
 									{form.formState.errors.amount && (
