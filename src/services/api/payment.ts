@@ -43,9 +43,8 @@ export const createPayment = async (
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				// Coi các status code khác 2xx là hợp lệ, không ném lỗi
 				validateStatus: (status) => {
-					return status < 500; // Status < 500 sẽ không bị ném lỗi
+					return status < 500;
 				},
 			},
 		);
