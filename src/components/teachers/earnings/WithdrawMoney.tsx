@@ -37,6 +37,34 @@ const WithdrawMoney = () => {
 		user?.clerkUser?.publicMetadata?.bank_account?.account_number &&
 		user.clerkUser.publicMetadata.bank_account.account_number !== '';
 
+	const form = useForm<WithdrawData>({
+		resolver: zodResolver(withdrawSchema),
+		defaultValues: {
+			teacherId: user?.id || 0,
+			amount: undefined,
+			status: 'pending',
+			reason: '',
+		},
+	});
+
+	useEffect(() => {
+		if (user?.id) {
+			form.setValue('teacherId', user.id, { shouldValidate: true });
+		}
+	}, [user, form]);
+
+	useEffect(() => {
+		if (user?.id) {
+			form.reset({
+				teacherId: user.id,
+				amount: undefined,
+				status: 'pending',
+				reason: '',
+			});
+			setDisplayAmount('');
+		}
+	}, [user, form]);
+
 	useEffect(() => {
 		const fetchRevenue = async () => {
 			if (!user?.id || userLoading) return;
@@ -59,16 +87,6 @@ const WithdrawMoney = () => {
 		fetchRevenue();
 	}, [user, userLoading]);
 
-	const form = useForm<WithdrawData>({
-		resolver: zodResolver(withdrawSchema),
-		defaultValues: {
-			teacherId: user?.id || 0,
-			amount: undefined,
-			status: 'pending',
-			reason: '',
-		},
-	});
-
 	const handleNumberChange = (value: string) => {
 		const numericValue = value.replace(/\D/g, '');
 		const parsedValue =
@@ -83,6 +101,14 @@ const WithdrawMoney = () => {
 			numericValue === '' ? undefined : parseFloat(numericValue);
 		form.setValue('amount', parsedValue ?? 0, { shouldValidate: true });
 		setDisplayAmount(formatCurrency(parsedValue));
+	};
+
+	const handleInput = (value: string) => {
+		const numericValue = value.replace(/\D/g, '');
+		const parsedValue =
+			numericValue === '' ? undefined : parseFloat(numericValue);
+		form.setValue('amount', parsedValue ?? 0, { shouldValidate: true });
+		setDisplayAmount(numericValue);
 	};
 
 	const onSubmit = async (data: WithdrawData) => {
@@ -161,6 +187,7 @@ const WithdrawMoney = () => {
 											value={displayAmount}
 											onChange={(e) => handleNumberChange(e.target.value)}
 											onBlur={(e) => handleBlur(e.target.value)}
+											onInput={(e) => handleInput(e.currentTarget.value)}
 										/>
 									</FormControl>
 									{form.formState.errors.amount && (
@@ -197,36 +224,37 @@ const WithdrawMoney = () => {
 								</FormItem>
 							)}
 						/>
+						<FormItem className="flex justify-between items-center p-5 bg-white shadow-sm max-md:max-w-full">
+							<div className="flex flex-col justify-center">
+								<p className="text-2xl leading-none text-neutral-800">
+									{formatCurrency(currentBalance)}
+								</p>
+								<p className="mt-1.5 text-sm tracking-normal leading-loose text-gray-600">
+									Current Balance
+								</p>
+							</div>
+							<FormControl>
+								<Button
+									type="submit"
+									variant="outline"
+									className="text-lg h-14 px-6 bg-orange-500 text-white disabled:opacity-70"
+									disabled={isSubmitting || !hasBankAccount || !isAmountValid}
+								>
+									{isSubmitting ? (
+										<div className="flex items-center space-x-2">
+											<Spinner size="small" />
+											<span>Withdrawing...</span>
+										</div>
+									) : (
+										'Withdraw money'
+									)}
+								</Button>
+							</FormControl>
+						</FormItem>
 					</form>
 				</Form>
 			</section>
 
-			<footer className="flex gap-7 justify-between items-center p-5 mt-8 w-full bg-white shadow-sm max-md:max-w-full">
-				<div className="flex flex-col justify-center self-stretch my-auto min-w-60 w-[292px]">
-					<p className="text-2xl leading-none text-neutral-800">
-						{formatCurrency(currentBalance)}
-					</p>
-					<p className="mt-1.5 text-sm tracking-normal leading-loose text-gray-600">
-						Current Balance
-					</p>
-				</div>
-				<Button
-					type="submit"
-					variant="outline"
-					className="text-lg h-14 px-6 bg-orange-500 text-white disabled:opacity-70"
-					disabled={isSubmitting || !hasBankAccount || !isAmountValid}
-					onClick={form.handleSubmit(onSubmit)}
-				>
-					{isSubmitting ? (
-						<div className="flex items-center space-x-2">
-							<Spinner size="small" />
-							<span>Withdrawing...</span>
-						</div>
-					) : (
-						'Withdraw money'
-					)}
-				</Button>
-			</footer>
 			{!hasBankAccount && (
 				<div className="mt-4 text-red-500 text-sm">
 					Please add a bank account before withdrawing.
