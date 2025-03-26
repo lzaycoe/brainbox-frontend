@@ -6,13 +6,13 @@ import React, { useEffect, useState } from 'react';
 
 import Loading from '@/components/commons/Loading';
 import PaginationCustom from '@/components/commons/PaginationCustom';
+import FilterStatusSelects from '@/components/learners/purchase-history/FilterStatusSelects';
+import { Button } from '@/components/ui/button';
 import { User } from '@/schemas/user.schema';
 import { getCourse } from '@/services/api/course';
 import { getPaymentsFromUser } from '@/services/api/payment';
 import { getUserByClerkId, getUserClerk } from '@/services/api/user';
-import { formatPrice } from '@/utils/formatPrice';
-
-import FilterStatusSelects from './FilterStatusSelects';
+import { formatCurrency } from '@/utils/currency';
 
 interface Payment {
 	id: number;
@@ -163,7 +163,11 @@ const PaymentList = () => {
 	}
 
 	if (payments.length === 0) {
-		return <div>No payments found for user {user?.fullName}.</div>;
+		return (
+			<div className="flex justify-center items-center h-full">
+				No payments found for user {user?.fullName}.
+			</div>
+		);
 	}
 
 	return (
@@ -204,13 +208,13 @@ const PaymentList = () => {
 
 							<div className="text-left">
 								<span className="text-orange-500 text-xl font-medium">
-									{formatPrice(
+									{formatCurrency(
 										payment.courseDetails?.salePrice ?? payment.price,
 									)}
 								</span>
 								{payment.courseDetails?.originPrice && (
 									<span className="text-lg line-through text-gray-400 ml-2">
-										{formatPrice(payment.courseDetails.originPrice)}
+										{formatCurrency(payment.courseDetails.originPrice)}
 									</span>
 								)}
 							</div>
@@ -270,6 +274,15 @@ const CourseItem = ({ course }: { course: Course }) => {
 						</span>
 					)}
 				</p>
+				<Button
+					variant="outline"
+					className="mt-3 w-fit"
+					onClick={() => {
+						console.log(`Navigating to course: ${course.title}`);
+					}}
+				>
+					View Course
+				</Button>
 			</div>
 		</section>
 	);
