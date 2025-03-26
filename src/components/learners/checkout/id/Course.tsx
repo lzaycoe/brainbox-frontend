@@ -11,7 +11,7 @@ import { User } from '@/schemas/user.schema';
 import { getCourse } from '@/services/api/course';
 import { createPayment } from '@/services/api/payment';
 import { getUserByClerkId, getUserClerk } from '@/services/api/user';
-import { formatPrice } from '@/utils/formatPrice';
+import { formatCurrency } from '@/utils/currency';
 
 export default function CourseList() {
 	const [course, setCourse] = useState<Course | null>(null);
@@ -148,7 +148,7 @@ export default function CourseList() {
 								{course.title}
 							</p>
 							<p className="text-orange-500 font-bold text-lg mt-3">
-								{formatPrice(course.originPrice)}
+								{formatCurrency(course.originPrice)}
 							</p>
 						</div>
 					</div>
@@ -166,19 +166,19 @@ export default function CourseList() {
 						<div className="flex justify-between mb-2">
 							<p className="text-sm text-gray-600">Subtotal</p>
 							<p className="font-medium text-gray-800">
-								{formatPrice(orderSummary.subtotal)}
+								{formatCurrency(orderSummary.subtotal)}
 							</p>
 						</div>
 						<div className="flex justify-between mb-2">
 							<p className="text-sm text-gray-600">Coupon Discount</p>
 							<p className="font-medium text-gray-800">
-								{formatPrice(orderSummary.discount)}
+								{formatCurrency(orderSummary.discount)}
 							</p>
 						</div>
 						<div className=" flex justify-between text-lg font-bold mt-4">
 							<p>Total:</p>
 							<p className="text-orange-500">
-								{formatPrice(orderSummary.total)}
+								{formatCurrency(orderSummary.total)}
 							</p>
 						</div>
 						<button

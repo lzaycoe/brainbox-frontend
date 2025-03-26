@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import {
 	PiBankDuotone,
 	PiBookOpenDuotone,
@@ -12,41 +11,18 @@ import {
 	PiStudentDuotone,
 } from 'react-icons/pi';
 
-import Loading from '@/components/commons/Loading';
 import { SummaryCard } from '@/components/commons/SummaryCard';
 import { SystemReport } from '@/schemas/revenue.schema';
-import { getSystemReport } from '@/services/api/revenue';
 
-export const ListSummaryCardDashboard = () => {
-	const [report, setReport] = useState<SystemReport | null>(null);
-	const [loading, setLoading] = useState<boolean>(true);
+interface ListSummaryCardDashboardProps {
+	report: SystemReport;
+}
 
-	useEffect(() => {
-		const fetchReport = async () => {
-			try {
-				const data = await getSystemReport();
-				setReport(data);
-			} catch (error) {
-				console.error('Failed to fetch system report:', error);
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchReport();
-	}, []);
-
-	if (loading) {
-		return <Loading className="w-full my-6" />;
-	}
-
-	if (!report) {
-		return <div className="text-center text-red-500">Failed to load data.</div>;
-	}
-
+export const ListSummaryCardDashboard: React.FC<
+	ListSummaryCardDashboardProps
+> = ({ report }) => {
 	return (
 		<div className="flex flex-col gap-6 justify-center items-center mb-6">
-			{/* Hàng đầu tiên */}
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 				<SummaryCard
 					icon={<PiCurrencyDollarDuotone className="w-8 h-8 text-rose-500" />}
@@ -81,8 +57,6 @@ export const ListSummaryCardDashboard = () => {
 					bgColor="bg-green-100"
 				/>
 			</div>
-
-			{/* Hàng thứ hai */}
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 				<SummaryCard
 					icon={<PiBookOpenDuotone className="w-8 h-8 text-red-500" />}

@@ -59,17 +59,18 @@ Examples:
 ### Environment Variables
 
 Create a `.env` file there and add the following environment variables:
-| # | Name | Description | Example |
-| --- | ------------------------------ | --------------------------------- | ----------------------------- |
-| 1 | NODE_ENV | Environment | `development` or `production` |
-| 2 | NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY | Clerk publishable key | `pk_test_example` |
-| 3 | CLERK_SECRET_KEY | Clerk secret key | `sk_test_example` |
-| 4 | NEXT_PUBLIC_API_URL | API URL backend | `https://example.com` or `http://localhost:4000` |
-| 5 | NEXT_PUBLIC_SUPABASE_URL | Supabase URL | `https://example.supabase.co` |
-| 6 | NEXT_PUBLIC_SUPABASE_ANON_KEY | Supabase anonymous key | `example` |
-| 7 | NEXT_PUBLIC_SERVICE_ROLE_KEY | Supabase service role key | `example` |
-| 8 | NEXT_PUBLIC_CHATBOT_URL | Chatbot URL | `https://www.example.com/embed.min.js` |
-| 9 | NEXT_PUBLIC_CHATBOT_ID | Chatbot ID | `example_id` |
+
+| #   | Name                              | Description               | Example                                          |
+| --- | --------------------------------- | ------------------------- | ------------------------------------------------ |
+| 1   | NODE_ENV                          | Environment               | `development` or `production`                    |
+| 2   | NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY | Clerk publishable key     | `pk_test_example`                                |
+| 3   | CLERK_SECRET_KEY                  | Clerk secret key          | `sk_test_example`                                |
+| 4   | NEXT_PUBLIC_API_URL               | API URL backend           | `https://example.com` or `http://localhost:4000` |
+| 5   | NEXT_PUBLIC_SUPABASE_URL          | Supabase URL              | `https://example.supabase.co`                    |
+| 6   | NEXT_PUBLIC_SUPABASE_ANON_KEY     | Supabase anonymous key    | `example`                                        |
+| 7   | NEXT_PUBLIC_SERVICE_ROLE_KEY      | Supabase service role key | `example`                                        |
+| 8   | NEXT_PUBLIC_CHATBOT_URL           | Chatbot URL               | `https://www.example.com/embed.min.js`           |
+| 9   | NEXT_PUBLIC_CHATBOT_ID            | Chatbot ID                | `example_id`                                     |
 
 ---
 
