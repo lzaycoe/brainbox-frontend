@@ -1,18 +1,16 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 import Loading from '@/components/commons/Loading';
 import PaginationCustom from '@/components/commons/PaginationCustom';
+import FilterStatusSelects from '@/components/learners/purchase-history/FilterStatusSelects';
+import PaymentCardLandscape from '@/components/learners/purchase-history/PaymentCardLandscape';
 import { User } from '@/schemas/user.schema';
 import { getCourse } from '@/services/api/course';
 import { getPaymentsFromUser } from '@/services/api/payment';
 import { getUserByClerkId, getUserClerk } from '@/services/api/user';
-import { formatPrice } from '@/utils/formatPrice';
-
-import FilterStatusSelects from './FilterStatusSelects';
 
 interface Payment {
 	id: number;
@@ -61,6 +59,16 @@ const PaymentList = () => {
 	const totalPages = Math.ceil(filteredPayments.length / paymentsPerPage);
 
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+	const chunkArray = (array: Payment[], size: number): Payment[][] => {
+		const result: Payment[][] = [];
+		for (let i = 0; i < array.length; i += size) {
+			result.push(array.slice(i, i + size));
+		}
+		return result;
+	};
+
+	const paymentRows = chunkArray(currentPayment, 2);
 
 	const fetchUser = async () => {
 		try {
@@ -148,6 +156,7 @@ const PaymentList = () => {
 			setLoading(false);
 		}
 	};
+
 	useEffect(() => {
 		if (!userId) {
 			fetchUser();
@@ -163,7 +172,11 @@ const PaymentList = () => {
 	}
 
 	if (payments.length === 0) {
-		return <div>No payments found for user {user?.fullName}.</div>;
+		return (
+			<div className="flex justify-center items-center h-full">
+				No payments found for user {user?.fullName}.
+			</div>
+		);
 	}
 
 	return (
@@ -175,63 +188,23 @@ const PaymentList = () => {
 					No payment found for your search.
 				</div>
 			) : (
-				currentPayment.map((payment) => (
-					<div
-						key={payment.id}
-						className="border border-gray-300 shadow-md p-2 bg-white "
-					>
-						<article className="grid grid-cols-[55%_25%_20%] items-center max-w-full">
-							{payment.courseDetails ? (
-								<CourseItem course={payment.courseDetails} />
-							) : (
-								<section className="flex gap-5 items-start">
-									<Image
-										src="/app/become_a_teacher/become_a_teacher_1.png"
-										alt="Become a Teacher"
-										className="object-contain"
-										width={160}
-										height={90}
-									/>
-									<div className="flex flex-col justify-between min-h-[160px] w-full">
-										<div>
-											<h3 className="mt-2 text-lg text-black">
-												Become a Teacher
-											</h3>
-										</div>
-									</div>
-								</section>
-							)}
-
-							<div className="text-left">
-								<span className="text-orange-500 text-xl font-medium">
-									{formatPrice(
-										payment.courseDetails?.salePrice ?? payment.price,
-									)}
-								</span>
-								{payment.courseDetails?.originPrice && (
-									<span className="text-lg line-through text-gray-400 ml-2">
-										{formatPrice(payment.courseDetails.originPrice)}
-									</span>
-								)}
-							</div>
-
-							<div className="flex justify-center items-center gap-2">
-								<span className="text-gray-500 text-sm font-medium">
-									Status:
-								</span>
-								<span
-									className={`px-2 py-1 rounded text-sm font-semibold ${
-										payment.status === 'paid'
-											? 'bg-green-100 text-green-600'
-											: 'bg-red-100 text-red-600'
-									}`}
+				<div className="space-y-6">
+					{paymentRows.map((row, rowIndex) => (
+						<div
+							key={rowIndex}
+							className="flex flex-wrap gap-6 md:gap-6 max-md:flex-col"
+						>
+							{row.map((payment) => (
+								<div
+									key={payment.id}
+									className="flex-1 min-w-[600px] max-w-[calc(50%-1.5rem)] max-md:max-w-full max-md:min-w-0"
 								>
-									{payment.status.toUpperCase()}
-								</span>
-							</div>
-						</article>
-					</div>
-				))
+									<PaymentCardLandscape payment={payment} />
+								</div>
+							))}
+						</div>
+					))}
+				</div>
 			)}
 
 			{filteredPayments.length > 0 && (
@@ -243,34 +216,6 @@ const PaymentList = () => {
 					hoverClassName="hover:bg-[#FFEEE8] hover:text-[#FF6636]"
 				/>
 			)}
-		</section>
-	);
-};
-
-const CourseItem = ({ course }: { course: Course }) => {
-	return (
-		<section className="flex gap-5 items-center">
-			<Image
-				src={course.thumbnail}
-				alt={course.title}
-				className="object-contain"
-				width={160}
-				height={90}
-			/>
-			<div className="flex flex-col justify-between min-h-[120px] w-full">
-				<div>
-					<h3 className="mt-2 text-lg text-black">{course.title}</h3>
-				</div>
-				<p className="flex gap-1.5 mt-3 text-sm text-gray-800">
-					<span className="text-gray-500">Created by:</span>{' '}
-					{Boolean(course.teacherId) && (
-						<span className="text-sm text-gray-600">
-							{course.teacherDetails?.firstName}{' '}
-							{course.teacherDetails?.lastName}
-						</span>
-					)}
-				</p>
-			</div>
 		</section>
 	);
 };

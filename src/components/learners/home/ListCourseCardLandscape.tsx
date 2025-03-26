@@ -49,7 +49,7 @@ const ListCourseCardLandscape: React.FC = () => {
 				const fetchedCourses: Course[] = await getCourses();
 
 				const approvedCourses = fetchedCourses.filter(
-					(course) => course.status === 'approved',
+					(course) => course.status === 'approved' && course.public,
 				);
 
 				const formattedCourses: CourseCardLandscapeProps[] = await Promise.all(
