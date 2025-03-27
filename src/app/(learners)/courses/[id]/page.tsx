@@ -3,6 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import Loading from '@/components/commons/Loading';
 import CourseDetailsPage from '@/components/learners/courses/course/course-detail/CourseDetail';
 import { isCourseViewableByLearners } from '@/services/api/course';
 
@@ -33,7 +34,7 @@ export default function CoursePage() {
 	if (isLoading) {
 		return (
 			<div className="flex justify-center items-center h-screen">
-				<p>Loading...</p>
+				<Loading />
 			</div>
 		);
 	}
