@@ -109,7 +109,6 @@ export const isCourseViewableByLearners = async (
 ): Promise<boolean> => {
 	try {
 		const course = await getCourse(+courseId);
-		// Only approved courses are viewable by learners
 		return course.status === 'approved';
 	} catch (error) {
 		console.error('Failed to check course status:', error);

@@ -73,7 +73,6 @@ export default function CourseDetailsPage({
 
 				const course = (await getCourse(+courseId)) as ExtendedCourseData;
 
-				// Redirect learners (non-admins) to 404 if course is pending or rejected
 				if (
 					!isAdminView &&
 					(course.status === 'pending' || course.status === 'rejected')

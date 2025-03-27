@@ -9,14 +9,20 @@ export const checkPaymentForCourse = async (
 	courseId: number,
 	userId: number,
 	redirect: (url: string) => void,
+	isRedirect: boolean = true,
 ): Promise<boolean> => {
 	try {
 		const payments = await getPaymentsFromCourse(courseId);
-		const hasPaid = payments?.some(
+
+		if (!payments || payments.length === 0) {
+			return false;
+		}
+
+		const hasPaid = payments.some(
 			(payment) => payment.userId === userId && payment.status === 'paid',
 		);
 
-		if (!hasPaid) {
+		if (!hasPaid && isRedirect) {
 			redirect(`/checkout/${courseId}`);
 			toast({
 				title: 'Error',
@@ -26,7 +32,7 @@ export const checkPaymentForCourse = async (
 			return false;
 		}
 
-		return true;
+		return hasPaid;
 	} catch (error) {
 		console.error('Failed to check payment:', error);
 		toast({
@@ -52,7 +58,6 @@ export const getPaidPaymentsForUser = async (
 			return null;
 		}
 
-		// Lọc các payment có status là "paid" và courseId không phải null
 		const paidPayments = payments.filter(
 			(payment) => payment.status === 'paid' && payment.courseId !== null,
 		);
