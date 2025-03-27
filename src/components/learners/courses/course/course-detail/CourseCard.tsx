@@ -1,5 +1,6 @@
 'use client';
 
+import { SignInButton } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import {
@@ -17,7 +18,17 @@ import {
 	FaVideo,
 } from 'react-icons/fa';
 
+import { Button } from '@/components/ui/button';
+import {
+	Dialog,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from '@/components/ui/dialog';
+import { useUserContext } from '@/contexts/UserContext';
 import { fetchPaidStudentsCount } from '@/services/api/payment';
+import { checkPaymentForCourse } from '@/services/custom/course/checkPayment';
 import { formatCurrency } from '@/utils/currency';
 
 type SocialButtonProps = {
@@ -47,6 +58,9 @@ export default function CourseCard({
 	);
 	const [isCopied, setIsCopied] = useState(false);
 	const [students, setStudents] = useState<number>(0);
+	const { user } = useUserContext();
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [hasPurchased, setHasPurchased] = useState(false);
 
 	useEffect(() => {
 		const fetchStudents = async () => {
@@ -61,6 +75,22 @@ export default function CourseCard({
 		fetchStudents();
 	}, [courseId]);
 
+	useEffect(() => {
+		const checkPurchaseStatus = async () => {
+			if (user) {
+				const hasPaid = await checkPaymentForCourse(
+					Number(courseId),
+					user.id,
+					router.push,
+					false,
+				);
+				setHasPurchased(hasPaid);
+			}
+		};
+
+		checkPurchaseStatus();
+	}, [courseId, user, router]);
+
 	const handleCopyLink = async () => {
 		try {
 			const currentUrl = window.location.href;
@@ -72,8 +102,17 @@ export default function CourseCard({
 		}
 	};
 
-	const handleBuyNow = () => {
-		router.push(`/checkout/${courseId}`);
+	const handleAction = () => {
+		if (!user) {
+			setIsDialogOpen(true);
+			return;
+		}
+
+		if (hasPurchased) {
+			router.push(`/watch-course/${courseId}`);
+		} else {
+			router.push(`/checkout/${courseId}`);
+		}
 	};
 
 	return (
@@ -121,14 +160,20 @@ export default function CourseCard({
 			</div>
 
 			<button
-				onClick={handleBuyNow}
-				className="w-full bg-orange-500 text-white py-3 rounded-md mt-6 hover:bg-orange-600 transition-colors"
+				onClick={handleAction}
+				className={`w-full py-3 rounded-md mt-6 transition-colors ${
+					hasPurchased
+						? 'bg-green-500 text-white hover:bg-green-600'
+						: 'bg-orange-500 text-white hover:bg-orange-600'
+				}`}
 			>
-				Buy Now
+				{hasPurchased ? 'Go to Course' : 'Buy Now'}
 			</button>
-			<button className="w-full bg-orange-50 text-orange-500 py-3 rounded-md mt-3 hover:bg-orange-100 transition-colors">
-				Add To Cart
-			</button>
+			{!hasPurchased && (
+				<button className="w-full bg-orange-50 text-orange-500 py-3 rounded-md mt-3 hover:bg-orange-100 transition-colors">
+					Add To Cart
+				</button>
+			)}
 
 			<div className="flex gap-3 mt-3">
 				<button className="flex-1 py-2 border border-gray-200 rounded-md text-gray-600 hover:bg-gray-50 transition-colors">
@@ -195,6 +240,24 @@ export default function CourseCard({
 					<SocialButton icon={FaEnvelope} />
 				</div>
 			</div>
+
+			<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Login Required</DialogTitle>
+					</DialogHeader>
+					<p className="text-gray-600">
+						You need to log in to purchase this course. Please log in to
+						continue.
+					</p>
+					<DialogFooter>
+						<Button onClick={() => setIsDialogOpen(false)}>Close</Button>
+						<div className="flex items-center justify-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors">
+							<SignInButton />
+						</div>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }
